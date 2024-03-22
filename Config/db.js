@@ -3,14 +3,11 @@ const mongoose = require("mongoose");
 const connectDB = async () => {
   try {
     await mongoose.connect(
-      "mongodb+srv://6431503083:12323@cluster0.qts5sdx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-    ),
-      {
-        useNewUrlParser: true,
-      };
-    console.log("DB connected See you");
+      "mongodb+srv://6431503083:ugjpxNMd5MiH7OOy@cluster0.kg5bvnu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    );
+    console.log("DB connected");
   } catch (error) {
-    console.log("Can't connect Database ::::", error);
+    console.error(`Can't connect to DB: ${error.message}`);
   }
 };
 
