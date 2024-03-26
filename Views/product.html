@@ -51,30 +51,18 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="row g-3 needs-validation" id="updateForm">
+                    <form id="updateForm">
                         <div class="mb-3">
                             <label for="productNameUpdate" class="form-label">Product Name</label>
-                            <input type="text" class="form-control" id="productNameUpdate" value="Mark" required>
-                            <div class="valid-feedback">
-                                Looks good!
-                            </div>
-                            <div class="invalid-feedback">
-                                Please provide a valid product name.
-                            </div>
+                            <input type="text" class="form-control" id="productNameUpdate" required>
                         </div>
                         <div class="mb-3">
                             <label for="productPriceUpdate" class="form-label">Product Price</label>
                             <input type="number" class="form-control" id="productPriceUpdate" required>
-                            <div class="invalid-feedback">
-                                Please provide a valid product price.
-                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="productDetailUpdate" class="form-label">Product Detail</label>
                             <textarea class="form-control" id="productDetailUpdate" required></textarea>
-                            <div class="invalid-feedback">
-                                Please provide a valid product detail.
-                            </div>
                         </div>
                     </form>
                 </div>
@@ -85,7 +73,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Modal for addProduct -->
     <div class="modal fade" id="addproductModal" tabindex="-1" aria-labelledby="addProductModalLabel"
@@ -98,7 +85,7 @@
                 </div>
                 <div class="modal-body">
                     <div id="errorMessage" style="color: red; display: none;">Please fill in all fields</div>
-                    <form id="addForm" class="row needs-validation" novalidate>
+                    <form id="addForm">
                         <div class="mb-3">
                             <label for="productName" class="form-label">Product Name</label>
                             <input type="text" class="form-control" id="productNameAdd" required>
@@ -115,7 +102,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="Saveadd">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="Saveadd">Save changes</button>
                 </div>
             </div>
         </div>
@@ -142,10 +129,10 @@
         </div>
     </div>
 
-    <script src="./Controller/valid.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="./Controller/index.js"></script>
+    <script src="../Public/JS/product.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
         integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
         crossorigin="anonymous"></script>
