@@ -1,0 +1,134 @@
+@import url("https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-rounded/css/uicons-solid-rounded.css");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+* {
+  box-sizing: border-box;
+}
+body {
+  /* padding: 5px; */
+  font-family: "Kanit", sans-serif;
+  margin: 0;
+  height: 100vh;
+}
+.top {
+  background-color: #f9e79f;
+  height: 50%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+.top a {
+  white-space: nowrap;
+  align-self: flex-start;
+  font-size: 1rem;
+  padding: 20px;
+  text-decoration: none;
+  color: rgb(122, 122, 122);
+  /* opacity: 50%; */
+}
+.top a:hover {
+  color: black;
+}
+.brand-info {
+  margin-left: 20px;
+}
+.brand-info h4 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 400;
+}
+.brand-info p {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #535353;
+}
+img {
+  padding: 0;
+  width: 150px;
+}
+
+.bottom {
+  flex-wrap: wrap;
+  height: 50%;
+  padding: 20px;
+  background-color: white;
+}
+.manual {
+  margin-left: 20px;
+}
+.manual-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  height: 30px;
+  border: 1px solid black;
+  border-radius: 8px;
+  background-color: #14a2b8;
+  cursor: pointer;
+}
+.manual-button:hover {
+  background-color: #008097;
+}
+
+.manual i {
+  margin-top: 5px;
+  margin-right: 10px;
+  color: white;
+}
+.login-box {
+  border: 1px solid;
+  box-shadow: 0px 5px 10px #00000040;
+  border-radius: 20px;
+  background-color: #fdfefe;
+  position: absolute;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 300px;
+  height: 400px;
+  padding: 20px;
+}
+.login-box h2 {
+  text-align: center;
+  border-bottom: 1px solid;
+}
+
+input[type="text"],
+input[type="password"],
+input[placeholder],
+button[type="submit"] {
+  font-family: "Kanit", sans-serif;
+  display: block;
+  margin-top: 10px;
+  width: 100%;
+  height: 30px;
+  border-radius: 20px;
+  border: 1px solid black;
+}
+input::placeholder {
+  padding: 10px;
+}
+
+.login-box button {
+  margin-top: 100px;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 768px) {
+  .top a {
+    padding: 10px;
+  }
+  .login-box {
+    right: 4%;
+    transform: translateY(40%);
+    width: 90%;
+  }
+  .manual-button {
+    width: 100%;
+  }
+}
