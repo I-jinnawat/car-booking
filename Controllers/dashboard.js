@@ -1,13 +1,9 @@
-const path = require("path");
-const item = require("../Models/index");
-
-exports.list = async (req, res) => {
+exports.read = async (req, res) => {
   try {
-    const htmlFile = path.join(__dirname, "../Views/index2.html");
-    res.sendFile(htmlFile);
-    // res.send("hellow world");
-  } catch (err) {
-    console.log(err);
-    res.status(500).send("Internal Server Error");
+    // const id = req.params.id;
+    // const product = await Product.findOne({ _id: id }).exec();
+    res.render("dashboard");
+  } catch (error) {
+    console.log(error);
   }
 };

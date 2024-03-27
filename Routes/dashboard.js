@@ -9,6 +9,6 @@ const {
   remove,
 } = require("../Controllers/dashboard");
 
-router.get("/Dashboard", read);
+router.get("/", read);
 
 module.exports = router;
