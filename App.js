@@ -4,9 +4,10 @@ const morgan = require("morgan");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
+require("dotenv").config();
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 3000;
 
 const connectDB = require("./Config/db");
 const { patch } = require("./Routes/dashboard");
