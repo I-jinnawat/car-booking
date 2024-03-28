@@ -13,7 +13,8 @@ exports.read = async (req, res) => {
 exports.list = async (req, res) => {
   try {
     const producted = await Product.find({}).exec();
-    res.send(producted);
+    // res.send(producted);
+    res.render("product", { producted: producted });
   } catch (error) {
     console.log(error);
     res.status(500).send("Server Error");
@@ -22,6 +23,7 @@ exports.list = async (req, res) => {
 exports.creat = async (req, res) => {
   try {
     const product = await Product(req.body).save();
+    // res.status(201).console.log("Successfully");
     res.send(product);
   } catch (error) {
     console.log(error);

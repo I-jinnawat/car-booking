@@ -10,7 +10,6 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 const connectDB = require("./Config/db");
-const { patch } = require("./Routes/dashboard");
 
 app.use(morgan("dev"));
 app.use(cors());
