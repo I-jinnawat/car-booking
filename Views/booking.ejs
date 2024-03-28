@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/Public/Css/booking.css">
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel="stylesheet"
+        href="https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <style>
+            .accordion-button:not(.collapsed) {
+              background-color: rgba(0, 0, 0, 0.1);
+              color: black;
+            }
+            .accordion-button:not(.collapsed)::before {
+              background-color: rgba(0, 0, 0, 0.1);
+              color: black;
+            }
+            .accordion-button {
+              background-color: transparent;
+              border: 0;
+              color: inherit;
+              box-shadow: none;
+            }
+            .accordion-button:focus {
+              box-shadow: none;
+            }
+            .accordion-item {
+                background-color: transparent;
+            }
+          </style>
+</head>
+
+<body>
+    <nav id="mySidenav" class="sidenav">
+        <a href="http://127.0.0.1:3000/carreservation/public/dashboard.html" class="nav-link">
+            <div id="brand">
+                <img src="https://archives.mfu.ac.th/wp-content/uploads/2019/06/Mae-Fah-Luang-University-2.png"
+                    alt="Mae Fah Luang University" />
+                <div class="text">ระบบจองรถยนต์ออนไลน์</div>
+                <div class="subtext">ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง</div>
+            </div>
+        </a>
+
+        <div id="nav">
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      <i class="fa-solid fa-list-check pe-1"></i>
+                      รายการจอง
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a class="dropdown-item" href="http://127.0.0.1:3000/carreservation/public/booking.html">ภายในจังหวัด</a></li>
+                      </ul>
+                      <ul class="list-unstyled">
+                        <li><a class="dropdown-item" href="http://127.0.0.1:3000/carreservation/public/outside_booking.html">ภายนอกจังหวัด</a></li>
+                    </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                      <i class="fa-solid fa-gear pe-1"></i>
+                        ตั้งค่าระบบ
+                    </button>
+                  </h2>
+                  <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      <ul class="list-unstyled">
+                        <li><a class="dropdown-item" href="http://127.0.0.1:3000/carreservation/public/car.html">ยานพาหนะ</a></li>
+                      </ul>
+                      <ul class="list-unstyled">
+                        <li><a class="dropdown-item" href="http://127.0.0.1:3000/carreservation/public/member.html">สมาชิก</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                      <i class="fa-solid fa-file pe-1"></i>
+                      แถบเอกสาร
+                    </button>
+                  </h2>
+                  <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>  
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid mt-3 " id="main">
+        <div class="row">
+            <div class="col-12 ">
+                <div class="container-fluid p-0 m-0" style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+            ">
+                    <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0" style="font-size: 20px">
+                        <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
+                    </button>
+                    <a href="http://127.0.0.1:3000/carreservation/public/profile.html" style="text-decoration: none; color: black">
+                        6431503083 จิณณวัทย์</a>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div id="status-control">
+                            <span>
+                                <label for="status">สิทธิ์ :</label>
+                                <div class="btn-group btn-sm" role="group" aria-label="Basic radio toggle button group" style="width: 200px;">
+                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+                                    <label class="btn btn-outline-primary" for="btnradio1">ผู้ใช้ทั่วไป</label>
+                                  
+                                    <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                                    <label class="btn btn-outline-primary" for="btnradio2">ผู้จัดรถ</label>
+                              </div>
+                              <style>
+                                .btn-check:checked + .btn {
+                                  color: black;
+                                  background-color: #d9d9d9;
+                                  border-color: black;
+                                }
+                                .btn-outline-primary {
+                                 color: #6c757d; 
+                                 border-color: #6c757d; 
+                                }
+
+                                .btn-outline-primary:focus,
+                                .btn-outline-primary:hover {
+                                 color: #6c757d; 
+                                 border-color: #6c757d; 
+                                }
+
+                                .btn-check:checked + .btn-outline-primary {
+                                 background-color: #d9d9d9; 
+                                border-color: #6c757d; 
+                                }
+                              </style>
+                            </span>
+                            <span>
+                                <label for="">สถานะ</label>
+                                <input class="p-1" type="text" placeholder="กำลังดำเนินการ.."
+                                    style="width: 200px; border-radius: 8px ; border:1px solid black; font-weight: 300;">
+                            </span>
+                        </div>
+                        <hr>
+                        <div class="row mt-2">
+                            <div class="col d-flex justify-content-between" id="search">
+                                <div>
+                                    <label for="">เมนู :</label>
+                                    <a href="http://127.0.0.1:3000/carreservation/public/manage.html" class="btn border-0"
+                                        style="background-color:#FFECB3; width: 100px;"><i
+                                            class="fa-regular fa-pen-to-square"></i>
+                                        จองรถ</a>
+                                </div>
+                                <div class="search">
+                                    <input class="p-1" type="text" placeholder="&#xf002; ค้นหา"
+                                        style="width: 200px; border-radius: 8px ; border:1px solid black;">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col">จัดการ</th>
+                        <th scope="col">สถานะ</th>
+                        <th scope="col">วันที่ร้องขอ</th>
+                        <th scope="col">หัวข้อ</th>
+                        <th scope="col">วันที่เริ่มเดินทาง</th>
+                        <th scope="col">วันที่สิ้นสุดเดินทาง</th>
+                        <th scope="col">รถที่ใช้</th>
+                        <th scope="col">ผู้ร้องขอ </th>
+                        <th scope="col">หัวหน้าหน่วย</th>
+                        <th scope="col">คนจัดรถ</th>
+                        <th scope="col">คนขับรถ</th>
+                        <th scope="col">คนยกเลิก</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row">
+                            <div class="btn-group border-1 " role="group" style="width: 100px;">
+                                <button type="button" class="btn " style="background-color: yellow;"><i
+                                        class="fa-regular fa-pen-to-square"></i></button>
+                                <button type="button" class="btn " style="background-color: red;"><i
+                                        class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                        <td>ทำการจองเสร็จ,รอหัวหน้าอนุมัติ</td>
+                        <td>29 ม.ค. 2567 11:54:32</td>
+                        <td></td>
+                        <td>29 ม.ค. 2567 13:00:00</td>
+                        <td>29 ม.ค. 2567 14:00:00</td>
+                        <td></td>
+                        <td>6431503083
+                            jinnawat</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <div class="btn-group border-1 " role="group" style="width: 100px;">
+                                <button type="button" class="btn " style="background-color: yellow;"><i
+                                        class="fa-regular fa-pen-to-square"></i></button>
+                                <button type="button" class="btn " style="background-color: red;"><i
+                                        class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td scope="row">
+                            <div class="btn-group border-1 " role="group" style="width: 100px;">
+                                <button type="button" class="btn " style="background-color: yellow;"><i
+                                        class="fa-regular fa-pen-to-square"></i></button>
+                                <button type="button" class="btn " style="background-color: red;"><i
+                                        class="fa-solid fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td scope="row"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+    <script>
+        var isSidebarOpen = false;
+
+        function toggleNav() {
+            var sidenav = document.getElementById("mySidenav");
+            var main = document.getElementById("main");
+            var toggleIcon = document.getElementById("toggleIcon");
+
+            // Toggle sidebar state
+            isSidebarOpen = !isSidebarOpen;
+
+            if (isSidebarOpen) {
+                // Open the sidebar
+                sidenav.style.width = "250px";
+                main.style.marginLeft = "250px";
+                toggleIcon.classList.remove("fi-rr-indent");
+                toggleIcon.classList.add("fi-rr-outdent");
+            } else {
+                // Close the sidebar
+                sidenav.style.width = "0";
+                main.style.marginLeft = "0";
+                toggleIcon.classList.remove("fi-rr-outdent");
+                toggleIcon.classList.add("fi-rr-indent");
+            }
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

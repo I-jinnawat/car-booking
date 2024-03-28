@@ -1,0 +1,253 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-rounded/css/uicons-solid-rounded.css");
+
+* {
+  font-family: "Kanit", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  margin: 0;
+  height: 100vh;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #ffecb3;
+  transition: 0.5s;
+  overflow-x: hidden;
+}
+
+.sidenav img {
+  object-fit: cover;
+  width: 100px;
+  height: 100px;
+}
+
+#brand {
+  padding-top: 40px;
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+.text {
+  font-size: 22px;
+  font-weight: 400;
+  margin: 0;
+  padding-left: 10px;
+  text-align: start;
+  display: block;
+  transition: 0.3s;
+}
+
+.subtext {
+  display: block;
+  transition: 0.3s;
+  white-space: nowrap;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: 0;
+  font-size: 14px;
+}
+
+#main {
+  transition: margin-left 0.5s;
+  margin-left: 20px;
+}
+
+#nav {
+  border-radius: 20px;
+  margin: 0px 15px 0 15px;
+  width: 220px;
+  height: 300px;
+  background-color: #fef8e5;
+}
+
+.btn,
+.dropdown-menu {
+  display: inline-block;
+  width: 220px;
+  margin: auto;
+  padding: 0;
+}
+
+.toggler {
+  border: none;
+  width: 60px;
+  height: 60px;
+  background-color: #3d5afe;
+  border-radius: 50%;
+}
+.container .card {
+  border: none;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);
+}
+
+#dropdownMenuButton:hover,
+.dropdown-menu :hover {
+  border-radius: 20px;
+  background-color: #fff2cb;
+}
+.card-title {
+  font-weight: 400;
+}
+.card button {
+  font-weight: 400;
+  padding: 2px;
+  border-radius: 8px;
+  border: 1px solid;
+  filter: drop-shadow(0px 4px 24px rgba(0, 0, 0, 0.25));
+}
+.card .sample {
+  background: #ffd600;
+}
+.card .manual {
+  background: #14a2b8;
+}
+.card i {
+  color: white;
+  text-align: center;
+}
+#booking-body input::placeholder {
+  padding-left: 5px;
+}
+
+@media (max-width: 768px) {
+  #main {
+    margin-left: 0;
+  }
+
+  
+  #card-header div {
+    margin-top: 10px;
+  }
+
+  #booking-body .row div {
+    margin-top: 5px;
+  }
+}
+.step-wizard{
+    background-color: #ffff;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.step-wizard-list{
+    background: #ffff;
+    color: #333;
+    list-style-type: none;
+    border-radius: 10px;
+    display: flex;
+    padding: 20px 10px;
+    position: relative;
+    z-index: 10;
+}
+.step-wizard-item{
+    padding: 0 20px;
+    flex-basis: 0;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    min-width: 120px;
+    position: relative;
+}
+.step-wizard-item + .step-wizard-item::after{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 19px;
+    background: #97a4ee;
+    width: 100%;
+    height: 2px;
+    transform: translateX(-50%);
+    z-index: -10;
+}
+.progress-count{
+    height: 40px;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: 600;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+    color: transparent;
+}
+.progress-count::after{
+    content: "";
+    height: 40px;
+    width: 40px;
+    background: #5d73f4;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    z-index: -10;
+}
+.progress-count::before{
+    content: "";
+    height: 10px;
+    width: 20px;
+    border-left: 2px solid #ffff;
+    border-bottom: 2px solid #ffff;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -60%) rotate(-45deg);
+    transform-origin: center center;
+}
+.progress-label{
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+.current-item .progress-count::before,
+.current-item ~ .step-wizard-item .progress-count::before{
+    display: none;
+}
+.current-item ~ .step-wizard-item .progress-count::after{
+    height: 10px;
+    width: 10px;
+}
+.current-item ~ .step-wizard-item .progress-label{
+    opacity: 0.5;
+}
+.current-item .progress-count::after{
+    background: #ffff;
+    border: 2px solid #5d73f4;
+}
+.current-item .progress-count{
+    color: #5d73f4;
+}
+.btn {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #0069d9;
+}

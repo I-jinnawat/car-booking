@@ -9,24 +9,57 @@
     </a>
 
     <div id="nav">
-        <div class="dropdown">
-            <button class="btn dropdown-toggle border-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <i class="fa-solid fa-list-check pe-1"></i>
                 รายการจอง
-            </button>
-            <div class="dropdown-menu border-0" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="./product.html">ภายในจังหวัด</a>
-                <a class="dropdown-item" href="/page/booking_page.html">ภายนอกจังหวัด</a>
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <ul class="list-unstyled">
+                  <li><a class="dropdown-item" href="http://127.0.0.1:3000/carreservation/public/booking.html">ภายในจังหวัด</a></li>
+                </ul>
+                <ul class="list-unstyled">
+                  <li><a class="dropdown-item" href="http://127.0.0.1:3000/carreservation/public/outside_booking.html">ภายนอกจังหวัด</a></li>
+              </ul>
+              </div>
             </div>
-            <button class="btn dropdown-toggle border-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fi fi-sr-settings"></i>
-                ตั้งค่าระบบ
-            </button>
-            <div class="dropdown-menu border-0" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">ยานพาหนะ</a>
-                <a class="dropdown-item" href="#">สมาชิก</a>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                <i class="fa-solid fa-gear pe-1"></i>
+                  ตั้งค่าระบบ
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                <ul class="list-unstyled">
+                  <li><a class="dropdown-item" href="http://127.0.0.1:3000/carreservation/public/car.html">ยานพาหนะ</a></li>
+                </ul>
+                <ul class="list-unstyled">
+                  <li><a class="dropdown-item" href="http://127.0.0.1:3000/carreservation/public/member.html">สมาชิก</a></li>
+                </ul>
+              </div>
             </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                <i class="fa-solid fa-file pe-1"></i>
+                แถบเอกสาร
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body">
+                
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
-</nav>
+      </div>
+  </div>
+  </nav>
