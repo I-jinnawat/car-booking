@@ -7,6 +7,6 @@ const AuthSchema = new mongoose.Schema({
   admin: { type: Boolean, default: false },
 });
 
-const Auth = mongoose.model("User", AuthSchema);
+const Auth = mongoose.model("Auth", AuthSchema);
 
 module.exports = Auth;
