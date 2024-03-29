@@ -2,12 +2,17 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>หน้าหลัก</title>
+<<<<<<< HEAD
     <link rel="stylesheet" href="/css/login.css" />
+=======
+    <link rel="stylesheet" href="/Css/login.css" />
+>>>>>>> 2e242e1dee4ceb96a0dd03062b3591a39f860d5e
     <link rel="stylesheet"
         href="https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-rounded/css/uicons-solid-rounded.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
@@ -19,17 +24,29 @@
                 <p>ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง</p>
             </div>
         </div>
-        <a href="dashboard.html">หน้าหลัก</a>
+        <a href="/">หน้าหลัก</a>
         <div class="login-box">
             <h2>เข้าสู่ระบบ</h2>
 
-            <form action="/Views/product.html" method="post">
+            <form action="/login" method="POST">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" class="form-control" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            <p>Don't have an Account <a href="/">Register</a></p>
+            <!-- <form action="/login" method="POST">
                 <label for="username">รหัสพนักงาน</label>
                 <input type="text" id="username" name="username" placeholder="รหัสพนักงาน" required />
                 <label for="password">รหัสผ่าน</label>
                 <input type="password" id="password" name="password" placeholder="รหัสผ่าน" required />
                 <button class="submit" type="submit">เข้าสู่ระบบ</button>
-            </form>
+            </form> -->
         </div>
     </div>
     <div class="bottom">

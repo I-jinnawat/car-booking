@@ -19,8 +19,8 @@ exports.create = async (req, res) => {
 exports.list = async (req, res) => {
   try {
     const producted = await Auth.find({}).exec();
-    // res.send(producted);
-    res.send("Successfully");
+    res.send(producted);
+    // res.send("Successfully");
   } catch (error) {
     console.log(error);
     res.status(500).send("Server Error");
