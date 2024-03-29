@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-
 const { read, list, creat, update, remove } = require("../Controllers/product");
 
 router.get("/product/:id", read);

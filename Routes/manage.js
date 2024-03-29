@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { list } = require("../Controllers/profile");
+const { list } = require("../Controllers/manage");
 
-router.get("/profile", list);
+router.get("/booking/manage", list);
 
 module.exports = router;

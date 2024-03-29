@@ -23,6 +23,7 @@ app.set("Views", path.join(__dirname, "Views"));
 app.set("view engine", "ejs");
 
 //routes
+
 readdirSync("./Routes").map((r) => app.use("/", require("./Routes/" + r)));
 
 // The connectDB function should be invoked before starting the server
