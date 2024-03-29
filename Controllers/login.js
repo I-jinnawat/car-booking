@@ -1,35 +1,33 @@
+const User = require("../Models/Auth");
 const bcrypt = require("bcryptjs");
-const session = require("express-session");
-
-const Auth = require("../Models/Auth");
+const app = require("../App"); // Import your Express app instance
 
 exports.login = async (req, res) => {
-  const { username, password } = req.body;
-  const user = await Auth.findOne({ username });
-  if (user && bcrypt.compareSync(password, user.password)) {
-    // req.session.user = user;
-    // res.redirect("/dashboard");
-    res.send("sucessfully");
-  } else {
-    res.send("Invalid username or password");
+  try {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username });
+
+    if (user) {
+      // Verify password
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+
+      if (isPasswordValid) {
+        req.session.user = user;
+        return res.redirect("/");
+      }
+    }
+
+    res.render("login", { error: "Invalid username or password" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Internal Server Error");
   }
 };
 
 exports.list = async (req, res) => {
   try {
-    const producted = await Auth.find({}).exec();
-    // res.send(producted);
-    res.send(producted);
+    res.render("login");
   } catch (error) {
     console.log(error);
-    res.status(500).send("Server Error");
   }
 };
-// exports.list = async (req, res) => {
-//   try {
-//     res.render("login");
-//   } catch (error) {
-//     console.error(error);
-//     res.status(404).send("404 file not found"); // Changed to set proper status code
-//   }
-// };
