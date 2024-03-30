@@ -4,9 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>หน้าแรก</title>
+  <title>Document</title>
   <link rel="stylesheet" href="/css/dashboard.css">
+
   <link rel="stylesheet" href="/Css/dashboard.css">
+
   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
   <link rel="stylesheet"
@@ -20,11 +22,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl7/1L_dstPt3HV5HzF6Gvk/e3s4Wz6iJgD/+ub2oU" crossorigin="anonymous">
   <style>
-    .accordion-button:not(.collapsed) {
-      background-color: rgba(0, 0, 0, 0.1);
-      color: black;
-    }
-
     .accordion-button:not(.collapsed) {
       background-color: rgba(0, 0, 0, 0.1);
       color: black;
@@ -50,10 +47,14 @@
       background-color: transparent;
     }
   </style>
+
+
 </head>
 
 <body>
+
   <%- include('components/navbar.ejs') -%>
+
 
     <div class="container-fluid mt-3 " id="main">
       <div class="row d-flex align-items-center">
@@ -62,73 +63,7 @@
             style="font-size: 20px; ">
             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
         </div>
-<<<<<<< HEAD
 
-    
-
-
-
-          <div class="container-fluid mt-3 " id="main">
-            <div class="row d-flex align-items-center">
-              <div class="col ">
-                <button type="button" onclick="toggleNav()" id="toggleNav" class="toggler mb-2 p-0 m-0"
-                  style="font-size: 20px; ">
-                  <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
-              </div>
-
-              <div class="col d-flex justify-content-end">
-                <% if (userLoggedIn) { %>
-                  <span>
-                    <%= user.username %>
-                      <%= user.name %>
-                  </span>
-                  <% } else { %>
-                    <a href="/login" style="text-decoration: none; color: black; display: inline;">Login</a>
-                    <% } %>
-              </div>
-              
-              <div class="col d-flex justify-content-end">
-                <% if (userLoggedIn) { %>
-                  <span>
-                    <%= user.username %>
-                      <%= user.name %>
-                  </span>
-                  <% } else { %>
-                    <a href="/login" style="text-decoration: none; color: black; display: inline;">Login</a>
-                    <% } %>
-              </div>
-            
-
-
-
-
-              <div class="row">
-                <div class="col-md-4 " style="position: sticky;">
-                  <div class="tt">
-                    <div class="card mt-2 ">
-                      <div class="card-body text-center " style="background-color:#FFECB3;">
-                        <i class="fi fi-br-calendar-clock" style="font-size: 1.5em;"></i>
-                        <p style="font-size: 1rem;">1</p>
-                        <p style="font-size: 1rem;">ยานพาหนะที่กำลังดำเนินการ</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="card mt-5">
-                    <div class="card-body text-center" style="background-color:#FFECB3;">
-                      <i class="fi fi-bs-car" style="font-size: 1.5em;"></i>
-                      <p style="font-size: 1rem;">23</p>
-                      <p style="font-size: 1rem;">ยานพหนะ</p>
-                    </div>
-                  </div>
-                  <div class="card mt-5 ">
-                    <div class="card-body text-center " style="background-color:#FFECB3;">
-                      <i class="fi fi-sr-file-edit" style="font-size: 1.5em;"></i>
-                      <p style="font-size: 1rem;">670</p>
-                      <p style="font-size: 1rem;">จำนวนการจองทั้งหมด</p>
-                    </div>
-                  </div>
-=======
         <div class="col d-flex justify-content-end">
           <% if (userLoggedIn) { %>
             <span>
@@ -139,31 +74,34 @@
               <a href="/login" style="text-decoration: none; color: black; display: inline;">Login</a>
               <% } %>
         </div>
+
+
+
+
         <div class="row">
           <div class="col-md-4 " style="position: sticky;">
             <div class="tt">
               <div class="card mt-2 ">
                 <div class="card-body text-center " style="background-color:#FFECB3;">
-                  <i class="fi fi-br-calendar-clock" style="font-size: 2em;"></i>
-                  <p style="font-size: 1.5rem;">1</p>
-                  <p style="font-size: 1.5rem;">ยานพาหนะที่กำลังดำเนินการ</p>
->>>>>>> 5eb64d356b35cbe8ac42c8eb3871f9fb3d4440e7
+                  <i class="fi fi-br-calendar-clock" style="font-size: 1.5em;"></i>
+                  <p style="font-size: 1rem;">1</p>
+                  <p style="font-size: 1rem;">ยานพาหนะที่กำลังดำเนินการ</p>
                 </div>
               </div>
             </div>
 
             <div class="card mt-5">
               <div class="card-body text-center" style="background-color:#FFECB3;">
-                <i class="fi fi-bs-car" style="font-size: 2em;"></i>
-                <p style="font-size: 1.5rem;">23</p>
-                <p style="font-size: 1.5rem;">ยานพหนะ</p>
+                <i class="fi fi-bs-car" style="font-size: 1.5em;"></i>
+                <p style="font-size: 1rem;">23</p>
+                <p style="font-size: 1rem;">ยานพหนะ</p>
               </div>
             </div>
             <div class="card mt-5 ">
               <div class="card-body text-center " style="background-color:#FFECB3;">
-                <i class="fi fi-sr-file-edit" style="font-size: 2em;"></i>
-                <p style="font-size: 16px;">670</p>
-                <p style="font-size: 1.5rem;">จำนวนการจองทั้งหมด</p>
+                <i class="fi fi-sr-file-edit" style="font-size: 1.5em;"></i>
+                <p style="font-size: 1rem;">670</p>
+                <p style="font-size: 1rem;">จำนวนการจองทั้งหมด</p>
               </div>
             </div>
           </div>
@@ -187,7 +125,10 @@
                 <div id="calendar"></div>
               </div>
             </div>
+
+
           </div>
+
           <script>
             var isSidebarOpen = false;
             function toggleNav() {
@@ -210,6 +151,10 @@
                 toggleIcon.classList.add("fi-rr-indent");
               }
             }
+
+
+
+
           </script>
           <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
           <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -233,7 +178,7 @@
                 // THIS KEY WON'T WORK IN PRODUCTION!!!
                 // To make your own Google API key, follow the directions here:
                 // http://fullcalendar.io/docs/google_calendar/
-                googleCalendarApiKey: 'AIzaSyDoOJthwYaVfBAIlpIuNKsD-1jKxzmJE5Q',//Add Key API 
+                googleCalendarApiKey: 'AIzaSyDoOJthwYaVfBAIlpIuNKsD-1jKxzmJE5Q',//Add Key API
 
                 // US Holidays
                 events: 'c_15ddc5703bec5e6bd3c6f686047a20f007e3daab3fb355c400869dce023d63b8@group.calendar.google.com',//Add Calendar ID

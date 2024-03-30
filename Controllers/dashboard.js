@@ -1,4 +1,5 @@
 const app = require("../App");
+const User = require("../Models/Auth");
 
 exports.read = async (req, res) => {
   try {
