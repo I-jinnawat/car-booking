@@ -10,12 +10,12 @@ exports.login = async (req, res) => {
     if (user) {
       // Verify password
       const isPasswordValid = await bcrypt.compare(password, user.password);
+
       if (isPasswordValid) {
         req.session.user = user;
         return res.redirect("/");
       }
     }
-
     res.render("login", { error: "Invalid username or password" });
   } catch (error) {
     console.log(error);

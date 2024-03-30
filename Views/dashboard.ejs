@@ -66,10 +66,11 @@
 
         <div class="col d-flex justify-content-end">
           <% if (userLoggedIn) { %>
-            <span>
-              <%= user.username %>
-                <%= user.name %>
-            </span>
+            <a href="" style="text-decoration: none; color: black; display: inline;"><span>
+                <%= user.username %>
+                  <%= user.name %>
+              </span></a>
+
             <% } else { %>
               <a href="/login" style="text-decoration: none; color: black; display: inline;">Login</a>
               <% } %>

@@ -1,5 +1,4 @@
 const app = require("../App");
-const User = require("../Models/Auth");
 
 exports.read = async (req, res) => {
   try {
@@ -14,5 +13,15 @@ exports.read = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).render("error", { message: "Internal Server Error" });
+  }
+};
+exports.list = async (req, res) => {
+  try {
+    res.render("dashboard");
+  } catch (error) {
+    console.log(error);
+    res.status(500).render("error", {
+      message: "Internal Server Error",
+    });
   }
 };
