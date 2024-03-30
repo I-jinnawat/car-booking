@@ -47,52 +47,64 @@
 
 <body>
     <%- include('components/navbar.ejs') -%>
-
         <div class="container-fluid mt-3" id="main">
             <div class="row">
                 <div class="col-12">
-                    <div class="container-fluid p-0 m-0" style="
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-            ">
+                    <div class="container-fluid p-0 m-0"
+                        style="display: flex;justify-content: space-between;align-items: center;">
                         <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0"
                             style="font-size: 20px">
                             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
                         </button>
-                        <a href="/profile"
-                            style="text-decoration: none; color: black">
+                        <!-- Use component -->
+                        <a href="/profile" style="text-decoration: none; color: black">
                             6431503083 จิณณวัทย์</a>
                     </div>
                     <div class="card " id="progress" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                         <div class="card-body">
                             <div class="step-wizard">
-                            <ul class="step-wizard-list">
-                                <li class="step-wizard-item">
-                                    <span class="progress-count">1</span>
-                                    <span class="progress-label">1.ทำการจองเสร็จ,รอหัวหน้าอนุมัติ</span>
-                                    <span class="progress-label option1 mt-0" style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 90px;">ผู้จอง :</span>
-                                    <span class="progress-label option2 mt-0" style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 80px;">เวลาจอง :</span>
-                                </li>
-                                <li class="step-wizard-item">
-                                    <span class="progress-count">2</span>
-                                    <span class="progress-label">2.หัวหน้างานอนุมัติ,รอคนจัดรถ</span>
-                                    <span class="progress-label option1 mt-0" style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 90px;">ผู้อนุมัติ :</span>
-                                    <span class="progress-label option2 mt-0" style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 80px;">เวลาอนุมัติ :</span>
-                                </li>
-                                <li class="step-wizard-item">
-                                    <span class="progress-count">3</span>
-                                    <span class="progress-label">3.จัดรถสำเร็จ,พร้อมใช้งาน</span>
-                                    <span class="progress-label option1 mt-0" style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 90px;">ผู้จัดรถ :</span>
-                                    <span class="progress-label option2 mt-0" style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 80px;">เวลาจัดรถ :</span>
-                                </li>
-                                <li class="step-wizard-item current-item">
-                                    <span class="progress-count">4</span>
-                                    <span class="progress-label">4.บันทึกเลขไมล์,เสร็จสิ้น</span>
-                                    <span class="progress-label option1 mt-0" style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 90px;">ผู้จอง :</span>
-                                    <span class="progress-label option2 mt-0" style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 80px;">เวลาจอง :</span>
-                                </li>
-                            </ul>
+                                <ul class="step-wizard-list">
+                                    <li class="step-wizard-item">
+                                        <span class="progress-count">1</span>
+                                        <span class="progress-label">1.ทำการจองเสร็จ,รอหัวหน้าอนุมัติ</span>
+                                        <span class="progress-label option1 mt-0"
+                                            style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 90px;">ผู้จอง
+                                            :</span>
+                                        <span class="progress-label option2 mt-0"
+                                            style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 80px;">เวลาจอง
+                                            :</span>
+                                    </li>
+                                    <li class="step-wizard-item">
+                                        <span class="progress-count">2</span>
+                                        <span class="progress-label">2.หัวหน้างานอนุมัติ,รอคนจัดรถ</span>
+                                        <span class="progress-label option1 mt-0"
+                                            style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 90px;">ผู้อนุมัติ
+                                            :</span>
+                                        <span class="progress-label option2 mt-0"
+                                            style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 80px;">เวลาอนุมัติ
+                                            :</span>
+                                    </li>
+                                    <li class="step-wizard-item">
+                                        <span class="progress-count">3</span>
+                                        <span class="progress-label">3.จัดรถสำเร็จ,พร้อมใช้งาน</span>
+                                        <span class="progress-label option1 mt-0"
+                                            style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 90px;">ผู้จัดรถ
+                                            :</span>
+                                        <span class="progress-label option2 mt-0"
+                                            style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 80px;">เวลาจัดรถ
+                                            :</span>
+                                    </li>
+                                    <li class="step-wizard-item current-item">
+                                        <span class="progress-count">4</span>
+                                        <span class="progress-label">4.บันทึกเลขไมล์,เสร็จสิ้น</span>
+                                        <span class="progress-label option1 mt-0"
+                                            style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 90px;">ผู้จอง
+                                            :</span>
+                                        <span class="progress-label option2 mt-0"
+                                            style="font-size: 0.7em; color: rgb(157, 157, 171); margin-right: 80px;">เวลาจอง
+                                            :</span>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -102,12 +114,10 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-6 d-flex">
                                         <label>ทำการจอง</label>
-
                                         <button class="sample me-1 ms-2"
                                             onclick="window.open('https://drive.google.com/file/d/12wW1XdZdaXZjxYiy_TX4c0WiFvMCtGQU/view?usp=sharing', '_blank')">
                                             ตัวอย่างการกรอกข้อมูล
                                         </button>
-
                                         <button class="manual"
                                             onclick="window.open('https://drive.google.com/file/d/12wW1XdZdaXZjxYiy_TX4c0WiFvMCtGQU/view?usp=sharing', '_blank')">
                                             คู่มือการใช้งาน
@@ -224,7 +234,6 @@
                     if (/[^0-9]/.test(inputValue)) {
                         event.target.value = inputValue.replace(/[^0-9]/g, '');
                     }
-
                     // ตรวจสอบจำนวนตัวเลข
                     if (inputValue.length !== 10) {
                         event.target.setCustomValidity("โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10 ตัวเลข");
@@ -234,9 +243,8 @@
                 });
             });
 
-            // Variable to keep track of sidebar state
+            // Use External 
             var isSidebarOpen = false;
-
             function toggleNav() {
                 var sidenav = document.getElementById("mySidenav");
                 var main = document.getElementById("main");

@@ -53,21 +53,17 @@
         <div class="container-fluid mt-3 " id="main">
             <div class="row">
                 <div class="col-12 ">
-                    <div class="container-fluid p-0 m-0" style="
-              display: flex;
-              justify-content: space-between;
-              align-items: center;
-            ">
+                    <div class="container-fluid p-0 m-0"
+                        style="display: flex;justify-content: space-between;align-items: center;">
                         <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0"
                             style="font-size: 20px">
                             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
                         </button>
                         <%- include('components/userinfo.ejs') -%>
                     </div>
+                    <!-- box shadow -->
                     <div class="card">
                         <div class="card-body">
-
-
                             <div class="row mt-2">
                                 <div class="col d-flex justify-content-between" id="search">
                                     <div>
@@ -84,7 +80,6 @@
                                     <div class="search">
                                         <input class="p-1" type="text" placeholder="&#xf002; ค้นหา"
                                             style="width: 200px; border-radius: 8px ; border:1px solid black;">
-
                                     </div>
                                 </div>
                             </div>
@@ -93,6 +88,7 @@
                     </div>
                 </div>
             </div>
+            <!-- box shadow -->
             <div class="card mt-3">
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
