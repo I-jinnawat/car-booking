@@ -1,0 +1,11 @@
+<div class="col d-flex justify-content-end " id="userDisplay">
+  <% if (userLoggedIn) { %>
+    <a href="/profile" style="text-decoration: none; color: black; display: inline; ">
+
+      <%= user.username %>
+        <%= user.name %>
+    </a>
+    <% } else { %>
+      <a href="/login" style="text-decoration: none; color: black; display: inline;">Login</a>
+      <% } %>
+</div>

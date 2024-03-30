@@ -1,8 +1,10 @@
 exports.list = async (req, res) => {
   try {
-    res.render("car");
+    req.session.user
+      ? res.render("car", { userLoggedIn: true, user: req.session.user })
+      : res.render("car", { userLoggedIn: false });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.log(error);
+    res.status(500).render("error", { message: "Internal Server Error" });
   }
 };

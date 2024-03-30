@@ -64,140 +64,127 @@
             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
         </div>
 
-        <div class="col d-flex justify-content-end">
-          <% if (userLoggedIn) { %>
-            <a href="" style="text-decoration: none; color: black; display: inline;"><span>
-                <%= user.username %>
-                  <%= user.name %>
-              </span></a>
+        <%- include('components/userinfo.ejs') -%>
 
-            <% } else { %>
-              <a href="/login" style="text-decoration: none; color: black; display: inline;">Login</a>
-              <% } %>
-        </div>
+          <div class="row">
+            <div class="col-md-4 " style="position: sticky;">
+              <div class="tt">
+                <div class="card mt-2 ">
+                  <div class="card-body text-center " style="background-color:#FFECB3;">
+                    <i class="fi fi-br-calendar-clock" style="font-size: 1.5em;"></i>
+                    <p style="font-size: 1rem;">1</p>
+                    <p style="font-size: 1rem;">ยานพาหนะที่กำลังดำเนินการ</p>
+                  </div>
+                </div>
+              </div>
 
-
-
-
-        <div class="row">
-          <div class="col-md-4 " style="position: sticky;">
-            <div class="tt">
-              <div class="card mt-2 ">
+              <div class="card mt-5">
+                <div class="card-body text-center" style="background-color:#FFECB3;">
+                  <i class="fi fi-bs-car" style="font-size: 1.5em;"></i>
+                  <p style="font-size: 1rem;">23</p>
+                  <p style="font-size: 1rem;">ยานพหนะ</p>
+                </div>
+              </div>
+              <div class="card mt-5 ">
                 <div class="card-body text-center " style="background-color:#FFECB3;">
-                  <i class="fi fi-br-calendar-clock" style="font-size: 1.5em;"></i>
-                  <p style="font-size: 1rem;">1</p>
-                  <p style="font-size: 1rem;">ยานพาหนะที่กำลังดำเนินการ</p>
+                  <i class="fi fi-sr-file-edit" style="font-size: 1.5em;"></i>
+                  <p style="font-size: 1rem;">670</p>
+                  <p style="font-size: 1rem;">จำนวนการจองทั้งหมด</p>
                 </div>
               </div>
             </div>
+            <div class="col-8">
+              <div class="card mt-2">
+                <div class="card-body">
+                  <select class="form-select" id="inputGroupSelect01">
+                    <option selected></option>
+                    <option value="1">ทะเบียน</option>
+                  </select>
+                  <button type="button" class=" btn  mt-2 border-0 align-items-center"
+                    style="width: 100%; background-color: #FFECB3;">
+                    <i class="fi fi-bs-search"></i>
+                    ค้นหา
+                  </button>
+                </div>
+              </div>
+              <div class="card mt-2">
+                <div class="card-body">
+                  <div id="loading">loading...</div>
+                  <div id="calendar"></div>
+                </div>
+              </div>
 
-            <div class="card mt-5">
-              <div class="card-body text-center" style="background-color:#FFECB3;">
-                <i class="fi fi-bs-car" style="font-size: 1.5em;"></i>
-                <p style="font-size: 1rem;">23</p>
-                <p style="font-size: 1rem;">ยานพหนะ</p>
-              </div>
-            </div>
-            <div class="card mt-5 ">
-              <div class="card-body text-center " style="background-color:#FFECB3;">
-                <i class="fi fi-sr-file-edit" style="font-size: 1.5em;"></i>
-                <p style="font-size: 1rem;">670</p>
-                <p style="font-size: 1rem;">จำนวนการจองทั้งหมด</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-8">
-            <div class="card mt-2">
-              <div class="card-body">
-                <select class="form-select" id="inputGroupSelect01">
-                  <option selected></option>
-                  <option value="1">ทะเบียน</option>
-                </select>
-                <button type="button" class=" btn  mt-2 border-0 align-items-center"
-                  style="width: 100%; background-color: #FFECB3;">
-                  <i class="fi fi-bs-search"></i>
-                  ค้นหา
-                </button>
-              </div>
-            </div>
-            <div class="card mt-2">
-              <div class="card-body">
-                <div id="loading">loading...</div>
-                <div id="calendar"></div>
-              </div>
+
             </div>
 
-
-          </div>
-
-          <script>
-            var isSidebarOpen = false;
-            function toggleNav() {
-              var sidenav = document.getElementById("mySidenav");
-              var main = document.getElementById("main");
-              var toggleIcon = document.getElementById("toggleIcon");
-              // Toggle sidebar state
-              isSidebarOpen = !isSidebarOpen;
-              if (isSidebarOpen) {
-                // Open the sidebar
-                sidenav.style.width = "250px";
-                main.style.marginLeft = "250px";
-                toggleIcon.classList.remove("fi-rr-indent");
-                toggleIcon.classList.add("fi-rr-outdent");
-              } else {
-                // Close the sidebar
-                sidenav.style.width = "0";
-                main.style.marginLeft = "0";
-                toggleIcon.classList.remove("fi-rr-outdent");
-                toggleIcon.classList.add("fi-rr-indent");
-              }
-            }
-
-
-
-
-          </script>
-          <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-          <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-          <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-          <script src='https://fullcalendar.io/releases/fullcalendar/3.10.0/lib/moment.min.js'></script>
-          <script src='https://fullcalendar.io/releases/fullcalendar/3.10.0/fullcalendar.min.js'></script>
-          <script src='https://fullcalendar.io/releases/fullcalendar/3.10.0/gcal.min.js'></script>
-          <script>
-            $(document).ready(function () {
-
-              $('#calendar').fullCalendar({
-
-                header: {
-                  left: 'prev,next today',
-                  center: 'title',
-                  right: 'month,listYear'
-                },
-
-                displayEventTime: false, // don't show the time column in list view
-
-                // THIS KEY WON'T WORK IN PRODUCTION!!!
-                // To make your own Google API key, follow the directions here:
-                // http://fullcalendar.io/docs/google_calendar/
-                googleCalendarApiKey: 'AIzaSyDoOJthwYaVfBAIlpIuNKsD-1jKxzmJE5Q',//Add Key API
-
-                // US Holidays
-                events: 'c_15ddc5703bec5e6bd3c6f686047a20f007e3daab3fb355c400869dce023d63b8@group.calendar.google.com',//Add Calendar ID
-
-                eventClick: function (event) {
-                  // opens events in a popup window
-                  alert(event.title);
-                  return false;
-                },
-
-                loading: function (bool) {
-                  $('#loading').toggle(bool);
+            <script>
+              var isSidebarOpen = false;
+              function toggleNav() {
+                var sidenav = document.getElementById("mySidenav");
+                var main = document.getElementById("main");
+                var toggleIcon = document.getElementById("toggleIcon");
+                // Toggle sidebar state
+                isSidebarOpen = !isSidebarOpen;
+                if (isSidebarOpen) {
+                  // Open the sidebar
+                  sidenav.style.width = "250px";
+                  main.style.marginLeft = "250px";
+                  toggleIcon.classList.remove("fi-rr-indent");
+                  toggleIcon.classList.add("fi-rr-outdent");
+                } else {
+                  // Close the sidebar
+                  sidenav.style.width = "0";
+                  main.style.marginLeft = "0";
+                  toggleIcon.classList.remove("fi-rr-outdent");
+                  toggleIcon.classList.add("fi-rr-indent");
                 }
+              }
+
+
+
+
+            </script>
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script src='https://fullcalendar.io/releases/fullcalendar/3.10.0/lib/moment.min.js'></script>
+            <script src='https://fullcalendar.io/releases/fullcalendar/3.10.0/fullcalendar.min.js'></script>
+            <script src='https://fullcalendar.io/releases/fullcalendar/3.10.0/gcal.min.js'></script>
+            <script>
+              $(document).ready(function () {
+
+                $('#calendar').fullCalendar({
+
+                  header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,listYear'
+                  },
+
+                  displayEventTime: false, // don't show the time column in list view
+
+                  // THIS KEY WON'T WORK IN PRODUCTION!!!
+                  // To make your own Google API key, follow the directions here:
+                  // http://fullcalendar.io/docs/google_calendar/
+                  googleCalendarApiKey: 'AIzaSyDoOJthwYaVfBAIlpIuNKsD-1jKxzmJE5Q',//Add Key API
+
+                  // US Holidays
+                  events: 'c_15ddc5703bec5e6bd3c6f686047a20f007e3daab3fb355c400869dce023d63b8@group.calendar.google.com',//Add Calendar ID
+
+                  eventClick: function (event) {
+                    // opens events in a popup window
+                    alert(event.title);
+                    return false;
+                  },
+
+                  loading: function (bool) {
+                    $('#loading').toggle(bool);
+                  }
+
+                });
 
               });
-
-            });
-          </script>
+            </script>
 </body>
 
 </html>
