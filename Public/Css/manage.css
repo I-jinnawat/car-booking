@@ -218,6 +218,7 @@ body {
     font-size: 12px;
     font-weight: 500;
     margin-top: 10px;
+    white-space: nowrap;
 }
 .current-item .progress-count::before,
 .current-item ~ .step-wizard-item .progress-count::before{
