@@ -1,0 +1,11 @@
+.accordion {
+  --bs-accordion-btn-bg: #fef8e5;
+  --bs-accordion-active-bg: #ffecb3;
+  --bs-accordion-bg: #ffecb3;
+  --bs-accordion-btn-focus-box-shadow: none;
+  --bs-accordion-btn-focus-border-color: unset;
+}
+
+.accordion-button {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6); /* Black border with 60% opacity */
+}
