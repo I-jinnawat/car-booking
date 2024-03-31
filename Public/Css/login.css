@@ -117,6 +117,11 @@ input::placeholder {
   border: 1px solid black;
   border-radius: 20px;
   cursor: pointer;
+  text-align: center;
+  height: 37px;
+}
+.login-box button:hover {
+  background-color: #9c9898;
 }
 
 @media screen and (max-width: 768px) {
