@@ -4,8 +4,17 @@
   --bs-accordion-bg: #ffecb3;
   --bs-accordion-btn-focus-box-shadow: none;
   --bs-accordion-btn-focus-border-color: unset;
+  border-radius: 30px;
+  
 }
 
 .accordion-button {
   border-bottom: 1px solid rgba(0, 0, 0, 0.6); /* Black border with 60% opacity */
 }
+.dropdown-item:hover {
+  color: rgb(129, 129, 163);
+}
+
+
+
+

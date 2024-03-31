@@ -3,7 +3,7 @@ function toggleNav() {
   const sidenav = document.getElementById("mySidenav");
   const main = document.getElementById("main");
   const toggleIcon = document.getElementById("toggleIcon");
-
+  
   isSidebarOpen = !isSidebarOpen;
   if (isSidebarOpen) {
     sidenav.style.width = "250px";
