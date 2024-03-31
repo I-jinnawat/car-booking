@@ -4,8 +4,7 @@
   --bs-accordion-bg: #ffecb3;
   --bs-accordion-btn-focus-box-shadow: none;
   --bs-accordion-btn-focus-border-color: unset;
-  border-radius: 30px;
-  
+  --bs-accordion-border-radius: 30px;
 }
 
 .accordion-button {
@@ -14,7 +13,3 @@
 .dropdown-item:hover {
   color: rgb(129, 129, 163);
 }
-
-
-
-

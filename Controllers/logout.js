@@ -1,8 +1,10 @@
 exports.logout = async (req, res) => {
   try {
-    req.session.user
-      ? res.render("dashboard", { userLoggedIn: false, user: req.session.user })
-      : res.redirect("/");
+    req.session.destroy((err) => {
+      err
+        ? console.error("Error destroying session:", err).sendStatus(500)
+        : res.redirect("/");
+    });
   } catch (error) {
     console.error(error);
   }
