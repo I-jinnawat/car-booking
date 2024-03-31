@@ -4,10 +4,16 @@ const session = require("express-session");
 const Auth = require("../Models/Auth");
 
 exports.create = async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, name, numberId, organization } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10);
   try {
-    await Auth.create({ username, password: hashedPassword });
+    await Auth.create({
+      username,
+      password: hashedPassword,
+      name,
+      numberId,
+      organization,
+    });
     // res.redirect("/");
     res.send("sucessfully");
   } catch (err) {
