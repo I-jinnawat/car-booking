@@ -3,10 +3,12 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>หน้าหลัก</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>เข้าสู่ระบบ</title>
+
     <link rel="stylesheet" href="/css/login.css" />
-    <link rel="stylesheet" href="/Css/login.css" />
+
+
     <link rel="stylesheet"
         href="https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-rounded/css/uicons-solid-rounded.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -22,31 +24,31 @@
             </div>
         </div>
         <a href="/">หน้าหลัก</a>
-        <!-- Rebuild -->
         <div class="login-box">
             <h2>เข้าสู่ระบบ</h2>
-            <form action="/login" method="POST">
-                <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" class="form-control" id="username" name="username" required>
-                </div>
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Login</button>
-            </form>
         </div>
-    </div>
+    </div><form action="/login" method="POST">
+        <div class="form-group">
+            <label for="username">รหัสพนักงาน</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="รหัสพนักงาน">
+        </div>
+        <div class="form-group">
+            <label for="password">รหัสผ่าน</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="รหัสผ่าน">
+        </div>
+        <button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button>
+    </form>
     <div class="bottom">
         <div class="manual">
-            <button class="manual-button">
+            <button class="manual-button" onclick="window.open('https://drive.google.com/file/d/12wW1XdZdaXZjxYiy_TX4c0WiFvMCtGQU/view?usp=sharing', '_blank')">
                 <i class="fi fi-sr-document"></i>
                 คู่มือการใช้งาน
             </button>
             <p>มีข้อสงสัยในการใช้ระบบ ฯ ติดต่อ ฝ่ายระบบสารสนเทศ 4174</p>
         </div>
     </div>
+
+
 </body>
 
 </html>
