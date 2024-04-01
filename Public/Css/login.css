@@ -93,6 +93,15 @@ img {
   text-align: center;
   border-bottom: 1px solid;
 }
+.form-group {
+  margin-top: 20px;
+}
+#username {
+  margin-top: 0.1px;
+}
+#password {
+  margin-top: 0.1px;
+}
 
 input[type="text"],
 input[type="password"],
