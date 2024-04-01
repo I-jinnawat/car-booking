@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- change to จองรถ -->
     <title>จองรถ</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="/css/manage.css">
     <link rel="stylesheet"
         href="https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
@@ -173,7 +174,7 @@
                                     </div>
                                 </div>
                                 <div class="text-center mt-3">
-                                    <button class="btn btn-primary btn-lg" type="submit">ยืนยัน</button>
+                                    <button class="btn btn-primary btn-lg" type="submit" onclick="displayAlert();">ยืนยัน</button>
                                 </div>
                         </div>
                     </div>
@@ -199,6 +200,43 @@
                 });
             });
         </script>
+        <script type="text/javascript">
+            function displayAlert() {
+                const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: "btn btn-success",
+    cancelButton: "btn btn-danger"
+  },
+  buttonsStyling: false
+});
+swalWithBootstrapButtons.fire({
+  title: "คุณแน่ใจหรือไม่?",
+  text: "คุณต้องการยืนยันที่จะส่ง!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonText: "ยืนยัน",
+  cancelButtonText: "ยกเลิก",
+  reverseButtons: true
+}).then((result) => {
+  if (result.isConfirmed) {
+    swalWithBootstrapButtons.fire({
+      title: "ยืนยัน!",
+      text: "คุณได้ยืนยันแล้ว",
+      icon: "success"
+    });
+  } else if (
+    /* Read more about handling dismissals below */
+    result.dismiss === Swal.DismissReason.cancel
+  ) {
+    swalWithBootstrapButtons.fire({
+      title: "ยกเลิก",
+      text: "คุณได้ทำการยกเลิก)",
+      icon: "error"
+    });
+  }
+});
+            }
+</script>
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
