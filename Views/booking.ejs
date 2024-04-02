@@ -46,6 +46,28 @@
                                         <label class="btn btn-outline-primary" for="btnradio2">ผู้จัดรถ</label>
                                     </div>
                                 </span>
+                                <style>
+                                    .btn-check:checked + .btn {
+                                      color: black;
+                                      background-color: #d9d9d9;
+                                      border-color: black;
+                                    }
+                                    .btn-outline-primary {
+                                     color: #6c757d; 
+                                     border-color: #6c757d; 
+                                    }
+    
+                                    .btn-outline-primary:focus,
+                                    .btn-outline-primary:hover {
+                                     color: #6c757d; 
+                                     border-color: #6c757d; 
+                                    }
+    
+                                    .btn-check:checked + .btn-outline-primary {
+                                     background-color: #d9d9d9; 
+                                    border-color: #6c757d; 
+                                    }
+                                  </style>
                                 <span>
                                     <label for="">สถานะ</label>
                                     <input class="p-1" type="text" placeholder="กำลังดำเนินการ.."
