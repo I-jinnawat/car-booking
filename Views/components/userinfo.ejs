@@ -1,11 +1,18 @@
-<div class="col d-flex justify-content-end " id="userDisplay">
+<div class="col d-flex justify-content-end me-3" id="userDisplay">
   <% if (userLoggedIn) { %>
-    <a href="/profile" style="text-decoration: none; color: black; display: inline; ">
+    <% if (user.admin) { %>
+      <p class="m-0 me-2">เจ้าหน้าที่</p>
+      <% } else{ %>
+        <p class="m-0 me-2">พนักงาน</p>
+        <% } %>
+          <a href="/profile" style="text-decoration: none; color: black; display: inline; ">
 
-      <%= user.username %>
-        <%= user.name %>
-    </a>
-    <% } else { %>
-      <a href="/login" style="text-decoration: none; color: rgb(0, 0, 0); display: inline;">เข้าสู่ระบบ</a>
-      <% } %>
+            <%= user.username %>
+
+
+          </a>
+
+          <% } else { %>
+            <a href="/login" style="text-decoration: none; color: rgb(0, 0, 0); display: inline;">เข้าสู่ระบบ</a>
+            <% } %>
 </div>

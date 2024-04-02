@@ -84,7 +84,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card mt-3 mb-3" id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                    <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                         <div class="card-header" id="card-header" style="background-color: #FFECB3;">
                             <form>
                                 <div class="row align-items-center">
@@ -100,7 +100,7 @@
                                         </button>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 text-right">
                                         <label class="form-label">รหัสการจอง</label>
                                         <input class=" border-1 rounded-1 ms-2 pe-2" type="text"
                                             placeholder="รหัสการจองระบบสร้างขึ้นเอง" disabled
@@ -110,57 +110,58 @@
                             </form>
                         </div>
                         <div id="booking-body" class="card-body">
-                            <form>
+                            <form action="/events" method="POST">
                                 <div class="row" id="booking-body">
                                     <div class="col">
                                         <label class="form-label">ชื่อ-สกุล</label>
-                                        <input class=" border-1 rounded-1 " type="text" placeholder="jinnawat inyim"
-                                            disabled>
+                                        <input class=" border-1 rounded-1 " type="text" name="userinfo"
+                                            placeholder="jinnawat inyim" value="a">
                                     </div>
                                     <div class="col">
                                         <label class="form-label">หน่วยงาน</label>
-                                        <input class=" border-1 rounded-1 " required>
+                                        <input class=" border-1 rounded-1 " name="organization" required>
                                     </div>
                                     <div class="col">
                                         <label class="form-label">เบอร์โทร</label>
                                         <input class="border-1 rounded-1" type="tel" max="10" name="mobile_number"
-                                            placeholder="เช่น 08x-xxx-xxxx" required>
+                                            placeholder="เช่น 08x-xxx-xxxx" name="organization" required>
                                     </div>
                                 </div>
                                 <div class="form-group mt-4 ">
                                     <label for="comment">ขอใช้รถเพื่อปฎิบัติภารกิจ:</label>
-                                    <textarea class="form-control" rows="5" id="comment" required></textarea>
+                                    <textarea class="form-control" rows="5" id="comment" name="title"
+                                        required></textarea>
                                 </div>
                                 <div class="mt-4 ">
                                     <div class="row">
                                         <div class="col">
                                             <label class="form-label">วันที่ใช้รถ</label>
-                                            <input type="date" id="datetimepicker" required>
+                                            <input type="date" id="seven" name="day" required>
                                         </div>
                                         <div class="col">
                                             <label for="">เวลาไปถึงสถานที่รับ</label>
-                                            <input type="time" id="seven" required>
+                                            <input type="datetime-local" id="seven" name="start" required>
                                         </div>
                                     </div>
                                     <div class="row mt-4">
                                         <div class="col">
                                             <label for="">สถานที่รับ</label>
-                                            <input type="text" required>
+                                            <input type="text" name="placestart" required>
                                         </div>
                                         <div class="col">
                                             <label for="">สถานที่ส่ง</label>
-                                            <input type="text" required>
+                                            <input type="text" name="placeend" required>
                                         </div>
                                     </div>
                                     <div class="row mt-4">
                                         <div class="col">
                                             <label for="">เวลาเสร็จสิ้นภารกิจ</label>
-                                            <input type="time" id="seven" required>
+                                            <input type="datetime-local" id="seven" name="end" required>
                                         </div>
                                         <div class="col">
                                             <label for="">จำนวนผู้โดยสาร</label>
                                             <!-- min =0 -->
-                                            <input type="number" required id="passenger-count" min="0">
+                                            <input type="number" required id="passenger" name="passenger-count" min="0">
                                             <span> คน</span>
                                         </div>
                                     </div>
@@ -188,97 +189,95 @@
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-             var mobileInput = document.querySelector('input[name="mobile_number"]');
-       
-             mobileInput.addEventListener("input", function (event) {
-               var inputValue = event.target.value;
-               // ตรวจสอบว่ามีเฉพาะตัวเลขหรือไม่
-               if (/[^0-9]/.test(inputValue)) {
-                 event.target.value = inputValue.replace(/[^0-9]/g, '');
-               }
-               // ตรวจสอบจำนวนตัวเลข
-               if (inputValue.length !== 10) {
-                 event.target.setCustomValidity("โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10 ตัวเลข");
-               } else {
-                 event.target.setCustomValidity("");
-               }
-             });
-       
-             var txt = document.querySelector("#txt");
-             form.displayAlert("submit", function (event) {
-               if (mobileInput.validity.valid) {
-                 displayAlert();
-               } else {
-                 event.preventDefault();
-               }
-             });
-           });
-           function displayAlert() {
- // Check if the form is valid
- if (!document.querySelector("#booking-body form").reportValidity()) {
-   return;
- }
+                var mobileInput = document.querySelector('input[name="mobile_number"]');
 
- // If the form is valid, show the alert
- const swalWithBootstrapButtons = Swal.mixin({
-   customClass: {
-     confirmButton: 'btn btn-success',
-     cancelButton: 'btn btn-danger'
-   },
-   buttonsStyling: false
- });
+                mobileInput.addEventListener("input", function (event) {
+                    var inputValue = event.target.value;
+                    // ตรวจสอบว่ามีเฉพาะตัวเลขหรือไม่
+                    if (/[^0-9]/.test(inputValue)) {
+                        event.target.value = inputValue.replace(/[^0-9]/g, '');
+                    }
+                    // ตรวจสอบจำนวนตัวเลข
+                    if (inputValue.length !== 10) {
+                        event.target.setCustomValidity("โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10 ตัวเลข");
+                    } else {
+                        event.target.setCustomValidity("");
+                    }
+                });
 
- swalWithBootstrapButtons.fire({
-   title: 'คุณแน่ใจหรือไม่?',
-   text: 'คุณต้องการยืนยันที่จะส่ง!',
-   icon: 'warning',
-   showCancelButton: true,
-   confirmButtonText: 'ยืนยัน',
-   cancelButtonText: 'ยกเลิก',
-   reverseButtons: true
- }).then((result) => {
-   if (result.isConfirmed) {
-     // Submit the form
-     document.querySelector("#booking-body form").submit();
-   } else if (
-     /* Read more about handling dismissals below */
-     result.dismiss === Swal.DismissReason.cancel
-   ) {
-     swalWithBootstrapButtons.fire({
-       title: 'ยกเลิก',
-       text: 'คุณได้ทำการยกเลิก)',
-       icon: 'error'
-     });
-   }
- });
-}
-// Add an event listener to the form's submit event
-document.querySelector("#booking-body form").addEventListener("submit", function(event) {
- // Prevent the form from submitting normally
- event.preventDefault();
-// Call the displayAlert function
- displayAlert();
-});
-           
-         </script>
-<script>
-    const today = new Date();
-    const minDate = today.getHours() >= 17 ? new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2) : new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+                var txt = document.querySelector("#txt");
+                form.displayAlert("submit", function (event) {
+                    if (mobileInput.validity.valid) {
+                        displayAlert();
+                    } else {
+                        event.preventDefault();
+                    }
+                });
+            });
+            function displayAlert() {
+                // Check if the form is valid
+                if (!document.querySelector("#booking-body form").reportValidity()) {
+                    return;
+                }
 
-    flatpickr("#datetimepicker", {
-      enableTime: true,
-      dateFormat: "Y-m-d H:i",
-      minDate: minDate
-    });
-  </script>
-  <script>
-    flatpickr("#seven", {
-      enableTime: true,
-      noCalendar: true,
-      dateFormat: "H:i",
-      time_24hr: true
-    });
-  </script>
+                // If the form is valid, show the alert
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                });
+
+                swalWithBootstrapButtons.fire({
+                    title: 'คุณแน่ใจหรือไม่?',
+                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'ยืนยัน',
+                    cancelButtonText: 'ยกเลิก',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit the form
+                        document.querySelector("#booking-body form").submit();
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire({
+                            title: 'ยกเลิก',
+                            text: 'คุณได้ทำการยกเลิก)',
+                            icon: 'error'
+                        });
+                    }
+                });
+            }
+            // Add an event listener to the form's submit event
+            document.querySelector("#booking-body form").addEventListener("submit", function (event) {
+                // Prevent the form from submitting normally
+                event.preventDefault();
+                // Call the displayAlert function
+                displayAlert();
+            });
+
+        </script>
+        <script>
+            const today = new Date();
+            const minDate = today.getHours() >= 17 ? new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2) : new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
+
+            flatpickr("#datetimepicker", {
+                enableTime: true,
+                dateFormat: "Y-m-d H:i",
+                minDate: minDate
+            });
+        </script>
+        <script>
+            flatpickr("#seven", {
+                enableTime: false,
+                dateFormat: "Y-m-dTH:i",
+            });
+        </script>
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
