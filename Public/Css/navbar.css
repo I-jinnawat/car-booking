@@ -4,17 +4,15 @@
   --bs-accordion-bg: #ffecb3;
   --bs-accordion-btn-focus-box-shadow: none;
   --bs-accordion-btn-focus-border-color: unset;
-
-  --bs-accordion-border-radius: 30px;
-
-  border-radius: 30px;
-  
-  
-
+  --bs-accordion-inner-border-radius: 60px !important;
+  --bs-accordion-border-radius: 40px;
 }
 
+.accordion-item {
+  border-radius: 5px !important;
+}
 .accordion-button {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.6); /* Black border with 60% opacity */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.6);
 }
 .dropdown-item:hover {
   color: rgb(129, 129, 163);

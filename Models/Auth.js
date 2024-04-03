@@ -6,12 +6,11 @@ const AuthSchema = new mongoose.Schema(
     password: { type: String, required: true },
     firstname: { type: String, required: true },
     lastname: { type: String, required: true },
-    name: { type: String, require: true },
-    numberId: { type: Number, require: true },
+    numberID: { type: Number, require: true },
     organization: { type: String, require: true },
     admin: { type: Boolean, default: false },
   },
-  { timestampe: true }
+  { timestamps: true }
 );
 
 const Auth = mongoose.model("Auth", AuthSchema);

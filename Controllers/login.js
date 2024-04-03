@@ -15,10 +15,15 @@ exports.login = async (req, res) => {
         req.session.user = {
           username: user.username,
           admin: user.admin,
+          firstname: user.firstname,
+          lastname: user.lastname,
+          numberID: user.numberID,
+          organization: user.organization,
         };
         return res.redirect("/");
       }
     }
+    // Pass error message to the view
     res.render("login", { error: "Invalid username or password" });
   } catch (error) {
     console.log(error);
