@@ -6,12 +6,15 @@ const bodyParser = require("body-parser");
 const path = require("path");
 require("dotenv").config();
 const session = require("express-session");
+const flash = require("connect-flash");
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 const connectDB = require("./Config/db");
 
+global.error = null;
+app.use(flash());
 app.use(morgan("dev"));
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));

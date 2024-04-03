@@ -13,6 +13,7 @@ exports.login = async (req, res) => {
 
       if (isPasswordValid) {
         req.session.user = {
+          id: user._id,
           username: user.username,
           admin: user.admin,
           firstname: user.firstname,
@@ -24,10 +25,9 @@ exports.login = async (req, res) => {
       }
     }
     // Pass error message to the view
-    res.render("login", { error: "Invalid username or password" });
+    res.render("login", { error: "invalid username or password" });
   } catch (error) {
-    console.log(error);
-    res.status(500).send("Internal Server Error");
+    res.status(500).send("Internal server Error");
   }
 };
 
