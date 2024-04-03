@@ -8,7 +8,7 @@ const CarSchema = new mongoose.Schema(
     seat: { type: Number, require: true },
     available: { type: Boolean, require: true },
   },
-  { timestampe: true }
+  { timestamps: true }
 );
 
 const Car = mongoose.model("Car", CarSchema);
