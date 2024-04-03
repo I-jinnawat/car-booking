@@ -131,6 +131,12 @@ input::placeholder {
 .login-box button:hover {
   background-color: #9c9898;
 }
+#myButton {
+  background-color: white;
+}
+#myButton:hover {
+  background-color: #9c9898;
+}
 
 @media screen and (max-width: 768px) {
   .top a {
@@ -145,3 +151,4 @@ input::placeholder {
     width: 100%;
   }
 }
+
