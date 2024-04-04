@@ -42,20 +42,20 @@
                     <h4>
                       <%= user.firstname %>
                         <%= user.lastname %>
-
                     </h4>
                     <p class="text-secondary mb-1">รหัสนักศึกษา : <%= user.numberID %>
                     </p>
                     <p class="text-secondary mb-1">
                       <% if(user.admin) { %>
                         เจ้าหน้าที่
-                        <% }else{ %>
+                        <% } else { %>
                           พนักงาน
                           <% } %>
                     </p>
                     <p class="text-muted font-size-sm">
                       <%= user.organization %>
                     </p>
+
                     <div class="d-grid gap-2">
                       <a class="btn btn-warning " href="/profile/edit">Edit profile</a>
                       <form action="/logout" method="POST"><button class="btn btn-danger">ออกจากระบบ</button>

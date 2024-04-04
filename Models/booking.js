@@ -11,6 +11,7 @@ const eventSchema = new mongoose.Schema(
     placestart: { type: String, require: true },
     placeend: { type: String, require: true },
     end: { type: Date, require: true },
+    passengerCount: { type: Number, require: true },
     passenger: { type: String, require: true },
     allDay: { type: Boolean, default: true },
   },

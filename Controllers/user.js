@@ -34,39 +34,34 @@ exports.list = async (req, res) => {
   }
 };
 exports.update = async (req, res) => {
-  const { id } = req.params; // Assuming you have an ID parameter in your route
-  const { firstname, lastname, numberID, username, password, organization } =
-    req.body;
+  const { id } = req.params; // Extracting the id parameter from request params
+  const { newfirstname, newlastname, password } = req.body; // Extracting data from request body
 
   try {
-    // Find the user by ID
-    let user = await Auth.findById(id);
-
+    let user = await Auth.findById(id); // Finding the user by id
     if (!user) {
+      // If user not found
       return res.status(404).json({ msg: "User not found" });
     }
-
-    // Update user fields
-    user.firstname = firstname;
-    user.lastname = lastname;
-    user.numberID = numberID;
-    user.username = username;
-    user.organization = organization;
-
-    // Check if password is provided and hash it
+    // Updating user's first name and last name
+    user.firstname = newfirstname;
+    user.lastname = newlastname;
+    // If password provided, update password
     if (password) {
       user.password = bcrypt.hashSync(password, 10);
     }
-
-    // Save the updated user
+    // Saving the updated user
     await user.save();
 
-    res.json({ msg: "User updated successfully" });
+    // Update session user info if needed (not implemented here)
+
+    res.redirect("/profile/" + id); // Redirect to the user's profile page after successful update
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
   }
 };
+
 exports.read = async (req, res) => {
   try {
     const id = req.params.id;
@@ -74,17 +69,5 @@ exports.read = async (req, res) => {
     res.send(User);
   } catch (error) {
     console.log(error);
-  }
-};
-exports.update = async (req, res) => {
-  try {
-    const id = req.params.id;
-    const updated = await Auth.findOneAndUpdate({ _id: id }, req.body, {
-      new: true,
-    }).exec();
-    res.send(updated);
-  } catch (error) {
-    console.log(error);
-    res.status(500).send("Server Error");
   }
 };

@@ -21,6 +21,7 @@ exports.login = async (req, res) => {
           numberID: user.numberID,
           organization: user.organization,
         };
+
         return res.redirect("/");
       }
     }

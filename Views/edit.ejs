@@ -39,14 +39,17 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="card-body">
-                                <form id="updateForm" method="PUT" action="/user/<%= user.id %>">
+                                <form id="updateForm" method="POST" action="/user/<%= user.id %>"
+                                    onsubmit="return displayAlert();">
+
                                     <div class="row mb-3">
                                         <div class="col-sm-3">
                                             <h6 class="mb-0">รหัสนักศึกษา
                                             </h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            <input type="text" class="form-control" value="<%= user.numberID  %>">
+                                            <input type="text" class="form-control" value="<%= user.numberID  %>"
+                                                readonly disabled>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
@@ -54,7 +57,8 @@
                                             <h6 class="mb-0">ชื่อ</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            <input type="text" class="form-control" value="<%= user.firstname%>">
+                                            <input type="text" class="form-control" name="newfirstname"
+                                                value="<%= user.firstname%>">
                                         </div>
                                     </div>
                                     <div class="row mb-3">
@@ -62,7 +66,8 @@
                                             <h6 class="mb-0">นามสกุล</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            <input type="text" class="form-control" value="<%= user.lastname %>">
+                                            <input type="text" class="form-control" name="newlastname"
+                                                value="<%= user.lastname %>">
                                         </div>
                                     </div>
                                     <div class="row mb-3">
@@ -70,7 +75,8 @@
                                             <h6 class="mb-0">หน่วยงาน</h6>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            <input type="text" class="form-control" value="<%= user.organization %>">
+                                            <input type="text" class="form-control" name="organization"
+                                                value="<%= user.organization %>" readonly disabled>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
@@ -79,11 +85,11 @@
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             <input type="text" class="form-control"
-                                                value="<% if(user.admin){ %>เจ้าหน้าที่ <% }else{ %> พนักงาน <%  }%>">
+                                                value="<% if(user.admin){ %>เจ้าหน้าที่ <% }else{ %> พนักงาน <%  }%>"
+                                                readonly disabled>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-3"></div>
                                         <div class="col-sm-9 text-secondary">
                                             <input type="submit" class="btn btn-primary px-4" value="Save Changes">
                                         </div>
@@ -106,13 +112,18 @@
                 }).then((result) => {
                     /* Read more about isConfirmed, isDenied below */
                     if (result.isConfirmed) {
-                        Swal.fire("Saved!", "", "success");
+                        // Proceed with form submission
+                        document.getElementById("updateForm").submit();
                     } else if (result.isDenied) {
                         Swal.fire("Changes are not saved", "", "info");
                     }
                 });
+
+                // Prevent default form submission
+                return false;
             }
         </script>
+
 
 
         <script src="../JS/navbar.js"></script>
