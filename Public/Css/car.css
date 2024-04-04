@@ -122,6 +122,8 @@ body {
 .search input::placeholder {
   font-family: "fontAwesome";
 }
+
+
 @media (max-width: 768px) {
   #status-control {
     display: flex;
@@ -193,3 +195,4 @@ button10 {
   cursor: pointer;
   height: 20px;
 }
+

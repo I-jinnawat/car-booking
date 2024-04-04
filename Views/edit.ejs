@@ -44,17 +44,15 @@
 
                                     <div class="row mb-3">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">รหัสนักศึกษา
-                                            </h6>
+                                            <label class="form-label">รหัสนักศึกษา</label>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            <input type="text" class="form-control" value="<%= user.numberID  %>"
-                                                readonly disabled>
+                                            <input type="text" class="form-control" value="<%= user.numberID  %>">
                                         </div>
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">ชื่อ</h6>
+                                            <label class="form-label">ชื่อ</label>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             <input type="text" class="form-control" name="newfirstname"
@@ -63,7 +61,7 @@
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">นามสกุล</h6>
+                                            <label class="form-label">นามสกุล</label>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             <input type="text" class="form-control" name="newlastname"
@@ -72,7 +70,7 @@
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">หน่วยงาน</h6>
+                                            <label class="form-label">หน่วยงาน</label>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             <input type="text" class="form-control" name="organization"
@@ -81,7 +79,7 @@
                                     </div>
                                     <div class="row mb-3">
                                         <div class="col-sm-3">
-                                            <h6 class="mb-0">ประเภท</h6>
+                                            <label class="form-label">ประเภท</label>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             <input type="text" class="form-control"
@@ -91,7 +89,11 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-9 text-secondary">
-                                            <input type="submit" class="btn btn-primary px-4" value="Save Changes">
+                                            <form onsubmit="displayAlert(); return false;">
+                                                <!-- form fields here -->
+                                                <button type="submit" class="btn btn-primary btn-lg" id="txt">Save
+                                                    Changes</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </form>
