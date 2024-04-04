@@ -24,14 +24,13 @@
 <body>
   <%- include('components/navbar.ejs') -%>
     <div class="container-fluid mt-3" id="main">
-      <div class="row">
-        <div class="col-12">
-          <div class="container-fluid p-0 m-0"
-            style="display: flex;justify-content: space-between;align-items: center;">
-            <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0" style="font-size: 20px">
-              <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
-            </button>
-          </div>
+      <div class="row d-flex align-items-center">
+        <div class="col" style="display: flex;justify-content: space-between;align-items: center;">
+          <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0" style="font-size: 20px">
+            <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
+          </button>
+        </div>
+        <%- include('components/userinfo.ejs') -%>
           <div class="card mt-3 mb-3" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
             <div class="card-body d-flex justify-content-center align-items-center">
               <div class="row mt-2">
@@ -46,12 +45,9 @@
                     <p class="text-secondary mb-1">รหัสนักศึกษา : <%= user.numberID %>
                     </p>
                     <p class="text-secondary mb-1">
-                      <% if(user.admin) { %>
-                        เจ้าหน้าที่
-                        <% } else { %>
-                          พนักงาน
-                          <% } %>
+                      <%=(user.role==="approver" ? 'ผู้อนุมัติ' : (user.role==="admin" ? 'คนจัดรถ' : 'พนักงาน' ))%>
                     </p>
+
                     <p class="text-muted font-size-sm">
                       <%= user.organization %>
                     </p>
@@ -66,8 +62,8 @@
               </div>
             </div>
           </div>
-        </div>
       </div>
+    </div>
     </div>
     <script src="../JS/navbar.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

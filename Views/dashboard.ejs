@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>หน้าหลัก</title>
   <link rel="stylesheet" href="../Css/dashboard.css">
-  <script src='../dist/index.global.js'></script>
   <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
   <link rel='stylesheet'
     href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
@@ -27,6 +26,7 @@
           <button type="button" onclick="toggleNav()" id="toggleNav" class="toggler mb-2 p-0 m-0"
             style="font-size: 20px; ">
             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
+          </button>
         </div>
         <%- include('components/userinfo.ejs') -%>
 
@@ -57,63 +57,70 @@
                 </div>
               </div>
             </div>
-            <div class="col-8">
-              <div class="card mt-2">
-                <div class="card-body">
-                  <select class="form-select" id="inputGroupSelect01">
-                    <option selected></option>
-                    <option value="1">ทะเบียน</option>
-                  </select>
-                  <button type="button" class=" btn  mt-2 border-0 align-items-center"
-                    style="width: 100%; background-color: #FFECB3;">
-                    <i class="fi fi-bs-search"></i>
-                    ค้นหา
-                  </button>
-                </div>
+          </div>
+          <div class="col-8">
+            <div class="card mt-2">
+              <div class="card-body">
+                <select class="form-select" id="inputGroupSelect01">
+                  <option selected></option>
+                  <option value="1">ทะเบียน</option>
+                </select>
+                <button type="button" class=" btn  mt-2 border-0 align-items-center"
+                  style="width: 100%; background-color: #FFECB3;">
+                  <i class="fi fi-bs-search"></i>
+                  ค้นหา
+                </button>
               </div>
-              <div class="card mt-2">
-                <div class="card-body">
-                  <div id='calendar-container'>
-                    <div id='calendar'></div>
-                  </div>
+            </div>
+            <div class="card mt-2">
+              <div class="card-body">
+                <div id='calendar-container'>
+                  <div id='calendar'></div>
                 </div>
               </div>
             </div>
-            <script src="../JS/navbar.js"></script>
-            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-            <script>
-              document.addEventListener('DOMContentLoaded', function () {
-                var calendarEl = document.getElementById('calendar');
-                var calendar = new FullCalendar.Calendar(calendarEl, {
-                  headerToolbar: {
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-                  },
-                  navLinks: true, // can click day/week names to navigate views
-                  // editable: true,
-                  selectable: true,
-                  events: '/events', // Fetch events from backend on load
-                  eventClick: function (info) {
-                    // Handle event click if needed
-                    console.log(info);
-                  }
-                });
-                calendar.render();
-
-                // Initialize Flatpickr for date inputs
-                flatpickr("#eventStart, #eventEnd", {
-                  enableTime: true,
-                  dateFormat: "Y-m-dTH:i",
-                });
+          </div>
+      </div>
+    </div>
 
 
-              });
-            </script>
+    <script src="../JS/navbar.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+          },
+          navLinks: true, // can click day/week names to navigate views
+          // editable: true,
+          selectable: true,
+          events: '/events', // Fetch events from backend on load
+          eventClick: function (info) {
+            // Handle event click if needed
+            console.log(info);
+          }
+        });
+        calendar.render();
 
-            <body>
-              <div id='calendar'></div>
+        // Initialize Flatpickr for date inputs
+        flatpickr("#eventStart, #eventEnd", {
+          enableTime: true,
+          dateFormat: "Y-m-dTH:i",
+        });
+
+
+      });
+    </script>
+    <script src="/JS/calendar.js"></script>
+    <script src='../dist/index.global.js'></script>
+
+    <body>
+
 
 </html>

@@ -8,7 +8,7 @@ const AuthSchema = new mongoose.Schema(
     lastname: { type: String, required: true },
     numberID: { type: Number, require: true },
     organization: { type: String, require: true },
-    admin: { type: Boolean, default: false },
+    role: { type: String, require: true },
   },
   { timestamps: true }
 );

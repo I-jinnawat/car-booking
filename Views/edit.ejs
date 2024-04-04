@@ -44,10 +44,11 @@
 
                                     <div class="row mb-3">
                                         <div class="col-sm-3">
-                                            <label class="form-label">รหัสนักศึกษา</label>
+                                            <label class="form-label">รหัสพนักงาน</label>
                                         </div>
                                         <div class="col-sm-9 text-secondary">
-                                            <input type="text" class="form-control" value="<%= user.numberID  %>">
+                                            <input type="text" class="form-control" value="<%= user.numberID  %>"
+                                                readonly disabled>
                                         </div>
                                     </div>
                                     <div class="row mb-3">
@@ -83,21 +84,18 @@
                                         </div>
                                         <div class="col-sm-9 text-secondary">
                                             <input type="text" class="form-control"
-                                                value="<% if(user.admin){ %>เจ้าหน้าที่ <% }else{ %> พนักงาน <%  }%>"
+                                                value="<%=(user.role === 'approver' ? 'ผู้อนุมัติ' : (user.role === 'admin' ? 'คนจัดรถ' : 'พนักงาน'))%>"
                                                 readonly disabled>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm-9 text-secondary">
+                                        <div class="col-sm-9 text-center text-secondary">
                                             <form onsubmit="displayAlert(); return false;">
-                                                <!-- form fields here -->
-                                                <button type="submit"
-                                                    class="btn btn-primary btn-md justify-content-center d-flex"
-                                                    id="txt">Save
-                                                    Changes</button>
+                                                <button class="btn btn-primary ">ยืนยัน</button>
                                             </form>
                                         </div>
                                     </div>
+
                                 </form>
                             </div>
                         </div>

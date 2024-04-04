@@ -49,7 +49,7 @@ exports.Event = async (req, res) => {
     console.log(currentUser);
     let events;
 
-    if (currentUser.admin) {
+    if (currentUser.role === "approver" || currentUser.role === "admin") {
       // Admin can see all events with their actual titles
       events = await Booking.find({});
     } else {

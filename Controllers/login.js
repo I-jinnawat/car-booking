@@ -15,13 +15,13 @@ exports.login = async (req, res) => {
         req.session.user = {
           id: user._id,
           username: user.username,
-          admin: user.admin,
+          role: user.role,
           firstname: user.firstname,
           lastname: user.lastname,
           numberID: user.numberID,
           organization: user.organization,
         };
-
+        // res.send(req.session.user);
         return res.redirect("/");
       }
     }
