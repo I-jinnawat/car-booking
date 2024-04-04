@@ -1,9 +1,14 @@
 const Booking = require("../Models/booking");
 
 exports.list = async (req, res) => {
+  const bookings = await Booking.find().lean();
   try {
     req.session.user
-      ? res.render("booking", { userLoggedIn: true, user: req.session.user })
+      ? res.render("booking", {
+          userLoggedIn: true,
+          user: req.session.user,
+          bookings,
+        })
       : res.render("booking", { userLoggedIn: false });
   } catch (error) {
     console.error(error);
