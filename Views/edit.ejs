@@ -13,7 +13,7 @@
         crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel='stylesheet'
         href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
-    
+
 </head>
 
 <body>
@@ -23,22 +23,22 @@
         <div class="container-fluid mt-3" id="main">
             <div class="row justify-content-center align-items-center">
                 <div class="col-12">
-                    <div class="container-fluid p-0 m-0"
-                        style="display: flex; align-items: center; ">
+                    <div class="container-fluid p-0 m-0" style="display: flex; align-items: center; ">
                         <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0"
                             style="font-size: 20px">
                             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
                         </button>
                         <div class="form-container mb-2 ">
-                            <img src="/image/Mae-Fah-Luang-University-2.png" alt="Mae Fah Luang University" style="height: 100px;" />
-                        
+                            <img src="/image/Mae-Fah-Luang-University-2.png" alt="Mae Fah Luang University"
+                                style="height: 100px;" />
+
                         </div>
                     </div>
                     <div class="top mt-0">
                         <a href="/">หน้าหลัก</a>
                     </div>
-                    
-                    
+
+
                     <div class="card mt-3">
                         <div class="card-body">
                             <div class="card-body">
@@ -114,7 +114,6 @@
                                             </form>
                                         </div>
                                     </div>
-
                                 </form>
                             </div>
                         </div>
@@ -122,31 +121,7 @@
                 </div>
             </div>
         </div>
-        <script type="text/javascript">
-            function displayAlert() {
-                Swal.fire({
-                    title: "คุณต้องการบันทึกใช่หรือไม่?",
-                    showDenyButton: true,
-                    showCancelButton: true,
-                    confirmButtonText: "บันทึก",
-                    denyButtonText: `ไม่บันทึก`
-                }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
-                        // Proceed with form submission
-                        document.getElementById("updateForm").submit();
-                    } else if (result.isDenied) {
-                        Swal.fire("Changes are not saved", "", "info");
-                    }
-                });
-
-                // Prevent default form submission
-                return false;
-            }
-        </script>
-
-
-
+        <script src="/JS/alert.js"></script>
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

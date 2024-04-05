@@ -39,42 +39,56 @@
                                 <div class="col d-flex justify-content-between" id="search">
                                     <div>
                                         <label for="">เมนู :</label>
-                                        <button type="button" class="btn btn-primary"  style=" border-color: #FFECB3; background-color:#FFECB3; width: 100px; color: black;"  data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever=""><i class="fi fi-rr-edit" style="margin-right: 6px;"></i>เพิ่ม</button> 
-                                            
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
+                                        <button type="button" class="btn btn-primary"
+                                            style=" border-color: #FFECB3; background-color:#FFECB3; width: 100px; color: black;"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever=""><i
+                                                class="fi fi-rr-edit" style="margin-right: 6px;"></i>เพิ่ม</button>
+
+                                        <div class="modal fade" id="exampleModal" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">เพิ่ม</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        <h5 class="modal-title" id="exampleModalLabel">เพิ่ม</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                    <form>
-                                                        <div class="mb-3">
-                                                        <label for="recipient-name" class="col-form-label">ทะเบียน:</label>
-                                                        <input type="text" class="form-control" id="recipient-name">
-                                                        </div>
-                                                        <div class="mb-3">
-                                                        <label for="message-text" class="col-form-label">ประเภท:</label>
-                                                        <textarea class="form-control" id="message-text"></textarea>
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label for="message-text" class="col-form-label">สี:</label>
-                                                            <textarea class="form-control" id="message-text"></textarea>
-                                                          </div>
-                                                          <div class="mb-3">
-                                                            <label for="message-text" class="col-form-label">ที่นั่ง:</label>
-                                                            <textarea class="form-control" id="message-text"></textarea>
-                                                          </div>
-                                                      </form>
+                                                        <form>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name"
+                                                                    class="col-form-label">ทะเบียน:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="recipient-name">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">ประเภท:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">สี:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">ที่นั่ง:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                        </form>
                                                     </div>
                                                     <div class="modal-footer">
-                                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-                                                      <button type="button" class="btn btn-primary">ยืนยัน</button>
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">ปิด</button>
+                                                        <button type="button" class="btn btn-primary">ยืนยัน</button>
                                                     </div>
-                                                  </div>
                                                 </div>
-                                              </div>
+                                            </div>
+                                        </div>
                                         <button type="button" class="btn border-0"
                                             style="background-color:#FFECB3; width: 100px;"><i
                                                 class="fi fi-ss-time-past"></i>
@@ -104,76 +118,85 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td ></td>
-                            
+                            <td></td>
+
                             <td scope="row">
                                 <div class="btn-group border-1 " role="group" style="width: 100px;">
-                                    <button type="button" class="btn " style="background-color: yellow;" data-bs-toggle="modal" data-bs-target="#myModal"><i
+                                    <button type="button" class="btn " style="background-color: yellow;"
+                                        data-bs-toggle="modal" data-bs-target="#myModal"><i
                                             class="fa-regular fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn " style="background-color: red;" onclick="displayAlert();"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button type="button" class="btn " style="background-color: red;"
+                                        onclick="displayAlert();"><i class="fa-solid fa-trash-can"></i></button>
                                 </div>
-                                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel"
+                                    aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="myModalLabel">แก้ไข</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                        
+
                                                 <div class="dropdown">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                      ประเภท
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        ประเภท
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                      <li><a class="dropdown-item" href="#">รถตู้</a></li>
-                                                      <li><a class="dropdown-item" href="#">รถยนต์</a></li>
-                                                      <li><a class="dropdown-item" href="#">รถจักกกรยานยนต์</a></li>
+                                                        <li><a class="dropdown-item" href="#">รถตู้</a></li>
+                                                        <li><a class="dropdown-item" href="#">รถยนต์</a></li>
+                                                        <li><a class="dropdown-item" href="#">รถจักกกรยานยนต์</a></li>
                                                     </ul>
-                                                  </div>
-                                                  
+                                                </div>
+
                                                 <div class="dropdown mt-3">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
                                                         สี
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                      <li><a class="dropdown-item" href="#">ขาว</a></li>
-                                                      <li><a class="dropdown-item" href="#">ดำ</a></li>
+                                                        <li><a class="dropdown-item" href="#">ขาว</a></li>
+                                                        <li><a class="dropdown-item" href="#">ดำ</a></li>
                                                     </ul>
-                                                  </div>
-                                                  
+                                                </div>
+
                                                 <div class="dropdown mt-3">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
                                                         ที่นั่ง
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                      <li><a class="dropdown-item" href="#">2</a></li>
-                                                      <li><a class="dropdown-item" href="#">4</a></li>
-                                                      <li><a class="dropdown-item" href="#">6</a></li>
+                                                        <li><a class="dropdown-item" href="#">2</a></li>
+                                                        <li><a class="dropdown-item" href="#">4</a></li>
+                                                        <li><a class="dropdown-item" href="#">6</a></li>
                                                     </ul>
-                                                  </div>
-                                                 
+                                                </div>
+
                                                 <div class="dropdown mt-3">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
                                                         พร้อมใช้งาน
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                      <li><a class="dropdown-item" href="#">1คัน</a></li>
-                                                      <li><a class="dropdown-item" href="#">2คัน</a></li>
-                                                      <li><a class="dropdown-item" href="#">3คัน</a></li>
+                                                        <li><a class="dropdown-item" href="#">1คัน</a></li>
+                                                        <li><a class="dropdown-item" href="#">2คัน</a></li>
+                                                        <li><a class="dropdown-item" href="#">3คัน</a></li>
                                                     </ul>
-                                                  </div>
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">ปิด</button>
                                                 <button type="button" class="btn btn-primary">บันทึก</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
+
                             </td>
-                            
+
                             <td>รถตู้</td>
                             <td><input type="color" value="black" id="color-picker" readonly></td>
                             <td>11</td>
@@ -181,68 +204,77 @@
 
                         </tr>
                         <tr>
-                            
+
                             <td></td>
                             <td scope="row">
                                 <div class="btn-group border-1 " role="group" style="width: 100px;">
-                                    <button type="button" class="btn " style="background-color: yellow;" data-bs-toggle="modal" data-bs-target="#myModal"><i
+                                    <button type="button" class="btn " style="background-color: yellow;"
+                                        data-bs-toggle="modal" data-bs-target="#myModal"><i
                                             class="fa-regular fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn " style="background-color: red;" onclick="displayAlert();"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button type="button" class="btn " style="background-color: red;"
+                                        onclick="displayAlert();"><i class="fa-solid fa-trash-can"></i></button>
                                 </div>
-                                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel"
+                                    aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="myModalLabel">แก้ไข</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                        
+
                                                 <div class="dropdown">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                      ประเภท
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        ประเภท
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                      <li><a class="dropdown-item" href="#">รถตู้</a></li>
-                                                      <li><a class="dropdown-item" href="#">รถยนต์</a></li>
-                                                      <li><a class="dropdown-item" href="#">รถจักกกรยานยนต์</a></li>
+                                                        <li><a class="dropdown-item" href="#">รถตู้</a></li>
+                                                        <li><a class="dropdown-item" href="#">รถยนต์</a></li>
+                                                        <li><a class="dropdown-item" href="#">รถจักกกรยานยนต์</a></li>
                                                     </ul>
-                                                  </div>
-                                                  
+                                                </div>
+
                                                 <div class="dropdown mt-3">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
                                                         สี
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                      <li><a class="dropdown-item" href="#">ขาว</a></li>
-                                                      <li><a class="dropdown-item" href="#">ดำ</a></li>
+                                                        <li><a class="dropdown-item" href="#">ขาว</a></li>
+                                                        <li><a class="dropdown-item" href="#">ดำ</a></li>
                                                     </ul>
-                                                  </div>
-                                                  
+                                                </div>
+
                                                 <div class="dropdown mt-3">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
                                                         ที่นั่ง
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                      <li><a class="dropdown-item" href="#">2</a></li>
-                                                      <li><a class="dropdown-item" href="#">4</a></li>
-                                                      <li><a class="dropdown-item" href="#">6</a></li>
+                                                        <li><a class="dropdown-item" href="#">2</a></li>
+                                                        <li><a class="dropdown-item" href="#">4</a></li>
+                                                        <li><a class="dropdown-item" href="#">6</a></li>
                                                     </ul>
-                                                  </div>
-                                                 
+                                                </div>
+
                                                 <div class="dropdown mt-3">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
                                                         พร้อมใช้งาน
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                      <li><a class="dropdown-item" href="#">1คัน</a></li>
-                                                      <li><a class="dropdown-item" href="#">2คัน</a></li>
-                                                      <li><a class="dropdown-item" href="#">3คัน</a></li>
+                                                        <li><a class="dropdown-item" href="#">1คัน</a></li>
+                                                        <li><a class="dropdown-item" href="#">2คัน</a></li>
+                                                        <li><a class="dropdown-item" href="#">3คัน</a></li>
                                                     </ul>
-                                                  </div>
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">ปิด</button>
                                                 <button type="button" class="btn btn-primary">บันทึก</button>
                                             </div>
                                         </div>
@@ -256,68 +288,77 @@
 
                         </tr>
                         <tr>
-                            
+
                             <td></td>
                             <td scope="row">
                                 <div class="btn-group border-1 " role="group" style="width: 100px;">
-                                    <button type="button" class="btn " style="background-color: yellow;" data-bs-toggle="modal" data-bs-target="#myModal"><i
+                                    <button type="button" class="btn " style="background-color: yellow;"
+                                        data-bs-toggle="modal" data-bs-target="#myModal"><i
                                             class="fa-regular fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn " style="background-color: red;" onclick="displayAlert();"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button type="button" class="btn " style="background-color: red;"
+                                        onclick="displayAlert();"><i class="fa-solid fa-trash-can"></i></button>
                                 </div>
-                                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel"
+                                    aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="myModalLabel">แก้ไข</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                        
+
                                                 <div class="dropdown">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                      ประเภท
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                                        ประเภท
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                      <li><a class="dropdown-item" href="#">รถตู้</a></li>
-                                                      <li><a class="dropdown-item" href="#">รถยนต์</a></li>
-                                                      <li><a class="dropdown-item" href="#">รถจักกกรยานยนต์</a></li>
+                                                        <li><a class="dropdown-item" href="#">รถตู้</a></li>
+                                                        <li><a class="dropdown-item" href="#">รถยนต์</a></li>
+                                                        <li><a class="dropdown-item" href="#">รถจักกกรยานยนต์</a></li>
                                                     </ul>
-                                                  </div>
-                                                  
+                                                </div>
+
                                                 <div class="dropdown mt-3">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
                                                         สี
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                      <li><a class="dropdown-item" href="#">ขาว</a></li>
-                                                      <li><a class="dropdown-item" href="#">ดำ</a></li>
+                                                        <li><a class="dropdown-item" href="#">ขาว</a></li>
+                                                        <li><a class="dropdown-item" href="#">ดำ</a></li>
                                                     </ul>
-                                                  </div>
-                                                  
+                                                </div>
+
                                                 <div class="dropdown mt-3">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
                                                         ที่นั่ง
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                      <li><a class="dropdown-item" href="#">2</a></li>
-                                                      <li><a class="dropdown-item" href="#">4</a></li>
-                                                      <li><a class="dropdown-item" href="#">6</a></li>
+                                                        <li><a class="dropdown-item" href="#">2</a></li>
+                                                        <li><a class="dropdown-item" href="#">4</a></li>
+                                                        <li><a class="dropdown-item" href="#">6</a></li>
                                                     </ul>
-                                                  </div>
-                                                 
+                                                </div>
+
                                                 <div class="dropdown mt-3">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                                        data-bs-toggle="dropdown" aria-expanded="false">
                                                         พร้อมใช้งาน
                                                     </button>
                                                     <ul class="dropdown-menu">
-                                                      <li><a class="dropdown-item" href="#">1คัน</a></li>
-                                                      <li><a class="dropdown-item" href="#">2คัน</a></li>
-                                                      <li><a class="dropdown-item" href="#">3คัน</a></li>
+                                                        <li><a class="dropdown-item" href="#">1คัน</a></li>
+                                                        <li><a class="dropdown-item" href="#">2คัน</a></li>
+                                                        <li><a class="dropdown-item" href="#">3คัน</a></li>
                                                     </ul>
-                                                  </div>
+                                                </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-bs-dismiss="modal">ปิด</button>
                                                 <button type="button" class="btn btn-primary">บันทึก</button>
                                             </div>
                                         </div>
@@ -331,7 +372,7 @@
 
                         </tr>
                         <tr>
-                            
+
                             <td></td>
                             <td></td>
                             <td></td>
@@ -344,56 +385,34 @@
         </div>
         <script>
             var exampleModal = document.getElementById('exampleModal')
-exampleModal.addEventListener('show.bs.modal', function (event) {
-  // Button that triggered the modal
-  var button = event.relatedTarget
-  // Extract info from data-bs-* attributes
-  var recipient = button.getAttribute('data-bs-whatever')
-  // If necessary, you could initiate an AJAX request here
-  // and then do the updating in a callback.
-  //
-  // Update the modal's content.
-  var modalTitle = exampleModal.querySelector('.modal-title')
-  var modalBodyInput = exampleModal.querySelector('.modal-body input')
+            exampleModal.addEventListener('show.bs.modal', function (event) {
+                // Button that triggered the modal
+                var button = event.relatedTarget
+                // Extract info from data-bs-* attributes
+                var recipient = button.getAttribute('data-bs-whatever')
+                // If necessary, you could initiate an AJAX request here
+                // and then do the updating in a callback.
+                //
+                // Update the modal's content.
+                var modalTitle = exampleModal.querySelector('.modal-title')
+                var modalBodyInput = exampleModal.querySelector('.modal-body input')
 
-  modalTitle.textContent = 'New message to ' + recipient
-  modalBodyInput.value = recipient
-})
+                modalTitle.textContent = 'New message to ' + recipient
+                modalBodyInput.value = recipient
+            })
         </script>
         <script>
             const readOnlyColorPicker = document.getElementById("color-picker");
-          
             readOnlyColorPicker.addEventListener("click", (event) => {
-              event.preventDefault();
+                event.preventDefault();
             });
-          </script>
-          <script type="text/javascript">
-            function displayAlert() {
-                Swal.fire({
-                    title: "คุณต้องการลบใช่หรือไม่?",
-                    showDenyButton: true,
-                    showCancelButton: true,
-                    confirmButtonText: "ใช่",
-                    denyButtonText: `ไม่ใช่`
-                }).then((result) => {
-                    /* Read more about isConfirmed, isDenied below */
-                    if (result.isConfirmed) {
-                        // Proceed with form submission
-                        document.getElementById("updateForm").submit();
-                    } else if (result.isDenied) {
-                        Swal.fire("Changes are not saved", "", "info");
-                    }
-                });
-      
-                // Prevent default form submission
-                return false;
-            }
         </script>
+        <script src="/JS/alert.js"></script>
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-        
+
 </body>
 
 </html>

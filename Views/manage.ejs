@@ -59,17 +59,24 @@
                                     <div class="btn-group btn-sm" role="group"
                                         aria-label="Basic radio toggle button group" style="width: 200px;">
                                         <input type="radio" class="btn-check" name="btnradio" id="btnradio1"
-                                            autocomplete="on" readonly>
+                                            autocomplete="off" checked>
                                         <label class="btn btn-outline-primary" for="btnradio1">ผู้ใช้ทั่วไป</label>
+
                                         <input type="radio" class="btn-check" name="btnradio" id="btnradio2"
-                                            autocomplete="off" readonly>
+                                            autocomplete="off">
                                         <label class="btn btn-outline-primary" for="btnradio2">ผู้จัดรถ</label>
                                     </div>
+
                                 </span>
                                 <span>
                                     <label for="">สถานะ</label>
-                                    <input class="p-1" type="text" placeholder="กำลังดำเนินการ.."
-                                        style="width: 200px; border-radius: 8px ; border:1px solid black; font-weight: 300;">
+                                    <div class="btn-group">
+                                        <select class="form-select">
+                                            <option selected>กำลังดำเนินการ...</option>
+                                            <option value="1">ทั้งหมด</option>
+                                            <option value="3">เสร็จสิ้น</option>
+                                        </select>
+                                    </div>
                                 </span>
                             </div>
                             <hr>
