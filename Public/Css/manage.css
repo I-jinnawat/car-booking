@@ -142,6 +142,7 @@ body {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
+  
 }
 
 .stepper-item {
@@ -150,6 +151,30 @@ body {
   flex-direction: column;
   align-items: center;
   flex: 1;
+
+  .stepper-item.inactive {
+    font-weight: normal;
+  }
+  
+  .stepper-item.inactive .step-counter {
+    background-color: transparent;
+  }
+  
+  .stepper-item.inactive::after {
+    border-bottom: 2px solid #ccc;
+    width: 100%;
+    top: 20px;
+    left: 50%;
+    z-index: 2;
+  }
+  
+  .stepper-item.inactive::before {
+    border-bottom: 2px solid #ccc;
+    width: 100%;
+    top: 20px;
+    left: -50%;
+    z-index: 2;
+  }
 
   @media (max-width: 768px) {
       font-size: 12px;
@@ -188,7 +213,19 @@ body {
   background: #ccc;
   margin-bottom: 6px;
 }
+.stepper-item.active:first-child.custom-line::after {
+  border-bottom: 2px solid #4c67ff;
+  left: 50%;
+  z-index: 3;
+}
 
+.stepper-item.active:first-child.custom-line::before {
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  top: 20px;
+  left: -50%;
+  z-index: 2;
+}
 /* Added style for first step */
 .stepper-item:first-child .step-counter {
   background-color: transparent;

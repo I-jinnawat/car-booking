@@ -105,16 +105,29 @@ body {
       align-items: center;
       margin-bottom: 10px;
       justify-content: center;
-      margin-left:36%
+      margin-left:40%
   }
   .form-container img {
       height: 100px;
       margin-bottom: 10px;
   }
-  .form-container h3 {
-      margin: 0;
+  .form-container h7 {
+      margin-right: 100%;
   }
-
+  .top a {
+    white-space: nowrap;
+    align-self: flex-start;
+    font-size: 1rem;
+    padding: 20px;
+    text-decoration: none;
+    color: rgb(51, 44, 44);
+    /* opacity: 50%; */
+    margin-left: 93%;
+    margin-bottom: 50%;
+  }
+  .top a:hover {
+    color: black;
+  }
   
 @media (max-width: 768px) {
 
