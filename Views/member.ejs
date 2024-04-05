@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>สมาชิก</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="/css/member.css">
   <link rel="stylesheet"
     href="https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
@@ -51,11 +52,79 @@
             <tr>
               <td scope="row">
                 <div class="btn-group border-1 " role="group" style="width: 100px;">
-                  <button type="button" class="btn " style="background-color: yellow;"><i
-                      class="fa-regular fa-pen-to-square"></i></button>
-                  <button type="button" class="btn " style="background-color: red;"><i
-                      class="fa-solid fa-trash-can"></i></button>
+                  <button type="button" class="btn " style="background-color: yellow;" data-bs-toggle="modal" data-bs-target="#myModal"><i
+                          class="fa-regular fa-pen-to-square"></i></button>
+                  <button type="button" class="btn " style="background-color: red;" onclick="displayAlert();"><i class="fa-solid fa-trash-can"></i></button>
+              </div>
+              <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel">แก้ไข</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+    
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  ประเภท
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="#">รถตู้</a></li>
+                                  <li><a class="dropdown-item" href="#">รถยนต์</a></li>
+                                  <li><a class="dropdown-item" href="#">รถจักกกรยานยนต์</a></li>
+                                </ul>
+                              </div>
+                              
+                            <div class="dropdown mt-3">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    รหัส
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="#">ขาว</a></li>
+                                  <li><a class="dropdown-item" href="#">ดำ</a></li>
+                                </ul>
+                              </div>
+                              
+                            <div class="dropdown mt-3">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    หัวข้อ
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="#">2</a></li>
+                                  <li><a class="dropdown-item" href="#">4</a></li>
+                                  <li><a class="dropdown-item" href="#">6</a></li>
+                                </ul>
+                              </div>
+                             
+                            <div class="dropdown mt-3">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    ชื่อ
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="#">1คัน</a></li>
+                                  <li><a class="dropdown-item" href="#">2คัน</a></li>
+                                  <li><a class="dropdown-item" href="#">3คัน</a></li>
+                                </ul>
+                              </div>
+                              <div class="dropdown mt-3">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    หน่วยงาน
+                                </button>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="#">1คัน</a></li>
+                                  <li><a class="dropdown-item" href="#">2คัน</a></li>
+                                  <li><a class="dropdown-item" href="#">3คัน</a></li>
+                                </ul>
+                              </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                            <button type="button" class="btn btn-primary">บันทึก</button>
+                        </div>
+                    </div>
                 </div>
+            </div>
               </td>
               <td></td>
               <td></td>
@@ -66,11 +135,79 @@
             <tr>
               <td scope="row">
                 <div class="btn-group border-1 " role="group" style="width: 100px;">
-                  <button type="button" class="btn " style="background-color: yellow;"><i
-                      class="fa-regular fa-pen-to-square"></i></button>
-                  <button type="button" class="btn " style="background-color: red;"><i
-                      class="fa-solid fa-trash-can"></i></button>
+                  <button type="button" class="btn " style="background-color: yellow;" data-bs-toggle="modal" data-bs-target="#myModal"><i
+                          class="fa-regular fa-pen-to-square"></i></button>
+                  <button type="button" class="btn " style="background-color: red;" onclick="displayAlert();"><i class="fa-solid fa-trash-can"></i></button>
+              </div>
+              <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel">แก้ไข</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+    
+                          <div class="dropdown">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                ประเภท
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">รถตู้</a></li>
+                                <li><a class="dropdown-item" href="#">รถยนต์</a></li>
+                                <li><a class="dropdown-item" href="#">รถจักกกรยานยนต์</a></li>
+                              </ul>
+                            </div>
+                            
+                          <div class="dropdown mt-3">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  รหัส
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">ขาว</a></li>
+                                <li><a class="dropdown-item" href="#">ดำ</a></li>
+                              </ul>
+                            </div>
+                            
+                          <div class="dropdown mt-3">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  หัวข้อ
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">2</a></li>
+                                <li><a class="dropdown-item" href="#">4</a></li>
+                                <li><a class="dropdown-item" href="#">6</a></li>
+                              </ul>
+                            </div>
+                           
+                          <div class="dropdown mt-3">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  ชื่อ
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">1คัน</a></li>
+                                <li><a class="dropdown-item" href="#">2คัน</a></li>
+                                <li><a class="dropdown-item" href="#">3คัน</a></li>
+                              </ul>
+                            </div>
+                            <div class="dropdown mt-3">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  หน่วยงาน
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">1คัน</a></li>
+                                <li><a class="dropdown-item" href="#">2คัน</a></li>
+                                <li><a class="dropdown-item" href="#">3คัน</a></li>
+                              </ul>
+                            </div>
+                      </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                            <button type="button" class="btn btn-primary">บันทึก</button>
+                        </div>
+                    </div>
                 </div>
+            </div>
               </td>
               <td></td>
               <td></td>
@@ -82,11 +219,79 @@
             <tr>
               <td scope="row">
                 <div class="btn-group border-1 " role="group" style="width: 100px;">
-                  <button type="button" class="btn " style="background-color: yellow;"><i
-                      class="fa-regular fa-pen-to-square"></i></button>
-                  <button type="button" class="btn " style="background-color: red;"><i
-                      class="fa-solid fa-trash-can"></i></button>
+                  <button type="button" class="btn " style="background-color: yellow;" data-bs-toggle="modal" data-bs-target="#myModal"><i
+                          class="fa-regular fa-pen-to-square"></i></button>
+                  <button type="button" class="btn " style="background-color: red;" onclick="displayAlert();"><i class="fa-solid fa-trash-can"></i></button>
+              </div>
+              <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="myModalLabel">แก้ไข</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+    
+                          <div class="dropdown">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                ประเภท
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">รถตู้</a></li>
+                                <li><a class="dropdown-item" href="#">รถยนต์</a></li>
+                                <li><a class="dropdown-item" href="#">รถจักกกรยานยนต์</a></li>
+                              </ul>
+                            </div>
+                            
+                          <div class="dropdown mt-3">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  รหัส
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">ขาว</a></li>
+                                <li><a class="dropdown-item" href="#">ดำ</a></li>
+                              </ul>
+                            </div>
+                            
+                          <div class="dropdown mt-3">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  หัวข้อ
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">2</a></li>
+                                <li><a class="dropdown-item" href="#">4</a></li>
+                                <li><a class="dropdown-item" href="#">6</a></li>
+                              </ul>
+                            </div>
+                           
+                          <div class="dropdown mt-3">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  ชื่อ
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">1คัน</a></li>
+                                <li><a class="dropdown-item" href="#">2คัน</a></li>
+                                <li><a class="dropdown-item" href="#">3คัน</a></li>
+                              </ul>
+                            </div>
+                            <div class="dropdown mt-3">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                  หน่วยงาน
+                              </button>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">1คัน</a></li>
+                                <li><a class="dropdown-item" href="#">2คัน</a></li>
+                                <li><a class="dropdown-item" href="#">3คัน</a></li>
+                              </ul>
+                            </div>
+                      </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                            <button type="button" class="btn btn-primary">บันทึก</button>
+                        </div>
+                    </div>
                 </div>
+            </div>
               </td>
               <td></td>
               <td></td>
@@ -108,6 +313,28 @@
         </table>
       </div>
     </div>
+    <script type="text/javascript">
+      function displayAlert() {
+          Swal.fire({
+              title: "คุณต้องการลบใช่หรือไม่?",
+              showDenyButton: true,
+              showCancelButton: true,
+              confirmButtonText: "ใช่",
+              denyButtonText: `ไม่ใช่`
+          }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                  // Proceed with form submission
+                  document.getElementById("updateForm").submit();
+              } else if (result.isDenied) {
+                  Swal.fire("Changes are not saved", "", "info");
+              }
+          });
+
+          // Prevent default form submission
+          return false;
+      }
+  </script>
     <script src="../JS/navbar.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

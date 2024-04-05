@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>จองรถ</title>
     <link rel="stylesheet" href="/css/booking.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-rounded/css/uicons-bold-rounded.css'>
     <link rel='stylesheet'
         href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
@@ -13,29 +14,30 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <style>
-        .btn-check:checked+.btn {
-            color: black;
-            background-color: #d9d9d9;
-            border-color: black;
-        }
-
-        .btn-outline-primary {
-            color: #6c757d;
-            border-color: #6c757d;
-        }
-
-        .btn-outline-primary:focus,
-        .btn-outline-primary:hover {
-            color: #6c757d;
-            border-color: #6c757d;
-        }
-
-        .btn-check:checked+.btn-outline-primary {
-            background-color: #d9d9d9;
-            border-color: #6c757d;
-        }
-    </style>
+        <style>
+            .btn-check:checked+.btn {
+                color: black;
+                background-color: #d9d9d9;
+                border-color: black;
+            }
+    
+            .btn-outline-primary {
+                color: #6c757d;
+                border-color: #6c757d;
+            }
+    
+            .btn-outline-primary:focus,
+            .btn-outline-primary:hover {
+                color: #6c757d;
+                border-color: #6c757d;
+            }
+    
+            .btn-check:checked+.btn-outline-primary {
+                background-color: #d9d9d9;
+                border-color: #6c757d;
+            }
+        </style>
+    
 </head>
 
 <body>
@@ -49,8 +51,10 @@
                             style="font-size: 20px">
                             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
                         </button>
+                        <!-- use include -->
                         <%- include('components/userinfo.ejs') -%>
                     </div>
+                    <!-- boxshadow like manage page -->
                     <div class="card" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                         <div class="card-body">
                             <div id="status-control">
@@ -59,17 +63,26 @@
                                     <div class="btn-group btn-sm" role="group"
                                         aria-label="Basic radio toggle button group" style="width: 200px;">
                                         <input type="radio" class="btn-check" name="btnradio" id="btnradio1"
-                                            autocomplete="off" readonly>
+                                            autocomplete="off" checked>
                                         <label class="btn btn-outline-primary" for="btnradio1">ผู้ใช้ทั่วไป</label>
+
                                         <input type="radio" class="btn-check" name="btnradio" id="btnradio2"
-                                            autocomplete="off" readonly>
+                                            autocomplete="off">
                                         <label class="btn btn-outline-primary" for="btnradio2">ผู้จัดรถ</label>
                                     </div>
+
                                 </span>
                                 <span>
                                     <label for="">สถานะ</label>
-                                    <input class="p-1" type="text" placeholder="กำลังดำเนินการ.."
-                                        style="width: 200px; border-radius: 8px ; border:1px solid black; font-weight: 300;">
+                                    <div class="btn-group">
+                                        <button class="btn btn-secondary btn-sm dropdown-toggle" style="background-color: white; color: #706c6c;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                          กำลังดำเนินการ
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#">ทั้งหมด</a></li>
+                                            <li><a class="dropdown-item" href="#">เสร็จสิ้น</a></li>
+                                        </ul>
+                                      </div>
                                 </span>
                             </div>
                             <hr>
@@ -85,9 +98,11 @@
                                     <div class="search">
                                         <input class="p-1" type="text" placeholder="&#xf002; ค้นหา"
                                             style="width: 200px; border-radius: 8px ; border:1px solid black;">
+
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -102,7 +117,7 @@
                             <th scope="col">วันที่ร้องขอ</th>
                             <th scope="col">หัวข้อ</th>
                             <th scope="col">วันที่เริ่มเดินทาง</th>
-                            <!-- <th scope="col">วันที่สิ้นสุดเดินทาง</th> -->
+                            <th scope="col">วันที่สิ้นสุดเดินทาง</th>
                             <th scope="col">รถที่ใช้</th>
                             <th scope="col">ผู้ร้องขอ </th>
                             <th scope="col">หัวหน้าหน่วย</th>
@@ -117,16 +132,15 @@
                                 <td scope="row">
 
                                     <div class="btn-group border-1 btn-group " role="group" style="width: 120px;">
-                                        <button type="button" class="btn " style="background-color: yellow;"><i
-                                                class="fa-regular fa-pen-to-square"></i></button>
+                                        <a  class="btn " style="background-color: yellow;"><i
+                                                class="fa-regular fa-pen-to-square"></i></a>
                                         <% if (user.role !=="user" ) { %>
-                                            <button type="button" class="btn "
+                                            <a class="btn "
                                                 style="background-color: rgb(55, 194, 55);">
-                                                <i class="fa-solid fa-check"></i></button>
+                                                <i class="fa-solid fa-check"></i></a>
                                             <% } %>
 
-                                                <button type="button" class="btn " style="background-color: red;"><i
-                                                        class="fa-solid fa-trash-can"></i></button>
+                                            <a class="btn " style="background-color: red;" href="#" onclick="displayAlert();"><i class="fa-solid fa-trash-can"></i></a>
                                     </div>
                                 </td>
                                 <td>
@@ -170,11 +184,34 @@
 
                             </tr>
                             <% }) %>
-
                     </tbody>
                 </table>
             </div>
         </div>
+
+        <!-- change to external import -->
+        <script type="text/javascript">
+            function displayAlert() {
+                Swal.fire({
+                    title: "คุณต้องการลบใช่หรือไม่?",
+                    showDenyButton: true,
+                    showCancelButton: true,
+                    confirmButtonText: "ใช่",
+                    denyButtonText: `ไม่ใช่`
+                }).then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        // Proceed with form submission
+                        document.getElementById("updateForm").submit();
+                    } else if (result.isDenied) {
+                        Swal.fire("Changes are not saved", "", "info");
+                    }
+                });
+      
+                // Prevent default form submission
+                return false;
+            }
+        </script>
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
