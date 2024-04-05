@@ -1,26 +1,42 @@
 const mongoose = require("mongoose");
+const moment = require("moment-timezone");
 
 const eventSchema = new mongoose.Schema(
   {
-    status: { type: Number, rquire: true },
-    vehicle: { type: String, require: true },
+    status: { type: Number, required: true, default: 1 },
+    vehicle: { type: String },
     userinfo: { type: String, required: true },
     organization: { type: String, required: true },
-    tel: { type: Number, require: true },
-    title: { type: String, require: true },
+    mobile_number: { type: Number, required: true },
+    title: { type: String, required: true },
     day: { type: Date, required: true },
     start: { type: Date, required: true },
-    placestart: { type: String, require: true },
-    placeend: { type: String, require: true },
-    end: { type: Date, require: true },
-    passengerCount: { type: Number, require: true },
-    passenger: { type: String, require: true },
+    placestart: { type: String, required: true },
+    placeend: { type: String, required: true },
+    end: { type: Date, required: true },
+    passengerCount: { type: Number, required: true },
+    passenger: { type: String, required: true },
+    approverName: { type: String },
+    adminName: { type: String },
     allDay: { type: Boolean, default: true },
   },
   {
     timestamps: true,
   }
 );
+
+// Define a pre-save hook to convert start and end timestamps to Thai time zone
+eventSchema.pre("save", function (next) {
+  const thaiTimeZone = "Asia/Bangkok";
+  // Convert start and end timestamps to Thai time zone
+  if (this.start) {
+    this.start = moment(this.start).tz(thaiTimeZone);
+  }
+  if (this.end) {
+    this.end = moment(this.end).tz(thaiTimeZone);
+  }
+  next();
+});
 
 const Booking = mongoose.model("book", eventSchema);
 

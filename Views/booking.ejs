@@ -13,29 +13,29 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <style>
-            .btn-check:checked + .btn {
-              color: black;
-              background-color: #d9d9d9;
-              border-color: black;
-            }
-            .btn-outline-primary {
-             color: #6c757d; 
-             border-color: #6c757d; 
-            }
+    <style>
+        .btn-check:checked+.btn {
+            color: black;
+            background-color: #d9d9d9;
+            border-color: black;
+        }
 
-            .btn-outline-primary:focus,
-            .btn-outline-primary:hover {
-             color: #6c757d; 
-             border-color: #6c757d; 
-            }
+        .btn-outline-primary {
+            color: #6c757d;
+            border-color: #6c757d;
+        }
 
-            .btn-check:checked + .btn-outline-primary {
-             background-color: #d9d9d9; 
-            border-color: #6c757d; 
-            }
-          </style>
-    
+        .btn-outline-primary:focus,
+        .btn-outline-primary:hover {
+            color: #6c757d;
+            border-color: #6c757d;
+        }
+
+        .btn-check:checked+.btn-outline-primary {
+            background-color: #d9d9d9;
+            border-color: #6c757d;
+        }
+    </style>
 </head>
 
 <body>
@@ -49,10 +49,8 @@
                             style="font-size: 20px">
                             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
                         </button>
-                        <!-- use include -->
                         <%- include('components/userinfo.ejs') -%>
                     </div>
-                    <!-- boxshadow like manage page -->
                     <div class="card" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                         <div class="card-body">
                             <div id="status-control">
@@ -104,7 +102,7 @@
                             <th scope="col">วันที่ร้องขอ</th>
                             <th scope="col">หัวข้อ</th>
                             <th scope="col">วันที่เริ่มเดินทาง</th>
-                            <th scope="col">วันที่สิ้นสุดเดินทาง</th>
+                            <!-- <th scope="col">วันที่สิ้นสุดเดินทาง</th> -->
                             <th scope="col">รถที่ใช้</th>
                             <th scope="col">ผู้ร้องขอ </th>
                             <th scope="col">หัวหน้าหน่วย</th>
@@ -115,42 +113,68 @@
                     </thead>
                     <tbody>
                         <% bookings.forEach(booking=> { %>
-                        <tr>
-                            <td scope="row">
-                                <div class="btn-group border-1 " role="group" style="width: 120px;">
-                                    <button type="button" class="btn " style="background-color: yellow;"><i
-                                            class="fa-regular fa-pen-to-square"></i></button>
-                                    <button type="button" class="btn " style="background-color: rgb(55, 194, 55);">
-                                        <i class="fa-solid fa-check"></i></button>
-                                    <button type="button" class="btn " style="background-color: red;"><i
-                                            class="fa-solid fa-trash-can"></i></button>
-                                </div>
-                            </td>
-                            <td><%= booking.userinfo %></td>
-                            <td><%= booking.organization %></td>
-                            <td><%= booking.mobile_number %></td>
-                            <td><% if(user.role!=='user' ){ %>
+                            <tr>
+                                <td scope="row">
 
-                                <%= booking.title %>
-                                    <% }else{ %>
-                                        ไม่บอกง้าบบ
-                                        <% } %></td>
-                            <td><%= booking.day.toISOString().split('T')[0] %></td>
-                            <td><%= booking.start.toISOString().split('T')[1].split('.')[0] %></td>
-                            <td><%= booking.end.toISOString().split('T')[1].split('.')[0] %></td>
-                            <td><%= booking.placestart %></td>
-                            <td><%= booking.placeend %></td>
-                            <td><%= booking.passengerCount %></td>
-                            <td><%= booking.passenger %></td>
-                        </tr>
-                        <% }) %>
-                            
+                                    <div class="btn-group border-1 btn-group " role="group" style="width: 120px;">
+                                        <button type="button" class="btn " style="background-color: yellow;"><i
+                                                class="fa-regular fa-pen-to-square"></i></button>
+                                        <% if (user.role !=="user" ) { %>
+                                            <button type="button" class="btn "
+                                                style="background-color: rgb(55, 194, 55);">
+                                                <i class="fa-solid fa-check"></i></button>
+                                            <% } %>
+
+                                                <button type="button" class="btn " style="background-color: red;"><i
+                                                        class="fa-solid fa-trash-can"></i></button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <%= booking.status %>
+                                </td>
+                                <td>
+                                    <%= new Date(booking.createdAt).toLocaleDateString('th-TH') %>
+
+                                </td>
+                                <td>
+                                    <% if(user.role!=='user' ){ %>
+
+                                        <%= booking.title %>
+                                            <% }else{ %>
+                                                ไม่บอกง้าบบ
+                                                <% } %>
+
+                                </td>
+                                <td>
+                                    <%= new Date(booking.day).toLocaleDateString('th-TH') %>
+                                </td>
+                                <!-- วันที่สิ้นสุดเดินทาง booking.start.toISOString().split('T')[1].split('.')[0] %> -->
+                                <td>
+                                    <%= booking.vehicle %>
+                                </td>
+                                <td>
+                                    <%= booking.userinfo %>
+                                </td>
+                                <td>
+                                    <%= booking.approverName %>
+                                </td>
+                                <td>
+                                    <%= booking.adminName %>
+                                </td>
+                                <td>
+                                    <%= booking.userinfo %>
+                                </td>
+                                <td>
+                                    <%= booking.passengerCount %>
+                                </td>
+
+                            </tr>
+                            <% }) %>
+
                     </tbody>
                 </table>
             </div>
         </div>
-
-        <!-- change to external import -->
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
