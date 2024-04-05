@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
 
-const { list, creatEvent, Event } = require("../Controllers/booking");
+const { list, createEvent, Event } = require("../Controllers/booking");
 
 router.get("/booking", list);
 router.get("/events", Event);
-router.post("/events", creatEvent);
+router.post("/events", createEvent);
 
 module.exports = router;

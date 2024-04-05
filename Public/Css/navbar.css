@@ -4,13 +4,8 @@
   --bs-accordion-bg: #ffecb3;
   --bs-accordion-btn-focus-box-shadow: none;
   --bs-accordion-btn-focus-border-color: unset;
-  --bs-accordion-inner-border-radius: 60px !important;
-  --bs-accordion-border-radius: 40px;
 }
 
-.accordion-item {
-  border-radius: 5px !important;
-}
 .accordion-button {
   border-bottom: 1px solid rgba(0, 0, 0, 0.6);
 }

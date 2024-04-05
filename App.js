@@ -10,6 +10,7 @@ const flash = require("connect-flash");
 
 const app = express();
 const port = process.env.PORT || 3000;
+const moment = require("moment-timezone");
 
 const connectDB = require("./Config/db");
 
@@ -21,6 +22,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(session({ secret: "secret", resave: true, saveUninitialized: true }));
+// Set the timezone to Asia/Bangkok
+moment.tz.setDefault("Asia/Bangkok");
 //engine setup
 app.set("Views", path.join(__dirname, "Views"));
 app.set("view engine", "ejs");

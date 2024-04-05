@@ -15,12 +15,14 @@ exports.list = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
-exports.creatEvent = async (req, res) => {
+exports.createEvent = async (req, res) => {
   try {
     const {
+      status,
+      vehicle,
       userinfo,
       organization,
-      tel,
+      mobile_number,
       title,
       day,
       start,
@@ -28,12 +30,18 @@ exports.creatEvent = async (req, res) => {
       placeend,
       end,
       passenger,
+      passengerCount,
+      approverName,
+      adminName,
       allDay,
     } = req.body;
+
     const event = await Booking.create({
+      status, // Include the status field
       userinfo,
+      vehicle,
       organization,
-      tel,
+      mobile_number,
       title,
       day,
       start,
@@ -41,13 +49,18 @@ exports.creatEvent = async (req, res) => {
       placeend,
       end,
       passenger,
+      passengerCount,
+      approverName,
+      adminName,
       allDay,
     });
+
     res.status(201).redirect("/");
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+
 exports.Event = async (req, res) => {
   try {
     const currentUser = req.session.user;
