@@ -15,6 +15,7 @@ exports.list = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
 exports.createEvent = async (req, res) => {
   try {
     const {
@@ -81,5 +82,20 @@ exports.Event = async (req, res) => {
     res.json(events);
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+exports.bookingEdit = async (req, res) => {
+  const bookings = await Booking.find().lean();
+  try {
+    req.session.user
+      ? res.render("manage", {
+          userLoggedIn: true,
+          user: req.session.user,
+          bookings,
+        })
+      : res.render("manage", { userLoggedIn: false });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };

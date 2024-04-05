@@ -3,6 +3,6 @@ const router = express.Router();
 
 const { list } = require("../Controllers/manage");
 
-router.get("/booking/manage", list);
+router.get("/manage", list);
 
 module.exports = router;
