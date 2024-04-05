@@ -53,22 +53,24 @@
                     </div>
                     <div class="card" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                         <div class="card-body">
+
                             <div id="status-control">
-                                <span>
-                                    <label for="status">สิทธิ์ :</label>
-                                    <div class="btn-group btn-sm" role="group"
-                                        aria-label="Basic radio toggle button group" style="width: 200px;">
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1"
-                                            autocomplete="off" checked>
-                                        <label class="btn btn-outline-primary" for="btnradio1">ผู้ใช้ทั่วไป</label>
+                                <label for="">สิทธิ์ :</label>
+                                <div class="btn-group" role="group">
+                                    <input type="radio" class="btn-check" name="btnradio" autocomplete="off" readonly
+                                        <%=user.role==="user" ? "checked" : "" %>>
+                                    <label class="btn btn-outline-primary" for="btnradio1">พนักงาน</label>
 
-                                        <input type="radio" class="btn-check" name="btnradio" id="btnradio2"
-                                            autocomplete="off">
-                                        <label class="btn btn-outline-primary" for="btnradio2">ผู้จัดรถ</label>
-                                    </div>
+                                    <input type="radio" class="btn-check" name="btnradio" autocomplete="off" readonly
+                                        <%=user.role==="admin" ? "checked" : "" %>>
+                                    <label class="btn btn-outline-primary" for="btnradio2">ผู้จัดรถ</label>
 
-                                </span>
-                                <span>
+                                    <input type="radio" class="btn-check" name="btnradio" autocomplete="off" readonly
+                                        <%=user.role==="approver" ? "checked" : "" %>>
+                                    <label class="btn btn-outline-primary" for="btnradio3">ผู้อนุมัติ</label>
+                                </div>
+
+                                <span class="ms-3">
                                     <label for="">สถานะ</label>
                                     <div class="btn-group">
                                         <select class="form-select">
@@ -84,7 +86,7 @@
                                 <div class="col d-flex justify-content-between" id="search">
                                     <div>
                                         <label for="">เมนู :</label>
-                                        <a href="/booking" class="btn border-0"
+                                        <a href="/booking" class="btn border-0 bookingbtn"
                                             style="background-color:#FFECB3; width: 100px;"><i
                                                 class="fa-regular fa-pen-to-square"></i>
                                             จองรถ</a>
@@ -123,34 +125,28 @@
                             <tr>
                                 <td>
                                     <% if (booking.status !==4) { %>
-
-                                        <div class="btn-group border-1 btn-group" role="group" style="width: 120px;">
-                                            <button type="button" class="btn"><i
-                                                    class="fa-regular fa-pen-to-square"></i></button>
-                                            <a class="btn btn-primary" style="background-color: yellow;"
-                                                href="/booking-edit" role="button"><i
+                                        <div class="btn-group  btn-group" role="group" style="width: 120px;">
+                                            <a class="btn btn-warning" href="/booking-edit" role="button"><i
                                                     class="fa-regular fa-pen-to-square"></i></a>
-                                            <% if (user.role !=="user" ) { %>
-                                                <button type="button" class="btn"
-                                                    style="background-color: rgb(55, 194, 55);"><i
-                                                        class="fa-solid fa-check"></i></button>
+                                            <% if (user.role !=="user" && user.role==="approver" ) { %>
+                                                <a class="btn btn-success" href="/booking-edit" role="button"><i
+                                                        class="fa-solid fa-check"></i></a>
                                                 <% } %>
-                                                    <button type="button" class="btn" style="background-color: red;"><i
+                                                    <button type="button" class="btn  btn-danger"
+                                                        onclick="displayAlert();"><i
                                                             class="fa-solid fa-trash-can"></i></button>
+
                                         </div>
                                         <% } else { %>
                                             <!-- Icons for print report and delete -->
                                             <% } %>
                                 </td>
-
                                 <td>
                                     <% const statusText=booking.status===1 ? '1.ทำการจองเสร็จ รอหัวหน้าอนุมัติ' :
                                         booking.status===2 ? '2.หัวหน้างานอนุมัติเสร็จ รอคนจัดรถ' : booking.status===3
                                         ? '3.จัดรถสำเร็จ,พร้อมใช้งาน' : booking.status===4 ? '4.เสร็จสิ้น' : '' ; %>
                                         <%= statusText %>
                                 </td>
-
-
                                 <td>
                                     <%= new Date(booking.createdAt).toLocaleDateString('th-TH') %>
 
@@ -194,7 +190,9 @@
                 </table>
             </div>
         </div>
+        <script src="../JS/alertDelete.js"></script>
         <script src="../JS/navbar.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

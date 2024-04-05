@@ -1,14 +1,20 @@
-const app = require("../App");
+const { getCountOfBookings } = require("../Services/bookingService");
 
 exports.read = async (req, res) => {
   try {
-    // Check if user session exists
+    const bookingCount = await getCountOfBookings();
     if (req.session.user) {
-      // If user is logged in, render dashboard with user information
-      res.render("dashboard", { userLoggedIn: true, user: req.session.user });
+      res.render("dashboard", {
+        userLoggedIn: true,
+        user: req.session.user,
+        bookingCount: bookingCount, // Pass bookingCount here
+      });
     } else {
       // If user is not logged in, render dashboard without user information
-      res.render("dashboard", { userLoggedIn: false });
+      res.render("dashboard", {
+        userLoggedIn: false,
+        bookingCount: bookingCount, // Pass bookingCount here
+      });
     }
   } catch (error) {
     console.log(error);

@@ -162,7 +162,6 @@
                                 </div>
                                 <div class="text-center mt-3">
                                     <form onsubmit="displayAlert(); return false;">
-                                        <!-- form fields here -->
                                         <button type="submit" class="btn btn-primary btn-lg" id="txt">ยืนยัน</button>
                                     </form>
                                 </div>
@@ -201,12 +200,7 @@
                 });
             });
             function displayAlert() {
-                // Check if the form is valid
-                if (!document.querySelector("#booking-body form").reportValidity()) {
-                    return;
-                }
-
-                // If the form is valid, show the alert
+                // Show the alert
                 const swalWithBootstrapButtons = Swal.mixin({
                     customClass: {
                         confirmButton: 'btn btn-success',
@@ -225,20 +219,19 @@
                     reverseButtons: true
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Submit the form
+                        // Form is confirmed, submit it
                         document.querySelector("#booking-body form").submit();
-                    } else if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        // User canceled, show cancel message
                         swalWithBootstrapButtons.fire({
                             title: 'ยกเลิก',
-                            text: 'คุณได้ทำการยกเลิก)',
+                            text: 'คุณได้ทำการยกเลิก',
                             icon: 'error'
                         });
                     }
                 });
             }
+
             // Add an event listener to the form's submit event
             document.querySelector("#booking-body form").addEventListener("submit", function (event) {
                 // Prevent the form from submitting normally
@@ -246,6 +239,7 @@
                 // Call the displayAlert function
                 displayAlert();
             });
+
 
         </script>
         <script>

@@ -1,9 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const { read, list } = require("../Controllers/dashboard");
+const { read } = require("../Controllers/dashboard");
 
-router.post("/", read);
 router.get("/", read);
 
 module.exports = router;
