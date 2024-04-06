@@ -18,6 +18,8 @@ exports.read = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    res.status(500).render("error", { message: "Internal Server Error" });
+    res
+      .status(500)
+      .render("error", { message: "Internal Server Error tesssssssssss" });
   }
 };
