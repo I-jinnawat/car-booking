@@ -1,14 +1,12 @@
 <div class="col d-flex justify-content-end me-3" id="userDisplay">
   <% if (userLoggedIn) { %>
     <p class="m-0 me-2">
-      <%= user.role==='approver' ? 'ผู้อนุมัติ' : (user.role==='admin' ? 'คนจัดรถ' : 'พนักงาน' ) %>
+  <%= user.role==='approver' ? 'ผู้อนุมัติ' : (user.role==='admin' ? 'คนจัดรถ' : 'พนักงาน' ) %>
     </p>
     <a href="/profile/<%= user.id %>" style="text-decoration: none; color: black; display: inline;">
-      <%= user.username %>
+  <%= user.username %>
     </a>
-
-
-    <% } else { %>
+  <% } else { %>
       <a href="/login" style="text-decoration: none; color: rgb(0, 0, 0); display: inline;">เข้าสู่ระบบ</a>
-      <% } %>
+  <% } %>
 </div>

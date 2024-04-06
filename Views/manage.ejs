@@ -58,8 +58,7 @@
                     </div>
                     <div class="card" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                         <div class="card-body">
-
-                            <div id="status-control">
+                        <div id="status-control">
                                 <label for="">สิทธิ์ :</label>
                                 <div class="btn-group" role="group">
                                     <input type="radio" class="btn-check" name="btnradio" autocomplete="off" readonly
@@ -74,7 +73,6 @@
                                         <%=user.role==="approver" ? "checked" : "" %>>
                                     <label class="btn btn-outline-primary" for="btnradio3">ผู้อนุมัติ</label>
                                 </div>
-
                                 <span class="ms-3">
                                     <label for="">สถานะ</label>
                                     <div class="btn-group">
@@ -205,7 +203,7 @@
                                                                 class="fa-solid fa-trash-can"></i></button>
                                                     </div>
                                                     <% }else{ %>
-                                                        waiting
+                                                        <button type="button" class="btn btn-warning" style="width: 90px;">Waiting</button>
                                                         <% } %>
                                                             <%}%>
                                                                 <!-- status 4-->
@@ -222,12 +220,10 @@
                                                                                 onclick="displayAlert('<%= booking._id %>')"><i
                                                                                     class="fa-solid fa-trash-can"></i></button>
                                                                         </div>
-                                                                        <!--But user see "Success"-->
                                                                         <% }else{ %>
-                                                                            Success
+                                                                            <button type="button" class="btn btn-success" style="width: 90px;">Success</button>
                                                                             <%}%>
                                                                                 <% } %>
-
                                 </td>
                                 <td>
                                     <% const statusText=booking.status===1 ? '1.ทำการจองเสร็จ รอหัวหน้าอนุมัติ' :
@@ -241,7 +237,6 @@
                                 </td>
                                 <td>
                                     <% if(user.role!=='user' ){ %>
-
                                         <%= booking.title %>
                                             <% }else{ %>
                                                 ไม่บอกง้าบบ
@@ -295,16 +290,12 @@
                         if (!response.ok) {
                             throw new Error('Failed to delete booking');
                         }
-
                         window.location.reload();
                     })
                     .catch(error => {
                         console.error('Error deleting booking:', error);
-
                     });
-
-            }
+                }
         </script>
 </body>
-
 </html>

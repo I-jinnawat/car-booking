@@ -96,12 +96,15 @@ body {
   max-width: 900px;
   margin: 0 auto;
 }
+
 .search input::placeholder {
   font-family: "fontAwesome";
 }
+
 .bookingbtn:hover {
   color: #b1adad !important;
 }
+
 .colored-toast.swal2-icon-success {
   background-color: #a5dc86 !important;
 }

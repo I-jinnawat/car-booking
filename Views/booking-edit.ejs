@@ -8,14 +8,11 @@
     <title>แก้ไขการจอง</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="/css/manage.css">
-    <link rel="stylesheet"
-        href="https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
+    <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-
 </head>
 
 <body>
@@ -32,8 +29,7 @@
                         <%- include('components/userinfo.ejs') -%>
                     </div>
                     <%- include('components/stepprogress.ejs') -%>
-                        <div class="card mt-3 mb-3 " id="booking"
-                            style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                        <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                             <div class="card-header" id="card-header" style="background-color: #FFECB3;">
                                 <form>
                                     <div class="row align-items-center">
@@ -48,7 +44,6 @@
                                                 คู่มือการใช้งาน
                                             </button>
                                         </div>
-
                                         <div class="col-md-6 text-right">
                                             <label class="form-label">รหัสการจอง</label>
                                             <input class=" border-1 rounded-1 ms-2 pe-2" type="text"
@@ -63,7 +58,6 @@
                                     <div class="row" id="booking-body">
                                         <div class="col">
                                             <input type="hidden" name="status" value="2">
-
                                             <label class="form-label">ชื่อ-สกุล</label>
                                             <input class=" border-1 rounded-1 " type="text" name="userinfo"
                                                 value="<%= booking.userinfo %>" readonly>
@@ -113,8 +107,7 @@
                                             </div>
                                         </div>
                                         <div class="row mt-4">
-
-                                            <div class="col">
+                                        <div class="col">
                                                 <label for="">จำนวนผู้โดยสาร</label>
                                                 <input type="number" required id="passenger" name="passengerCount"
                                                     min="0" value="<%= booking.passengerCount %>">
@@ -141,7 +134,6 @@
                                             <button type="submit" class="btn btn-primary btn-lg"
                                                 onclick="displayAlertApprove()"
                                                 style="background-color: rgb(44, 169, 44);" id="txt">อนุมัติ</button>
-
                                         </div>
                                         <% }else if(user.role==="user" && booking.status===1){ %>
                                             <div class="text-center mt-3">
@@ -182,7 +174,6 @@
                                                                         name="userinfo" placeholder="">
                                                                 </div>
                                                             </div>
-
                                                             <div class="text-center mt-3">
                                                                 <form onsubmit="displayAlert(); return false;">
                                                                     <!-- form fields here -->
@@ -230,29 +221,26 @@
                                                                         name="userinfo" placeholder="">
                                                                 </div>
                                                             </div>
-
                                                             <div class="text-center mt-5">
                                                                 <form onsubmit="displayAlert(); return false;">
                                                                     <!-- form fields here -->
                                                                     <button type="submit" class="btn btn-primary btn-lg"
                                                                         style="background-color: rgb(44, 169, 44);"
                                                                         id="txt">บันทึก</button>
-
                                                             </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                </form>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                </div>
-            </div>
-        </div>
         <% } %>
             <script>
                 document.addEventListener("DOMContentLoaded", function () {
                     var mobileInput = document.querySelector('input[name="mobile_number"]');
-
-                    mobileInput.addEventListener("input", function (event) {
+                        mobileInput.addEventListener("input", function (event) {
                         var inputValue = event.target.value;
                         // ตรวจสอบว่ามีเฉพาะตัวเลขหรือไม่
                         if (/[^0-9]/.test(inputValue)) {
@@ -305,5 +293,4 @@
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
-
 </html>
