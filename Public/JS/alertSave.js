@@ -10,7 +10,7 @@ function displayAlert() {
       // Proceed with form submission
       document.getElementById("updateForm").submit();
     } else if (result.isDenied) {
-      Swal.fire("Changes are not saved", "", "info");
+      Swal.fire("ไม่มีการเปลี่ยนแปลง ", "", "info");
     }
   });
   return false;
