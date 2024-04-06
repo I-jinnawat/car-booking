@@ -85,15 +85,20 @@ exports.Event = async (req, res) => {
   }
 };
 exports.bookingEdit = async (req, res) => {
-  const bookings = await Booking.find().lean();
+  const { id } = req.params;
   try {
+    const booking = await Booking.findById(id);
+
+    // Process the date for the booking
+    booking.formattedDay = new Date(booking.day).toISOString().split("T")[0];
+
     req.session.user
       ? res.render("booking-edit", {
           userLoggedIn: true,
           user: req.session.user,
-          bookings,
+          booking, // Pass the single booking, not an array
         })
-      : res.render("booking-edit", { userLoggedIn: false });
+      : res.render("dashboard", { userLoggedIn: false });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

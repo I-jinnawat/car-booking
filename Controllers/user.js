@@ -42,8 +42,8 @@ exports.list = async (req, res) => {
   }
 };
 exports.update = async (req, res) => {
-  const { id } = req.params; // Extracting the id parameter from request params
-  const { newfirstname, newlastname, password } = req.body; // Extracting data from request body
+  const { id } = req.params;
+  const { newfirstname, newlastname, password } = req.body;
 
   try {
     let user = await Auth.findById(id); // Finding the user by id
