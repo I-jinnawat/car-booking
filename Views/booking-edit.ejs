@@ -62,6 +62,8 @@
                                 <form action="/events/<%= booking._id %>" method="POST">
                                     <div class="row" id="booking-body">
                                         <div class="col">
+                                            <input type="hidden" name="status" value="2">
+
                                             <label class="form-label">ชื่อ-สกุล</label>
                                             <input class=" border-1 rounded-1 " type="text" name="userinfo"
                                                 value="<%= booking.userinfo %>" readonly>
@@ -133,13 +135,10 @@
                                     </div>
                                     <% if (user.role==="approver" && booking.status===1) { %>
                                         <div class="text-center mt-3">
-                                            <form onsubmit="displayAlert(); return false;">
-                                                <button type="submit" class="btn btn-primary btn-lg"
-                                                    style="background-color: rgb(44, 169, 44);"
-                                                    id="txt">อนุมัติ</button>
-                                                <button type="submit" class="btn btn-primary btn-lg"
-                                                    style="background-color: red;" id="txt">ไม่อนุมัติ</button>
-                                            </form>
+                                            <button type="submit" class="btn btn-primary btn-lg"
+                                                style="background-color: rgb(44, 169, 44);" id="txt">อนุมัติ</button>
+                                            <button type="submit" class="btn btn-primary btn-lg"
+                                                style="background-color: red;" id="txt">ไม่อนุมัติ</button>
                                         </div>
                                         <% }else if(user.role==="user" && booking.status===1){ %>
                                             <div class="text-center mt-3">
@@ -149,135 +148,168 @@
                                                 </form>
                                             </div>
                                             <% }else if (booking.status !==1 ){ %>
-                                                <p style="font-size: 20px;">หัวหน้างานอนุมัติสำเร็จ,รอคนจัดรถ</p>
-                                                <% } %>
+                                                <p style="font-size: 20px; " class="d-flex justify-content-center">
+                                                    หัวหน้างานอนุมัติสำเร็จ,รอคนจัดรถ</p>
+                                                <div class="card mt-3 mb-3 " id="booking"
+                                                    style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                                                    <div id="booking-body" class="card-body">
+                                                        <form action="/events" method="POST">
+                                                            <h5 class="form-label mt-2">หัวหน้างาน</h5>
+                                                            <div class="row" id="booking-body">
+                                                                <div class="col">
+                                                                    <label
+                                                                        class="form-label mt-4">สถานะผู้อนุมัติ</label>
+                                                                    <input class=" border-1 rounded-1 " type="text"
+                                                                        name="userinfo" placeholder="รายการอนุมัติแล้ว">
+                                                                </div>
+                                                            </div>
+                                                            <h5 class="form-label mt-5">คนจัดรถ</h5>
+                                                            <hr>
+                                                            <div class="row" id="booking-body">
+                                                                <div class="col">
+                                                                    <label class="form-label mt-4">พนักงานขับรถ</label>
+                                                                    <input class=" border-1 rounded-1 " type="text"
+                                                                        name="userinfo" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" id="booking-body">
+                                                                <div class="col">
+                                                                    <label class="form-label mt-4">ยานพหนะ</label>
+                                                                    <input class=" border-1 rounded-1 " type="text"
+                                                                        name="userinfo" placeholder="">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="text-center mt-3">
+                                                                <form onsubmit="displayAlert(); return false;">
+                                                                    <!-- form fields here -->
+                                                                    <button type="submit" class="btn btn-primary btn-lg"
+                                                                        style="background-color: rgb(44, 169, 44);"
+                                                                        id="txt">บันทึก</button>
+                                                                    <button type="submit" class="btn btn-primary btn-lg"
+                                                                        style="background-color: red;"
+                                                                        id="txt">ยกเลิก</button>
+                                                                </form>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="card mt-3 mb-3 " id="booking"
+                                                    style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                                                    <form>
+                                                    </form>
+                                                    <div id="booking-body" class="card-body">
+                                                        <form action="/events" method="POST">
+                                                            <h5 class="form-label mt-2">คนบันทึกเลขไมล์</h5>
+                                                            <hr>
+                                                            <div class="row" id="booking-body">
+                                                                <div class="col">
+                                                                    <label class="form-label mt-4">เอกสารรับงาน:</label>
+                                                                    <input class=" border-1 rounded-1 " type="text"
+                                                                        name="userinfo" placeholder="รายการอนุมัติแล้ว">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" id="booking-body">
+                                                                <div class="col">
+                                                                    <label
+                                                                        class="form-label mt-4">เลขไมล์ก่อนเดินทาง</label>
+                                                                    <input class=" border-1 rounded-1 " type="text"
+                                                                        name="userinfo" placeholder="">
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label class="form-label mt-4">ยานพหนะ</label>
+                                                                    <input class=" border-1 rounded-1 " type="text"
+                                                                        name="userinfo" placeholder="">
+                                                                </div>
+                                                                <div class="col">
+                                                                    <label class="form-label mt-4">ยานพหนะ</label>
+                                                                    <input class=" border-1 rounded-1 " type="text"
+                                                                        name="userinfo" placeholder="">
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="text-center mt-5">
+                                                                <form onsubmit="displayAlert(); return false;">
+                                                                    <!-- form fields here -->
+                                                                    <button type="submit" class="btn btn-primary btn-lg"
+                                                                        style="background-color: rgb(44, 169, 44);"
+                                                                        id="txt">บันทึก</button>
+
+                                                            </div>
+                                                    </div>
+                                                </div>
                                 </form>
                             </div>
                         </div>
                 </div>
             </div>
         </div>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                var mobileInput = document.querySelector('input[name="mobile_number"]');
+        <% } %>
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    var mobileInput = document.querySelector('input[name="mobile_number"]');
 
-                mobileInput.addEventListener("input", function (event) {
-                    var inputValue = event.target.value;
-                    // ตรวจสอบว่ามีเฉพาะตัวเลขหรือไม่
-                    if (/[^0-9]/.test(inputValue)) {
-                        event.target.value = inputValue.replace(/[^0-9]/g, '');
-                    }
-                    // ตรวจสอบจำนวนตัวเลข
-                    if (inputValue.length !== 10) {
-                        event.target.setCustomValidity("โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10 ตัวเลข");
-                    } else {
-                        event.target.setCustomValidity("");
-                    }
-                });
+                    mobileInput.addEventListener("input", function (event) {
+                        var inputValue = event.target.value;
+                        // ตรวจสอบว่ามีเฉพาะตัวเลขหรือไม่
+                        if (/[^0-9]/.test(inputValue)) {
+                            event.target.value = inputValue.replace(/[^0-9]/g, '');
+                        }
+                        // ตรวจสอบจำนวนตัวเลข
+                        if (inputValue.length !== 10) {
+                            event.target.setCustomValidity("โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10 ตัวเลข");
+                        } else {
+                            event.target.setCustomValidity("");
+                        }
+                    });
 
-                var txt = document.querySelector("#txt");
-                form.displayAlert("submit", function (event) {
-                    if (mobileInput.validity.valid) {
-                        displayAlert();
-                    } else {
-                        event.preventDefault();
-                    }
+                    var txt = document.querySelector("#txt");
+                    form.displayAlert("submit", function (event) {
+                        if (mobileInput.validity.valid) {
+                            displayAlert();
+                        } else {
+                            event.preventDefault();
+                        }
+                    });
                 });
-            });
-            function displayAlert() {
-                // Show the alert
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                });
-
-                swalWithBootstrapButtons.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'ยืนยัน',
-                    cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Form is confirmed, submit it
-                        document.querySelector("#booking-body form").submit();
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        // User canceled, show cancel message
-                        swalWithBootstrapButtons.fire({
-                            title: 'ยกเลิก',
-                            text: 'คุณได้ทำการยกเลิก',
-                            icon: 'error'
-                        });
-                    }
-                });
-            }
-            // Add an event listener to the form's submit event
-            document.querySelector("#booking-body form").addEventListener("submit", function (event) {
-                // Prevent the form from submitting normally
-                event.preventDefault();
-                // Call the displayAlert function
-                displayAlert();
-            });
-        </script>
-        <script>
-            const today = new Date();
-            const minDate = today.getHours() >= 17 ? new Date(today.getFullYear(), today.getMonth(), today.getDate() + 2) : new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-
-            flatpickr("#datetimepicker", {
-                enableTime: false,
-                noCalendar: true,
-                dateFormat: "H:i",
-            });
-        </script>
-        <script>
-            function displayAlert() {
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                });
-                swalWithBootstrapButtons.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'ยืนยัน',
-                    cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        // Form is confirmed, submit it
-                        document.querySelector("#booking-body form").submit();
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        // User canceled, show cancel message
-                        swalWithBootstrapButtons.fire({
-                            title: 'ยกเลิก',
-                            text: 'คุณได้ทำการยกเลิก',
-                            icon: 'error'
-                        });
-                    }
-                });
-            }
-            // Add an event listener to the form's submit event
-            document.querySelector("#booking-body form").addEventListener("submit", function (event) {
-                // Prevent the form from submitting normally
-                event.preventDefault();
-                // Call the displayAlert function
-                displayAlert();
-            });
-        </script>
-        <script src="../JS/navbar.js"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            </script>
+            <script>
+                function displayAlert() {
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                            cancelButton: 'btn btn-danger'
+                        },
+                        buttonsStyling: false
+                    });
+                    swalWithBootstrapButtons.fire({
+                        title: 'คุณแน่ใจหรือไม่?',
+                        text: 'คุณต้องการยืนยันที่จะส่ง!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'ยืนยัน',
+                        cancelButtonText: 'ยกเลิก',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Form is confirmed, submit it
+                            document.querySelector("#booking-body form").submit();
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                            // User canceled, show cancel message
+                            swalWithBootstrapButtons.fire({
+                                title: 'ยกเลิก',
+                                text: 'คุณได้ทำการยกเลิก',
+                                icon: 'error'
+                            });
+                        }
+                    });
+                }
+            </script>
+            <script src="../JS/navbar.js"></script>
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
