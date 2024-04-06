@@ -61,76 +61,89 @@
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">แก้ไข</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          <h5 class="modal-title" id="myModalLabel">แก้ไข</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                              aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-
-                        <div class="dropdown">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            ประเภท
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">รถตู้</a></li>
-                            <li><a class="dropdown-item" href="#">รถยนต์</a></li>
-                            <li><a class="dropdown-item" href="#">รถจักกกรยานยนต์</a></li>
-                          </ul>
+                          <div class="row mb-3">
+                              <div class="col-sm-3">
+                                  <label class="form-label">ประเภท</label>
+                              </div>
+                              <div class="col-sm-9 text-secondary">
+                                  <div class="btn-group">
+                                      <select class="form-select">
+                                          <option selected>รถยนต์</option>
+                                          <option value="1">รถตู้</option>
+                                          <option value="3">รถจักกกรยานยนต์</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row mb-3">
+                              <div class="col-sm-3">
+                                  <label class="form-label">รหัส</label>
+                              </div>
+                              <div class="col-sm-9 text-secondary">
+                                  <div class="btn-group">
+                                      <select class="form-select">
+                                          <option selected>admin</option>
+                                          <option value="1">approver</option>
+                                          <option value="3">user</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row mb-3">
+                              <div class="col-sm-3">
+                                  <label class="form-label">หัวข้อ</label>
+                              </div>
+                              <div class="col-sm-9 text-secondary">
+                                  <div class="btn-group">
+                                      <select class="form-select">
+                                          <option selected>-</option>
+                                          <option value="1">ไปโรงพยาบาล</option>
+                                          <option value="3">ไม่บอกง้าบบ</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row mb-3">
+                              <div class="col-sm-3">
+                                  <label class="form-label">ชื่อ</label>
+                              </div>
+                              <div class="col-sm-9 text-secondary">
+                                  <div class="btn-group">
+                                      <select class="form-select">
+                                          <option selected>jinnawat</option>
+                                          <option value="1">piyapat</option>
+                                          <option value="3">piyapon</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <label class="form-label">หน่วยงาน</label>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <div class="btn-group">
+                                    <select class="form-select">
+                                        <option selected>-</option>
+                                        <option value="1">ศูนย์การแพทย์มหาวทยาลัยแม่ฟ้าหลวง</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="dropdown mt-3">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            รหัส
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">ขาว</a></li>
-                            <li><a class="dropdown-item" href="#">ดำ</a></li>
-                          </ul>
-                        </div>
-
-                        <div class="dropdown mt-3">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            หัวข้อ
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">2</a></li>
-                            <li><a class="dropdown-item" href="#">4</a></li>
-                            <li><a class="dropdown-item" href="#">6</a></li>
-                          </ul>
-                        </div>
-
-                        <div class="dropdown mt-3">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            ชื่อ
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">1คัน</a></li>
-                            <li><a class="dropdown-item" href="#">2คัน</a></li>
-                            <li><a class="dropdown-item" href="#">3คัน</a></li>
-                          </ul>
-                        </div>
-                        <div class="dropdown mt-3">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            หน่วยงาน
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">1คัน</a></li>
-                            <li><a class="dropdown-item" href="#">2คัน</a></li>
-                            <li><a class="dropdown-item" href="#">3คัน</a></li>
-                          </ul>
-                        </div>
+                      
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-                        <button type="button" class="btn btn-primary">บันทึก</button>
+                          <button type="button" class="btn btn-secondary"
+                              data-bs-dismiss="modal">ปิด</button>
+                          <button type="button" class="btn btn-primary">บันทึก</button>
                       </div>
-                    </div>
                   </div>
-                </div>
               </td>
               <td></td>
               <td></td>
@@ -150,76 +163,89 @@
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">แก้ไข</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          <h5 class="modal-title" id="myModalLabel">แก้ไข</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                              aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-
-                        <div class="dropdown">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            ประเภท
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">รถตู้</a></li>
-                            <li><a class="dropdown-item" href="#">รถยนต์</a></li>
-                            <li><a class="dropdown-item" href="#">รถจักกกรยานยนต์</a></li>
-                          </ul>
+                          <div class="row mb-3">
+                              <div class="col-sm-3">
+                                  <label class="form-label">ประเภท</label>
+                              </div>
+                              <div class="col-sm-9 text-secondary">
+                                  <div class="btn-group">
+                                      <select class="form-select">
+                                          <option selected>รถยนต์</option>
+                                          <option value="1">รถตู้</option>
+                                          <option value="3">รถจักกกรยานยนต์</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row mb-3">
+                              <div class="col-sm-3">
+                                  <label class="form-label">รหัส</label>
+                              </div>
+                              <div class="col-sm-9 text-secondary">
+                                  <div class="btn-group">
+                                      <select class="form-select">
+                                          <option selected>admin</option>
+                                          <option value="1">approver</option>
+                                          <option value="3">user</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row mb-3">
+                              <div class="col-sm-3">
+                                  <label class="form-label">หัวข้อ</label>
+                              </div>
+                              <div class="col-sm-9 text-secondary">
+                                  <div class="btn-group">
+                                      <select class="form-select">
+                                          <option selected>-</option>
+                                          <option value="1">ไปโรงพยาบาล</option>
+                                          <option value="3">ไม่บอกง้าบบ</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row mb-3">
+                              <div class="col-sm-3">
+                                  <label class="form-label">ชื่อ</label>
+                              </div>
+                              <div class="col-sm-9 text-secondary">
+                                  <div class="btn-group">
+                                      <select class="form-select">
+                                          <option selected>jinnawat</option>
+                                          <option value="1">piyapat</option>
+                                          <option value="3">piyapon</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <label class="form-label">หน่วยงาน</label>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <div class="btn-group">
+                                    <select class="form-select">
+                                        <option selected>-</option>
+                                        <option value="1">ศูนย์การแพทย์มหาวทยาลัยแม่ฟ้าหลวง</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="dropdown mt-3">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            รหัส
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">ขาว</a></li>
-                            <li><a class="dropdown-item" href="#">ดำ</a></li>
-                          </ul>
-                        </div>
-
-                        <div class="dropdown mt-3">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            หัวข้อ
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">2</a></li>
-                            <li><a class="dropdown-item" href="#">4</a></li>
-                            <li><a class="dropdown-item" href="#">6</a></li>
-                          </ul>
-                        </div>
-
-                        <div class="dropdown mt-3">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            ชื่อ
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">1คัน</a></li>
-                            <li><a class="dropdown-item" href="#">2คัน</a></li>
-                            <li><a class="dropdown-item" href="#">3คัน</a></li>
-                          </ul>
-                        </div>
-                        <div class="dropdown mt-3">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            หน่วยงาน
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">1คัน</a></li>
-                            <li><a class="dropdown-item" href="#">2คัน</a></li>
-                            <li><a class="dropdown-item" href="#">3คัน</a></li>
-                          </ul>
-                        </div>
+                      
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-                        <button type="button" class="btn btn-primary">บันทึก</button>
+                          <button type="button" class="btn btn-secondary"
+                              data-bs-dismiss="modal">ปิด</button>
+                          <button type="button" class="btn btn-primary">บันทึก</button>
                       </div>
-                    </div>
                   </div>
-                </div>
               </td>
               <td></td>
               <td></td>
@@ -240,76 +266,91 @@
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="myModalLabel">แก้ไข</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          <h5 class="modal-title" id="myModalLabel">แก้ไข</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal"
+                              aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-
-                        <div class="dropdown">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            ประเภท
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">รถตู้</a></li>
-                            <li><a class="dropdown-item" href="#">รถยนต์</a></li>
-                            <li><a class="dropdown-item" href="#">รถจักกกรยานยนต์</a></li>
-                          </ul>
+                          <div class="row mb-3">
+                              <div class="col-sm-3">
+                                  <label class="form-label">ประเภท</label>
+                              </div>
+                              <div class="col-sm-9 text-secondary">
+                                  <div class="btn-group">
+                                      <select class="form-select">
+                                          <option selected>รถยนต์</option>
+                                          <option value="1">รถตู้</option>
+                                          <option value="3">รถจักกกรยานยนต์</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row mb-3">
+                              <div class="col-sm-3">
+                                  <label class="form-label">รหัส</label>
+                              </div>
+                              <div class="col-sm-9 text-secondary">
+                                  <div class="btn-group">
+                                      <select class="form-select">
+                                          <option selected>admin</option>
+                                          <option value="1">approver</option>
+                                          <option value="3">user</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row mb-3">
+                              <div class="col-sm-3">
+                                  <label class="form-label">หัวข้อ</label>
+                              </div>
+                              <div class="col-sm-9 text-secondary">
+                                  <div class="btn-group">
+                                      <select class="form-select">
+                                          <option selected>-</option>
+                                          <option value="1">ไปโรงพยาบาล</option>
+                                          <option value="3">ไม่บอกง้าบบ</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row mb-3">
+                              <div class="col-sm-3">
+                                  <label class="form-label">ชื่อ</label>
+                              </div>
+                              <div class="col-sm-9 text-secondary">
+                                  <div class="btn-group">
+                                      <select class="form-select">
+                                          <option selected>jinnawat</option>
+                                          <option value="1">piyapat</option>
+                                          <option value="3">piyapon</option>
+                                      </select>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="row mb-3">
+                            <div class="col-sm-3">
+                                <label class="form-label">หน่วยงาน</label>
+                            </div>
+                            <div class="col-sm-9 text-secondary">
+                                <div class="btn-group">
+                                    <select class="form-select">
+                                        <option selected>-</option>
+                                        <option value="1">ศูนย์การแพทย์มหาวทยาลัยแม่ฟ้าหลวง</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="dropdown mt-3">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            รหัส
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">ขาว</a></li>
-                            <li><a class="dropdown-item" href="#">ดำ</a></li>
-                          </ul>
-                        </div>
-
-                        <div class="dropdown mt-3">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            หัวข้อ
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">2</a></li>
-                            <li><a class="dropdown-item" href="#">4</a></li>
-                            <li><a class="dropdown-item" href="#">6</a></li>
-                          </ul>
-                        </div>
-
-                        <div class="dropdown mt-3">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            ชื่อ
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">1คัน</a></li>
-                            <li><a class="dropdown-item" href="#">2คัน</a></li>
-                            <li><a class="dropdown-item" href="#">3คัน</a></li>
-                          </ul>
-                        </div>
-                        <div class="dropdown mt-3">
-                          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                            หน่วยงาน
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">1คัน</a></li>
-                            <li><a class="dropdown-item" href="#">2คัน</a></li>
-                            <li><a class="dropdown-item" href="#">3คัน</a></li>
-                          </ul>
-                        </div>
+                      
                       </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
-                        <button type="button" class="btn btn-primary">บันทึก</button>
+                          <button type="button" class="btn btn-secondary"
+                              data-bs-dismiss="modal">ปิด</button>
+                          <button type="button" class="btn btn-primary">บันทึก</button>
                       </div>
-                    </div>
                   </div>
-                </div>
+              </div>
+            </div>
               </td>
               <td></td>
               <td></td>
