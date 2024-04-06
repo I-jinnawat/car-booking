@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระเบียบและแบบฟอร์ม</title>
+    <link rel="stylesheet" href="/css/document.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-straight/css/uicons-solid-straight.css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <%- include('components/navbar.ejs') -%>
+        <div class="container-fluid mt-3 " id="main">
+            <div class="row">
+                <div class="col-12 ">
+                    <div class="container-fluid p-0 m-0"
+                        style="display: flex;justify-content: space-between;align-items: center;">
+                        <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0"
+                            style="font-size: 20px">
+                            <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
+                        </button>
+                        <%- include('components/userinfo.ejs') -%>
+                    </div>
+                    <div class="card" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                        <div class="card-body">
+                            <div class="row mt-2">
+                                <div class="col d-flex justify-content-between" id="search">
+                                    <div>
+                                        <label for="">เมนู :</label>
+                                        <button type="button" class="btn btn-primary"
+                                            style=" border-color: #FFECB3; background-color:#FFECB3; width: 100px; color: black;"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever=""><i
+                                                class="fi fi-rr-edit" style="margin-right: 6px;"></i>เพิ่ม</button>
+
+                                        <div class="modal fade" id="exampleModal" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">เพิ่ม</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name"
+                                                                    class="col-form-label">ทะเบียน:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="recipient-name">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">ประเภท:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">สี:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">ที่นั่ง:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">ปิด</button>
+                                                        <button type="button" class="btn btn-primary">ยืนยัน</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn border-0"
+                                            style="background-color:#FFECB3; width: 100px;"><i
+                                                class="fi fi-ss-time-past"></i>
+                                            ฟื้นฟู</button>
+                                    </div>
+                                    <div class="search">
+                                        <input class="p-1" type="text" placeholder="&#xf002; ค้นหา"
+                                            style="width: 200px; border-radius: 8px ; border:1px solid black;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                <div class="card-header" id="card-header">
+                    <form>
+                        <div class="row align-items-center">
+                            <div class="col-md-6 d-flex">
+                                <label>ระเบียบ</label>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="booking-body" class="card-body">
+                    <div>
+                        <table class="table" cellspacing="0" id="ctl00_ContentPlaceHolder1_gridLink" style="border-collapse:collapse;">
+                            <tr style="color:Black;">
+                                <th scope="col"><a href="javascript:__doPostBack(&#39;ctl00$ContentPlaceHolder1$gridLink&#39;,&#39;Sort$name&#39;)" style="color:Black;">รายการ</a></th><th scope="col"><a href="javascript:__doPostBack(&#39;ctl00$ContentPlaceHolder1$gridLink&#39;,&#39;Sort$create_date&#39;)" style="color:Black;">วันที่สร้าง</a></th>
+                            </tr><tr>
+                                <td>
+                                                <div class="card" style="border: none">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-sm-4 text-center">
+                                                                <img src="/image/Mae-Fah-Luang-University-2.png" class="rounded" style="height: 100px;" alt="">
+                                                            </div>
+                                                            <div class="col-sm-8">
+                                                                <a href="https://drive.google.com/file/d/1NLKeQWx7uqVPoiOvnrV1ts8e3_D8tZuQ/view?usp=sharing" target="_blank" class="card-link my-a">ระเบียบมหาวิทยาลัยแม่ฟ้าหลวง ว่าด้วย เงินค่าอาหารทำการนอกเวลา พ.ศ. 2556</a>
+                                                                <div style="font-size: small">
+                                                                    <i class="fa fa-calendar mb-2 mr-sm-2" style="font-weight: bold"></i>
+                                                                    โดย 63365025 นางสาว โชติกา เจ้าหน้าที่บริหาร
+                                                                    <br />
+                                                                    <span style="font-weight: bold">หมวด</span> ระเบียบ
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td><td>5/12/2021 3:59:15 PM</td>
+                            </tr><tr>
+                                <td>
+                                                <div class="card" style="border: none">
+                                                    <div class="card-body">
+                                                        <div class="row">
+                                                            <div class="col-sm-4 text-center">
+                                                                <img src="/image/Mae-Fah-Luang-University-2.png" class="rounded" style="height: 100px;" alt="">
+                                                            </div>
+                                                            <div class="col-sm-8">
+                                                                <a href="https://drive.google.com/file/d/1a062M5D-SLNmHh0ztO_CZDq9AD98AyXq/view?usp=sharing" target="_blank" class="card-link my-a">ระเบียบมหาวิทยาลัยแม่ฟ้าหลวง ว่าด้วย การใช้รถของมหาวิทยาลัยแม่ฟ้าหลวง พ.ศ. 2559</a>
+                                                                <div style="font-size: small">
+                                                                    <i class="fa fa-calendar mb-2 mr-sm-2" style="font-weight: bold"></i>
+                                                                    โดย 63365025 นางสาว โชติกา เจ้าหน้าที่บริหาร
+                                                                    <br />
+                                                                    <span style="font-weight: bold">หมวด</span> ระเบียบ
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td><td>5/12/2021 3:52:12 PM</td>
+                            </tr>
+                        </table>
+                    </div>
+                            </div>
+                    </div>
+                    <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                        <div class="card-header" id="card-header">
+                            <form>
+                                <div class="row align-items-center">
+                                    <div class="col-md-6 d-flex">
+                                        <label>แบบฟอร์ม</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div id="booking-body" class="card-body">
+                            <div>
+                                <table class="table" cellspacing="0" id="ctl00_ContentPlaceHolder1_gridLink" style="border-collapse:collapse;">
+                                    <tr style="color:Black;">
+                                        <th scope="col"><a href="javascript:__doPostBack(&#39;ctl00$ContentPlaceHolder1$gridLink&#39;,&#39;Sort$name&#39;)" style="color:Black;">รายการ</a></th><th scope="col"><a href="javascript:__doPostBack(&#39;ctl00$ContentPlaceHolder1$gridLink&#39;,&#39;Sort$create_date&#39;)" style="color:Black;">วันที่สร้าง</a></th>
+                                    </tr><tr>
+                                        <td>
+                                                        <div class="card" style="border: none">
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-sm-4 text-center">
+                                                                        <img src="/image/Mae-Fah-Luang-University-2.png" class="rounded" style="height: 100px;" alt="\\172.16.24.11\KM Pool\bookcar\img\แบบฟอร์มการขอใช้รถยนต์ ศกพ (ชั่วคราว).png">
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <a href="https://drive.google.com/file/d/1OJXyI7g9juEaHbpqMODjzR8l8oO-Qrcy/view?usp=sharing" target="_blank" class="card-link my-a">แบบฟอร์มการขอใช้รถยนต์ ศกพ (ชั่วคราว)</a>
+                                                                        <div style="font-size: small">
+                                                                            <i class="fa fa-calendar mb-2 mr-sm-2" style="font-weight: bold"></i>
+                                                                            โดย 58318172 นางสาว ปวีณา พยาบาล
+                                                                            <br />
+                                                                            <span style="font-weight: bold">หมวด</span> แบบฟอร์ม
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td><td>8/4/2021 5:52:40 PM</td>
+                                    </tr><tr>
+                                        <td>
+                                                        <div class="card" style="border: none">
+                                                            <div class="card-body">
+                                                                <div class="row">
+                                                                    <div class="col-sm-4 text-center">
+                                                                        <img src="/image/Mae-Fah-Luang-University-2.png" class="rounded" style="height: 100px;" alt="\\172.16.24.11\KM Pool\bookcar\img\แบบฟอร์มการขอใช้ยานพาหนะออกต่างจังหวัดขึ้นที่สูง.JPG">
+                                                                    </div>
+                                                                    <div class="col-sm-8">
+                                                                        <a href="https://drive.google.com/file/d/183XCsyxziCWhWC_j51zZjPcTMmTt__ZK/view?usp=sharing" target="_blank" class="card-link my-a">แบบฟอร์มการขอใช้ยานพาหนะออกต่างจังหวัดขึ้นที่สูง</a>
+                                                                        <div style="font-size: small">
+                                                                            <i class="fa fa-calendar mb-2 mr-sm-2" style="font-weight: bold"></i>
+                                                                            โดย 58318172 นางสาว ปวีณา พยาบาล
+                                                                            <br />
+                                                                            <span style="font-weight: bold">หมวด</span> แบบฟอร์ม
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td><td>8/4/2021 5:50:24 PM</td>
+                                    </tr>
+                                </table>
+                            </div>
+                                    </div>
+                        </div>
+
+        <script>
+            var exampleModal = document.getElementById('exampleModal')
+            exampleModal.addEventListener('show.bs.modal', function (event) {
+                // Button that triggered the modal
+                var button = event.relatedTarget
+                // Extract info from data-bs-* attributes
+                var recipient = button.getAttribute('data-bs-whatever')
+                // If necessary, you could initiate an AJAX request here
+                // and then do the updating in a callback.
+                //
+                // Update the modal's content.
+                var modalTitle = exampleModal.querySelector('.modal-title')
+                var modalBodyInput = exampleModal.querySelector('.modal-body input')
+
+                modalTitle.textContent = 'New message to ' + recipient
+                modalBodyInput.value = recipient
+            })
+        </script>
+        <script>
+            const readOnlyColorPicker = document.getElementById("color-picker");
+            readOnlyColorPicker.addEventListener("click", (event) => {
+                event.preventDefault();
+            });
+        </script>
+        <script src="/JS/alertDelete.js"></script>
+        <script src="../JS/navbar.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+
+</body>
+
+</html>
