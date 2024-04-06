@@ -134,8 +134,52 @@
                                                 role="button"><i class="fa-regular fa-pen-to-square"></i></a>
                                             <% if (user.role !=="user" && user.role==="approver" && booking.status<=1 )
                                                 { %>
-                                                <a class="btn btn-success" href="" role=" button"><i
-                                                        class="fa-solid fa-check"></i></a>
+                                                    <a class="btn btn-success" href="" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever=""><i class="fa-solid fa-check"></i></a>
+                                                    <div class="modal fade" id="exampleModal" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">สถานะ</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name"
+                                                                    class="col-form-label">หัวข้อ:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="recipient-name">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">รถที่ใช้:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">ผู้ร้องขอ:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">คนขับรถ:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">ปิด</button>
+                                                        <button type="button" class="btn btn-primary">ยืนยัน</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                                 <% } %>
                                                     <button type="button" class="btn  btn-danger"
                                                         onclick="displayAlert();"><i
@@ -194,12 +238,15 @@
                 </table>
             </div>
         </div>
+       
         <script src="../JS/alertDelete.js"></script>
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 </body>
 
 </html>
