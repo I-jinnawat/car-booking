@@ -126,12 +126,12 @@
                                 <td>
                                     <% if (booking.status !==4) { %>
                                         <div class="btn-group  btn-group" role="group" style="width: 120px;">
-                                            <a class="btn btn-warning" href="#" role="button"><i
-                                                    class="fa-regular fa-pen-to-square"></i></a>
+                                            <a class="btn btn-warning" href="/booking-edit/<%= booking._id %>"
+                                                role="button"><i class="fa-regular fa-pen-to-square"></i></a>
                                             <% if (user.role !=="user" && user.role==="approver" && booking.status<=1 )
                                                 { %>
-                                                <a class="btn btn-success" href="/booking-edit/<%= booking._id %>"
-                                                    role=" button"><i class="fa-solid fa-check"></i></a>
+                                                <a class="btn btn-success" href="" role=" button"><i
+                                                        class="fa-solid fa-check"></i></a>
                                                 <% } %>
                                                     <button type="button" class="btn  btn-danger"
                                                         onclick="displayAlert();"><i

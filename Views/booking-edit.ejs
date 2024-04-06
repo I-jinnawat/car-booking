@@ -99,20 +99,21 @@
                                         <div class="row mt-4">
                                             <div class="col">
                                                 <label for="">สถานที่รับ</label>
-                                                <input type="text" name="placestart" required>
+                                                <input type="text" name="placestart" required
+                                                    value="<%= booking.placestart %>">
                                             </div>
                                             <div class="col">
                                                 <label for="">สถานที่ส่ง</label>
-                                                <input type="text" name="placeend" required>
+                                                <input type="text" name="placeend" required
+                                                    value="<%= booking.placeend %>">
                                             </div>
                                         </div>
                                         <div class="row mt-4">
                                             
                                             <div class="col">
                                                 <label for="">จำนวนผู้โดยสาร</label>
-                                                <!-- min =0 -->
                                                 <input type="number" required id="passenger" name="passengerCount"
-                                                    min="0">
+                                                    min="0" value="<%= booking.passengerCount %>">
                                                 <span> คน</span>
                                             </div>
                                         </div>
@@ -124,7 +125,7 @@
                                                     ***(โปรดระบุชื่อ-นามสกุลของผู้รับบริการให้ครบถ้วน)***
                                                 </span>
                                                 <textarea class="form-control" rows="5" id="comment" name="passenger"
-                                                    required></textarea>
+                                                    required><%= booking.passenger %></textarea>
                                             </div>
                                         </div>
                                     </div>
