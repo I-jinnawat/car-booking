@@ -85,16 +85,15 @@
                                     </div>
                                     <div class="mt-4 ">
                                         <div class="row">
-                                            <div class="col">
-                                                <label class="form-label">วันที่ใช้รถ</label>
-                                                <input type="date" id="seven" name="day" required
-                                                    value="<%= booking.formattedDay %>">
-                                            </div>
 
 
                                             <div class="col">
-                                                <label for="">เวลาไปถึงสถานที่รับ</label>
+                                                <label for="">วัน/เวลาไปถึงสถานที่รับรถ</label>
                                                 <input type="datetime-local" name="start" required value="2024-04-05">
+                                            </div>
+                                            <div class="col">
+                                                <label for="">วัน/เวลาเสร็จสิ้นภารกิจ</label>
+                                                <input type="datetime-local" name="end" required>
                                             </div>
                                         </div>
                                         <div class="row mt-4">
@@ -108,10 +107,7 @@
                                             </div>
                                         </div>
                                         <div class="row mt-4">
-                                            <div class="col">
-                                                <label for="">เวลาเสร็จสิ้นภารกิจ</label>
-                                                <input type="datetime-local" name="end" required>
-                                            </div>
+                                            
                                             <div class="col">
                                                 <label for="">จำนวนผู้โดยสาร</label>
                                                 <!-- min =0 -->
@@ -134,8 +130,10 @@
                                     </div>
                                     <div class="text-center mt-3">
                                         <form onsubmit="displayAlert(); return false;">
-                                            <button type="submit" class="btn btn-primary btn-lg"
-                                                id="txt">ยืนยัน</button>
+                                            <button type="submit" class="btn btn-primary btn-lg" style="background-color: rgb(44, 169, 44);" id="txt">อนุมัติ</button>
+                                        <button type="submit" class="btn btn-primary btn-lg" style="background-color: red;" id="txt">ไม่อนุมัติ</button>
+                                    </form>
+                                    <p style="font-size: 20px;">หัวหน้างานอนุมัติสำเร็จ,รอคนจัดรถ</p>
                                         </form>
                                     </div>
                             </div>
