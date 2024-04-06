@@ -43,7 +43,6 @@ exports.createEvent = async (req, res) => {
       organization,
       mobile_number,
       title,
-      day,
       start,
       placestart,
       placeend,
@@ -62,7 +61,6 @@ exports.createEvent = async (req, res) => {
       organization,
       mobile_number,
       title,
-      day,
       start,
       placestart,
       placeend,
@@ -74,7 +72,7 @@ exports.createEvent = async (req, res) => {
       allDay,
     });
 
-    res.status(201).redirect("/");
+    res.status(201).redirect("/manage");
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

@@ -135,12 +135,11 @@
                                     </div>
                                     <% if (user.role==="approver" && booking.status===1) { %>
                                         <div class="text-center mt-3">
-
                                             <button type="submit" class="btn btn-primary btn-lg"
-                                                onsubmit="displayAlertUnapprove()" style="background-color: red;"
+                                                onclick="displayAlertUnapprove()" style="background-color: red;"
                                                 id="txt">ไม่อนุมัติ</button>
                                             <button type="submit" class="btn btn-primary btn-lg"
-                                                onsubmit="displayAlertApprove()"
+                                                onclick="displayAlertApprove()"
                                                 style="background-color: rgb(44, 169, 44);" id="txt">อนุมัติ</button>
 
                                         </div>
@@ -266,19 +265,10 @@
                             event.target.setCustomValidity("");
                         }
                     });
-
-                    var txt = document.querySelector("#txt");
-                    form.displayAlert("submit", function (event) {
-                        if (mobileInput.validity.valid) {
-                            displayAlert();
-                        } else {
-                            event.preventDefault();
-                        }
-                    });
                 });
             </script>
             <script>
-                function displayAlert() {
+                function displayAlertApprove() {
                     const swalWithBootstrapButtons = Swal.mixin({
                         customClass: {
                             confirmButton: 'btn btn-success',
