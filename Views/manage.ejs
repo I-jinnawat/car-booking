@@ -58,49 +58,51 @@
                     </div>
                     <div class="card" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25)">
                         <div class="card-body">
-                            <div id="status-control">
-                                <label for="">สิทธิ์ :</label>
-                                <div class="btn-group" role="group">
-                                    <input type="radio" class="btn-check" name="btnradio" autocomplete="off" readonly
-                                        <%=user.role==="user" ? "checked" : "" %>>
-                                    <label class="btn btn-outline-primary" for="btnradio1">พนักงาน</label>
+                            <<<<<<< HEAD <div id="status-control">
+                                =======
+                                <div id="status-control">
+                                    >>>>>>> 7be129727ab1ac5b9f904a440a7c1bb079b07dfd
+                                    <label for="">สิทธิ์ :</label>
+                                    <div class="btn-group" role="group">
+                                        <input type="radio" class="btn-check" name="btnradio" autocomplete="off"
+                                            readonly <%=user.role==="user" ? "checked" : "" %>>
+                                        <label class="btn btn-outline-primary" for="btnradio1">พนักงาน</label>
 
-                                    <input type="radio" class="btn-check" name="btnradio" autocomplete="off" readonly
-                                        <%=user.role==="admin" ? "checked" : "" %>>
-                                    <label class="btn btn-outline-primary" for="btnradio2">ผู้จัดรถ</label>
+                                        <input type="radio" class="btn-check" name="btnradio" autocomplete="off"
+                                            readonly <%=user.role==="admin" ? "checked" : "" %>>
+                                        <label class="btn btn-outline-primary" for="btnradio2">ผู้จัดรถ</label>
 
-                                    <input type="radio" class="btn-check" name="btnradio" autocomplete="off" readonly
-                                        <%=user.role==="approver" ? "checked" : "" %>>
-                                    <label class="btn btn-outline-primary" for="btnradio3">ผู้อนุมัติ</label>
+                                        <input type="radio" class="btn-check" name="btnradio" autocomplete="off"
+                                            readonly <%=user.role==="approver" ? "checked" : "" %>>
+                                        <label class="btn btn-outline-primary" for="btnradio3">ผู้อนุมัติ</label>
+                                    </div>
+                                    <span class="ms-3">
+                                        <label for="">สถานะ</label>
+                                        <div class="btn-group">
+                                            <select class="form-select">
+                                                <option selected>กำลังดำเนินการ...</option>
+                                                <option value="1">ทั้งหมด</option>
+                                                <option value="3">เสร็จสิ้น</option>
+                                            </select>
+                                        </div>
+                                    </span>
                                 </div>
-
-                                <span class="ms-3">
-                                    <label for="">สถานะ</label>
-                                    <div class="btn-group">
-                                        <select class="form-select">
-                                            <option selected>กำลังดำเนินการ...</option>
-                                            <option value="1">ทั้งหมด</option>
-                                            <option value="3">เสร็จสิ้น</option>
-                                        </select>
-                                    </div>
-                                </span>
-                            </div>
-                            <hr>
-                            <div class="row mt-2">
-                                <div class="col d-flex justify-content-between" id="search">
-                                    <div>
-                                        <label for="">เมนู :</label>
-                                        <a href="/booking" class="btn border-0 bookingbtn"
-                                            style="background-color:#FFECB3; width: 100px;"><i
-                                                class="fa-regular fa-pen-to-square"></i>
-                                            จองรถ</a>
-                                    </div>
-                                    <div class="search">
-                                        <input class="p-1" type="text" placeholder="&#xf002; ค้นหา"
-                                            style="width: 200px; border-radius: 8px ; border:1px solid black;">
+                                <hr>
+                                <div class="row mt-2">
+                                    <div class="col d-flex justify-content-between" id="search">
+                                        <div>
+                                            <label for="">เมนู :</label>
+                                            <a href="/booking" class="btn border-0 bookingbtn"
+                                                style="background-color:#FFECB3; width: 100px;"><i
+                                                    class="fa-regular fa-pen-to-square"></i>
+                                                จองรถ</a>
+                                        </div>
+                                        <div class="search">
+                                            <input class="p-1" type="text" placeholder="&#xf002; ค้นหา"
+                                                style="width: 200px; border-radius: 8px ; border:1px solid black;">
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -138,7 +140,25 @@
                                                         <button type="button" class="btn btn-danger"
                                                             onclick="displayAlert('<%= booking._id %>')"><i
                                                                 class="fa-solid fa-trash-can"></i></button>
-                                                        <% } %>
+                                                        <<<<<<< HEAD=======</div>
+                                                            <!--  status 2 wil show "waiting" wait admin -->
+                                                            <% }else{ %>
+                                                                <% if (user.role==="admin" ) { %>
+                                                                    <div class="btn-group btn-group" role="group"
+                                                                        style="width: 120px;">
+                                                                        <a class="btn btn-warning"
+                                                                            href="/booking-edit/<%= booking._id %>"
+                                                                            role="button"><i
+                                                                                class="fa-regular fa-pen-to-square"></i></a>
+                                                                        <button type="button" class="btn btn-danger"
+                                                                            onclick="displayAlert('<%= booking._id %>')"><i
+                                                                                class="fa-solid fa-trash-can"></i></button>
+                                                                    </div>
+                                                                    <% }else{ %>
+                                                                        <button type="button" class="btn btn-warning"
+                                                                            style="width: 90px;">Waiting</button>
+                                                                        >>>>>>> 7be129727ab1ac5b9f904a440a7c1bb079b07dfd
+                                                                        <% } %>
                                                 </div>
                                                 <% }else{ %>
                                                     wait <% } %>
@@ -265,7 +285,6 @@
                                 </td>
                                 <td>
                                     <% if(user.role!=='user' ){ %>
-
                                         <%= booking.title %>
                                             <% }else{ %>
                                                 ไม่บอกง้าบบ
@@ -320,14 +339,11 @@
                         if (!response.ok) {
                             throw new Error('Failed to delete booking');
                         }
-
                         window.location.reload();
                     })
                     .catch(error => {
                         console.error('Error deleting booking:', error);
-
                     });
-
             }
         </script>
 </body>
