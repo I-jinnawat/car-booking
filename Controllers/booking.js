@@ -88,12 +88,12 @@ exports.bookingEdit = async (req, res) => {
   const bookings = await Booking.find().lean();
   try {
     req.session.user
-      ? res.render("booking", {
+      ? res.render("booking-edit", {
           userLoggedIn: true,
           user: req.session.user,
           bookings,
         })
-      : res.render("booking", { userLoggedIn: false });
+      : res.render("booking-edit", { userLoggedIn: false });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

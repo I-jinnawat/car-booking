@@ -99,29 +99,33 @@ body {
 .search input::placeholder {
   font-family: "fontAwesome";
 }
+.bookingbtn:hover {
+  background-color: #f90000 !important;
+}
 .btn-check:checked + .btn {
   color: black;
   background-color: #d9d9d9;
   border-color: black;
 }
+
 .btn-outline-primary {
- color: #6c757d; 
- border-color: #6c757d; 
+  color: #6c757d;
+  border-color: #6c757d;
 }
 
-.btn-outline-primary:focus,
-.btn-outline-primary:hover {
- color: #6c757d; 
- border-color: #6c757d; 
+.colored-toast.swal2-icon-success {
+  background-color: #a5dc86 !important;
 }
+/* .btn-outline-primary:focus,
+.btn-outline-primary:hover {
+  color: #6c757d;
+  border-color: #6c757d;
+} */
 
 .btn-check:checked + .btn-outline-primary {
- background-color: #d9d9d9; 
-border-color: #6c757d; 
+  /* background-color: #d9d9d9; */
+  border-color: #6c757d;
 }
-.btn:hover {
-  color: #b4aeae !important;
- }
 
 @media (max-width: 768px) {
   #status-control {

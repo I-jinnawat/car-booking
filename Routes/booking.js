@@ -9,7 +9,7 @@ const {
 } = require("../Controllers/booking");
 
 router.get("/booking", list);
-router.get("/booking-edit", bookingEdit);
+router.get("/booking-edit/:id", bookingEdit);
 router.get("/events", Event);
 router.post("/events", createEvent);
 
