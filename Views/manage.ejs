@@ -35,6 +35,7 @@
             background-color: #d9d9d9;
             border-color: #6c757d;
         }
+
         .btn-outline-primary:hover {
             color: #6c757d !important;
             border-color: #6c757d !important;
@@ -105,7 +106,6 @@
                     </div>
                 </div>
             </div>
-            <!-- box shadow -->
             <div class="card mt-3" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                 <table class="table table-striped table-hover table-bordered">
                     <thead>
@@ -115,7 +115,6 @@
                             <th scope="col">วันที่ร้องขอ</th>
                             <th scope="col">หัวข้อ</th>
                             <th scope="col">วันที่เริ่มเดินทาง</th>
-                            <!-- <th scope="col">วันที่สิ้นสุดเดินทาง</th> -->
                             <th scope="col">รถที่ใช้</th>
                             <th scope="col">ผู้ร้องขอ </th>
                             <th scope="col">หัวหน้าหน่วย</th>
@@ -134,56 +133,64 @@
                                                 role="button"><i class="fa-regular fa-pen-to-square"></i></a>
                                             <% if (user.role !=="user" && user.role==="approver" && booking.status<=1 )
                                                 { %>
-                                                    <a class="btn btn-success" href="" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever=""><i class="fa-solid fa-check"></i></a>
-                                                    <div class="modal fade" id="exampleModal" tabindex="-1"
-                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">สถานะ</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <form>
-                                                            <div class="mb-3">
-                                                                <label for="recipient-name"
-                                                                    class="col-form-label">หัวข้อ:</label>
-                                                                <input type="text" class="form-control"
-                                                                    id="recipient-name">
+                                                <a class="btn btn-success" href="" role="button" data-bs-toggle="modal"
+                                                    data-bs-target="#exampleModal" data-bs-whatever=""><i
+                                                        class="fa-solid fa-check"></i></a>
+                                                <div class="modal fade" id="exampleModal" tabindex="-1"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">
+                                                                    แก้ไขรายละเอียดการจอง</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="message-text"
-                                                                    class="col-form-label">รถที่ใช้:</label>
-                                                                <textarea class="form-control"
-                                                                    id="message-text"></textarea>
+                                                            <div class="modal-body">
+                                                                <form action="/events/<%= booking._id %>" method="POST">
+                                                                    <div class="mb-3">
+                                                                        <label for="title"
+                                                                            class="col-form-label">หัวข้อ:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="title" name="title"
+                                                                            value="<%= booking.title %>">
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="vehicle"
+                                                                            class="col-form-label">รถที่ใช้:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="vehicle" name="vehicle"
+                                                                            value="<%= booking.vehicle %>">
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="userinfo"
+                                                                            class="col-form-label">ผู้ร้องขอ:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="userinfo" name="userinfo"
+                                                                            value="<%= booking.userinfo %>">
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label for="driver"
+                                                                            class="col-form-label">คนขับรถ:</label>
+                                                                        <input type="text" class="form-control"
+                                                                            id="driver" name="driver"
+                                                                            value="<%= booking.driver %>">
+                                                                    </div>
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">ปิด</button>
+                                                                    <button type="submit"
+                                                                        class="btn btn-primary">บันทึกการเปลี่ยนแปลง</button>
+                                                                </form>
                                                             </div>
-                                                            <div class="mb-3">
-                                                                <label for="message-text"
-                                                                    class="col-form-label">ผู้ร้องขอ:</label>
-                                                                <textarea class="form-control"
-                                                                    id="message-text"></textarea>
-                                                            </div>
-                                                            <div class="mb-3">
-                                                                <label for="message-text"
-                                                                    class="col-form-label">คนขับรถ:</label>
-                                                                <textarea class="form-control"
-                                                                    id="message-text"></textarea>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">ปิด</button>
-                                                        <button type="button" class="btn btn-primary">ยืนยัน</button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>
                                                 <% } %>
-                                                    <button type="button" class="btn  btn-danger"
-                                                        onclick="displayAlert();"><i
-                                                            class="fa-solid fa-trash-can"></i></button>
+                                                    <button type="button" class="btn btn-danger"
+                                                        onclick="deleteBooking('<%= booking._id %>')">
+                                                        <i class="fa-solid fa-trash-can"></i>
+                                                    </button>
+
                                         </div>
                                         <% } else { %>
                                             <!-- Icons for print report and delete -->
@@ -238,15 +245,41 @@
                 </table>
             </div>
         </div>
-       
+        <script>
+            function deleteBooking(bookingId) {
+                // Confirm with the user before deleting
+                if (confirm('Are you sure you want to delete this booking?')) {
+                    // Send a DELETE request to the server
+                    fetch(`/events/${bookingId}`, {
+                        method: 'DELETE',
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Failed to delete booking');
+                            }
+                            // Reload the page or update the UI as needed
+                            window.location.reload(); // Reload the page after successful deletion
+                        })
+                        .catch(error => {
+                            console.error('Error deleting booking:', error);
+                            // Handle error if needed
+                        });
+                }
+            }
+        </script>
+
         <script src="../JS/alertDelete.js"></script>
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
 </body>
 
 </html>

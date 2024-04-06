@@ -74,9 +74,11 @@
                                             value="<%= user.organization %>" readonly>
                                     </div>
                                     <div class="col">
-                                        <label class="form-label">เบอร์โทร</label>
-                                        <input class="border-1 rounded-1" type="tel" max="10" name="mobile_number"
-                                            placeholder="เช่น 08x-xxx-xxxx" name="tel" required>
+                                        <label class="form-label">หมายเลขโทรศัพท์</label>
+                                        <input class="border-1 rounded-1" type="text" id="mobileNumber"
+                                            name="mobile_number" placeholder="เช่น 08x-xxx-xxxx" required>
+                                        <small id="mobileNumberError"
+                                            class="text-danger d-none">โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10 ตัวเลข</small>
                                     </div>
                                 </div>
                                 <div class="form-group mt-4 ">
@@ -141,31 +143,33 @@
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                var mobileInput = document.querySelector('input[name="mobile_number"]');
+                const mobileInput = document.getElementById("mobileNumber");
 
                 mobileInput.addEventListener("input", function (event) {
-                    var inputValue = event.target.value;
-                    // ตรวจสอบว่ามีเฉพาะตัวเลขหรือไม่
-                    if (/[^0-9]/.test(inputValue)) {
-                        event.target.value = inputValue.replace(/[^0-9]/g, '');
-                    }
-                    // ตรวจสอบจำนวนตัวเลข
-                    if (inputValue.length !== 10) {
-                        event.target.setCustomValidity("โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10 ตัวเลข");
-                    } else {
-                        event.target.setCustomValidity("");
-                    }
-                });
+                    let inputValue = event.target.value;
 
-                var txt = document.querySelector("#txt");
-                form.displayAlert("submit", function (event) {
-                    if (mobileInput.validity.valid) {
-                        displayAlert();
+                    // Remove non-numeric characters
+                    inputValue = inputValue.replace(/[^0-9]/g, '');
+
+                    // Check if the input value starts with a "0", if not, prepend it
+                    if (!inputValue.startsWith('0')) {
+                        inputValue = '0' + inputValue;
+                    }
+
+                    // Update the input value
+                    event.target.value = inputValue;
+
+                    // Check if the input value has more than 10 characters
+                    if (inputValue.length !== 10) {
+                        document.getElementById("mobileNumberError").classList.remove("d-none");
+                        mobileInput.setCustomValidity("โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10 ตัวเลข");
                     } else {
-                        event.preventDefault();
+                        document.getElementById("mobileNumberError").classList.add("d-none");
+                        mobileInput.setCustomValidity("");
                     }
                 });
             });
+
             function displayAlert() {
                 // Show the alert
                 const swalWithBootstrapButtons = Swal.mixin({

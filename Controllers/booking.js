@@ -16,6 +16,24 @@ exports.list = async (req, res) => {
   }
 };
 
+exports.bookingEdit = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const booking = await Booking.findById(id);
+
+    req.session.user
+      ? res.render("booking-edit", {
+          userLoggedIn: true,
+          user: req.session.user,
+          booking, // Pass the single booking, not an array
+        })
+      : res.render("dashboard", { userLoggedIn: false });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 exports.createEvent = async (req, res) => {
   try {
     const {
@@ -38,7 +56,7 @@ exports.createEvent = async (req, res) => {
     } = req.body;
 
     const event = await Booking.create({
-      status, // Include the status field
+      status,
       userinfo,
       vehicle,
       organization,
@@ -84,23 +102,51 @@ exports.Event = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-exports.bookingEdit = async (req, res) => {
+
+exports.updateEvent = async (req, res) => {
   const { id } = req.params;
   try {
-    const booking = await Booking.findById(id);
+    // Extract the booking data from the request body
+    const {
+      mobile_number,
+      title,
+      start,
+      end,
+      placestart,
+      placeend,
+      passengerCount,
+      passenger,
+    } = req.body;
 
-    // Process the date for the booking
-    booking.formattedDay = new Date(booking.day).toISOString().split("T")[0];
+    // Update the booking in the database
+    await Booking.findByIdAndUpdate(id, {
+      mobile_number,
+      title,
+      start,
+      end,
+      placestart,
+      placeend,
+      passengerCount,
+      passenger,
+    });
 
-    req.session.user
-      ? res.render("booking-edit", {
-          userLoggedIn: true,
-          user: req.session.user,
-          booking, // Pass the single booking, not an array
-        })
-      : res.render("dashboard", { userLoggedIn: false });
+    // Redirect the user to a success page or send a success response
+    res.redirect("/success");
   } catch (error) {
     console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+exports.deleteEvent = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Find the booking by ID and delete it from the database
+    await Booking.findByIdAndDelete(id);
+    res.sendStatus(204); // Send a success status code (No Content)
+  } catch (error) {
+    console.error("Error deleting booking:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
