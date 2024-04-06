@@ -38,17 +38,6 @@ eventSchema.pre("save", function (next) {
   next();
 });
 
-// Define a pre-find hook to convert createdAt and updatedAt timestamps to Thai time zone
-eventSchema.pre(/^find/, function (next) {
-  const thaiTimeZone = "Asia/Bangkok";
-  // Convert createdAt and updatedAt timestamps to Thai time zone
-  this._conditions.createdAt = {
-    $gte: moment().tz(thaiTimeZone).startOf("day"),
-    $lte: moment().tz(thaiTimeZone).endOf("day"),
-  };
-  next();
-});
-
 const Booking = mongoose.model("book", eventSchema);
 
 module.exports = Booking;

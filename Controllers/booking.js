@@ -104,7 +104,6 @@ exports.Event = async (req, res) => {
 exports.updateEvent = async (req, res) => {
   const { id } = req.params;
   try {
-    // Extract the booking data from the request body
     const {
       status,
       mobile_number,
@@ -115,9 +114,8 @@ exports.updateEvent = async (req, res) => {
       placeend,
       passengerCount,
       passenger,
+      approverName,
     } = req.body;
-
-    // Update the booking in the database
     await Booking.findByIdAndUpdate(id, {
       status,
       mobile_number,
@@ -128,10 +126,12 @@ exports.updateEvent = async (req, res) => {
       placeend,
       passengerCount,
       passenger,
+      approverName,
     });
 
     // Redirect the user to a success page or send a success response
-    res.redirect("/manage");
+
+    res.render("manage");
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
