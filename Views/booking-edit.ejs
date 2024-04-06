@@ -135,10 +135,10 @@
                                         <div class="text-center mt-3">
                                             <form onsubmit="displayAlert(); return false;">
                                                 <button type="submit" class="btn btn-primary btn-lg"
+                                                    style="background-color: red;" id="txt">ไม่อนุมัติ</button>
+                                                    <button type="submit" class="btn btn-primary btn-lg"
                                                     style="background-color: rgb(44, 169, 44);"
                                                     id="txt">อนุมัติ</button>
-                                                <button type="submit" class="btn btn-primary btn-lg"
-                                                    style="background-color: red;" id="txt">ไม่อนุมัติ</button>
                                             </form>
                                         </div>
                                         <% }else if(user.role==="user" && booking.status===1){ %>
