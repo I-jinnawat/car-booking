@@ -58,10 +58,8 @@
                     </div>
                     <div class="card" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25)">
                         <div class="card-body">
-                            <<<<<<< HEAD <div id="status-control">
-                                =======
+                            <div id="status-control">
                                 <div id="status-control">
-                                    >>>>>>> 7be129727ab1ac5b9f904a440a7c1bb079b07dfd
                                     <label for="">สิทธิ์ :</label>
                                     <div class="btn-group" role="group">
                                         <input type="radio" class="btn-check" name="btnradio" autocomplete="off"
@@ -103,249 +101,237 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="card mt-3" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
-                <table class="table table-striped table-hover table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">จัดการ</th>
-                            <th scope="col">สถานะ</th>
-                            <th scope="col">วันที่ร้องขอ</th>
-                            <th scope="col">หัวข้อ</th>
-                            <th scope="col">วันที่เริ่มเดินทาง</th>
-                            <th scope="col">รถที่ใช้</th>
-                            <th scope="col">ผู้ร้องขอ </th>
-                            <th scope="col">หัวหน้าหน่วย</th>
-                            <th scope="col">คนจัดรถ</th>
-                            <th scope="col">คนขับรถ</th>
-                            <th scope="col">คนยกเลิก</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% bookings.forEach(booking=> { %>
+                <div class="card mt-3" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                    <table class="table table-striped table-hover table-bordered">
+                        <thead>
                             <tr>
-                                <td>
-                                    <!-- if status not equal 4 will show -->
-                                    <% if (booking.status !==4) { %>
-                                        <!-- if status  1(booking success) user can change info of booking and 3(จัดรถสำเร็จ,พร้อมใช้งาน) user must fill distant form -->
-                                        <% if (user.role==='user' ) { %>
-                                            <% if (booking.status===1 || booking.status===3) { %>
-                                                <div class="btn-group btn-group" role="group" style="width: 120px;">
-                                                    <a class="btn btn-warning" href="/booking-edit/<%= booking._id %>"
-                                                        role="button"><i class="fa-regular fa-pen-to-square"></i></a>
-                                                    <% if (booking.status !==3) { %>
-                                                        <button type="button" class="btn btn-danger"
-                                                            onclick="displayAlert('<%= booking._id %>')"><i
-                                                                class="fa-solid fa-trash-can"></i></button>
-                                                        <<<<<<< HEAD=======</div>
-                                                            <!--  status 2 wil show "waiting" wait admin -->
-                                                            <% }else{ %>
-                                                                <% if (user.role==="admin" ) { %>
+                                <th scope="col">จัดการ</th>
+                                <th scope="col">สถานะ</th>
+                                <th scope="col">วันที่ร้องขอ</th>
+                                <th scope="col">หัวข้อ</th>
+                                <th scope="col">วันที่เริ่มเดินทาง</th>
+                                <th scope="col">รถที่ใช้</th>
+                                <th scope="col">ผู้ร้องขอ </th>
+                                <th scope="col">หัวหน้าหน่วย</th>
+                                <th scope="col">คนจัดรถ</th>
+                                <th scope="col">คนขับรถ</th>
+                                <th scope="col">คนยกเลิก</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% bookings.forEach(booking=> { %>
+                                <tr>
+                                    <td>
+                                        <!-- if status not equal 4 will show  (status 1,2,3) -->
+                                        <% if (booking.status !==4) { %>
+                                            <!-- Role user can see this part-->
+                                            <% if (user.role==='user' ) { %>
+                                                <!-- Role user can see only booking status 1  or booking status 3 -->
+                                                <% if (booking.status===1 || booking.status===3) { %>
+                                                    <div class="btn-group btn-group" role="group" style="width: 120px;">
+                                                        <a class="btn btn-warning"
+                                                            href="/booking-edit/<%= booking._id %>" role="button"><i
+                                                                class="fa-regular fa-pen-to-square"></i></a>
+                                                        <!-- If booking status 3 can see delete button -->
+                                                        <% if (booking.status !==3){ %>
+                                                            <button type="button" class="btn btn-danger"
+                                                                onclick="displayAlert(' <%=booking._id %>')"><i
+                                                                    class="fa-solid fa-trash-can"></i></button>
+                                                            <% } %>
+                                                    </div>
+                                                    <!--  status 2 wil show "waiting" wait admin -->
+                                                    <% } else if (user.role==="admin" ) { %>
+                                                        <div class="btn-group btn-group" role="group"
+                                                            style="width: 120px;">
+                                                            <a class="btn btn-warning"
+                                                                href="/booking-edit/<%= booking._id %>" role="button"><i
+                                                                    class="fa-regular fa-pen-to-square"></i></a>
+                                                            <button type="button" class="btn btn-danger"
+                                                                onclick="displayAlert('<%= booking._id %>')"><i
+                                                                    class="fa-solid fa-trash-can"></i></button>
+                                                        </div>
+                                                        <% } else { %>
+                                                            wait
+                                                            <% } %>
+                                                                <% } else if(user.role==="approver" &&
+                                                                    booking.status==1) { %>
                                                                     <div class="btn-group btn-group" role="group"
                                                                         style="width: 120px;">
                                                                         <a class="btn btn-warning"
                                                                             href="/booking-edit/<%= booking._id %>"
                                                                             role="button"><i
                                                                                 class="fa-regular fa-pen-to-square"></i></a>
+                                                                        <a class="btn btn-success" href="" role="button"
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#exampleModal"
+                                                                            data-bs-whatever=""><i
+                                                                                class="fa-solid fa-check"></i></a>
+                                                                        <!-- Will show modal-->
+                                                                        <div class="modal fade" id="exampleModal"
+                                                                            aria-hidden="true">
+                                                                            <div class="modal-dialog">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title"
+                                                                                            id="exampleModalLabel">
+                                                                                            แก้ไขรายละเอียดการจอง
+                                                                                        </h5>
+                                                                                        <button type="button"
+                                                                                            class="btn-close"
+                                                                                            data-bs-dismiss="modal"
+                                                                                            aria-label="Close"></button>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        <form
+                                                                                            action="/events/<%= booking._id %>"
+                                                                                            method="POST">
+                                                                                            <input type="hidden"
+                                                                                                name="status" value="2">
+                                                                                            <div class="mb-3 row">
+                                                                                                <label for="title"
+                                                                                                    class="col-sm-3 col-form-label">หัวข้อ:</label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <input type="text"
+                                                                                                        class="form-control"
+                                                                                                        id="title"
+                                                                                                        name="title"
+                                                                                                        value="<%= booking.title %>">
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="mb-3 row">
+                                                                                                <label for="title"
+                                                                                                    class="col-sm-3 col-form-label">ผู้ร้องขอ:</label>
+                                                                                                <div class="col-sm-9">
+                                                                                                    <input type="text"
+                                                                                                        class="form-control"
+                                                                                                        id="title"
+                                                                                                        name="title"
+                                                                                                        value="<%= booking.userinfo %>"
+                                                                                                        readonly>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <!-- Other form fields -->
+                                                                                            <div class="row">
+                                                                                                <div class="col-sm-12">
+                                                                                                    <button
+                                                                                                        type="button"
+                                                                                                        class="btn btn-secondary"
+                                                                                                        data-bs-dismiss="modal">ปิด</button>
+                                                                                                    <button
+                                                                                                        type="submit"
+                                                                                                        class="btn btn-primary">บันทึกการเปลี่ยนแปลง</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
                                                                         <button type="button" class="btn btn-danger"
                                                                             onclick="displayAlert('<%= booking._id %>')"><i
                                                                                 class="fa-solid fa-trash-can"></i></button>
                                                                     </div>
-                                                                    <% }else{ %>
-                                                                        <button type="button" class="btn btn-warning"
-                                                                            style="width: 90px;">Waiting</button>
-                                                                        >>>>>>> 7be129727ab1ac5b9f904a440a7c1bb079b07dfd
-                                                                        <% } %>
-                                                </div>
-                                                <% }else{ %>
-                                                    wait <% } %>
-                                                        <% }else if(user.role==="approver" && booking.status==1) {%>
-                                                            <div class="btn-group btn-group" role="group"
-                                                                style="width: 120px;">
-                                                                <a class="btn btn-warning"
-                                                                    href="/booking-edit/<%= booking._id %>"
-                                                                    role="button"><i
-                                                                        class="fa-regular fa-pen-to-square"></i></a>
-                                                                <a class="btn btn-success" href="" role="button"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModal"
-                                                                    data-bs-whatever=""><i
-                                                                        class="fa-solid fa-check"></i></a>
-                                                                <!-- Will show modal-->
-                                                                <div class="modal fade" id="exampleModal"
-                                                                    aria-hidden="true">
-                                                                    <div class="modal-dialog">
-                                                                        <div class="modal-content">
-                                                                            <div class="modal-header">
-                                                                                <h5 class="modal-title"
-                                                                                    id="exampleModalLabel">
-                                                                                    แก้ไขรายละเอียดการจอง</h5>
-                                                                                <button type="button" class="btn-close"
-                                                                                    data-bs-dismiss="modal"
-                                                                                    aria-label="Close"></button>
-                                                                            </div>
-                                                                            <div class="modal-body">
-                                                                                <form
-                                                                                    action="/events/<%= booking._id %>"
-                                                                                    method="POST">
-                                                                                    <input type="hidden" name="status"
-                                                                                        value="2">
-                                                                                    <div class="mb-3 row">
-                                                                                        <label for="title"
-                                                                                            class="col-sm-3 col-form-label">หัวข้อ:</label>
-                                                                                        <div class="col-sm-9">
-                                                                                            <input type="text"
-                                                                                                class="form-control"
-                                                                                                id="title" name="title"
-                                                                                                value="<%= booking.title %>">
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="mb-3 row">
-                                                                                        <label for="title"
-                                                                                            class="col-sm-3 col-form-label">ผู้ร้องขอ:</label>
-                                                                                        <div class="col-sm-9">
-                                                                                            <input type="text"
-                                                                                                class="form-control"
-                                                                                                id="title" name="title"
-                                                                                                value="<%= booking.userinfo %>"
-                                                                                                readonly>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <!-- Other form fields -->
-                                                                                    <div class="row">
-                                                                                        <div class="col-sm-12">
-                                                                                            <button type="button"
-                                                                                                class="btn btn-secondary"
-                                                                                                data-bs-dismiss="modal">ปิด</button>
-                                                                                            <button type="submit"
-                                                                                                class="btn btn-primary">บันทึกการเปลี่ยนแปลง</button>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </form>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <button type="button" class="btn btn-danger"
-                                                                    onclick="displayAlert('<%= booking._id %>')"><i
-                                                                        class="fa-solid fa-trash-can"></i></button>
-                                                            </div>
-                                                            <% }else if(user.role==="admin" && (booking.status===2 ||
-                                                                booking.status===3)){ %>
-                                                                <div class="btn-group btn-group" role="group"
-                                                                    style="width: 120px;">
-                                                                    <% if(booking.status!==3){%>
-
-                                                                        <a class="btn btn-warning"
-                                                                            href="/booking-edit/<%= booking._id %>"
-                                                                            role="button"><i
-                                                                                class="fa-regular fa-pen-to-square"></i></a>
-                                                                        <%}%>
-                                                                            <button type="button" class="btn btn-danger"
-                                                                                onclick="displayAlert('<%= booking._id %>')"><i
-                                                                                    class="fa-solid fa-trash-can"></i></button>
-                                                                </div>
-                                                                <% }else{ %>
-                                                                    wait
-                                                                    <% } %>
-
-                                                                        <% } else { %>
-
-                                                                            <% if (user.role !=="user" ) { %>
-                                                                                <div class="btn-group btn-group"
-                                                                                    role="group" style="width: 120px;">
-                                                                                    <a class="btn btn-secondary"
-                                                                                        href="/booking-edit/<%= booking._id %>"
-                                                                                        role="button"><i
-                                                                                            class="fa-solid fa-print"></i></a>
+                                                                    <% } else if(user.role==="admin" &&
+                                                                        (booking.status===2 || booking.status===3)) { %>
+                                                                        <div class="btn-group btn-group" role="group"
+                                                                            style="width: 120px;">
+                                                                            <% if(booking.status!==3) { %>
+                                                                                <a class="btn btn-warning"
+                                                                                    href="/booking-edit/<%= booking._id %>"
+                                                                                    role="button"><i
+                                                                                        class="fa-regular fa-pen-to-square"></i></a>
+                                                                                <% } %>
                                                                                     <button type="button"
                                                                                         class="btn btn-danger"
                                                                                         onclick="displayAlert('<%= booking._id %>')"><i
                                                                                             class="fa-solid fa-trash-can"></i></button>
-                                                                                </div>
+                                                                        </div>
+                                                                        <% } else { %>
+                                                                            wait
+                                                                            <% } %>
+                                                                                <% } else { %>
+                                                                                    wait
+                                                                                    <% } %>
+                                    </td>
 
-                                                                                <% }else{ %>
-                                                                                    Success
-                                                                                    <%}%>
-                                                                                        <% } %>
+                                    <td>
+                                        <% const statusText=booking.status===1 ? '1.ทำการจองเสร็จ รอหัวหน้าอนุมัติ' :
+                                            booking.status===2 ? '2.หัวหน้างานอนุมัติเสร็จ รอคนจัดรถ' :
+                                            booking.status===3 ? '3.จัดรถสำเร็จ,พร้อมใช้งาน' : booking.status===4
+                                            ? '4.เสร็จสิ้น' : '' ; %>
+                                            <%= statusText %>
+                                    </td>
+                                    <td>
+                                        <%= new Date(booking.createdAt).toLocaleDateString('th-TH') %>
 
-                                </td>
-                                <td>
-                                    <% const statusText=booking.status===1 ? '1.ทำการจองเสร็จ รอหัวหน้าอนุมัติ' :
-                                        booking.status===2 ? '2.หัวหน้างานอนุมัติเสร็จ รอคนจัดรถ' : booking.status===3
-                                        ? '3.จัดรถสำเร็จ,พร้อมใช้งาน' : booking.status===4 ? '4.เสร็จสิ้น' : '' ; %>
-                                        <%= statusText %>
-                                </td>
-                                <td>
-                                    <%= new Date(booking.createdAt).toLocaleDateString('th-TH') %>
+                                    </td>
+                                    <td>
+                                        <% if(user.role!=='user' ){ %>
+                                            <%= booking.title %>
+                                                <% }else{ %>
+                                                    ไม่บอกง้าบบ
+                                                    <% } %>
+                                    </td>
+                                    <td>
+                                        <%= new Date(booking.start).toLocaleDateString('th-TH') %>
+                                    </td>
+                                    <td>
+                                        <%= booking.vehicle %>
+                                    </td>
+                                    <td>
+                                        <%= booking.userinfo %>
+                                    </td>
+                                    <td>
+                                        <%= booking.approverName %>
+                                    </td>
+                                    <td>
+                                        <%= booking.adminName %>
+                                    </td>
+                                    <td>
+                                        <%= booking.userinfo %>
+                                    </td>
+                                    <td>
+                                        <%= booking.cancelerName%>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                        </tbody>
+                    </table>
+                </div>
 
-                                </td>
-                                <td>
-                                    <% if(user.role!=='user' ){ %>
-                                        <%= booking.title %>
-                                            <% }else{ %>
-                                                ไม่บอกง้าบบ
-                                                <% } %>
-                                </td>
-                                <td>
-                                    <%= new Date(booking.start).toLocaleDateString('th-TH') %>
-                                </td>
-                                <td>
-                                    <%= booking.vehicle %>
-                                </td>
-                                <td>
-                                    <%= booking.userinfo %>
-                                </td>
-                                <td>
-                                    <%= booking.approverName %>
-                                </td>
-                                <td>
-                                    <%= booking.adminName %>
-                                </td>
-                                <td>
-                                    <%= booking.userinfo %>
-                                </td>
-                                <td>
-                                    <%= booking.passengerCount %>
-                                </td>
-                            </tr>
-                            <% }) %>
-                    </tbody>
-                </table>
             </div>
-
-        </div>
-        <script src="../JS/alertDelete_manage.js"></script>
-        <script src="../JS/navbar.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
-            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
-            crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
-        <script>
-            function deleteBooking(bookingId) {
-                fetch(`/events/${bookingId}`, {
-                    method: 'DELETE',
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Failed to delete booking');
-                        }
-                        window.location.reload();
+            <script src="../JS/alertDelete_manage.js"></script>
+            <script src="../JS/navbar.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+                integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+                crossorigin="anonymous"></script>
+            <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+                integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+                crossorigin="anonymous"></script>
+            <script>
+                function deleteBooking(bookingId) {
+                    fetch(`/events/${bookingId}`, {
+                        method: 'DELETE',
                     })
-                    .catch(error => {
-                        console.error('Error deleting booking:', error);
-                    });
-            }
-        </script>
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Failed to delete booking');
+                            }
+                            window.location.reload();
+                        })
+                        .catch(error => {
+                            console.error('Error deleting booking:', error);
+                        });
+                }
+            </script>
 </body>
 
 </html>

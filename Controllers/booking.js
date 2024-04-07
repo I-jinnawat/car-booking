@@ -131,7 +131,7 @@ exports.updateEvent = async (req, res) => {
 
     // Redirect the user to a success page or send a success response
 
-    res.render("manage");
+    res.redirect("/manage");
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });

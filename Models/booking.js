@@ -17,6 +17,7 @@ const eventSchema = new mongoose.Schema(
     passenger: { type: String, required: true },
     approverName: { type: String },
     adminName: { type: String },
+    cancelerName: { type: String },
     driver: { type: String },
     allDay: { type: Boolean, default: true },
   },
