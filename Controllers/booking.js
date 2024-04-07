@@ -114,7 +114,9 @@ exports.updateEvent = async (req, res) => {
       placeend,
       passengerCount,
       passenger,
+      driver,
       approverName,
+      cancelerName,
     } = req.body;
     await Booking.findByIdAndUpdate(id, {
       status,
@@ -126,7 +128,9 @@ exports.updateEvent = async (req, res) => {
       placeend,
       passengerCount,
       passenger,
+      driver,
       approverName,
+      cancelerName,
     });
 
     // Redirect the user to a success page or send a success response

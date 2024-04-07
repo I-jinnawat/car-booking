@@ -59,11 +59,14 @@
                                 <form action="/events/<%= booking._id %>" method="POST">
                                     <div class="row" id="booking-body">
                                         <div class="col">
-
-
-                                            <label class="form-label">ชื่อ-สกุล</label>
-                                            <input class=" border-1 rounded-1 " type="text" name="userinfo"
-                                                value="<%= booking.userinfo %>" readonly>
+                                            <% if (user.role!=="user" ) { %>
+                                                <input id="status" type="hidden" name="status">
+                                                <input id="approverName" type="hidden" name="approverName">
+                                                <input id="cancelerName" type="hidden" name="cancelerName">
+                                                <% } %>
+                                                    <label class="form-label">ชื่อ-สกุล</label>
+                                                    <input class=" border-1 rounded-1 " type="text" name="userinfo"
+                                                        value="<%= booking.userinfo %>" readonly>
                                         </div>
                                         <div class="col">
                                             <label class="form-label">หน่วยงาน</label>
@@ -131,11 +134,9 @@
                                     </div>
                                     <% if (user.role==="approver" && booking.status===1) { %>
                                         <div class="text-center mt-3">
-                                            <button type="submit" class="btn btn-primary btn-lg"
-                                                onclick="displayAlertUnapprove()" style="background-color: red;"
-                                                id="txt">ไม่อนุมัติ</button>
-                                            <button type="submit" class="btn btn-primary btn-lg"
-                                                onclick="displayAlertApprove()"
+                                            <button type="submit" class="btn btn-primary btn-lg" id="unapproveBtn"
+                                                style="background-color: red;" id="txt">ไม่อนุมัติ</button>
+                                            <button type="submit" class="btn btn-primary btn-lg" id="approveBtn"
                                                 style="background-color: rgb(44, 169, 44);" id="txt">อนุมัติ</button>
                                         </div>
                                         <% }else if(user.role==="user" && booking.status===1){ %>
@@ -148,44 +149,93 @@
                                             <% }else if (booking.status !==1 ){ %>
                                                 <p style="font-size: 20px; " class="d-flex justify-content-center">
                                                     หัวหน้างานอนุมัติสำเร็จ,รอคนจัดรถ</p>
-
+                                                <div class="card mt-3 mb-3 " id="booking"
+                                                    style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                                                    <div id="booking-body" class="card-body">
+                                                        <form action="/events" method="POST">
+                                                            <h5 class="form-label mt-2">หัวหน้างาน</h5>
+                                                            <div class="row" id="booking-body">
+                                                                <div class="col">
+                                                                    <label
+                                                                        class="form-label mt-4">สถานะผู้อนุมัติ</label>
+                                                                    <input class=" border-1 rounded-1 " type="text"
+                                                                        name="userinfo" placeholder="รายการอนุมัติแล้ว">
+                                                                </div>
+                                                            </div>
+                                                            <h5 class="form-label mt-5">คนจัดรถ</h5>
+                                                            <hr>
+                                                            <div class="row" id="booking-body">
+                                                                <div class="col">
+                                                                    <label class="form-label mt-4">พนักงานขับรถ</label>
+                                                                    <input class=" border-1 rounded-1 " type="text"
+                                                                        name="userinfo" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row" id="booking-body">
+                                                                <div class="col">
+                                                                    <label class="form-label mt-4">ยานพหนะ</label>
+                                                                    <input class=" border-1 rounded-1 " type="text"
+                                                                        name="userinfo" placeholder="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="text-center mt-3">
+                                                                <form onsubmit="displayAlert(); return false;">
+                                                                    <!-- form fields here -->
+                                                                    <button type="submit" class="btn btn-primary btn-lg"
+                                                                        style="background-color: rgb(44, 169, 44);"
+                                                                        id="txt">บันทึก</button>
+                                                                    <button type="submit" class="btn btn-primary btn-lg"
+                                                                        style="background-color: red;"
+                                                                        id="txt">ยกเลิก</button>
+                                                                </form>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <!-- <div class="card mt-3 mb-3 " id="booking"
+                                style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                                >>>>>>> 7be129727ab1ac5b9f904a440a7c1bb079b07dfd
+                                <form>
+                                </form>
+                                <div id="booking-body" class="card-body">
+                                    <form action="/events" method="POST">
+                                        <h5 class="form-label mt-2">คนบันทึกเลขไมล์</h5>
+                                        <hr>
+                                        <div class="row" id="booking-body">
+                                            <div class="col">
+                                                <label class="form-label mt-4">เอกสารรับงาน:</label>
+                                                <input class=" border-1 rounded-1 " type="text" name="userinfo"
+                                                    placeholder="รายการอนุมัติแล้ว">
+                                            </div>
+                                        </div>
+                                        <div class="row" id="booking-body">
+                                            <div class="col">
+                                                <label class="form-label mt-4">เลขไมล์ก่อนเดินทาง</label>
+                                                <input class=" border-1 rounded-1 " type="text" name="userinfo"
+                                                    placeholder="">
+                                            </div>
+                                            <div class="col">
+                                                <label class="form-label mt-4">ยานพหนะ</label>
+                                                <input class=" border-1 rounded-1 " type="text" name="userinfo"
+                                                    placeholder="">
+                                            </div>
+                                            <div class="col">
+                                                <label class="form-label mt-4">ยานพหนะ</label>
+                                                <input class=" border-1 rounded-1 " type="text" name="userinfo"
+                                                    placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="text-center mt-5">
+                                            <form onsubmit="displayAlert(); return false;">
+                                                 form fields here 
+                                                <button type="submit" class="btn btn-primary btn-lg"
+                                                    style="background-color: rgb(44, 169, 44);" id="txt">บันทึก</button>
+                                        </div>
+                                </div>
+                            </div> -->
                                 </form>
                             </div>
                         </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
-                        <div id="booking-body" class="card-body">
-                            <form action="/events" method="POST">
-                                <h5 class="form-label ">คนจัดรถ</h5>
-                                <hr>
-                                <div class="row" id="booking-body">
-                                    <div class="col">
-                                        <label class="form-label mt-4">พนักงานขับรถ</label>
-                                        <input class=" border-1 rounded-1 " type="text" name="userinfo" placeholder="">
-                                    </div>
-                                </div>
-                                <div class="row" id="booking-body">
-                                    <div class="col">
-                                        <label class="form-label mt-4">ยานพหนะ</label>
-                                        <input class=" border-1 rounded-1 " type="text" name="userinfo" placeholder="">
-                                    </div>
-                                </div>
-
-                                <div class="text-center mt-3">
-                                    <form onsubmit="displayAlertApprove(); return false;">
-                                        <!-- form fields here -->
-                                        <button type="submit" class="btn btn-primary btn-lg"
-                                            style="background-color: rgb(44, 169, 44);" id="txt">บันทึก</button>
-                                        <button type="submit" class="btn btn-primary btn-lg"
-                                            style="background-color: red;" id="txt">ยกเลิก</button>
-                                    </form>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </div>
             <% } %>
@@ -213,9 +263,45 @@
                     }
                 </style>
                 <script>
+                    async function displayAlertUnapprove() {
+                        const swalWithBootstrapButtons = Swal.mixin({
+                            customClass: {
+                                confirmButton: 'btn btn-success',
+                                cancelButton: 'btn btn-danger'
+                            },
+                            buttonsStyling: false
+                        });
+                        const result = await swalWithBootstrapButtons.fire({
+                            title: 'คุณแน่ใจหรือไม่?',
+                            text: 'คุณต้องการยืนยันที่จะไม่อนุมัติ!',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'ยืนยัน',
+                            cancelButtonText: 'ยกเลิก',
+                            reverseButtons: true
+                        });
+
+                        if (result.isConfirmed) {
+                            await Toast.fire({
+                                icon: 'success',
+                                title: 'Success',
+                            })
+                            document.getElementById('status').value = 5; // Set status to 5 for unapproved
+                            document.getElementById('cancelerName').value = "<%= user.username%>"; // Clear approverName
+                            // // Show your alert or perform any other necessary actions
+                            await document.querySelector("#booking-body form").submit();
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                            swalWithBootstrapButtons.fire({
+                                title: 'ยกเลิก',
+                                text: 'คุณได้ทำการยกเลิก',
+                                icon: 'error'
+                            });
+                        }
+                    }
+
+                </script>
+                <script>
                     async function displayAlertApprove() {
-                        document.getElementById('status').value = '2';
-                        document.getElementById('approverName').value = '<%= user.username %>';
                         const Toast = Swal.mixin({
                             toast: true,
                             position: 'top-end',
@@ -236,7 +322,7 @@
                         });
                         const result = await swalWithBootstrapButtons.fire({
                             title: 'คุณแน่ใจหรือไม่?',
-                            text: 'คุณต้องการยืนยันที่จะส่ง!',
+                            text: 'คุณต้องการยืนยันที่จะอนุมัติ!',
                             icon: 'warning',
                             showCancelButton: true,
                             confirmButtonText: 'ยืนยัน',
@@ -245,15 +331,15 @@
                         });
 
                         if (result.isConfirmed) {
-
                             await Toast.fire({
                                 icon: 'success',
                                 title: 'Success',
                             })
+                            document.getElementById('status').value = 2; // Set status to 2 for approved
+                            document.getElementById('approverName').value = '<%= user.username %>'; // Set approverName
+                            // Show your alert or perform any other necessary actions
                             await document.querySelector("#booking-body form").submit();
-
                         } else if (result.dismiss === Swal.DismissReason.cancel) {
-                            // User canceled, show cancel message
                             swalWithBootstrapButtons.fire({
                                 title: 'ยกเลิก',
                                 text: 'คุณได้ทำการยกเลิก',
@@ -261,32 +347,24 @@
                             });
                         }
                     }
-                    document.getElementById("approveBtn").addEventListener("submit", function (event) {
-                        document.querySelector("#booking-body form").addEventListener("submit", function (event) {
-                            event.preventDefault();
-                            displayAlertApprove();
-                        });
+
+                    document.querySelector("#booking-body form").addEventListener("submit", function (event) {
+                        // Prevent the form from submitting normally
+                        event.preventDefault();
+                        // Check if the form submission is for approval or disapproval
+                        if (event.submitter && event.submitter.id === 'approveBtn') {
+                            displayAlertApprove()
+                        } else {
+                            displayAlertUnapprove()
+                        }
                     });
 
-                    document.getElementById("unapproveBtn").addEventListener("submit", function (event) {
-                        document.querySelector("#booking-body form").addEventListener("submit", function (event) {
-                            event.preventDefault();
-                            displayAlertUnapprove();
-                        });
-                    });
                 </script>
-                <script>async function displayAlertUnapprove() {
-                        document.getElementById('status').value = '5';
-                        document.getElementById('cancelerName').value = '<%= user.username %>';
-                    }</script>
                 <script src="../JS/navbar.js"></script>
                 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-                <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
-
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
