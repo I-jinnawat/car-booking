@@ -38,9 +38,17 @@
                                     <div>
                                         <label for="">เมนู :</label>
                                         <button type="button" class="btn border-0"
-                                            style="background-color:#FFECB3; width: 100px;"><i
-                                                class="fi fi-ss-time-past"></i>
-                                            ฟื้นฟู</button>
+                                            style="background-color:#fef2cf; width: 100px;">
+                                            ระเบียบ</button>
+                                        <button type="button" class="btn border-0"
+                                            style="background-color:#fef2cf; width: 100px;">
+                                            แบบฟอร์ม</button>
+                                        <button type="button" class="btn border-0"
+                                            style="background-color:#fef2cf; width: 100px;">
+                                            ประกาศ</button>
+                                        <button type="button" class="btn border-0"
+                                            style="background-color:#fef2cf; width: 140px;">
+                                            แนวทางการใช้รถ</button>
                                     </div>
                                     <div class="search">
                                         <input class="p-1" type="text" placeholder="&#xf002; ค้นหา"
@@ -169,6 +177,55 @@
                                 <div class="row align-items-center">
                                     <div class="col-md-6 d-flex">
                                         <label>แบบฟอร์ม</label>
+                                        <button type="button" class="btn btn-primary " 
+                                            style=" border-color: #FFECB3; background-color:#FFECB3; width: 100px; color: black; margin-left: 185%;"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever=""><i
+                                                class="fi fi-rr-edit" style="margin-right: 6px;"></i>เพิ่ม</button>
+                                            <div class="modal fade" id="exampleModal" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">เพิ่ม</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name"
+                                                                    class="col-form-label">ทะเบียน:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="recipient-name">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">ประเภท:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">สี:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">ที่นั่ง:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">ปิด</button>
+                                                        <button type="button" class="btn btn-primary">ยืนยัน</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
@@ -225,6 +282,187 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                                    <div class="card-header" id="card-header">
+                                        <form>
+                                            <div class="row align-items-center">
+                                                <div class="col-md-6 d-flex">
+                                                    <label>ประกาศ</label>
+                                                    <button type="button" class="btn btn-primary " 
+                                            style=" border-color: #FFECB3; background-color:#FFECB3; width: 100px; color: black; margin-left: 185%;"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever=""><i
+                                                class="fi fi-rr-edit" style="margin-right: 6px;"></i>เพิ่ม</button>
+                                            <div class="modal fade" id="exampleModal" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">เพิ่ม</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name"
+                                                                    class="col-form-label">ทะเบียน:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="recipient-name">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">ประเภท:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">สี:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">ที่นั่ง:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">ปิด</button>
+                                                        <button type="button" class="btn btn-primary">ยืนยัน</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="booking-body" class="card-body">
+                                        <div>
+                                            <table class="table" cellspacing="0" id="ctl00_ContentPlaceHolder1_gridLink" style="border-collapse:collapse;">
+                                                <tr style="color:Black;">
+                                                    <th scope="col"><a href="javascript:__doPostBack(&#39;ctl00$ContentPlaceHolder1$gridLink&#39;,&#39;Sort$name&#39;)" style="color:Black;">รายการ</a></th><th scope="col"><a href="javascript:__doPostBack(&#39;ctl00$ContentPlaceHolder1$gridLink&#39;,&#39;Sort$create_date&#39;)" style="color:Black;">วันที่สร้าง</a></th>
+                                                </tr><tr>
+                                                    <td>
+                                                                    <div class="card" style="border: none">
+                                                                        <div class="card-body">
+                                                                            <div class="row">
+                                                                                <div class="col-sm-4 text-center">
+                                                                                    <img src="/image/Mae-Fah-Luang-University-2.png" class="rounded" style="height: 100px;" alt="">
+                                                                                </div>
+                                                                                <div class="col-sm-8">
+                                                                                    <a href="https://drive.google.com/file/d/1hzS4uY6EfgeEUC63LKXBown-ANjiJ7zS/view?usp=sharing" target="_blank" class="card-link my-a">แนวปฏิบัติการขอใช้รถส่วนกลางของศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง พ.ศ. 2563</a>
+                                                                                    <div style="font-size: small">
+                                                                                        <i class="fa fa-calendar mb-2 mr-sm-2" style="font-weight: bold"></i>
+                                                                                        โดย    
+                                                                                        <br />
+                                                                                        <span style="font-weight: bold">หมวด</span> ประกาศ
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </td><td>6/25/2021 9:14:20 AM</td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                                </div>
+                                    </div>
+                                    <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                                        <div class="card-header" id="card-header">
+                                            <form>
+                                                <div class="row align-items-center">
+                                                    <div class="col-md-6 d-flex">
+                                                        <label>แนวทางการใช้รถ</label>
+                                                        <button type="button" class="btn btn-primary " 
+                                            style=" border-color: #FFECB3; background-color:#FFECB3; width: 100px; color: black; margin-left: 185%;"
+                                            data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever=""><i
+                                                class="fi fi-rr-edit" style="margin-right: 6px;"></i>เพิ่ม</button>
+                                            <div class="modal fade" id="exampleModal" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLabel">เพิ่ม</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <form>
+                                                            <div class="mb-3">
+                                                                <label for="recipient-name"
+                                                                    class="col-form-label">ทะเบียน:</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="recipient-name">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">ประเภท:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">สี:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">ที่นั่ง:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">ปิด</button>
+                                                        <button type="button" class="btn btn-primary">ยืนยัน</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div id="booking-body" class="card-body">
+                                            <div>
+                                                <table class="table" cellspacing="0" id="ctl00_ContentPlaceHolder1_gridLink" style="border-collapse:collapse;">
+                                                    <tr style="color:Black;">
+                                                        <th scope="col"><a href="javascript:__doPostBack(&#39;ctl00$ContentPlaceHolder1$gridLink&#39;,&#39;Sort$name&#39;)" style="color:Black;">รายการ</a></th><th scope="col"><a href="javascript:__doPostBack(&#39;ctl00$ContentPlaceHolder1$gridLink&#39;,&#39;Sort$create_date&#39;)" style="color:Black;">วันที่สร้าง</a></th>
+                                                    </tr><tr>
+                                                        <td>
+                                                                        <div class="card" style="border: none">
+                                                                            <div class="card-body">
+                                                                                <div class="row">
+                                                                                    <div class="col-sm-4 text-center">
+                                                                                        <img src="/image/Mae-Fah-Luang-University-2.png" class="rounded" style="height: 100px;" alt="">
+                                                                                    </div>
+                                                                                    <div class="col-sm-8">
+                                                                                        <a href="https://drive.google.com/file/d/1kk1OqTi4V2-bchd8WdnCajTVVRLiY4BW/view?usp=sharing" target="_blank" class="card-link my-a">แนวปฏิบัติการขอใช้รถส่วนกลางของศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง พ.ศ. 2563</a>
+                                                                                        <div style="font-size: small">
+                                                                                            <i class="fa fa-calendar mb-2 mr-sm-2" style="font-weight: bold"></i>
+                                                                                            โดย 58318172 นางสาว ปวีณา พยาบาล
+                                                                                            <br />
+                                                                                            <span style="font-weight: bold">หมวด</span> แนวปฏิบัติเกี่ยวกับการใช้รถ
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td><td>8/4/2021 5:35:00 PM</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                                    </div>
+                                        
+                                        </div>
             <script>
             var exampleModal = document.getElementById('exampleModal')
             exampleModal.addEventListener('show.bs.modal', function (event) {
