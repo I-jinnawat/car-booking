@@ -228,6 +228,40 @@
 
 
             </script>
+            <script>
+                function displayAlert(booking) {
+                    Swal.fire({
+                        title: "คุณต้องการลบใช่หรือไม่?",
+                        showDenyButton: true,
+                        confirmButtonText: "ยืนยัน",
+                        denyButtonText: `ยกเลิก`,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            deleteBooking(booking);
+                        } else if (result.isDenied) {
+                            Swal.fire("การลบไม่เปลี่ยนแปลง", "", "info");
+                        }
+                    });
+                    return false;
+                }
+                function deleteBooking(bookingId) {
+                    fetch(`/events/${bookingId}`, {
+                        method: "DELETE",
+                    })
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error("Failed to delete booking");
+                            }
+                            window.location.reload();
+                        })
+                        .catch((error) => {
+                            console.error("Error deleting booking:", error);
+                        });
+                }
+            </script>
+            <script>
+
+            </script>
             <script src="/JS/alertDelete_manage.js"></script>
             <script src="../JS/navbar.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
