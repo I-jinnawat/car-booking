@@ -1,0 +1,114 @@
+<div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+    <div class="card-header" id="card-header" style="background-color: #FFECB3;">
+        <form>
+            <div class="row align-items-center">
+                <div class="col-md-6 d-flex">
+                    <label>ทำการจอง</label>
+                    <button class="sample me-1 ms-2"
+                        onclick="window.open('https://drive.google.com/file/d/12wW1XdZdaXZjxYiy_TX4c0WiFvMCtGQU/view?usp=sharing', '_blank')">
+                        ตัวอย่างการกรอกข้อมูล
+                    </button>
+                    <button class="manual"
+                        onclick="window.open('https://drive.google.com/file/d/12wW1XdZdaXZjxYiy_TX4c0WiFvMCtGQU/view?usp=sharing', '_blank')">
+                        คู่มือการใช้งาน
+                    </button>
+                </div>
+                <div class="col-md-6 text-right">
+                    <label class="form-label">รหัสการจอง</label>
+                    <input class=" border-1 rounded-1 ms-2 pe-2" type="text" placeholder="<%= booking._id %>" disabled
+                        style="width: auto; text-align: right;">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="booking-body" class="card-body">
+        <form action="/events/<%= booking._id %>" method="POST">
+            <div class="row" id="booking-body">
+                <div class="col">
+                    <% if (user.role!=="user" ) { %>
+                        <input id="status" type="hidden" name="status">
+                        <input id="approverName" type="hidden" name="approverName">
+                        <input id="cancelerName" type="hidden" name="cancelerName">
+                        <% }%>
+                            <label class="form-label">ชื่อ-สกุล</label>
+                            <input class=" border-1 rounded-1 " type="text" name="userinfo"
+                                value="<%= booking.userinfo %>" readonly>
+                </div>
+                <div class="col">
+                    <label class="form-label">หน่วยงาน</label>
+                    <input class=" border-1 rounded-1 " name="organization" value="<%= booking.organization %>"
+                        readonly>
+                </div>
+                <div class="col">
+                    <label class="form-label">เบอร์โทร</label>
+                    <input class="border-1 rounded-1" type="tel" max="10" name="mobile_number"
+                        placeholder="เช่น 08x-xxx-xxxx" value="<%= booking.mobile_number %>" required>
+                </div>
+            </div>
+            <div class="form-group mt-4">
+                <label for="comment">ขอใช้รถเพื่อปฎิบัติภารกิจ:</label>
+                <textarea class="form-control" rows="5" id="comment" name="title" required><%= booking.title %>
+                                                        </textarea>
+            </div>
+            <div class="mt-4 ">
+                <div class="row">
+                    <div class="col">
+                        <label for="">วัน/เวลาไปถึงสถานที่รับรถ</label>
+                        <% const startTime=new Date(booking.start); %>
+                            <input type="datetime-local" name="start" required
+                                value="<%= startTime.toISOString().slice(0, 16) %>">
+                    </div>
+                    <div class="col">
+                        <label for="">วัน/เวลาเสร็จสิ้นภารกิจ</label>
+                        <% const endTime=new Date(booking.end); %>
+                            <input type="datetime-local" name="end" required
+                                value="<%= endTime.toISOString().slice(0, 16) %>">
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <label for="">สถานที่รับ</label>
+                        <input type="text" name="placestart" required value="<%= booking.placestart %>">
+                    </div>
+                    <div class="col">
+                        <label for="">สถานที่ส่ง</label>
+                        <input type="text" name="placeend" required value="<%= booking.placeend %>">
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <label for="">จำนวนผู้โดยสาร</label>
+                        <input type="number" required id="passenger" name="passengerCount" min="0"
+                            value="<%= booking.passengerCount %>">
+                        <span> คน</span>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col">
+                        <label for="">ประกอบด้วย</label>
+                        <span class="form-text" style="font-size: 1rem; color:red; display: inline;">
+                            ***(โปรดระบุชื่อ-นามสกุลของผู้รับบริการให้ครบถ้วน)***
+                        </span>
+                        <textarea class="form-control" rows="5" id="comment" name="passenger"
+                            required><%= booking.passenger %></textarea>
+                    </div>
+                </div>
+            </div>
+            <% if (user.role==="approver" && booking.status===1) { %>
+                <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary btn-lg" id="unapproveBtn"
+                        style="background-color: red;" id="txt">ไม่อนุมัติ</button>
+                    <button type="submit" class="btn btn-primary btn-lg" id="approveBtn"
+                        style="background-color: rgb(44, 169, 44);" id="txt">อนุมัติ</button>
+                </div>
+                <% }else if(user.role==="user" && booking.status===1){ %>
+                    <div class="text-center mt-3">
+                        <button type="submit" id="saveupdateBtn" class="btn btn-primary btn-lg">ยืนยันการแก้ใข</button>
+                    </div>
+                    <% }else if (booking.status !==1 ){ %>
+                        <p style="font-size: 20px; " class="d-flex justify-content-center">
+                            หัวหน้างานอนุมัติสำเร็จ,รอคนจัดรถ</p>
+                        <% } %>
+        </form>
+    </div>
+</div>

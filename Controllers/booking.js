@@ -106,6 +106,7 @@ exports.updateEvent = async (req, res) => {
   try {
     const {
       status,
+      vehicle,
       mobile_number,
       title,
       start,
@@ -115,11 +116,16 @@ exports.updateEvent = async (req, res) => {
       passengerCount,
       passenger,
       driver,
+      adminName,
       approverName,
       cancelerName,
+      kilometer_start,
+      kilometer_end,
+      total_kilometer,
     } = req.body;
     await Booking.findByIdAndUpdate(id, {
       status,
+      vehicle,
       mobile_number,
       title,
       start,
@@ -129,8 +135,12 @@ exports.updateEvent = async (req, res) => {
       passengerCount,
       passenger,
       driver,
+      adminName,
       approverName,
       cancelerName,
+      kilometer_start,
+      kilometer_end,
+      total_kilometer,
     });
 
     // Redirect the user to a success page or send a success response
@@ -138,9 +148,49 @@ exports.updateEvent = async (req, res) => {
     res.redirect("/manage");
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Errorhhhhhhhhhhhhhhhhhh" });
   }
 };
+// exports.updateEvent = async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     const {
+//       status,
+//       mobile_number,
+//       title,
+//       start,
+//       end,
+//       placestart,
+//       placeend,
+//       passengerCount,
+//       passenger,
+//       driver,
+//       approverName,
+//       cancelerName,
+//     } = req.body;
+//     await Booking.findByIdAndUpdate(id, {
+//       status,
+//       mobile_number,
+//       title,
+//       start,
+//       end,
+//       placestart,
+//       placeend,
+//       passengerCount,
+//       passenger,
+//       driver,
+//       approverName,
+//       cancelerName,
+//     });
+
+//     // Redirect the user to a success page or send a success response
+
+//     res.redirect("/manage");
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
 
 exports.deleteEvent = async (req, res) => {
   const { id } = req.params;

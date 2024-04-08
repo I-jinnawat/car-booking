@@ -19,6 +19,9 @@ const eventSchema = new mongoose.Schema(
     adminName: { type: String },
     cancelerName: { type: String },
     driver: { type: String },
+    kilometer_start: { type: Number },
+    kilometer_end: { type: Number },
+    total_kilometer: { type: Number },
     allDay: { type: Boolean, default: true },
   },
   {
