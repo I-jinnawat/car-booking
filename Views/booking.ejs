@@ -60,6 +60,7 @@
                         <div id="booking-body" class="card-body">
                             <form action="/events" method="POST">
                                 <div class="row" id="booking-body">
+                                    <input type="hidden" name="user_id" value="<%= user.id %>">
                                     <div class="col">
                                         <label class="form-label">ชื่อ-สกุล</label>
                                         <input class=" border-1 rounded-1 " type="text" name="userinfo"

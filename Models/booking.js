@@ -6,6 +6,7 @@ const eventSchema = new mongoose.Schema(
     status: { type: Number, required: true, default: 1 },
     vehicle: { type: String },
     userinfo: { type: String, required: true },
+    user_id: { type: String, require: true },
     organization: { type: String, required: true },
     mobile_number: { type: Number, required: true },
     title: { type: String, required: true },

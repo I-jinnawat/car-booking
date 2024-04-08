@@ -40,6 +40,7 @@ exports.createEvent = async (req, res) => {
       status,
       vehicle,
       userinfo,
+      user_id,
       organization,
       mobile_number,
       title,
@@ -57,6 +58,7 @@ exports.createEvent = async (req, res) => {
     const event = await Booking.create({
       status,
       userinfo,
+      user_id,
       vehicle,
       organization,
       mobile_number,
