@@ -23,7 +23,7 @@ const eventSchema = new mongoose.Schema(
     kilometer_start: { type: Number },
     kilometer_end: { type: Number },
     total_kilometer: { type: Number },
-    allDay: { type: Boolean, default: true },
+    allDay: { type: Boolean, default: false },
   },
   {
     timestamps: true,
