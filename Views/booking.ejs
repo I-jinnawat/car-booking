@@ -61,71 +61,72 @@
                             <form action="/events" method="POST">
                                 <div class="row" id="booking-body">
                                     <input type="hidden" name="user_id" value="<%= user.id %>">
-                                    <div class="col">
+                                    <div class="col-md">
                                         <label class="form-label">ชื่อ-สกุล</label>
-                                        <input class=" border-1 rounded-1 " type="text" name="userinfo"
+                                        <input class="form-control" type="text" name="userinfo"
                                             value="<%= user.username %>" readonly>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md">
                                         <label class="form-label">หน่วยงาน</label>
-                                        <input class=" border-1 rounded-1 " name="organization"
-                                            value="<%= user.organization %>" readonly>
+                                        <input class="form-control" name="organization" value="<%= user.organization %>"
+                                            readonly>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-md">
                                         <label class="form-label">หมายเลขโทรศัพท์</label>
-                                        <input class="border-1 rounded-1" type="text" id="mobileNumber"
-                                            name="mobile_number" placeholder="เช่น 08x-xxx-xxxx" required>
+                                        <input class="form-control" type="text" id="mobileNumber" name="mobile_number"
+                                            placeholder="เช่น 08x-xxx-xxxx" required>
                                         <small id="mobileNumberError"
                                             class="text-danger d-none">โปรดกรอกเบอร์โทรศัพท์ให้ครบ
                                             10 ตัวเลข</small>
                                     </div>
                                 </div>
-                                <div class="form-group mt-4 ">
-                                    <label for="comment">ขอใช้รถเพื่อปฎิบัติภารกิจ:</label>
-                                    <textarea class="form-control" rows="5" id="comment" name="title"
-                                        required></textarea>
-                                </div>
-                                <div class="mt-4 ">
-                                    <div class="row">
-                                        <div class="col">
-                                            <label for="">วัน/เวลาไปถึงสถานที่รับรถ</label>
-                                            <input type="datetime-local" name="start" required>
-                                        </div>
-                                        <div class="col">
-                                            <label for="">วัน/เวลาเสร็จสิ้นภารกิจ</label>
-                                            <input type="datetime-local" name="end" required>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-4">
-                                        <div class="col">
-                                            <label for="">สถานที่รับ</label>
-                                            <input type="text" name="placestart" required>
-                                        </div>
-                                        <div class="col">
-                                            <label for="">สถานที่ส่ง</label>
-                                            <input type="text" name="placeend" required>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-4">
-                                        <div class="col">
-                                            <label for="">จำนวนผู้โดยสาร</label>
-                                            <!-- min =0 -->
-                                            <input type="number" required id="passenger" name="passengerCount" min="0">
-                                            <span> คน</span>
-                                        </div>
-                                    </div>
-                                    <div class="row mt-4">
-                                        <div class="col">
-                                            <label for="">ประกอบด้วย</label>
-                                            <span class="form-text"
-                                                style="font-size: 1rem; color:red; display: inline;">
-                                                ***(โปรดระบุชื่อ-นามสกุลของผู้รับบริการให้ครบถ้วน)***
-                                            </span>
-                                            <textarea class="form-control" rows="5" id="comment" name="passenger"
+                                <div class="row">
+                                    <div class="col-md">
+                                        <div class="form-group mt-4 ">
+                                            <label for="comment">ขอใช้รถเพื่อปฎิบัติภารกิจ:</label>
+                                            <textarea class="form-control" rows="5" id="comment" name="title"
                                                 required></textarea>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="row mt-4">
+                                    <div class="col-md">
+                                        <label for="">วัน/เวลาไปถึงสถานที่รับรถ</label>
+                                        <input type="datetime-local" name="start" class="form-control" required>
+                                    </div>
+                                    <div class="col-md">
+                                        <label for="">วัน/เวลาเสร็จสิ้นภารกิจ</label>
+                                        <input type="datetime-local" name="end" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-md">
+                                        <label for="">สถานที่รับ</label>
+                                        <input type="text" name="placestart" class="form-control" required>
+                                    </div>
+                                    <div class="col-md">
+                                        <label for="">สถานที่ส่ง</label>
+                                        <input type="text" name="placeend" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-md">
+                                        <label for="">จำนวนผู้โดยสาร</label>
+                                        <input type="number" required id="passenger" name="passengerCount" min="0"
+                                            class="form-control" placeholder="คน">
+                                    </div>
+                                </div>
+                                <div class="row mt-4">
+                                    <div class="col-md">
+                                        <label for="">ประกอบด้วย</label>
+                                        <span class="form-text" style="font-size: 1rem; color:red; display: inline;">
+                                            ***(โปรดระบุชื่อ-นามสกุลของผู้รับบริการให้ครบถ้วน)***
+                                        </span>
+                                        <textarea class="form-control" rows="5" id="comment" name="passenger"
+                                            required></textarea>
+                                    </div>
+                                </div>
+
                                 <div class="text-center mt-3">
                                     <form onsubmit="displayAlert(); return false;">
                                         <button type="submit" class="btn btn-primary btn-lg" id="txt">ยืนยัน</button>

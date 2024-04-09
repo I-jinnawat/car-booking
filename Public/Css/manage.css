@@ -145,7 +145,6 @@ body {
     margin-left: 0;
   }
 
-  
   #card-header div {
     margin-top: 10px;
   }
@@ -160,7 +159,6 @@ body {
   display: flex;
   justify-content: space-between;
   margin-bottom: 20px;
-  
 }
 
 .stepper-item {
@@ -173,11 +171,11 @@ body {
   .stepper-item.inactive {
     font-weight: normal;
   }
-  
+
   .stepper-item.inactive .step-counter {
     background-color: transparent;
   }
-  
+
   .stepper-item.inactive::after {
     border-bottom: 2px solid #ccc;
     width: 100%;
@@ -185,7 +183,7 @@ body {
     left: 50%;
     z-index: 2;
   }
-  
+
   .stepper-item.inactive::before {
     border-bottom: 2px solid #ccc;
     width: 100%;
@@ -195,7 +193,7 @@ body {
   }
 
   @media (max-width: 768px) {
-      font-size: 12px;
+    font-size: 12px;
   }
 }
 
@@ -295,4 +293,7 @@ body {
 
 .btn:hover {
   background-color: #0069d9;
+}
+.colored-toast.swal2-icon-success {
+  background-color: #a5dc86 !important;
 }

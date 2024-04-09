@@ -109,7 +109,6 @@ body {
   background-color: #a5dc86 !important;
 }
 
-
 @media (max-width: 768px) {
   #status-control {
     display: flex;
