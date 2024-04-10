@@ -76,12 +76,12 @@
                                             <div class="col-md">
                                                 <label class="form-label mt-4">เลขไมล์ก่อนเดินทาง</label>
                                                 <input type="number" class="form-control" name="kilometer_start"
-                                                    id="km_start" placeholder="km">
+                                                    id="km_start" placeholder="km" required>
                                             </div>
                                             <div class="col-md">
                                                 <label class="form-label mt-4">เลขไมล์หลังเดินทาง</label>
                                                 <input type="number" class="form-control" name="kilometer_end"
-                                                    id="km_end" placeholder="km">
+                                                    id="km_end" placeholder="km" required>
                                             </div>
                                             <div class="col-md">
                                                 <label class="form-label mt-4">ระยะทางทั้งหมด</label>
@@ -90,8 +90,8 @@
                                             </div>
                                         </div>
                                         <div class="text-center mt-3">
-                                            <button type="submit" class="btn btn-primary btn-lg" id='save_recordBtn'
-                                                style="background-color: rgb(44, 169, 44);" id="txt">บันทึก</button>
+                                            <button type="submit" class="btn btn-primary btn-lg" id="save_recordBtn"
+                                                style="background-color: rgb(44, 169, 44);">บันทึก</button>
                                         </div>
                                     </form>
                                 </div>
@@ -105,10 +105,9 @@
         <!-- calculateTotalKilometer -->
         <script>
             function calculateTotalKilometer() {
-                const kmStart = parseFloat(document.getElementById('km_start').value);
-                const kmEnd = parseFloat(document.getElementById('km_end').value);
+                let kmStart = parseFloat(document.getElementById('km_start').value);
+                let kmEnd = parseFloat(document.getElementById('km_end').value);
                 if (kmEnd < kmStart) {
-
                     const temp = kmEnd;
                     kmEnd = kmStart;
                     kmStart = temp;
@@ -116,12 +115,9 @@
                 const totalKm = kmEnd - kmStart;
                 document.getElementById('total_km').value = isNaN(totalKm) ? '' : totalKm.toFixed(2) + " km";
             }
+
             document.getElementById('km_start').addEventListener('input', calculateTotalKilometer);
             document.getElementById('km_end').addEventListener('input', calculateTotalKilometer);
-
-
-        </script>
-        <script>
 
         </script>
         <script>
@@ -363,15 +359,14 @@
                     displayAlertSavemanage()
                 }
             });
+        </script>
+        <script>
             document.querySelector("#record-body form").addEventListener("submit", function (event) {
                 event.preventDefault();
                 if (event.submitter && event.submitter.id === 'save_recordBtn') {
                     displayAlertRecord()
                 }
             });
-        </script>
-        <script>
-
         </script>
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
