@@ -32,14 +32,14 @@
 
                     <%- include('components/progress-bar.ejs') -%>
 
-                        <% if (booking.status <=2) { %>
+                        <% if (booking.status>=1) {%>
                             <%- include('components/booking_card.ejs') -%>
                                 <% } %>
                 </div>
             </div>
             <div class="row">
                 <div class="col-12">
-                    <% if (booking.status===2) { %>
+                    <% if (booking.status>=2) { %>
                         <div class="card mt-3 mb-3 " style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                             <div id="manage-vehicle_driver-body" class="card-body">
                                 <form action="/events/<%= booking._id %>" method="POST">
@@ -65,7 +65,7 @@
                                 </form>
                             </div>
                         </div>
-                        <% }else if(booking.status===3){ %>
+                        <% if(booking.status===3) {%>
                             <div class="card mt-3 mb-3 " style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                                 <div id="record-body" class="card-body">
                                     <form action="/events/<%= booking._id %>" method="POST">
@@ -97,6 +97,9 @@
                                 </div>
                             </div>
                             <% } %>
+                                <% } %>
+
+
                 </div>
             </div>
         </div>
@@ -120,133 +123,54 @@
             document.getElementById('km_end').addEventListener('input', calculateTotalKilometer);
 
         </script>
+        <!-- PreventDefault -->
         <script>
-            //Display Aleart Unapprove
-            async function displayAlertUnapprove() {
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: "btn btn-success",
-                        cancelButton: "btn btn-danger",
-                    },
-                    buttonsStyling: false,
-                });
-                const result = await swalWithBootstrapButtons.fire({
-                    title: "คุณแน่ใจหรือไม่?",
-                    text: "คุณต้องการยืนยันที่จะไม่อนุมัติ!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "ยืนยัน",
-                    cancelButtonText: "ยกเลิก",
-                    reverseButtons: true,
-                });
-
-                if (result.isConfirmed) {
-                    document.getElementById("status").value = 5; // Set status to 5 for unapproved
-                    document.getElementById("cancelerName").value = "<%= user.username%>"; // Clear approverName
-                    // // Show your alert or perform any other necessary actions
-                    await document.querySelector("#booking-body form").submit();
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    swalWithBootstrapButtons.fire({
-                        title: "ยกเลิก",
-                        text: "คุณได้ทำการยกเลิก",
-                        icon: "error",
-                    });
+            document.querySelector("#booking-body form").addEventListener("submit", function (event) {
+                event.preventDefault();
+                if (event.submitter && event.submitter.id === 'approveBtn') {
+                    displayAlertApprove()
+                } else if (event.submitter && event.submitter.id === 'unapproveBtn') {
+                    displayAlertUnapprove()
+                } else if (event.submitter && event.submitter.id === 'saveupdateBtn') {
+                    displayAlertSaveupdate()
                 }
-            }
+            });
+            document.querySelector("#manage-vehicle_driver-body form").addEventListener("submit", function (event) {
+                event.preventDefault();
 
-            //Display Aleart Approve
-            async function displayAlertApprove() {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    iconColor: "white",
-                    customClass: {
-                        popup: "colored-toast",
-                    },
-                    showConfirmButton: false,
-                    timer: 1000,
-                    timerProgressBar: true,
-                });
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: "btn btn-success",
-                        cancelButton: "btn btn-danger",
-                    },
-                    buttonsStyling: false,
-                });
-                const result = await swalWithBootstrapButtons.fire({
-                    title: "คุณแน่ใจหรือไม่?",
-                    text: "คุณต้องการยืนยันที่จะอนุมัติ!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "ยืนยัน",
-                    cancelButtonText: "ยกเลิก",
-                    reverseButtons: true,
-                });
-
-                if (result.isConfirmed) {
-                    await Toast.fire({
-                        icon: "success",
-                        title: "Success",
-                    });
-                    document.getElementById("status").value = 2;
-                    document.getElementById("approverName").value = "<%= user.username %>";
-                    await document.querySelector("#booking-body form").submit();
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    swalWithBootstrapButtons.fire({
-                        title: "ยกเลิก",
-                        text: "คุณได้ทำการยกเลิก",
-                        icon: "error",
-                    });
+                if (event.submitter && event.submitter.id === 'save_manageBtn') {
+                    displayAlertSavemanage()
                 }
-            }
-
-            //Display Aleart Update
-            async function displayAlertSaveupdate() {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: "top-end",
-                    iconColor: "white",
-                    customClass: {
-                        popup: "colored-toast",
-                    },
-                    showConfirmButton: false,
-                    timer: 1500,
-                    timerProgressBar: true,
-                });
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: "btn btn-success",
-                        cancelButton: "btn btn-danger",
-                    },
-                    buttonsStyling: false,
-                });
-                const result = await swalWithBootstrapButtons.fire({
-                    title: "คุณแน่ใจหรือไม่?",
-                    text: "คุณต้องการยืนยันที่จะแก้ไข!",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "ยืนยัน",
-                    cancelButtonText: "ยกเลิก",
-                    reverseButtons: true,
+            });
+            document
+                .querySelector('#record-body form')
+                .addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    if (event.submitter && event.submitter.id === 'save_recordBtn') {
+                        displayAlertRecord();
+                    }
                 });
 
-                if (result.isConfirmed) {
-                    await Toast.fire({
-                        icon: "success",
-                        title: "Success",
-                    });
-                    // Show your alert or perform any other necessary actions
-                    await document.querySelector("#booking-body form").submit();
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    swalWithBootstrapButtons.fire({
-                        title: "ยกเลิก",
-                        text: "คุณได้ทำการยกเลิก",
-                        icon: "error",
-                    });
+        </script>
+        <!-- progress bar -->
+        <script>
+            const bookingStatus = '<%= bookingStatus %>';
+            function updateProgress(currentStep) {
+
+                const stepperItems = document.querySelectorAll('.stepper-item');
+
+                stepperItems.forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                for (let i = 0; i <= currentStep; i++) {
+                    stepperItems[i].classList.add('active');
                 }
-            }
 
+                updateProgress(bookingStatus - 1);
+            }
+        </script>
+        <script>
             // Display Aleart Record distance
             async function displayAlertRecord() {
                 const Toast = Swal.mixin({
@@ -263,9 +187,9 @@
                 const swalWithBootstrapButtons = Swal.mixin({
                     customClass: {
                         confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
+                        cancelButton: 'btn btn-danger',
                     },
-                    buttonsStyling: false
+                    buttonsStyling: false,
                 });
                 const result = await swalWithBootstrapButtons.fire({
                     title: 'คุณแน่ใจหรือไม่?',
@@ -274,22 +198,22 @@
                     showCancelButton: true,
                     confirmButtonText: 'ยืนยัน',
                     cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true
+                    reverseButtons: true,
                 });
 
                 if (result.isConfirmed) {
                     await Toast.fire({
                         icon: 'success',
                         title: 'Success',
-                    })
+                    });
                     document.getElementById('status').value = 4; // Set status to 2 for approved
                     // Show your alert or perform any other necessary actions
-                    await document.querySelector("#record-body form").submit();
+                    await document.querySelector('#record-body form').submit();
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     swalWithBootstrapButtons.fire({
                         title: 'ยกเลิก',
                         text: 'คุณได้ทำการยกเลิก',
-                        icon: 'error'
+                        icon: 'error',
                     });
                 }
             }
@@ -309,9 +233,9 @@
                 const swalWithBootstrapButtons = Swal.mixin({
                     customClass: {
                         confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
+                        cancelButton: 'btn btn-danger',
                     },
-                    buttonsStyling: false
+                    buttonsStyling: false,
                 });
                 const result = await swalWithBootstrapButtons.fire({
                     title: 'คุณแน่ใจหรือไม่?',
@@ -320,53 +244,26 @@
                     showCancelButton: true,
                     confirmButtonText: 'ยืนยัน',
                     cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true
+                    reverseButtons: true,
                 });
 
                 if (result.isConfirmed) {
                     await Toast.fire({
                         icon: 'success',
                         title: 'Success',
-                    })
+                    });
                     document.getElementById('status2').value = 3; // Set status to 2 for approved
                     // Show your alert or perform any other necessary actions
-                    await document.querySelector("#manage-vehicle_driver-body form").submit();
+                    await document.querySelector('#manage-vehicle_driver-body form').submit();
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     swalWithBootstrapButtons.fire({
                         title: 'ยกเลิก',
                         text: 'คุณได้ทำการยกเลิก',
-                        icon: 'error'
+                        icon: 'error',
                     });
                 }
             }
 
-        </script>
-        <script>
-            document.querySelector("#booking-body form").addEventListener("submit", function (event) {
-                event.preventDefault();
-                if (event.submitter && event.submitter.id === 'approveBtn') {
-                    displayAlertApprove()
-                } else if (event.submitter && event.submitter.id === 'unapproveBtn') {
-                    displayAlertUnapprove()
-                } else if (event.submitter && event.submitter.id === 'saveupdateBtn') {
-                    displayAlertSaveupdate()
-                }
-            });
-            document.querySelector("#manage-vehicle_driver-body form").addEventListener("submit", function (event) {
-                event.preventDefault();
-
-                if (event.submitter && event.submitter.id === 'save_manageBtn') {
-                    displayAlertSavemanage()
-                }
-            });
-        </script>
-        <script>
-            document.querySelector("#record-body form").addEventListener("submit", function (event) {
-                event.preventDefault();
-                if (event.submitter && event.submitter.id === 'save_recordBtn') {
-                    displayAlertRecord()
-                }
-            });
         </script>
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
