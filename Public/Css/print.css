@@ -136,3 +136,17 @@ body {
   }
 
 }
+
+@page{
+  size: A4;
+  margin: 0;
+}
+
+#print{
+  display: none;
+  visibility: none;
+}
+
+.none{
+  display: none;
+}
