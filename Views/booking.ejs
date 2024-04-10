@@ -122,8 +122,7 @@
                                         <span class="form-text" style="font-size: 1rem; color:red; display: inline;">
                                             ***(โปรดระบุชื่อ-นามสกุลของผู้รับบริการให้ครบถ้วน)***
                                         </span>
-                                        <textarea class="form-control" rows="5" id="comment" name="passenger"
-                                            required></textarea>
+                                        <textarea class="form-control" rows="5" id="comment" name="passenger" required></textarea>
                                     </div>
                                 </div>
 
@@ -246,6 +245,22 @@
                     setTimeout(clock, 1000);
                 }
             });
+        </script>
+        <script>
+            // Get the textarea element
+    var textarea = document.getElementById('comment');
+
+// Add event listener to detect changes in the textarea
+textarea.addEventListener('input', function() {
+    // Check if the textarea has any value
+    if (textarea.value.trim() !== '') {
+        // If there is a value, change the type to "text"
+        textarea.setAttribute('type', 'text');
+    } else {
+        // If the value is empty, change the type back to "textarea"
+        textarea.setAttribute('type', 'textarea');
+    }
+});
         </script>
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
