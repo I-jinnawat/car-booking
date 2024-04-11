@@ -117,9 +117,10 @@
 
                             <button class="btn btn-success add-passenger-btn mt-1">เพิ่ม</button>
                             <% } %>
-                            <div class="col-mt-4">
-                                <input class="form-control" id="myInput" type="text" style="display: none;" placeholder="หมายเหตุ  (เหตุผลที่ไม่อนุมัติ)"
-                                                    required></div>
+                                <div class="col-mt-4">
+                                    <input name="note" class="form-control" id="myInput" type="text"
+                                        style="display: none;" placeholder="หมายเหตุ  (เหตุผลที่ไม่อนุมัติ)" required>
+                                </div>
                     </div>
                 </div>
             </div>
@@ -128,7 +129,8 @@
                     <button type="submit" class="btn btn-primary btn-lg" id="unapproveBtn"
                         style="background-color: red;" id="txt">ไม่อนุมัติ</button>
                     <button type="submit" class="btn btn-primary btn-lg" id="approveBtn"
-                        style="background-color: rgb(44, 169, 44);" id="txt" onclick="displayAlertApprove()">อนุมัติ</button>
+                        style="background-color: rgb(44, 169, 44);" id="txt"
+                        onclick="displayAlertApprove()">อนุมัติ</button>
                 </div>
                 <% }else if(user.role==="user" && booking.status===1){ %>
                     <div class="text-center mt-3">
@@ -203,14 +205,14 @@
 </script>
 <!-- Display Aleart Unapprove -->
 <script>
-    document.getElementById('unapproveBtn').addEventListener('click', function() {
-  var inputField = document.getElementById('myInput');
-  if (inputField.style.display === "none") {
-    inputField.style.display = "block";
-  } else {
-    inputField.style.display = "none";
-  }
-});
+    document.getElementById('unapproveBtn').addEventListener('click', function () {
+        var inputField = document.getElementById('myInput');
+        if (inputField.style.display === "none") {
+            inputField.style.display = "block";
+        } else {
+            inputField.style.display = "none";
+        }
+    });
 
 </script>
 <script>

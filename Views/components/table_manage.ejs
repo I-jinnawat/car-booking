@@ -127,10 +127,13 @@
                                                                                                 readonly disabled>
                                                                                     </div>
                                                                                     <div class="col-mt-4">
-                                                                                        <input class="form-control" id="myInput" type="text" style="display: none;" placeholder="หมายเหตุ  (เหตุผลที่ไม่อนุมัติ)"
-                                                                                                            required></div>
+                                                                                        <input class="form-control"
+                                                                                            id="myInput" type="text"
+                                                                                            style="display: none;"
+                                                                                            placeholder="หมายเหตุ  (เหตุผลที่ไม่อนุมัติ)"
+                                                                                            required>
+                                                                                    </div>
                                                                                 </div>
-                                                                                <!-- Other form fields -->
                                                                                 <div class="row gy-2 text-center">
                                                                                     <div class="col-md">
                                                                                         <button type="submit"
@@ -143,7 +146,8 @@
                                                                                         <button type="submit"
                                                                                             class="btn " id="approveBtn"
                                                                                             style="background-color: rgb(44, 169, 44); color: white;"
-                                                                                            id="txt" onclick="displayAlertApprove()">อนุมัติ</button>
+                                                                                            id="txt"
+                                                                                            onclick="displayAlertApprove()">อนุมัติ</button>
                                                                                     </div>
                                                                                 </div>
                                                                             </form>
@@ -180,14 +184,17 @@
                                                                                     role="button"><i
                                                                                         class="fa-regular fa-pen-to-square"></i></a>
                                                                                 <button class="btn btn-secondary"><i
-                                                                                        class="fa-solid fa-print" onclick="window.open('https://drive.google.com/file/d/12JUltAQElcwkI5QHeRXmWrZU6Ls_Wocv/view', '_blank')"></i></button>
+                                                                                        class="fa-solid fa-print"
+                                                                                        onclick="window.open('https://drive.google.com/file/d/12JUltAQElcwkI5QHeRXmWrZU6Ls_Wocv/view', '_blank')"></i></button>
                                                                                 <button type="button"
                                                                                     class="btn btn-danger"
                                                                                     onclick="displayAlert('<%= booking._id %>')"><i
                                                                                         class="fa-solid fa-trash-can"></i></button>
                                                                             </div>
                                                                             <%}else{%>
-                                                                                <button type="button" class="btn btn-success" style="width: 100px;">Success</button>
+                                                                                <button type="button"
+                                                                                    class="btn btn-success"
+                                                                                    style="width: 100px;">Success</button>
                                                                                 <%}%>
                                                                                     <% } %>
                                                                                         <%}else{%>
@@ -240,23 +247,21 @@
                         <%= booking.cancelerName%>
                     </td>
                     <td>
-                        test
+                        <%= booking.note%>
                     </td>
                 </tr>
             </tbody>
             <% }else if(user.role==='user' ) {%>
-
                 <%}%>
                     <% }) %>
-                    <script>
-                        document.getElementById('unapproveBtn').addEventListener('click', function() {
-                      var inputField = document.getElementById('myInput');
-                      if (inputField.style.display === "none") {
-                        inputField.style.display = "block";
-                      } else {
-                        inputField.style.display = "none";
-                      }
-                    });
-                    
-                    </script>
+                        <script>
+                            document.getElementById('unapproveBtn').addEventListener('click', function () {
+                                var inputField = document.getElementById('myInput');
+                                if (inputField.style.display === "none") {
+                                    inputField.style.display = "block";
+                                } else {
+                                    inputField.style.display = "none";
+                                }
+                            });
+                        </script>
 </table>

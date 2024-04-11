@@ -17,6 +17,7 @@ const eventSchema = new mongoose.Schema(
     passengerCount: {type: Number, required: true},
     passengers: [{}],
     approverName: {type: String},
+    note: {type: String},
     adminName: {type: String},
     cancelerName: {type: String},
     driver: {type: String},
