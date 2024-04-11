@@ -31,3 +31,14 @@ exports.create = async (req, res) => {
     res.status(500).json({error: error.message});
   }
 };
+exports.remove = async (req, res) => {
+  const {id} = req.params;
+
+  try {
+    await Vehicle.findByIdAndDelete(id);
+    res.sendStatus(204);
+  } catch (error) {
+    console.error('Error deleting Vehicle:', error);
+    res.status(500).json({error: 'Internal Server Error'});
+  }
+};

@@ -14,6 +14,11 @@
         href='https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        .colored-toast.swal2-icon-success {
+            background-color: #a5dc86 !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -39,12 +44,12 @@
                                             style=" border-color: #FFECB3; background-color:#FFECB3; width: 100px; color: black;"
                                             data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever=""><i
                                                 class="fi fi-rr-edit" style="margin-right: 6px;"></i>เพิ่ม</button>
-                                        <div class="modal fade" id="exampleModal" tabindex="-1"
-                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLabel">เพิ่ม</h5>
+                                                        <h5 class="modal-title" id="exampleModalLabel">เพิ่มยานพาหนะ
+                                                        </h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
@@ -56,7 +61,7 @@
                                                                 </div>
                                                                 <div class="col-sm-9 text-secondary">
                                                                     <input type="text" class="form-control"
-                                                                        name="register">
+                                                                        name="register" required>
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-3">
@@ -64,36 +69,34 @@
                                                                     <label class="form-label">ประเภท</label>
                                                                 </div>
                                                                 <div class="col-sm-9 text-secondary">
-                                                                    <input type="text" class="form-control" name="type">
+                                                                    <input type="text" class="form-control" name="type"
+                                                                        required>
                                                                 </div>
                                                             </div>
-                                                            
                                                             <div class="row mb-3">
                                                                 <div class="col-sm-3">
                                                                     <label class="form-label">ที่นั่ง</label>
                                                                 </div>
                                                                 <div class="col-sm-9 text-secondary">
-                                                                    <input type="text" class="form-control" name="seat">
+                                                                    <input type="text" class="form-control" name="seat"
+                                                                        required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row gy-2 text-center">
+                                                                <div class="col-md">
+                                                                    <button class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">ปิด</button>
+                                                                </div>
+                                                                <div class="col-md ">
+                                                                    <button type="submit" class="btn btn-primary "
+                                                                        id="AddBtn" id="txt">ยืนยัน</button>
                                                                 </div>
                                                             </div>
                                                         </form>
                                                     </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">ปิด</button>
-                                                        <button id="confirmBtn" type="button"
-                                                            class="btn btn-primary">ยืนยัน</button>
-                                                    </div>
-
-
-
                                                 </div>
                                             </div>
                                         </div>
-                                        <button type="button" class="btn border-0"
-                                            style="background-color:#FFECB3; width: 100px;"><i
-                                                class="fi fi-ss-time-past"></i>
-                                            ฟื้นฟู</button>
                                     </div>
                                 </div>
                                 <div class="col-md search">
@@ -115,7 +118,7 @@
                                     <th scope="col">ทะเบียน</th>
                                     <th scope="col">ประเภท</th>
                                     <th scope="col">ที่นั่ง</th>
-                                    <th scope="col">พร้อมใช้งาน</th>
+                                    <th scope="col">สถานะ</th>
                                 </tr>
                             </thead>
                             <% vehicles.forEach(vehicle=> { %>
@@ -124,7 +127,7 @@
                                         <div class="btn-group btn-group" role="group" style="width: 100px;">
                                             <a class="btn btn-warning" role="button"><i
                                                     class="fa-regular fa-pen-to-square"></i></a>
-                                            <!-- href="/booking-edit/<%= vehicle._id %>"-->
+
                                             <button type="button" class="btn btn-danger"
                                                 onclick="displayAlert('<%= vehicle._id %>')"><i
                                                     class="fa-solid fa-trash-can"></i></button>
@@ -138,7 +141,7 @@
                                     <td>
                                         <%= vehicle.type %>
                                     </td>
-                                    
+
                                     <td>
                                         <%= vehicle.seat %>
                                     </td>
@@ -157,26 +160,50 @@
                 </div>
             </div>
         </div>
+        <!-- Delete -->
         <script>
-            var exampleModal = document.getElementById('exampleModal')
-            exampleModal.addEventListener('show.bs.modal', function (event) {
-                var button = event.relatedTarget
-                var recipient = button.getAttribute('data-bs-whatever')
-                var modalTitle = exampleModal.querySelector('.modal-title')
-                var modalBodyInput = exampleModal.querySelector('.modal-body input')
-                modalTitle.textContent = 'New message to ' + recipient
-                modalBodyInput.value = recipient
-            })
-        </script>
-        <script>
-            document.getElementById("confirmBtn").addEventListener("click", function (event) {
-                event.preventDefault();
-                displayAlertApprove();
-            });
+            function displayAlert(vehicle) {
+                Swal.fire({
+                    title: "คุณต้องการลบใช่หรือไม่?",
+                    showDenyButton: true,
+                    confirmButtonText: "ยืนยัน",
+                    denyButtonText: `ยกเลิก`,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deletedVehicle(vehicle);
 
+                    } else if (result.isDenied) {
+                        Swal.fire("การลบไม่เปลี่ยนแปลง", "", "info");
+                    }
+                });
+                return false;
+            }
+            function deletedVehicle(vehicleId) {
+                fetch(`/setting/car/Delete/${vehicleId}`, {
+                    method: "DELETE",
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("Failed to delete vehicle");
+                        }
+                        window.location.reload();
+                    })
+                    .catch((error) => {
+                        console.error("Error deleting vehicle:", error);
+                    });
+            }
         </script>
         <script>
-            async function displayAlertApprove() {
+            document.querySelector("#modal-body form").addEventListener("submit", function (event) {
+                event.preventDefault();
+                if (event.submitter && event.submitter.id === 'AddBtn') {
+                    displayAlertAdd()
+                }
+            });
+        </script>
+
+        <script>
+            async function displayAlertAdd() {
                 const Toast = Swal.mixin({
                     toast: true,
                     position: 'top-end',
@@ -197,7 +224,7 @@
                 });
                 const result = await swalWithBootstrapButtons.fire({
                     title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะอนุมัติ!',
+                    text: 'คุณต้องการยืนยันที่จะส่ง!',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'ยืนยัน',
@@ -220,11 +247,7 @@
                     });
                 }
             }
-
-
-
         </script>
-        <script src="/JS/alertDelete.js"></script>
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
