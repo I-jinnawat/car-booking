@@ -50,56 +50,77 @@
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="form-label mt-4">พนักงานขับรถ</label>
-                                            <input class="form-control" type="text" name="driver" id="driver">
+                                            <input <%=booking.status>2 ? 'disabled' : '' %> class="form-control"
+                                            type="text"
+                                            name="driver" id="driver"
+                                            value="<%= booking.driver %>" >
                                         </div>
-
                                         <div class="col-md">
                                             <label class="form-label mt-4">ยานพหนะ</label>
-                                            <input class="form-control" type="text" name="vehicle" id="vehicle">
+                                            <input <%=booking.status>2 ? 'disabled' : '' %> class="form-control"
+                                            type="text" name="vehicle" id="vehicle"
+                                            value="<%= booking.vehicle %>">
                                         </div>
                                     </div>
-                                    <div class="text-center mt-3">
-                                        <button type="submit" class="btn btn-primary btn-lg" id="save_manageBtn"
-                                            style="background-color: rgb(44, 169, 44);" id="txt">บันทึก</button>
-                                    </div>
+                                    <% if (booking.status===2) { %>
+
+                                        <div class="text-center mt-3">
+                                            <button type="submit" class="btn btn-primary btn-lg" id="save_manageBtn"
+                                                style="background-color: rgb(44, 169, 44);" id="txt">บันทึก</button>
+                                        </div>
+                                        <% }else{ %>
+                                            <p style="font-size: 20px; " class="text-center mt-3">
+                                                จัดรถสำเร็จ,พร้อมใช้งาน</p>
+                                            <% } %>
                                 </form>
                             </div>
                         </div>
-                        <% if(booking.status===3) {%>
+                        <% if(booking.status>=3) {%>
                             <div class="card mt-3 mb-3 " style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                                 <div id="record-body" class="card-body">
                                     <form action="/events/<%= booking._id %>" method="POST">
                                         <h5 class="form-label">คนบันทึกเลขไมล์</h5>
                                         <hr>
-                                        <input id="status" type="hidden" name="status">
+                                        <input id="statusRecord" type="hidden" name="status">
                                         <div class="row">
-                                            <div class="col-md">
-                                                <label class="form-label mt-4">เลขไมล์ก่อนเดินทาง</label>
-                                                <input type="number" class="form-control" name="kilometer_start"
-                                                    id="km_start" placeholder="km" required>
+                                            <div class="row">
+                                                <div class="col-md">
+                                                    <label class="form-label mt-4">เลขไมล์ก่อนเดินทาง</label>
+                                                    <input <%=booking.status> 3 ? 'disabled' : '' %> type="number"
+                                                    class="form-control" name="kilometer_start"
+                                                    id="km_start" placeholder="km" required value="<%=
+                                                        booking.kilometer_start %>">
+                                                </div>
+                                                <div class="col-md">
+                                                    <label class="form-label mt-4">เลขไมล์หลังเดินทาง</label>
+                                                    <input <%=booking.status> 3 ? 'disabled' : '' %> type="number"
+                                                    class="form-control" name="kilometer_end"
+                                                    id="km_end" placeholder="km" required value="<%=
+                                                        booking.kilometer_end %>">
+                                                </div>
+                                                <div class="col-md">
+                                                    <label class="form-label mt-4">ระยะทางทั้งหมด</label>
+                                                    <input <%=booking.status>3 ? 'disabled' : '' %> type="number"
+                                                    class="form-control" name="total_kilometer"
+                                                    id="total_km" value="<%= booking. total_kilometer %>"readonly
+                                                        required>
+                                                </div>
                                             </div>
-                                            <div class="col-md">
-                                                <label class="form-label mt-4">เลขไมล์หลังเดินทาง</label>
-                                                <input type="number" class="form-control" name="kilometer_end"
-                                                    id="km_end" placeholder="km" required>
-                                            </div>
-                                            <div class="col-md">
-                                                <label class="form-label mt-4">ระยะทางทั้งหมด</label>
-                                                <input type="number" class="form-control" name="total_kilometer"
-                                                    id="total_km" readonly>
-                                            </div>
-                                        </div>
-                                        <div class="text-center mt-3">
-                                            <button type="submit" class="btn btn-primary btn-lg" id="save_recordBtn"
-                                                style="background-color: rgb(44, 169, 44);">บันทึก</button>
-                                        </div>
+                                            <p id="displayText" class="text-mute"></p>
+                                            <% if (booking.status===4) { %>
+                                                <p>Print</p>
+                                                <% }else{ %>
+                                                    <div class="text-center mt-3">
+                                                        <button type="submit" class="btn btn-primary btn-lg"
+                                                            id="save_recordBtn"
+                                                            style="background-color: rgb(44, 169, 44);">บันทึก</button>
+                                                    </div>
+                                                    <% } %>
                                     </form>
                                 </div>
                             </div>
                             <% } %>
                                 <% } %>
-
-
                 </div>
             </div>
         </div>
@@ -107,23 +128,37 @@
         <script src="../JS/booking-edit.js"></script>
         <!-- calculateTotalKilometer -->
         <script>
-            function calculateTotalKilometer() {
-                let kmStart = parseFloat(document.getElementById('km_start').value);
-                let kmEnd = parseFloat(document.getElementById('km_end').value);
-                if (kmEnd < kmStart) {
-                    const temp = kmEnd;
-                    kmEnd = kmStart;
-                    kmStart = temp;
+            document.addEventListener("DOMContentLoaded", function () {
+                function calculateTotalKilometer() {
+                    let kmStart = parseFloat(document.getElementById('km_start').value);
+                    let kmEnd = parseFloat(document.getElementById('km_end').value);
+
+                    if (kmEnd < kmStart) {
+                        document.getElementById('displayText').innerHTML = "กรอกข้อมูลไม่ถูกต้อง";
+                        document.getElementById('total_km').value = '';
+                        document.getElementById('save_recordBtn').disabled = true; // Enable submit button
+                    } else {
+                        const totalKm = kmEnd - kmStart;
+                        document.getElementById('total_km').value = isNaN(totalKm) ? '' : totalKm.toFixed(2);
+                        document.getElementById('displayText').innerHTML = ""; // Clear error message
+                        document.getElementById('save_recordBtn').disabled = false; // Enable submit button
+                    };
                 }
-                const totalKm = kmEnd - kmStart;
-                document.getElementById('total_km').value = isNaN(totalKm) ? '' : totalKm.toFixed(2) + " km";
-            }
-
-            document.getElementById('km_start').addEventListener('input', calculateTotalKilometer);
-            document.getElementById('km_end').addEventListener('input', calculateTotalKilometer);
-
+                document.getElementById('km_start').addEventListener('input', calculateTotalKilometer);
+                document.getElementById('km_end').addEventListener('input', calculateTotalKilometer);
+            });
         </script>
         <!-- PreventDefault -->
+        <script>
+            document
+                .querySelector('#record-body form')
+                .addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    if (event.submitter && event.submitter.id === 'save_recordBtn') {
+                        displayAlertRecord();
+                    }
+                });
+        </script>
         <script>
             document.querySelector("#booking-body form").addEventListener("submit", function (event) {
                 event.preventDefault();
@@ -142,19 +177,13 @@
                     displayAlertSavemanage()
                 }
             });
-            document
-                .querySelector('#record-body form')
-                .addEventListener('submit', function (event) {
-                    event.preventDefault();
-                    if (event.submitter && event.submitter.id === 'save_recordBtn') {
-                        displayAlertRecord();
-                    }
-                });
+
 
         </script>
         <!-- progress bar -->
         <script>
             const bookingStatus = '<%= bookingStatus %>';
+            updateProgress(bookingStatus - 1);
             function updateProgress(currentStep) {
 
                 const stepperItems = document.querySelectorAll('.stepper-item');
@@ -167,7 +196,7 @@
                     stepperItems[i].classList.add('active');
                 }
 
-                updateProgress(bookingStatus - 1);
+
             }
         </script>
         <script>
@@ -206,8 +235,7 @@
                         icon: 'success',
                         title: 'Success',
                     });
-                    document.getElementById('status').value = 4; // Set status to 2 for approved
-                    // Show your alert or perform any other necessary actions
+                    document.getElementById('statusRecord').value = 4;
                     await document.querySelector('#record-body form').submit();
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     swalWithBootstrapButtons.fire({
@@ -252,8 +280,8 @@
                         icon: 'success',
                         title: 'Success',
                     });
-                    document.getElementById('status2').value = 3; // Set status to 2 for approved
-                    // Show your alert or perform any other necessary actions
+                    document.getElementById('status2').value = 3;
+                    document.getElementById('adminName').value = '<%= user.username %>';
                     await document.querySelector('#manage-vehicle_driver-body form').submit();
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     swalWithBootstrapButtons.fire({
