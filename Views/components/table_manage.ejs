@@ -177,14 +177,14 @@
                                                                                     role="button"><i
                                                                                         class="fa-regular fa-pen-to-square"></i></a>
                                                                                 <button class="btn btn-secondary"><i
-                                                                                        class="fa-solid fa-print"></i></button>
+                                                                                        class="fa-solid fa-print" onclick="window.open('https://drive.google.com/file/d/12JUltAQElcwkI5QHeRXmWrZU6Ls_Wocv/view', '_blank')"></i></button>
                                                                                 <button type="button"
                                                                                     class="btn btn-danger"
                                                                                     onclick="displayAlert('<%= booking._id %>')"><i
                                                                                         class="fa-solid fa-trash-can"></i></button>
                                                                             </div>
                                                                             <%}else{%>
-                                                                                success
+                                                                                <button type="button" class="btn btn-success" style="width: 100px;">Success</button>
                                                                                 <%}%>
                                                                                     <% } %>
                                                                                         <%}else{%>

@@ -108,7 +108,11 @@
                                             </div>
                                             <p id="displayText" class="text-mute"></p>
                                             <% if (booking.status===4) { %>
-                                                <p>Print</p>
+                                                <div class="row m-0 justify-content-center">
+                                                    <p class="print-button" style="width: 80px; height: 30px; background-color: rgb(181, 181, 181);">Cancel</p>
+                                                    <p class="print-button" style="width: 80px; height: 30px;">Print</p>
+                                            </div>
+                                            
                                                 <% }else{ %>
                                                     <div class="text-center mt-3">
                                                         <button type="submit" class="btn btn-primary btn-lg"

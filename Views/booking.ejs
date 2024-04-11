@@ -124,12 +124,14 @@
                                         </span>
                                         <div class="row mt-3" id="input-container">
                                             <label for="">ชื่อ-สกุล</label>
-                                            <div class="col-md"><input class="form-control" type="text" name="passenger"
+                                            <div class="col-md" id="shorten-col-md"><input class="form-control passenger-input" type="text" name="passenger"
                                                     required></div>
+                                                    <a class="minus mt-1" id="delete-input-button"
+                                            style="background-color: rgb(106, 108, 245); width: 30px; height: 30px; font-size: 14px; display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-minus"></i></a>
 
                                         </div>
                                         <a class="plus mt-1" id="add-input-button"
-                                            style="background-color: rgb(106, 108, 245); width: 20px; height: 20px; font-size: 12px; display: flex; align-items: center; justify-content: center;"><i
+                                            style="background-color: rgb(106, 108, 245); width: 30px; height: 30px; font-size: 14px; display: flex; align-items: center; justify-content: center;"><i
                                                 class="fa-solid fa-plus"></i></a>
 
                                     </div>
@@ -261,12 +263,16 @@
                 const newColumn = document.createElement('div');
                 newColumn.className = 'row mt-3';
                 newColumn.innerHTML = `
-      <div class="form-group">
-        <input class="form-control" type="text" placeholder="" required>
-      </div>
+                <div class="col-md"><input class="form-control passenger-input" type="text" name="passenger"
+                                                    required></div>
+                                                    <div class="col-md-1"><a class="minus mt-1" style="background-color: rgb(106, 108, 245); width: 30px; height: 30px; font-size: 14px; display: flex; align-items: center; justify-content: center;"><i class="fa-solid fa-minus"></i></a></div>
     `;
+                newColumn.querySelector('.minus').onclick = function () {
+                    container.removeChild(newColumn);
+                };
                 container.appendChild(newColumn);
             };
+
 
         </script>
         <script src="../JS/navbar.js"></script>

@@ -266,3 +266,24 @@ body {
 .colored-toast.swal2-icon-success {
   background-color: #a5dc86 !important;
 }
+#shorten-col-md{
+  width: 50%;
+}
+
+.row {
+  margin: 0;
+  justify-content: center;
+}
+
+.print-button {
+  background-color: rgb(59, 207, 59);
+  width: 20px;
+  height: 20px;
+  font-size: 18px;
+  margin: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+}
