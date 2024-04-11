@@ -54,9 +54,74 @@
                             <tr>
                                 <td>
                                     <div class="btn-group btn-group" role="group" style="width: 100px;">
-                                        <a class="btn btn-warning" role="button"><i
+                                        <a class="btn btn-warning" role="button" data-bs-toggle="modal" data-bs-target="#example" data-bs-whatever=""><i
                                                 class="fa-regular fa-pen-to-square"></i></a>
-                                        <button type="button" class="btn btn-danger"><i
+                                                <div class="modal fade" id="example" tabindex="-1" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="example">สมาชิก
+                                                                </h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                    aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body" id="modal-body">
+                                                                <form action="/setting/car/Add" method="POST">
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-sm-3">
+                                                                            <label class="form-label">ประเภท</label>
+                                                                        </div>
+                                                                        <div class="col-sm-9 text-secondary">
+                                                                            <input type="text" class="form-control"
+                                                                                name="role" value="<%= user.role %>" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-sm-3">
+                                                                            <label class="form-label">รหัส</label>
+                                                                        </div>
+                                                                        <div class="col-sm-9 text-secondary">
+                                                                            <input type="text" class="form-control" name="numberID" value="<%= user.numberID %>"
+                                                                                required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-sm-3">
+                                                                            <label class="form-label">ชื่อ</label>
+                                                                        </div>
+                                                                        <div class="col-sm-9 text-secondary">
+                                                                            <input type="text" class="form-control" name="firstname" value="<%= user.firstname %>
+                                                                            <%= user.lastname %>"
+                                                                                required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row mb-3">
+                                                                        <div class="col-sm-3">
+                                                                            <label class="form-label">หน่วยงาน</label>
+                                                                        </div>
+                                                                        <div class="col-sm-9 text-secondary">
+                                                                            <input type="text" class="form-control" name="organization" value="<%= user.organization %>"
+                                                                                required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row gy-2 text-center">
+                                                                        <div class="col-md">
+                                                                            <button class="btn btn-secondary"
+                                                                                data-bs-dismiss="modal">ปิด</button>
+                                                                        </div>
+                                                                        <div class="col-md ">
+                                                                            <button type="submit" class="btn btn-primary "
+                                                                                id="AddBtn" id="txt">ยืนยัน</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                        <button type="button" class="btn btn-danger"
+                                            onclick="displayAlert('<%= vehicle._id %>')"><i
                                                 class="fa-solid fa-trash-can"></i></button>
                                     </div>
                                 </td>
