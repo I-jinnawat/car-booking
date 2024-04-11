@@ -126,6 +126,9 @@
                                                                                                 value="<%= endTime.toISOString().slice(0, 16) %>"
                                                                                                 readonly disabled>
                                                                                     </div>
+                                                                                    <div class="col-mt-4">
+                                                                                        <input class="form-control" id="myInput" type="text" style="display: none;" placeholder="หมายเหตุ  (เหตุผลที่ไม่อนุมัติ)"
+                                                                                                            required></div>
                                                                                 </div>
                                                                                 <!-- Other form fields -->
                                                                                 <div class="row gy-2 text-center">
@@ -140,7 +143,7 @@
                                                                                         <button type="submit"
                                                                                             class="btn " id="approveBtn"
                                                                                             style="background-color: rgb(44, 169, 44); color: white;"
-                                                                                            id="txt">อนุมัติ</button>
+                                                                                            id="txt" onclick="displayAlertApprove()">อนุมัติ</button>
                                                                                     </div>
                                                                                 </div>
                                                                             </form>
@@ -245,4 +248,15 @@
 
                 <%}%>
                     <% }) %>
+                    <script>
+                        document.getElementById('unapproveBtn').addEventListener('click', function() {
+                      var inputField = document.getElementById('myInput');
+                      if (inputField.style.display === "none") {
+                        inputField.style.display = "block";
+                      } else {
+                        inputField.style.display = "none";
+                      }
+                    });
+                    
+                    </script>
 </table>
