@@ -123,7 +123,7 @@ exports.updateEvent = async (req, res) => {
       placestart,
       placeend,
       passengerCount,
-      passenger,
+      passengers,
       driver,
       adminName,
       approverName,
@@ -131,7 +131,16 @@ exports.updateEvent = async (req, res) => {
       kilometer_start,
       kilometer_end,
       total_kilometer,
+      deletedPassengerIndex,
     } = req.body;
+    if (
+      deletedPassengerIndex !== undefined &&
+      deletedPassengerIndex >= 0 &&
+      deletedPassengerIndex < passengers.length
+    ) {
+      // Remove the passenger at the specified index from the passengers array
+      passengers.splice(deletedPassengerIndex, 1);
+    }
     await Booking.findByIdAndUpdate(id, {
       status,
       vehicle,
@@ -142,7 +151,7 @@ exports.updateEvent = async (req, res) => {
       placestart,
       placeend,
       passengerCount,
-      passenger,
+      passengers,
       driver,
       adminName,
       approverName,
@@ -157,7 +166,7 @@ exports.updateEvent = async (req, res) => {
     res.redirect('/manage');
   } catch (error) {
     console.error(error);
-    res.status(500).json({error: 'Internal Server Errorhhhhhhhhhhhhhhhhhh'});
+    res.status(500).json({error: 'Internal Server Error'});
   }
 };
 

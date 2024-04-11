@@ -100,15 +100,17 @@
                         <span class="form-text" style="font-size: 1rem; color:red; display: inline;">
                             ***(โปรดระบุชื่อ-นามสกุลของผู้รับบริการให้ครบถ้วน)***
                         </span>
-
-                        <% booking.passengers.forEach(passenger=> { %>
-                            <div class="row mt-3" id="input-container">
-                                <label for="">ชื่อ-สกุล</label>
-                                <div class="col-md">
-                                    <input <%=user.role !=='user' ? 'disabled' : '' %> class="form-control" type="text"
-                                    name="passenger" value="<%= passenger %>"
-                                        required>
-                                </div>
+                        <ol class="passenger-list mt-3">
+                            <% booking.passengers.forEach((passenger, index)=> { %>
+                                <li>
+                                    <input <%=user.role !=='user' ? 'disabled' : '' %> class="form-control
+                                    passenger-input mt-3" type="text" name="passengers"
+                                    value="<%= passenger%>" required>
+                                        <% if (index>= 1&& user.role ==='user') { %>
+                                            <button class="btn btn-danger remove-passenger-btn mt-2"
+                                                style="width: 50px;">ลบ</button>
+                                            <% } %>
+                                </li>
                                 <% }) %>
                             </div>
                             
@@ -117,6 +119,8 @@
                                                     required></div>
                             
 
+                            <button class="btn btn-success add-passenger-btn mt-1">เพิ่ม</button>
+                            <% } %>
                     </div>
                 </div>
             </div>
@@ -139,6 +143,17 @@
         </form>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const removeButtons = document.querySelectorAll('.remove-passenger-btn');
+
+        removeButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                button.parentNode.remove();
+            });
+        });
+    });
+</script>
 <!-- Display Aleart Approve -->
 <script>
     async function displayAlertApprove() {
