@@ -91,7 +91,7 @@
                                                                 <label for="message-text"
                                                                     class="col-form-label">link:</label>
                                                                 <textarea class="form-control"
-                                                                    id="message-text"></textarea>
+                                                                    id="message-text" contenteditable="true"></textarea>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="message-text"
@@ -99,7 +99,12 @@
                                                                 <textarea class="form-control"
                                                                     id="message-text"></textarea>
                                                             </div>
-                                                            
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">หมวด:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
                                                         </form>
                                                     </div>
                                                     <div class="modal-footer">
@@ -197,7 +202,7 @@
                                                                 <label for="message-text"
                                                                     class="col-form-label">link:</label>
                                                                 <textarea class="form-control"
-                                                                    id="message-text"></textarea>
+                                                                    id="message-text" contenteditable="true"></textarea>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="message-text"
@@ -205,7 +210,12 @@
                                                                 <textarea class="form-control"
                                                                     id="message-text"></textarea>
                                                             </div>
-                                                            
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">หมวด:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
                                                         </form>
                                                     </div>
                                                     <div class="modal-footer">
@@ -303,7 +313,7 @@
                                                                 <label for="message-text"
                                                                     class="col-form-label">link:</label>
                                                                 <textarea class="form-control"
-                                                                    id="message-text"></textarea>
+                                                                    id="message-text" contenteditable="true"></textarea>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="message-text"
@@ -311,7 +321,12 @@
                                                                 <textarea class="form-control"
                                                                     id="message-text"></textarea>
                                                             </div>
-                                                            
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">หมวด:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
                                                         </form>
                                                     </div>
                                                     <div class="modal-footer">
@@ -388,7 +403,7 @@
                                                                 <label for="message-text"
                                                                     class="col-form-label">link:</label>
                                                                 <textarea class="form-control"
-                                                                    id="message-text"></textarea>
+                                                                    id="message-text" contenteditable="true"></textarea>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="message-text"
@@ -396,7 +411,12 @@
                                                                 <textarea class="form-control"
                                                                     id="message-text"></textarea>
                                                             </div>
-                                                            
+                                                            <div class="mb-3">
+                                                                <label for="message-text"
+                                                                    class="col-form-label">หมวด:</label>
+                                                                <textarea class="form-control"
+                                                                    id="message-text"></textarea>
+                                                            </div>
                                                         </form>
                                                     </div>
                                                     <div class="modal-footer">
@@ -460,11 +480,25 @@
                 event.preventDefault();
             });
             </script>
+            <script>
+                const textarea = document.getElementById('message-text');
+textarea.addEventListener('input', () => {
+    const cleanHTML = DOMPurify.sanitize(textarea.value, {
+        USE_PROFILES: { html: true },
+        ALLOW_UNKNOWN_PROTOCOLS: true,
+        ALLOW_data_uri: true,
+        ADD_TAGS: ['a'],
+        ADD_ATTR: ['a[href]'],
+    });
+    textarea.value = cleanHTML;
+});
+            </script>
             <script src="/JS/alertDelete.js"></script>
             <script src="../JS/navbar.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.6/dompurify.min.js"></script>
 </body>
 </html>
