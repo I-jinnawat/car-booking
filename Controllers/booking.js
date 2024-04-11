@@ -56,13 +56,12 @@ exports.createEvent = async (req, res) => {
       placestart,
       placeend,
       end,
-      passenger,
+      passengers,
       passengerCount,
       approverName,
       adminName,
       allDay,
     } = req.body;
-
     const event = await Booking.create({
       status,
       userinfo,
@@ -75,7 +74,7 @@ exports.createEvent = async (req, res) => {
       placestart,
       placeend,
       end,
-      passenger,
+      passengers,
       passengerCount,
       approverName,
       adminName,

@@ -35,27 +35,25 @@
                     </div>
                     <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                         <div class="card-header" id="card-header" style="background-color: #FFECB3;">
-                            <form>
-                                <div class="row align-items-center">
-                                    <div class="col-md-6 d-flex">
-                                        <label>ทำการจอง</label>
-                                        <button class="sample me-1 ms-2"
-                                            onclick="window.open('https://drive.google.com/file/d/12wW1XdZdaXZjxYiy_TX4c0WiFvMCtGQU/view?usp=sharing', '_blank')">
-                                            ตัวอย่างการกรอกข้อมูล
-                                        </button>
-                                        <button class="manual"
-                                            onclick="window.open('https://drive.google.com/file/d/12wW1XdZdaXZjxYiy_TX4c0WiFvMCtGQU/view?usp=sharing', '_blank')">
-                                            คู่มือการใช้งาน
-                                        </button>
-                                    </div>
-                                    <div class="col-md-6 text-right">
-                                        <label class="form-label">รหัสการจอง</label>
-                                        <input class=" border-1 rounded-1 ms-2 pe-2" type="text"
-                                            placeholder="รหัสการจองระบบสร้างขึ้นเอง" disabled
-                                            style="width: auto; text-align: right;">
-                                    </div>
+                            <div class="row align-items-center">
+                                <div class="col-md-6 d-flex">
+                                    <label>ทำการจอง</label>
+                                    <button class="sample me-1 ms-2"
+                                        onclick="window.open('https://drive.google.com/file/d/12wW1XdZdaXZjxYiy_TX4c0WiFvMCtGQU/view?usp=sharing', '_blank')">
+                                        ตัวอย่างการกรอกข้อมูล
+                                    </button>
+                                    <button class="manual"
+                                        onclick="window.open('https://drive.google.com/file/d/12wW1XdZdaXZjxYiy_TX4c0WiFvMCtGQU/view?usp=sharing', '_blank')">
+                                        คู่มือการใช้งาน
+                                    </button>
                                 </div>
-                            </form>
+                                <div class="col-md-6 text-right">
+                                    <label class="form-label">รหัสการจอง</label>
+                                    <input class=" border-1 rounded-1 ms-2 pe-2" type="text"
+                                        placeholder="รหัสการจองระบบสร้างขึ้นเอง" disabled
+                                        style="width: auto; text-align: right;">
+                                </div>
+                            </div>
                         </div>
                         <div id="booking-body" class="card-body">
                             <form action="/events" method="POST">
@@ -124,29 +122,27 @@
                                         </span>
                                         <div class="row mt-3" id="input-container">
                                             <label for="">ชื่อ-สกุล</label>
-                                            <div class="col-md"><input class="form-control" type="text" name="passenger"
-                                                    required></div>
-
+                                            <div class="col-md">
+                                                <input class="form-control" type="text" name="passengers" required>
+                                            </div>
                                         </div>
-                                        <a class="plus mt-1" id="add-input-button"
+                                        <button class="plus mt-1" id="add-input-button"
                                             style="background-color: rgb(106, 108, 245); width: 20px; height: 20px; font-size: 12px; display: flex; align-items: center; justify-content: center;"><i
-                                                class="fa-solid fa-plus"></i></a>
-
+                                                class="fa-solid fa-plus"></i></button>
                                     </div>
                                 </div>
-
                                 <div class="text-center mt-3">
                                     <form onsubmit="displayAlert(); return false;">
                                         <button type="submit" class="btn btn-primary btn-lg" id="txt">ยืนยัน</button>
                                     </form>
                                 </div>
                         </div>
-                        </form>
+
                     </div>
                 </div>
             </div>
         </div>
-        </div>
+        <!-- Display aleart -->
         <script>
             async function displayAlert() {
                 const Toast = Swal.mixin({
@@ -217,6 +213,7 @@
                 });
             });         
         </script>
+        <!-- Display date time -->
         <script>
             window.addEventListener("load", () => {
                 clock();
@@ -255,19 +252,18 @@
                 }
             });
         </script>
+        <!-- Add input -->
         <script>
             document.getElementById('add-input-button').onclick = function () {
                 const container = document.getElementById('input-container');
                 const newColumn = document.createElement('div');
                 newColumn.className = 'row mt-3';
                 newColumn.innerHTML = `
-      <div class="form-group">
-        <input class="form-control" type="text" placeholder="" required>
-      </div>
-    `;
+        <div class="col-md">
+            <input class="form-control" type="text" name="passengers" placeholder="" required>
+        </div>`;
                 container.appendChild(newColumn);
             };
-
         </script>
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
