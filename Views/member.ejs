@@ -44,108 +44,168 @@
                             <th scope="col">รหัส</th>
                             <th scope="col">ชื่อ</th>
                             <th scope="col">หน่วยงาน</th>
-                            <th scope="col">หัวข้อ</th>
                         </tr>
                     </thead>
-
                     <tbody>
-                        <% users.forEach(user=> { %>
-                            <tr>
-                                <td>
-                                    <div class="btn-group btn-group" role="group" style="width: 100px;">
-                                        <a class="btn btn-warning" role="button" data-bs-toggle="modal"
-                                            data-bs-target="#example" data-bs-whatever=""><i
-                                                class="fa-regular fa-pen-to-square"></i></a>
-                                        <div class="modal fade" id="example" tabindex="-1" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="example">สมาชิก
-                                                        </h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body" id="modal-body">
-                                                        <form action="/setting/car/Add" method="POST">
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label">ประเภท</label>
+                        <% users.forEach(USER=> { %>
+                            <% if (USER._id!==users._id) { %>
+                                <tr>
+                                    <td>
+                                        <div class="btn-group btn-group" role="group" style="width: 100px;">
+                                            <a class="btn btn-warning" role="button" data-bs-toggle="modal"
+                                                data-bs-target="#UpdateInfo_<%= USER._id%>" data-bs-whatever=""><i
+                                                    class="fa-regular fa-pen-to-square"></i></a>
+                                            <div class="modal fade" id="UpdateInfo_<%= USER._id%>" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">สมาชิก</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body" id="modal-body">
+                                                            <form action="/setting/member/update/<%= USER._id%>"
+                                                                method="POST">
+                                                                <div class="row mb-3">
+                                                                    <div class="col-sm-3">
+                                                                        <label class="form-label">ประเภท</label>
+                                                                    </div>
+                                                                    <div class="col-sm-9 text-secondary">
+                                                                        <select name="newrole" class="form-select">
+                                                                            <option value="approver"
+                                                                                <%=USER.role==='approver' ? 'selected'
+                                                                                : '' %>>ผู้อนุมัติ</option>
+                                                                            <option value="admin" <%=USER.role==='admin'
+                                                                                ? 'selected' : '' %>
+                                                                                >คนจัดรถ</option>
+                                                                            <option value="user" <%=USER.role==='user'
+                                                                                ? 'selected' : '' %>
+                                                                                >พนักงาน</option>
+                                                                        </select>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-sm-9 text-secondary">
-                                                                    <input type="text" class="form-control" name="role"
-                                                                        value="<%= user.role %>" required>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-sm-3">
+                                                                        <label class="form-label">รหัส</label>
+                                                                    </div>
+                                                                    <div class="col-sm-9 text-secondary">
+                                                                        <input type="text" class="form-control"
+                                                                            value="<%= USER.numberID %>" disabled>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label">รหัส</label>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-sm-3">
+                                                                        <label class="form-label">ชื่อ</label>
+                                                                    </div>
+                                                                    <div class="col-sm-9 text-secondary">
+                                                                        <input type="text" class="form-control"
+                                                                            name="newfirstname"
+                                                                            value="<%= USER.firstname %>" required>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-sm-9 text-secondary">
-                                                                    <input type="text" class="form-control"
-                                                                        name="numberID" value="<%= user.numberID %>"
+                                                                <div class="row mb-3">
+                                                                    <div class="col-sm-3">
+                                                                        <label class="form-label">นามสกุล</label>
+                                                                    </div>
+                                                                    <div class="col-sm-9 text-secondary">
+                                                                        <input type="text" class="form-control"
+                                                                            name="newlastname" value=<%=USER.lastname%>
                                                                         required>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label">ชื่อ</label>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-sm-3">
+                                                                        <label class="form-label">หน่วยงาน</label>
+                                                                    </div>
+                                                                    <div class="col-sm-9 text-secondary">
+                                                                        <input type="text" class="form-control"
+                                                                            name="neworganization"
+                                                                            value="<%= USER.organization %>" required>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-sm-9 text-secondary">
-                                                                    <input type="text" class="form-control"
-                                                                        name="firstname" value="<%= user.firstname %>
-                                                                            <%= user.lastname %>" required>
+                                                                <div class="row mb-3">
+                                                                    <div class="col-sm-3">
+                                                                        <label class="form-label">รหัสผ่าน</label>
+                                                                    </div>
+                                                                    <div class="col-sm-9 text-secondary">
+                                                                        <input type="password" class="form-control"
+                                                                            name="newpassword" value="">
+                                                                    </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label">หน่วยงาน</label>
+                                                                <div class="row gy-2 text-center">
+                                                                    <div class="col-md">
+                                                                        <button class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">ปิด</button>
+                                                                    </div>
+                                                                    <div class="col-md ">
+                                                                        <button type="submit" class="btn btn-primary "
+                                                                            id="AddBtn" id="txt">ยืนยัน</button>
+                                                                    </div>
                                                                 </div>
-                                                                <div class="col-sm-9 text-secondary">
-                                                                    <input type="text" class="form-control"
-                                                                        name="organization"
-                                                                        value="<%= user.organization %>" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row gy-2 text-center">
-                                                                <div class="col-md">
-                                                                    <button class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">ปิด</button>
-                                                                </div>
-                                                                <div class="col-md ">
-                                                                    <button type="submit" class="btn btn-primary "
-                                                                        id="AddBtn" id="txt">ยืนยัน</button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
+                                                            </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <button type="button" class="btn btn-danger"
+                                                onclick="displayAlert('<%= USER._id%>')"><i
+                                                    class="fa-solid fa-trash-can"></i></button>
                                         </div>
-
-                                        <button type="button" class="btn btn-danger" onclick="displayAlert()"><i
-                                                class="fa-solid fa-trash-can"></i></button>
-                                    </div>
-                                </td>
-                                <td>
-                                    <%= user.role %>
-                                </td>
-                                <td>
-                                    <%= user.numberID %>
-                                </td>
-                                <td>
-                                    <%= user.firstname %>
-                                        <%= user.lastname %>
-                                </td>
-                                <td>
-                                    <%= user.organization %>
-                                </td>
-                            </tr>
-                            <% }) %>
+                                    </td>
+                                    <td>
+                                        <%= USER.role==='approver' ? "ผู้อนุมัติ" : USER.role==='admin' ? "คนจัดรถ"
+                                            : "พนักงาน" %>
+                                    </td>
+                                    <td>
+                                        <%= USER.numberID %>
+                                    </td>
+                                    <td>
+                                        <%= USER.firstname %>
+                                            <%= USER.lastname %>
+                                    </td>
+                                    <td>
+                                        <%= USER.organization %>
+                                    </td>
+                                </tr>
+                                <% } %>
+                                    <% }) %>
                     </tbody>
                 </table>
             </div>
         </div>
-        <script src="/JS/alertDelete.js"></script>
+        <!-- Delete -->
+        <script>
+            function displayAlert(userID) {
+                Swal.fire({
+                    title: "คุณต้องการลบใช่หรือไม่?",
+                    showDenyButton: true,
+                    confirmButtonText: "ยืนยัน",
+                    denyButtonText: `ยกเลิก`,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deletedMember(userID);
+
+                    } else if (result.isDenied) {
+                        Swal.fire("การลบไม่เปลี่ยนแปลง", "", "info");
+                    }
+                });
+                return false;
+            }
+            function deletedMember(userID) {
+                fetch(`/setting/member/delete/${userID}`, {
+                    method: "DELETE",
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("Failed to delete vehicle");
+                        }
+                        window.location.reload();
+                    })
+                    .catch((error) => {
+                        console.error("Error deleting vehicle:", error);
+                    });
+            }
+        </script>
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

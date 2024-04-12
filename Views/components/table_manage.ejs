@@ -54,16 +54,16 @@
                                                                 href="/booking-edit/<%= booking._id %>" role="button"><i
                                                                     class="fa-regular fa-pen-to-square"></i></a>
                                                             <a class="btn btn-success" href="" role="button"
-                                                                data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#UpdateBooking_<%= booking._id%>"
                                                                 data-bs-whatever=""><i
                                                                     class="fa-solid fa-check"></i></a>
-                                                            <div class="modal fade" id="exampleModal"
+                                                            <div class="modal fade" id="UpdateBooking_<%= booking._id%>"
                                                                 aria-hidden="true">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h5 class="modal-title"
-                                                                                id="exampleModalLabel">
+                                                                            <h5 class="modal-title">
                                                                                 อนุมัติการจอง
                                                                             </h5>
                                                                             <button type="button" class="btn-close"
@@ -208,7 +208,6 @@
                                                                                                         onclick="displayAlert('<%= booking._id %>')"
                                                                                                         style="width: 100px;"><i
                                                                                                             class="fa-solid fa-trash-can"></i></button>
-
                                                                                                     <%}%>
                                                                                                         <%}%>
 
@@ -251,18 +250,17 @@
                     </td>
                 </tr>
             </tbody>
-            <% }else if(user.role==='user' ) {%>
-                <%}%>
-                    <% }) %>
-                        <script>
-                            document.getElementById('unapproveBtn').addEventListener('click', function () {
-                                var inputField = document.getElementById('myInput');
-                                if (inputField.style.display === "none") {
-                                    inputField.style.display = "block";
-                                } else {
-                                    inputField.style.display = "none";
-                                }
-                            });
+            <% } %>
+                <% }) %>
+                    <script>
+                        document.getElementById('unapproveBtn').addEventListener('click', function () {
+                            var inputField = document.getElementById('myInput');
+                            if (inputField.style.display === "none") {
+                                inputField.style.display = "block";
+                            } else {
+                                inputField.style.display = "none";
+                            }
+                        });
 
-                        </script>
+                    </script>
 </table>
