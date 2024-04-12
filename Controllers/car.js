@@ -17,11 +17,9 @@ exports.list = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     const {register, type, seat, available} = req.body;
-
     const event = await Vehicle.create({
       register,
       type,
-
       seat,
       available,
     });
@@ -31,6 +29,24 @@ exports.create = async (req, res) => {
     res.status(500).json({error: error.message});
   }
 };
+exports.update = async (req, res) => {
+  const {id} = req.params;
+  try {
+    const {register, type, seat, available} = req.body;
+
+    const event = await Vehicle.findByIdAndUpdate(id, {
+      register,
+      type,
+      seat,
+      available,
+    });
+
+    res.status(201).redirect('/setting/car');
+  } catch (error) {
+    res.status(500).json({error: error.message});
+  }
+};
+
 exports.remove = async (req, res) => {
   const {id} = req.params;
 
