@@ -126,6 +126,7 @@ body {
     margin-bottom: 50%;
   }
   .top a:hover {
+    text-decoration: underline;
     color: black;
   }
   
