@@ -43,6 +43,60 @@
                       <%= user.organization %>
                     </p>
                     <div class="d-grid gap-2">
+                      <a class="btn btn-secondary" data-bs-toggle="modal"
+                      data-bs-target="#reset">เปลี่ยนรหัสผ่าน</a>
+                      <div class="modal fade" id="reset" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">เปลี่ยนรหัสผ่าน</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" id="modal-body">
+                                    <form action="" method="POST">
+                                        <div class="row mb-3">
+                                            <div class="col-sm-3">
+                                                <label class="form-label">รหัสผ่านเดิม</label>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <input type="text" class="form-control"
+                                                    name="register" required>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-3">
+                                                <label class="form-label">รหัสผ่านใหม่</label>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <input type="text" class="form-control" name="type"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-sm-3">
+                                                <label class="form-label">ยืนยันรหัสผ่านใหม่</label>
+                                            </div>
+                                            <div class="col-sm-9 text-secondary">
+                                                <input type="text" class="form-control" name="seat"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="row gy-2 text-center">
+                                          <div class="col-md">
+                                              <button class="btn btn-secondary"
+                                                  data-bs-dismiss="modal">ปิด</button>
+                                          </div>
+                                          <div class="col-md ">
+                                              <button type="submit" class="btn btn-primary "
+                                                  id="AddBtn" id="txt">ยืนยัน</button>
+                                          </div>
+                                      </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                       <a class="btn btn-warning " href="/profile/edit">Edit profile</a>
                       <form action="/logout" method="POST"><button class="btn btn-danger">ออกจากระบบ</button>
                       </form>
