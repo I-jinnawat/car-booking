@@ -154,13 +154,12 @@
                     let kmStart = parseFloat(document.getElementById('km_start').value);
                     let kmEnd = parseFloat(document.getElementById('km_end').value);
 
-                    const totalKm = kmEnd - kmStart;
-                    if (kmEnd < kmStart || totalKm === 0) {
+                    if (kmEnd < kmStart) {
                         document.getElementById('displayText').innerHTML = "กรอกข้อมูลไม่ถูกต้อง";
                         document.getElementById('total_km').value = '';
                         document.getElementById('save_recordBtn').disabled = true; // Enable submit button
                     } else {
-
+                        const totalKm = kmEnd - kmStart;
                         document.getElementById('total_km').value = isNaN(totalKm) ? '' : totalKm.toFixed(2);
                         document.getElementById('displayText').innerHTML = ""; // Clear error message
                         document.getElementById('save_recordBtn').disabled = false; // Enable submit button
@@ -303,7 +302,7 @@
                         title: 'Success',
                     });
                     document.getElementById('status2').value = 3;
-                    document.getElementById('adminName').value = '<%= user.firstname %> <%= user.lastname%>';
+                    document.getElementById('adminName').value = '<%= user.username %>';
                     await document.querySelector('#manage-vehicle_driver-body form').submit();
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     swalWithBootstrapButtons.fire({
