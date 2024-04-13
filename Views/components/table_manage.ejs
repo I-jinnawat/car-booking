@@ -79,6 +79,8 @@
                                                                                     name="approverName">
                                                                                 <input id="cancelerName" type="hidden"
                                                                                     name="cancelerName">
+                                                                                <input type="hidden" name="bookingId"
+                                                                                    value="<%= booking._id %>">
                                                                                 <div class="mb-3 row">
                                                                                     <label for="title"
                                                                                         class="col-sm-3 col-form-label">หัวข้อ:</label>
@@ -252,15 +254,15 @@
             </tbody>
             <% } %>
                 <% }) %>
-                    <script>
-                        document.getElementById('unapproveBtn').addEventListener('click', function () {
-                            var inputField = document.getElementById('myInput');
-                            if (inputField.style.display === "none") {
-                                inputField.style.display = "block";
-                            } else {
-                                inputField.style.display = "none";
-                            }
-                        });
-
-                    </script>
 </table>
+<script>
+    document.getElementById('unapproveBtn').addEventListener('click', function () {
+        var inputField = document.getElementById('myInput');
+        if (inputField.style.display === "none") {
+            inputField.style.display = "block";
+        } else {
+            inputField.style.display = "none";
+        }
+    });
+
+</script>

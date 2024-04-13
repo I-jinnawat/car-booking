@@ -79,8 +79,8 @@
                                                                     <label class="form-label">ที่นั่ง</label>
                                                                 </div>
                                                                 <div class="col-sm-9 text-secondary">
-                                                                    <input type="text" class="form-control" name="seat"
-                                                                        required>
+                                                                    <input type="number" min="0" max="30"
+                                                                        class="form-control" name="seat" required>
                                                                 </div>
                                                             </div>
                                                             <div class="row gy-2 text-end">
@@ -133,7 +133,7 @@
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
-                                                        <div class="modal-body" id="modal-body">
+                                                        <div class="modal-body" id="UpdateModal-body">
                                                             <form action="/setting/car/Update/<%= vehicle._id %>"
                                                                 method="POST">
                                                                 <div class="row mb-3">
@@ -194,7 +194,7 @@
                                                                 <div class="row gy-2 text-end">
                                                                     <div class="col-md ">
                                                                         <button type="submit" class="btn btn-primary "
-                                                                            id="AddBtn" id="txt">ยืนยัน</button>
+                                                                            id="UpdateBtn" id="txt">ยืนยัน</button>
                                                                     </div>
                                                                 </div>
                                                             </form>
@@ -264,6 +264,7 @@
                     });
             }
         </script>
+        <!-- preventDefault -->
         <script>
             document.querySelector("#modal-body form").addEventListener("submit", function (event) {
                 event.preventDefault();
@@ -271,7 +272,22 @@
                     displayAlertAdd()
                 }
             });
+            document.querySelector("#UpdateModal-body form").addEventListener("submit", function (event) {
+                event.preventDefault();
+                if (event.submitter && event.submitter.id === 'UpdateBtn') {
+                    displayAlertUpdated(this)
+                }
+            });
+            document.querySelectorAll("#UpdateModal-body form").forEach(form => {
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault();
+                    if (event.submitter && event.submitter.id === 'UpdateBtn') {
+                        displayAlertUpdated(this); // Pass the form element as an argument
+                    }
+                });
+            });
         </script>
+        <!-- Display Aleart  -->
         <script>
             async function displayAlertAdd() {
                 const Toast = Swal.mixin({
@@ -317,6 +333,52 @@
                     });
                 }
             }
+
+            async function displayAlertUpdated(form) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    iconColor: 'white',
+                    customClass: {
+                        popup: 'colored-toast',
+                    },
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                });
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                });
+                const result = await swalWithBootstrapButtons.fire({
+                    title: 'คุณแน่ใจหรือไม่?',
+                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'ยืนยัน',
+                    cancelButtonText: 'ยกเลิก',
+                    reverseButtons: true
+                });
+
+                if (result.isConfirmed) {
+                    await Toast.fire({
+                        icon: 'success',
+                        title: 'Success',
+                    })
+
+                    await form.submit();
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire({
+                        title: 'ยกเลิก',
+                        text: 'คุณได้ทำการยกเลิก',
+                        icon: 'error'
+                    });
+                }
+            }
+
         </script>
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

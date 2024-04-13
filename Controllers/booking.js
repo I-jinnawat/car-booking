@@ -1,4 +1,6 @@
 const Booking = require('../Models/booking');
+const User = require('../Models/Auth');
+const Vehicle = require('../Models/vehicles');
 
 exports.list = async (req, res) => {
   const bookings = await Booking.find().lean();
@@ -20,7 +22,8 @@ exports.bookingEdit = async (req, res) => {
   const {id} = req.params;
   try {
     const booking = await Booking.findById(id);
-
+    const drivers = await User.find({role: 'driver'});
+    const vehicle = await Vehicle.find({available: true});
     if (!booking) {
       return res.status(404).json({error: 'Booking not found'});
     }
@@ -33,7 +36,9 @@ exports.bookingEdit = async (req, res) => {
           userLoggedIn: true,
           user: req.session.user,
           booking,
-          bookingStatus, // Pass the booking status to the frontend
+          bookingStatus,
+          drivers,
+          vehicle,
         })
       : res.render('dashboard', {userLoggedIn: false});
   } catch (error) {

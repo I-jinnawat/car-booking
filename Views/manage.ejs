@@ -138,13 +138,21 @@
             </div>
         </div>
         <script>
-            document.querySelector("#modal-body form").addEventListener("submit", function (event) {
-                event.preventDefault();
-                if (event.submitter && event.submitter.id === 'approveBtn') {
-                    displayAlertApprove()
-                } else {
-                    displayAlertUnapprove()
-                }
+            // Add event listener to each form
+            document.querySelectorAll("#modal-body form").forEach(form => {
+                form.addEventListener("submit", function (event) {
+                    event.preventDefault();
+                    // Get the booking ID from the form
+                    const bookingId = form.querySelector('input[name="bookingId"]').value;
+                    // Check which button was clicked
+                    if (event.submitter && event.submitter.textContent.trim() === 'อนุมัติ') {
+                        displayAlertApprove();
+                        // You can also do further actions with the booking ID
+                    } else {
+                        displayAlertUnapprove();
+                        // You can also do further actions with the booking ID
+                    }
+                });
             });
         </script>
         <!-- Display Unapprove -->
@@ -183,7 +191,6 @@
                     });
                 }
             }
-
         </script>
         <!-- Display Approve -->
         <script>

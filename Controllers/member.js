@@ -1,5 +1,6 @@
 const User = require('../Models/Auth');
 const bcrypt = require('bcrypt');
+
 exports.read = async (req, res) => {
   const page = req.query.page || 1;
   const limit = 10;
@@ -70,6 +71,7 @@ exports.update = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
 exports.remove = async (req, res) => {
   const {id} = req.params;
 
