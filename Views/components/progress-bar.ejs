@@ -4,9 +4,9 @@
             <div class="stepper-item active" id="step1">
                 <div class="step-counter">1</div>
                 <div class="step-name mt-1">1.ทำการจองเสร็จ,รอหัวหน้าอนุมัติ</div>
-                <div class="step-name option1">ผู้จอง: <%= booking.userinfo%>
+                <div class="step-name option1 ">ผู้จอง: <%= booking.userinfo%>
                 </div>
-                <div class="step-name option2">เวลาจอง:
+                <div class="step-name option2">เวลาจอง: <span id="step1-time"></span>
                 </div>
             </div>
             <div class="stepper-item" id="step2">
@@ -35,3 +35,25 @@
         </div>
     </div>
 </div>
+<script>
+    // Function to update time
+    function updateTime(elementId) {
+        const now = new Date();
+        const timeString = now.toLocaleString(); // Customize this according to your requirement
+        document.getElementById(elementId).textContent = timeString;
+    }
+
+    // Function to update time for a specific step
+    function updateStepTime(stepId, timeElementId) {
+        updateTime(timeElementId);
+        // You can also send the updated time to the server here for persistent storage if needed
+    }
+
+    // Example usage:
+    document.getElementById('actionButtonStep1').addEventListener('click', function () {
+        // Call the updateStepTime function for Step 1
+        updateStepTime('step1', 'step1-time');
+    });
+
+    // Repeat the above for other steps and action buttons, changing the stepId and timeElementId accordingly
+</script>

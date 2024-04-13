@@ -71,11 +71,10 @@
                                     </div>
                                     <div class="col-md">
                                         <label class="form-label">หมายเลขโทรศัพท์</label>
-                                        <input class="form-control" type="text" id="mobileNumber" name="mobile_number"
+                                        <input class="form-control" type="tel" id="mobileNumber" name="mobile_number"
                                             placeholder="เช่น 08x-xxx-xxxx" required>
                                         <small id="mobileNumberError"
-                                            class="text-danger d-none">โปรดกรอกเบอร์โทรศัพท์ให้ครบ
-                                            10 ตัวเลข</small>
+                                            class="text-danger d-none">โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10 ตัวเลข</small>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -193,23 +192,31 @@
         </script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                const mobileInput = document.getElementById("mobileNumber");
-                mobileInput.addEventListener("input", function (event) {
-                    let inputValue = event.target.value;
-                    inputValue = inputValue.replace(/[^0-9]/g, '');
-                    if (!inputValue.startsWith('0')) {
-                        inputValue = '0' + inputValue;
-                    }
-                    event.target.value = inputValue;
-                    if (inputValue.length !== 10) {
-                        document.getElementById("mobileNumberError").classList.remove("d-none");
-                        mobileInput.setCustomValidity("โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10 ตัวเลข");
-                    } else {
+                // Get the mobile number input field
+                var mobileNumberInput = document.getElementById("mobileNumber");
+
+                // Add event listener for input
+                mobileNumberInput.addEventListener("input", function () {
+                    // Get the entered mobile number value
+                    var mobileNumber = mobileNumberInput.value.trim();
+
+                    // Remove any non-numeric characters
+                    var numericMobileNumber = mobileNumber.replace(/\D/g, "");
+
+                    // Update the input field value
+                    mobileNumberInput.value = numericMobileNumber;
+
+                    // Check if the mobile number has a length of 10 digits
+                    if (numericMobileNumber.length === 10) {
+                        // Mobile number is valid, remove any existing error message
                         document.getElementById("mobileNumberError").classList.add("d-none");
-                        mobileInput.setCustomValidity("");
+                    } else {
+                        // Mobile number is invalid, show error message
+                        document.getElementById("mobileNumberError").classList.remove("d-none");
                     }
                 });
-            });         
+            });
+
         </script>
         <!-- Display date time -->
         <script>

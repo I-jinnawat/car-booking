@@ -8,7 +8,7 @@ const eventSchema = new mongoose.Schema(
     userinfo: {type: String, required: true},
     user_id: {type: String, require: true},
     organization: {type: String, required: true},
-    mobile_number: {type: Number, required: true},
+    mobile_number: {type: String, required: true},
     title: {type: String, required: true},
     start: {type: Date, required: true},
     end: {type: Date, required: true},
