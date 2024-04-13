@@ -129,6 +129,9 @@ body {
     text-decoration: underline;
     color: black;
   }
+  a:-webkit-any(link){
+    text-decoration: underline;
+  }
   
 @media (max-width: 768px) {
 
