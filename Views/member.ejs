@@ -401,12 +401,13 @@
                     var found = false;
                     
                     // Iterate through each cell in the row
-                    cells.forEach(function(cell) {
-                        // Check if the cell content contains the search value
-                        if (cell.textContent.toLowerCase().includes(searchValue)) {
-                            found = true;
-                        }
-                    });
+                    cells.forEach(function(cell, index) {
+                // Check if the cell content contains the search value or matches the role
+                if (cell.textContent.toLowerCase().includes(searchValue) || 
+                    (index === 1 && cell.textContent.toLowerCase().includes(searchValue))) {
+                    found = true;
+                }
+            });
         
                     // Show or hide the row based on the search result
                     if (found) {
