@@ -100,7 +100,7 @@
                                                 จองรถ</a>
                                         </div>
                                         <div class="search">
-                                            <input class="p-1" type="text" placeholder="&#xf002; ค้นหา"
+                                            <input class="p-1" type="text" id="searchInput" placeholder="&#xf002; ค้นหา" name="search" 
                                                 style="width: 200px; border-radius: 8px ; border:1px solid black;">
                                         </div>
                                     </div>
@@ -272,6 +272,41 @@
                     });
             }
         </script>
+        <script>
+            // Function to handle search input
+            function handleSearch() {
+                // Get search input value
+                var searchValue = document.getElementById('searchInput').value.toLowerCase();
+        
+                // Get all rows in the table body
+                var rows = document.querySelectorAll("tbody tr");
+        
+                // Iterate through each row
+                rows.forEach(function(row) {
+                    var cells = row.querySelectorAll("td");
+                    var found = false;
+                    
+                    // Iterate through each cell in the row
+                    cells.forEach(function(cell) {
+                        // Check if the cell content contains the search value
+                        if (cell.textContent.toLowerCase().includes(searchValue)) {
+                            found = true;
+                        }
+                    });
+        
+                    // Show or hide the row based on the search result
+                    if (found) {
+                        row.style.display = "";
+                    } else {
+                        row.style.display = "none";
+                    }
+                });
+            }
+        
+            // Add event listener to search input field
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
+        </script>
+        
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
