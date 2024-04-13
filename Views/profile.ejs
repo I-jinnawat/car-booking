@@ -34,7 +34,8 @@
                       <%= user.firstname %>
                         <%= user.lastname %>
                     </h4>
-                    <p class="text-secondary mb-1">รหัสพนักงาน : <%= user.numberID %>
+                    <p class="text-secondary mb-1">
+                      <%= user.numberID %>
                     </p>
                     <p class="text-secondary mb-1">
                       <%=(user.role==="approver" ? 'ผู้อนุมัติ' : (user.role==="admin" ? 'คนจัดรถ' : 'พนักงาน' ))%>
@@ -43,60 +44,54 @@
                       <%= user.organization %>
                     </p>
                     <div class="d-grid gap-2">
-                      <a class="btn btn-secondary" data-bs-toggle="modal"
-                      data-bs-target="#reset">เปลี่ยนรหัสผ่าน</a>
+                      <a class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#reset">เปลี่ยนรหัสผ่าน</a>
                       <div class="modal fade" id="reset" aria-hidden="true">
                         <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">เปลี่ยนรหัสผ่าน</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                        aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body" id="modal-body">
-                                    <form action="" method="POST">
-                                        <div class="row mb-3">
-                                            <div class="col-sm-3">
-                                                <label class="form-label">รหัสผ่านเดิม</label>
-                                            </div>
-                                            <div class="col-sm-9">
-                                                <input type="text" class="form-control"
-                                                    name="register" required>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-sm-3">
-                                                <label class="form-label">รหัสผ่านใหม่</label>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input type="text" class="form-control" name="type"
-                                                    required>
-                                            </div>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <div class="col-sm-3">
-                                                <label class="form-label">ยืนยันรหัสผ่านใหม่</label>
-                                            </div>
-                                            <div class="col-sm-9 text-secondary">
-                                                <input type="text" class="form-control" name="seat"
-                                                    required>
-                                            </div>
-                                        </div>
-                                        <div class="row gy-2 text-center">
-                                          <div class="col-md">
-                                              <button class="btn btn-secondary"
-                                                  data-bs-dismiss="modal">ปิด</button>
-                                          </div>
-                                          <div class="col-md ">
-                                              <button type="submit" class="btn btn-primary "
-                                                  id="AddBtn" id="txt">ยืนยัน</button>
-                                          </div>
-                                      </div>
-                                    </form>
-                                </div>
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">เปลี่ยนรหัสผ่าน</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
                             </div>
+                            <div class="modal-body" id="modal-body">
+                              <form action="/user/update/<%=user._id%>" method="POST">
+                                <div class="row mb-3">
+                                  <div class="col-sm-3">
+                                    <label class="form-label">รหัสผ่านเดิม</label>
+                                  </div>
+                                  <div class="col-sm-9">
+                                    <input type="password" class="form-control" name="oldpassword" required>
+                                  </div>
+                                </div>
+                                <div class="row mb-3">
+                                  <div class="col-sm-3">
+                                    <label class="form-label">รหัสผ่านใหม่</label>
+                                  </div>
+                                  <div class="col-sm-9 text-secondary">
+                                    <input type="password" class="form-control" name="newpassword" required>
+                                  </div>
+                                </div>
+                                <div class="row mb-3">
+                                  <div class="col-sm-3">
+                                    <label class="form-label">ยืนยันรหัสผ่านใหม่</label>
+                                  </div>
+                                  <div class="col-sm-9 text-secondary">
+                                    <input type="password" class="form-control" name="newpasswordconfirm" required>
+                                  </div>
+                                </div>
+                                <div class="row gy-2 text-center">
+                                  <div class="col-md">
+                                    <button class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                                  </div>
+                                  <div class="col-md ">
+                                    <button type="submit" class="btn btn-primary ">ยืนยัน</button>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
                         </div>
-                    </div>
+                      </div>
                       <a class="btn btn-warning " href="/profile/edit">Edit profile</a>
                       <form action="/logout" method="POST"><button class="btn btn-danger">ออกจากระบบ</button>
                       </form>
@@ -108,10 +103,37 @@
           </div>
       </div>
     </div>
-    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const newPasswordInput = document.querySelector('input[name="newpassword"]');
+        const newPasswordConfirmInput = document.querySelector('input[name="newpasswordconfirm"]');
+        const submitButton = document.querySelector('button[type="submit"]');
+
+        newPasswordConfirmInput.addEventListener('input', function () {
+          const newPassword = newPasswordInput.value;
+          const newPasswordConfirm = newPasswordConfirmInput.value;
+
+          if (newPassword !== newPasswordConfirm) {
+            newPasswordConfirmInput.setCustomValidity('รหัสผ่านใหม่และการยืนยันรหัสผ่านไม่ตรงกัน');
+          } else {
+            newPasswordConfirmInput.setCustomValidity('');
+          }
+        });
+
+        // Optional: Disable submit button if passwords don't match
+        submitButton.addEventListener('click', function (event) {
+          if (newPasswordInput.value !== newPasswordConfirmInput.value) {
+            event.preventDefault();
+            alert('รหัสผ่านใหม่และการยืนยันรหัสผ่านไม่ตรงกัน');
+          }
+        });
+      });
+    </script>
+
     <script src="../JS/navbar.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

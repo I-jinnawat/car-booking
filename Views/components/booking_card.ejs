@@ -122,8 +122,9 @@
             </div>
             <% if (user.role==="approver" && booking.status===1) { %>
                 <div class="col-mt-4">
-                    <input class="form-control" id="myInput" type="text" style="display: none;" placeholder="หมายเหตุ  (เหตุผลที่ไม่อนุมัติ)"
-                                        required></div>
+                    <input class="form-control" id="myInput" type="text" style="display: none;"
+                        placeholder="หมายเหตุ  (เหตุผลที่ไม่อนุมัติ)" name="note" required>
+                </div>
                 <div class="text-center mt-3">
                     <button type="submit" class="btn btn-primary btn-lg" id="unapproveBtn"
                         style="background-color: red;" id="txt">ไม่อนุมัติ</button>
@@ -203,14 +204,14 @@
 
 </script>
 <script>
-    document.getElementById('unapproveBtn').addEventListener('click', function() {
-  var inputField = document.getElementById('myInput');
-  if (inputField.style.display === "none") {
-    inputField.style.display = "block";
-  } else {
-    inputField.style.display = "none";
-  }
-});
+    document.getElementById('unapproveBtn').addEventListener('click', function () {
+        var inputField = document.getElementById('myInput');
+        if (inputField.style.display === "none") {
+            inputField.style.display = "block";
+        } else {
+            inputField.style.display = "none";
+        }
+    });
 
 </script>
 <!-- Display Aleart Unapprove -->
