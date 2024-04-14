@@ -206,7 +206,10 @@
                                                 <td>
                                                     <%= new Date(document.createdAt).toLocaleDateString('th-TH') %>
                                                         <%= new Date(document.createdAt).toLocaleTimeString('th-TH') %>
+                                                            <%= new Date(document.createdAt).getHours()>= 12 ?
+                                                                'หลังเที่ยง' : 'ก่อนเที่ยง' %>
                                                 </td>
+
                                             </tr>
                                             <% }); %>
                                     </table>

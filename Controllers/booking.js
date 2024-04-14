@@ -49,46 +49,13 @@ exports.bookingEdit = async (req, res) => {
 
 exports.createEvent = async (req, res) => {
   try {
-    const {
-      status,
-      vehicle,
-      userinfo,
-      user_id,
-      organization,
-      mobile_number,
-      title,
-      start,
-      placestart,
-      placeend,
-      end,
-      passengers,
-      passengerCount,
-      approverName,
-      adminName,
-      allDay,
-    } = req.body;
-    const event = await Booking.create({
-      status,
-      userinfo,
-      user_id,
-      vehicle,
-      organization,
-      mobile_number,
-      title,
-      start,
-      placestart,
-      placeend,
-      end,
-      passengers,
-      passengerCount,
-      approverName,
-      adminName,
-      allDay,
-    });
+    // Create the booking in the database
+    const event = await Booking.create(req.body);
 
     res.status(201).redirect('/manage');
   } catch (error) {
-    res.status(500).json({error: error.message});
+    console.error('Error creating booking:', error);
+    res.status(500).json({error: 'Internal Server Error'});
   }
 };
 
@@ -181,9 +148,8 @@ exports.deleteEvent = async (req, res) => {
   const {id} = req.params;
 
   try {
-    // Find the booking by ID and delete it from the database
     await Booking.findByIdAndDelete(id);
-    res.sendStatus(204); // Send a success status code (No Content)
+    res.sendStatus(204);
   } catch (error) {
     console.error('Error deleting booking:', error);
     res.status(500).json({error: 'Internal Server Error'});
