@@ -29,6 +29,12 @@
                             style="font-size: 20px">
                             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
                         </button>
+                        <nav style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                              <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
+                              <li class="breadcrumb-item active" aria-current="page">เอกสาร</li>
+                            </ol>
+                          </nav>
                         <%- include('components/userinfo.ejs') -%>
                     </div>
                     <div class="card" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
@@ -57,6 +63,11 @@
                                                 id="option4" autocomplete="off" value="แนวทางการใช้รถ">
                                             <label style="width: 150px;" class="btn btn-secondary"
                                                 for="option4">แนวทางการใช้รถ</label>
+                                                <a href="/adddocument" class="btn btn-primary"
+                                                    style="border-color: #FFECB3; background-color:#FFECB3; width: 100px; color: black;"
+                                                    data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                    <i class="fi fi-rr-edit"></i>เพิ่ม
+                                                </a>
                                         </form>
 
 
@@ -89,63 +100,10 @@
                                         </div>
                                         <div class="col-md-2 d-flex">
                                             <% if (userLoggedIn && user.role !=='user' ) { %>
-                                                <button type="button" class="btn btn-primary"
-                                                    style="border-color: #FFECB3; background-color:#FFECB3; width: 100px; color: black;"
-                                                    data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                    <i class="fi fi-rr-edit"></i>เพิ่ม
-                                                </button>
+                                                
                                                 <% } %>
 
-                                                    <div class="modal fade" id="exampleModal" tabindex="-1"
-                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <h5 class="modal-title" id="exampleModalLabel">
-                                                                        เพิ่ม
-                                                                    </h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <form>
-                                                                        <div class="mb-3">
-                                                                            <label for="recipient-name"
-                                                                                class="col-form-label">หัวข้อ:</label>
-                                                                            <input type="text" class="form-control"
-                                                                                id="recipient-name">
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="message-text"
-                                                                                class="col-form-label">link:</label>
-                                                                            <textarea class="form-control"
-                                                                                id="message-text"
-                                                                                contenteditable="true"></textarea>
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="message-text"
-                                                                                class="col-form-label">รูปภาพ:</label>
-                                                                            <textarea class="form-control"
-                                                                                id="message-text"></textarea>
-                                                                        </div>
-                                                                        <div class="mb-3">
-                                                                            <label for="message-text"
-                                                                                class="col-form-label">หมวด:</label>
-                                                                            <textarea class="form-control"
-                                                                                id="message-text"></textarea>
-                                                                        </div>
-                                                                    </form>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">ปิด</button>
-                                                                    <button type="button"
-                                                                        class="btn btn-primary">ยืนยัน</button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    
 
                                         </div>
                                     </div>
