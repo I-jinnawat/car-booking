@@ -88,8 +88,8 @@
                                         <label for="">สถานะ</label>
                                         <div class="btn-group">
                                             <select class="form-select">
-                                                <option selected>กำลังดำเนินการ...</option>
-                                                <option value="1">ทั้งหมด</option>
+                                                <option selected>ทั้งหมด</option>
+                                                <option value="1">กำลังดำเนินการ...</option>
                                                 <option value="3">เสร็จสิ้น</option>
                                             </select>
                                         </div>
@@ -312,6 +312,62 @@
             // Add event listener to search input field
             document.getElementById('searchInput').addEventListener('input', handleSearch);
         </script>
+        <script>
+            // Get the select element
+const selectElement = document.querySelector('.form-select');
+
+// Add event listener to handle select change
+selectElement.addEventListener('change', function() {
+    // Get the selected value
+    const selectedValue = this.value;
+
+    // Get all table rows
+    const rows = document.querySelectorAll('tbody tr');
+
+    // Loop through each row and update visibility based on selected option
+    rows.forEach(row => {
+        const statusCell = row.querySelector('td:nth-child(2)');
+        const statusText = statusCell.textContent.trim();
+
+        // Show row if "All" is selected or if the row status matches the selected option
+        if (selectedValue === '3') {
+            if (statusText === '4.เสร็จสิ้น') {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        } else if (selectedValue === '1') {
+            if (statusText === '1.ทำการจองเสร็จ รอหัวหน้าอนุมัติ') {
+                row.style.display = '';
+            } else if (statusText === '2.หัวหน้างานอนุมัติเสร็จ รอคนจัดรถ') {
+                row.style.display = '';
+            }else if (statusText === '3.จัดรถสำเร็จ,พร้อมใช้งาน') {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+            
+        } else if (selectedValue === '2') {
+            if (statusText === '1.ทำการจองเสร็จ รอหัวหน้าอนุมัติ') {
+                row.style.display = '';
+            } else if (statusText === '2.หัวหน้างานอนุมัติเสร็จ รอคนจัดรถ') {
+                row.style.display = '';
+            }else if (statusText === '3.จัดรถสำเร็จ,พร้อมใช้งาน') {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+            
+        } 
+        
+        else {
+            row.style.display = '';
+        }
+        
+    });
+});
+
+     </script>
         
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
