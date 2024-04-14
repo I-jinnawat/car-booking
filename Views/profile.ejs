@@ -22,6 +22,12 @@
           <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0" style="font-size: 20px">
             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
           </button>
+          <nav style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
+              <li class="breadcrumb-item active" aria-current="page">โปรไฟล์</li>
+            </ol>
+          </nav>
         </div>
         <%- include('components/userinfo.ejs') -%>
           <div class="row">
