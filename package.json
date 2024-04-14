@@ -12,7 +12,7 @@
     "prepare": "npm.cmd run compile",
     "pretest": "npm.cmd run compile",
     "posttest": "npm.cmd run lint",
-     "configure-husky": "npx husky install && npx husky add .husky/pre-commit \"npm run fix\""
+    "configure-husky": "npx husky install && npx husky add .husky/pre-commit \"npm run fix\""
   },
   "author": "",
   "license": "ISC",
@@ -37,9 +37,9 @@
   "keywords": [],
   "description": "",
   "devDependencies": {
+    "@types/node": "20.11.5",
     "gts": "^5.3.0",
     "husky": "^9.0.11",
-    "typescript": "~5.4.3",
-    "@types/node": "20.11.5"
+    "typescript": "~5.4.3"
   }
 }

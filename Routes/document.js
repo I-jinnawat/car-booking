@@ -1,8 +1,10 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const { list } = require("../Controllers/document");
+const {list, create, read} = require('../Controllers/document');
 
-router.get("/document/form", list);
+router.get('/document', list);
+router.get('/document/:category', read);
+router.post('/document/create', create);
 
 module.exports = router;

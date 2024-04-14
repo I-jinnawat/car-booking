@@ -43,31 +43,33 @@ exports.list = async (req, res) => {
 
 exports.update = async (req, res) => {
   const {id} = req.params;
-  const {newfirstname, newlastname, oldpassword, newpassword} = req.body; // Added oldpassword and newpassword
+  const {newfirstname, newlastname, oldpassword, newpassword} = req.body;
 
   try {
     let user = await Auth.findById(id); // Finding the user by id
     if (!user) {
       // If user not found
-      return res.status(404).send('user not found');
+      req.flash('error', 'User not found');
+      return res.redirect('/profile/' + id); // Redirect to profile page with flash message
     }
-    // Updating user's first name and last name
+
+    // Update firstname and lastname if provided
     if (newfirstname && newlastname) {
       user.firstname = newfirstname;
       user.lastname = newlastname;
     }
-    // If old password and new password provided, verify old password and update password
+
+    // If old password and new password are provided
     if (oldpassword && newpassword) {
       if (!bcrypt.compareSync(oldpassword, user.password)) {
         // If old password does not match
-        return res.status(400).send('password wrong');
+        req.flash('error', 'รหัสผ่านเดิมไม่ถูกต้อง');
       }
       user.password = bcrypt.hashSync(newpassword, 10);
     }
+
     // Saving the updated user
     await user.save();
-
-    // Update session user info if needed (not implemented here)
 
     res.redirect('/profile/' + id); // Redirect to the user's profile page after successful update
   } catch (err) {

@@ -54,7 +54,7 @@
                                 aria-label="Close"></button>
                             </div>
                             <div class="modal-body" id="modal-body">
-                              <form action="/user/update/<%=user._id%>" method="POST">
+                              <form action="/user/update/<%= user._id %>" method="POST">
                                 <div class="row mb-3">
                                   <div class="col-sm-3">
                                     <label class="form-label">รหัสผ่านเดิม</label>
@@ -79,16 +79,23 @@
                                     <input type="password" class="form-control" name="newpasswordconfirm" required>
                                   </div>
                                 </div>
-                                <div class="row gy-2 text-center">
-                                  <div class="col-md">
-                                    <button class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                                <% if (errorMessage) { %>
+                                  <div class="alert alert-danger" role="alert">
+                                    <%= errorMessage %>
                                   </div>
-                                  <div class="col-md ">
-                                    <button type="submit" class="btn btn-primary ">ยืนยัน</button>
-                                  </div>
-                                </div>
+                                  <% } %>
+                                    <p id="showText"></p>
+                                    <div class="row gy-2 text-center">
+                                      <div class="col-md">
+                                        <button class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                                      </div>
+                                      <div class="col-md">
+                                        <button type="submit" class="btn btn-primary">ยืนยัน</button>
+                                      </div>
+                                    </div>
                               </form>
                             </div>
+
                           </div>
                         </div>
                       </div>
@@ -108,6 +115,7 @@
         const newPasswordInput = document.querySelector('input[name="newpassword"]');
         const newPasswordConfirmInput = document.querySelector('input[name="newpasswordconfirm"]');
         const submitButton = document.querySelector('button[type="submit"]');
+        const showText = document.getElementById('showText');
 
         newPasswordConfirmInput.addEventListener('input', function () {
           const newPassword = newPasswordInput.value;
@@ -115,8 +123,10 @@
 
           if (newPassword !== newPasswordConfirm) {
             newPasswordConfirmInput.setCustomValidity('รหัสผ่านใหม่และการยืนยันรหัสผ่านไม่ตรงกัน');
+            showText.textContent = 'รหัสผ่านใหม่และการยืนยันรหัสผ่านไม่ตรงกัน';
           } else {
             newPasswordConfirmInput.setCustomValidity('');
+            showText.textContent = '';
           }
         });
 
@@ -124,11 +134,13 @@
         submitButton.addEventListener('click', function (event) {
           if (newPasswordInput.value !== newPasswordConfirmInput.value) {
             event.preventDefault();
-            alert('รหัสผ่านใหม่และการยืนยันรหัสผ่านไม่ตรงกัน');
+
+            showText.textContent = 'รหัสผ่านใหม่และการยืนยันรหัสผ่านไม่ตรงกัน';
           }
         });
       });
     </script>
+
 
     <script src="../JS/navbar.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
