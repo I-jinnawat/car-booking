@@ -48,9 +48,8 @@ exports.update = async (req, res) => {
   try {
     let user = await Auth.findById(id); // Finding the user by id
     if (!user) {
-      // If user not found
       req.flash('error', 'User not found');
-      return res.redirect('/profile/' + id); // Redirect to profile page with flash message
+      return res.redirect('/profile/' + id);
     }
 
     // Update firstname and lastname if provided
@@ -62,18 +61,23 @@ exports.update = async (req, res) => {
     // If old password and new password are provided
     if (oldpassword && newpassword) {
       if (!bcrypt.compareSync(oldpassword, user.password)) {
-        // If old password does not match
         req.flash('error', 'รหัสผ่านเดิมไม่ถูกต้อง');
+        return res.redirect('/profile/' + id); // Return here if old password doesn't match
       }
-      user.password = bcrypt.hashSync(newpassword, 10);
+      try {
+        user.password = bcrypt.hashSync(newpassword, 10);
+      } catch (hashError) {
+        console.error('Error hashing new password:', hashError.message);
+        req.flash('error', 'เกิดข้อผิดพลาดในการเปลี่ยนรหัสผ่าน');
+        return res.redirect('/profile/' + id);
+      }
     }
 
     // Saving the updated user
     await user.save();
-
     res.redirect('/profile/' + id); // Redirect to the user's profile page after successful update
   } catch (err) {
-    console.error(err.message);
+    console.error('Error updating user:', err.message);
     res.status(500).send('Server Error');
   }
 };
