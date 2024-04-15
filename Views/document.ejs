@@ -124,10 +124,16 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="card mt-3 mb-3" id="booking">
-                                <div class="card-header">
-                                    ${doc.category}
-                                </div>
+                                <div class="card-header" style="display: flex; align-items: center;">
+                                ${doc.category}
+                                <a href="/document/add" class="btn btn-primary" style="border-color: #FFECB3; background-color:#3960F3; color: black; width:90px; margin-left:55%;">
+                                แก้ไข</a>
+                                
+                                <a class="btn btn-primary" onclick="displayAlert();" style="border-color: #FFECB3; background-color:red; color: black; width:90px; margin-right:55%;">ลบ
+    </a>
+</div>
                                 <div class="card-body">
+                                    
                                     <div>
                                         <table class="table">
                                             <thead>
@@ -139,13 +145,25 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <a href="${doc.link}" target="_blank">
-                                                            ${doc.title}
-                                                        </a>
-                                                        <br>
-                                                        Created by: ${doc.numberID} ${doc.adminName} 
-                                                        <br>
-                                                        Category: ${doc.category}
+                                                        
+                                                        <div class="card" style="border: none">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-4 text-center">
+                                                <img src="/image/Mae-Fah-Luang-University-2.png" class="rounded" style="height: 100px;" alt="">
+                                            </div>
+                                            <div class="col-sm-8">
+                                                <a href="https://drive.google.com/file/d/1NLKeQWx7uqVPoiOvnrV1ts8e3_D8tZuQ/view?usp=sharing" target="_blank" class="card-link my-a">ระเบียบมหาวิทยาลัยแม่ฟ้าหลวง ว่าด้วย เงินค่าอาหารทำการนอกเวลา พ.ศ. 2556</a>
+                                                <div style="font-size: small">
+                                                    <i class="fa fa-calendar mb-2 mr-sm-2" style="font-weight: bold"></i>
+                                                    โดย 63365025 นางสาว โชติกา เจ้าหน้าที่บริหาร
+                                                    <br />
+                                                    <span style="font-weight: bold">หมวด</span> ระเบียบ
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                                     </td>
                                                     <td>
                                                         ${new Date(doc.createdAt).toLocaleString('th-TH')}
@@ -161,6 +179,37 @@
                 `;
                     container.appendChild(documentElement);
                 });
+            }
+        </script>
+        <script>
+            function displayAlert(booking) {
+                Swal.fire({
+                    title: "คุณต้องการลบใช่หรือไม่?",
+                    showDenyButton: true,
+                    confirmButtonText: "ยืนยัน",
+                    denyButtonText: `ยกเลิก`,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteBooking(booking);
+                    } else if (result.isDenied) {
+                        Swal.fire("การลบไม่เปลี่ยนแปลง", "", "info");
+                    }
+                });
+                return false;
+            }
+            function deleteBooking(bookingId) {
+                fetch(`/events/${bookingId}`, {
+                    method: "DELETE",
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("Failed to delete booking");
+                        }
+                        window.location.reload();
+                    })
+                    .catch((error) => {
+                        console.error("Error deleting booking:", error);
+                    });
             }
         </script>
 

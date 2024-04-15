@@ -66,14 +66,65 @@
                                     <div class="col-md">
                                         <div class="form-group mt-4 ">
                                             <label for="comment">รูปภาพ:</label>
-                                            <textarea class="form-control" rows="5" type="url" name="image"
+                                            <textarea class="form-control" rows="5" type="file" name="image"
                                                 accept=".png, .jpg, .jpeg" required></textarea>
                                         </div>
                                     </div>
                                 </div>
                         </div>
-                        <button type="submit" class="btn btn-primary mb-3" style="height: 40px;">ยืนยัน</button>
+                        <button type="submit"  class="btn btn-primary mb-3" style="height: 40px;" onsubmit="displatAlert(); return false;">ยืนยัน</button>
                     </div>
+
+                    <script>
+                        async function displayAlert() {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                iconColor: 'white',
+                                customClass: {
+                                    popup: 'colored-toast',
+                                },
+                                showConfirmButton: false,
+                                timer: 1500,
+                                timerProgressBar: true,
+                            });
+                            const swalWithBootstrapButtons = Swal.mixin({
+                                customClass: {
+                                    confirmButton: 'btn btn-success',
+                                    cancelButton: 'btn btn-danger'
+                                },
+                                buttonsStyling: false
+                            });
+                            const result = await swalWithBootstrapButtons.fire({
+                                title: 'คุณแน่ใจหรือไม่?',
+                                text: 'คุณต้องการยืนยันที่จะส่ง!',
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonText: 'ยืนยัน',
+                                cancelButtonText: 'ยกเลิก',
+                                reverseButtons: true
+                            });
+            
+                            if (result.isConfirmed) {
+                                await Toast.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                })
+                                // Show your alert or perform any other necessary actions
+                                await document.querySelector("#booking-body form").submit();
+                            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                                swalWithBootstrapButtons.fire({
+                                    title: 'ยกเลิก',
+                                    text: 'คุณได้ทำการยกเลิก',
+                                    icon: 'error'
+                                });
+                            }
+                        }
+                        document.querySelector("#booking-body form").addEventListener("submit", function (event) {
+                            event.preventDefault();
+                            displayAlert();
+                        });
+                    </script>
 
                     <script src="../JS/navbar.js"></script>
                     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
