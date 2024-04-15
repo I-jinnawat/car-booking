@@ -82,7 +82,6 @@
                     </div>
                 </div>
             </div>
-
             <div id="document-list"></div>
 
         </div>
@@ -118,6 +117,8 @@
 
                 // Iterate through the fetched data and create HTML elements
                 data.forEach(function (doc) {
+                    const role = doc.role;
+                    const resultRole = role === 'admin' ? 'art' : '';
                     const documentElement = document.createElement('div');
                     documentElement.classList.add('document-item');
                     documentElement.innerHTML = `
@@ -153,12 +154,12 @@
                                                 <img src="/image/Mae-Fah-Luang-University-2.png" class="rounded" style="height: 100px;" alt="">
                                             </div>
                                             <div class="col-sm-8">
-                                                <a href="https://drive.google.com/file/d/1NLKeQWx7uqVPoiOvnrV1ts8e3_D8tZuQ/view?usp=sharing" target="_blank" class="card-link my-a">ระเบียบมหาวิทยาลัยแม่ฟ้าหลวง ว่าด้วย เงินค่าอาหารทำการนอกเวลา พ.ศ. 2556</a>
+                                                <a href="${doc.link}" target="_blank" class="card-link my-a">${doc.title}</a>
                                                 <div style="font-size: small">
                                                     <i class="fa fa-calendar mb-2 mr-sm-2" style="font-weight: bold"></i>
-                                                    โดย 63365025 นางสาว โชติกา เจ้าหน้าที่บริหาร
+                                                    โดย ${doc.numberID} ${doc.adminName} ${resultRole}               
                                                     <br />
-                                                    <span style="font-weight: bold">หมวด</span> ระเบียบ
+                                                    <span style="font-weight: bold">หมวด</span> ${doc.category}
                                                 </div>
                                             </div>
                                         </div>
