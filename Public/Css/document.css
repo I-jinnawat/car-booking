@@ -8,12 +8,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-::after,
-::before {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+
 
 a {
     text-decoration: none;
@@ -160,14 +155,7 @@ body {
     font-weight: 700;
     text-transform: capitalize;
   }
-  td:nth-of-type(1)::before {
-    content: "ทะเบียน : ";
-    text-align: center;
-  }
-  td:nth-of-type(2)::before {
-    content: "ผู้ดูแลระบบ :";
-    text-align: center;
-  }
+  
   td:nth-of-type(3)::before {
     content: "ประเภท :";
     text-align: center;
