@@ -18,11 +18,7 @@ exports.read = async (req, res) => {
   try {
     const category = req.params.category;
     const documents = await Document.find({category: category}).exec();
-    res.render('document', {
-      documents,
-      userLoggedIn: !!req.session.user,
-      user: req.session.user,
-    });
+    res.json(documents);
   } catch (error) {
     console.error(error);
     res.status(500).json({error: 'Internal server error'});

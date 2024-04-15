@@ -29,12 +29,12 @@
                             style="font-size: 20px">
                             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
                         </button>
-                        <nav style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                              <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
-                              <li class="breadcrumb-item active" aria-current="page">เอกสาร</li>
+                        <nav style="--bs-breadcrumb-divider: '>'; margin-left: 3%;">
+                            <ol class="breadcrumb text-center">
+                                <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">เอกสาร</li>
                             </ol>
-                          </nav>
+                        </nav>
                         <%- include('components/userinfo.ejs') -%>
                     </div>
                     <div class="card" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
@@ -45,7 +45,7 @@
                                         <label for="">เมนู :</label>
                                         <form id="categoryForm" method="GET">
                                             <input style="width: 100px;" type="radio" class="btn-check" name="category"
-                                                id="option1" autocomplete="off" value="test" checked>
+                                                id="option1" autocomplete="off" value="ระเบียบ">
                                             <label style="width: 100px;" class="btn btn-secondary"
                                                 for="option1">ระเบียบ</label>
 
@@ -63,14 +63,14 @@
                                                 id="option4" autocomplete="off" value="แนวทางการใช้รถ">
                                             <label style="width: 150px;" class="btn btn-secondary"
                                                 for="option4">แนวทางการใช้รถ</label>
-                                                <a href="/adddocument" class="btn btn-primary"
-                                                    style="border-color: #FFECB3; background-color:#FFECB3; width: 100px; color: black;"
-                                                    data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            <% if (userLoggedIn && user.role !=='user' ) { %>
+
+                                                <a href="/document/add" class="btn btn-primary"
+                                                    style="border-color: #FFECB3; background-color:#FFECB3; width: 100px; color: black;">
                                                     <i class="fi fi-rr-edit"></i>เพิ่ม
                                                 </a>
+                                                <% } %>
                                         </form>
-
-
                                     </div>
                                     <div class="search">
                                         <input class="p-1" type="text" placeholder="&#xf002; ค้นหา"
@@ -82,118 +82,89 @@
                     </div>
                 </div>
             </div>
-            <% if (documents!==null) { %>
 
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card mt-3 mb-3 " id="booking"
-                            style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+            <div id="document-list"></div>
 
-                            <div class="card-header" id="card-header">
-                                <form>
-                                    <div class="row align-items-center">
-                                        <div class="col-md-10 d-flex">
-                                            <label id="header">
-
-                                            </label>
-
-                                        </div>
-                                        <div class="col-md-2 d-flex">
-                                            <% if (userLoggedIn && user.role !=='user' ) { %>
-                                                
-                                                <% } %>
-
-                                                    
-
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                            <div id="booking-body" class="card-body">
-                                <div>
-                                    <table class="table" cellspacing="0" style="border-collapse:collapse;">
-                                        <tr style="color:Black;">
-                                            <th scope="col"><a
-                                                    href="javascript:__doPostBack(&#39;ctl00$ContentPlaceHolder1$gridLink&#39;,&#39;Sort$name&#39;)"
-                                                    style="color:Black;">รายการ</a></th>
-                                            <th scope="col"><a
-                                                    href="javascript:__doPostBack(&#39;ctl00$ContentPlaceHolder1$gridLink&#39;,&#39;Sort$create_date&#39;)"
-                                                    style="color:Black;">วันที่สร้าง</a></th>
-                                        </tr>
-                                        <% documents.forEach(document=> {%>
-                                            <tr>
-                                                <td>
-                                                    <div class="card" style="border: none">
-                                                        <div class="card-body">
-                                                            <div class="row">
-                                                                <div class="col-sm-4 text-center">
-                                                                    <img src="/image/Mae-Fah-Luang-University-2.png"
-                                                                        class="rounded" style="height: 100px;" alt="">
-                                                                </div>
-                                                                <div class="col-sm-8">
-                                                                    <a href="https://drive.google.com/file/d/1NLKeQWx7uqVPoiOvnrV1ts8e3_D8tZuQ/view?usp=sharing"
-                                                                        target="_blank" class="card-link my-a">
-                                                                        <%= document.title %>
-                                                                    </a>
-                                                                    <div style="font-size: small">
-                                                                        <i class="fa fa-calendar mb-2 mr-sm-2"
-                                                                            style="font-weight: bold"></i>
-                                                                        โดย
-                                                                        <%= document.numberID %>
-                                                                            <%= document.adminName %>
-                                                                                <%= document.role==='admin'
-                                                                                    ? 'เจ้าหน้าที่บริหาร' : '' %>
-                                                                                    <br />
-                                                                                    <span
-                                                                                        style="font-weight: bold">หมวด</span>
-                                                                                    <%= document.category==='test'
-                                                                                        ?'ระเบียบ' :
-                                                                                        document.category==='แบบฟอร์ม'
-                                                                                        ?"แบบฟอร์ม" :
-                                                                                        document.category==='ประกาศ'
-                                                                                        ? 'ประกาศ' : '' %>
-
-
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <%= new Date(document.createdAt).toLocaleDateString('th-TH') %>
-                                                        <%= new Date(document.createdAt).toLocaleTimeString('th-TH') %>
-                                                            <%= new Date(document.createdAt).getHours()>= 12 ?
-                                                                'หลังเที่ยง' : 'ก่อนเที่ยง' %>
-                                                </td>
-
-                                            </tr>
-                                            <% }); %>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <% } %>
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 const radioButtons = document.querySelectorAll('input[name="category"]');
+                let documentData = [];
 
                 radioButtons.forEach(function (radio) {
-
-                    radio.addEventListener('click', function () {
+                    radio.addEventListener('click', async function () {
                         const selectedCategory = this.value;
-                        window.location.href = `/document/${selectedCategory}`;
+                        const api = `http://localhost:8080/document/search/${selectedCategory}`;
+                        try {
+                            const res = await axios.get(api);
+                            documentData = res.data;
+                            console.log(documentData);
 
+                            updateUI(documentData)
+                        } catch (error) {
+                            console.error('Error fetching data:', error);
+                            // Handle errors appropriately
+                        }
                     });
                 });
+
             });
         </script>
+        <script>
+            function updateUI(data) {
+                // Clear any previous data from the UI
+                const container = document.getElementById('document-list');
+                container.innerHTML = '';
 
+                // Iterate through the fetched data and create HTML elements
+                data.forEach(function (doc) {
+                    const documentElement = document.createElement('div');
+                    documentElement.classList.add('document-item');
+                    documentElement.innerHTML = `
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card mt-3 mb-3" id="booking">
+                                <div class="card-header">
+                                    ${doc.category}
+                                </div>
+                                <div class="card-body">
+                                    <div>
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">รายการ</th>
+                                                    <th scope="col">วันที่สร้าง</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <a href="${doc.link}" target="_blank">
+                                                            ${doc.title}
+                                                        </a>
+                                                        <br>
+                                                        Created by: ${doc.numberID} ${doc.adminName} 
+                                                        <br>
+                                                        Category: ${doc.category}
+                                                    </td>
+                                                    <td>
+                                                        ${new Date(doc.createdAt).toLocaleString('th-TH')}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                    container.appendChild(documentElement);
+                });
+            }
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

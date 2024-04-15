@@ -3,12 +3,13 @@ const mongoose = require('mongoose');
 const DocSchema = new mongoose.Schema(
   {
     category: {type: String, required: true},
-    title: {type: String}, // Assuming this is optional
+    title: {type: String},
     link: {type: String, required: true},
     adminName: {type: String, required: true},
-    numberID: {type: Number, required: true}, // Fixed typo
-    organization: {type: String, required: true}, // Fixed typo
-    role: {type: String, required: true}, // Fixed typo
+    numberID: {type: Number, required: true},
+    organization: {type: String, required: true},
+    image: {type: String},
+    role: {type: String, required: true},
   },
   {timestamps: true}
 );

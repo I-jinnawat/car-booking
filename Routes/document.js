@@ -4,7 +4,7 @@ const router = express.Router();
 const {list, create, read} = require('../Controllers/document');
 
 router.get('/document', list);
-router.get('/document/:category', read);
+router.get('/document/search/:category', read);
 router.post('/document/create', create);
 
 module.exports = router;
