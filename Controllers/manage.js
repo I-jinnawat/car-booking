@@ -2,7 +2,7 @@ const Booking = require('../Models/booking');
 
 exports.list = async (req, res) => {
   const page = req.query.page || 1;
-  const limit = 10;
+  const limit = 8;
   const skip = (page - 1) * limit;
 
   try {

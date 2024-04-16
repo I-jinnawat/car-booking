@@ -48,7 +48,7 @@ exports.update = async (req, res) => {
   try {
     let user = await Auth.findById(id); // Finding the user by id
     if (!user) {
-      req.flash('error', 'User not found');
+      req.flash('error_user', 'User not found');
       return res.redirect('/profile/' + id);
     }
 
@@ -61,8 +61,8 @@ exports.update = async (req, res) => {
     // If old password and new password are provided
     if (oldpassword && newpassword) {
       if (!bcrypt.compareSync(oldpassword, user.password)) {
-        req.flash('error', 'รหัสผ่านเดิมไม่ถูกต้อง');
-        return res.redirect('/profile/' + id); // Return here if old password doesn't match
+        req.flash('error_old', 'รหัสผ่านเดิมไม่ถูกต้อง');
+        return res.redirect('/profile/Change_PSW/' + id); // Return here if old password doesn't match
       }
       try {
         user.password = bcrypt.hashSync(newpassword, 10);

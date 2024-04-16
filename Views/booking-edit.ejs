@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>แก้ไขการจอง</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="/css/manage.css">
     <link rel="stylesheet"
         href="https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
@@ -153,13 +152,13 @@
                 function calculateTotalKilometer() {
                     let kmStart = parseFloat(document.getElementById('km_start').value);
                     let kmEnd = parseFloat(document.getElementById('km_end').value);
-
-                    if (kmEnd < kmStart) {
+                    const totalKm = kmEnd - kmStart;
+                    if (kmEnd < kmStart || totalKm === 0) {
                         document.getElementById('displayText').innerHTML = "กรอกข้อมูลไม่ถูกต้อง";
                         document.getElementById('total_km').value = '';
                         document.getElementById('save_recordBtn').disabled = true; // Enable submit button
                     } else {
-                        const totalKm = kmEnd - kmStart;
+
                         document.getElementById('total_km').value = isNaN(totalKm) ? '' : totalKm.toFixed(2);
                         document.getElementById('displayText').innerHTML = ""; // Clear error message
                         document.getElementById('save_recordBtn').disabled = false; // Enable submit button

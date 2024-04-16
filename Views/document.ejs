@@ -82,7 +82,36 @@
                     </div>
                 </div>
             </div>
-            <div id="document-list"></div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mt-3 mb-3" id="booking">
+                        <div class="card-header" style="align-items: center;">
+                            <div class="row ">
+                                <div class="col-4">
+                                    <label id="category"></label>
+                                </div>
+                                <div class="col-md-4 offset-md-4">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">รายการ</th>
+                                            <th scope="col">วันที่สร้าง</th>
+                                            <th scope="col">จัดการ</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="document-list"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
         <script>
@@ -98,11 +127,9 @@
                             const res = await axios.get(api);
                             documentData = res.data;
                             console.log(documentData);
-
                             updateUI(documentData)
                         } catch (error) {
                             console.error('Error fetching data:', error);
-                            // Handle errors appropriately
                         }
                     });
                 });
@@ -111,74 +138,52 @@
         </script>
         <script>
             function updateUI(data) {
-                // Clear any previous data from the UI
                 const container = document.getElementById('document-list');
                 container.innerHTML = '';
 
-                // Iterate through the fetched data and create HTML elements
+
                 data.forEach(function (doc) {
+                    const categoryLabel = document.getElementById('category');
+                    categoryLabel.textContent = doc.category;
+
                     const role = doc.role;
                     const resultRole = role === 'admin' ? 'art' : '';
-                    const documentElement = document.createElement('div');
-                    documentElement.classList.add('document-item');
+                    const documentElement = document.createElement('tr');
                     documentElement.innerHTML = `
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card mt-3 mb-3" id="booking">
-                                <div class="card-header" style="align-items: center;">
-                                ${doc.category}
-                                <a href="/document/add" class="btn btn-primary" style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px; margin-left:39%;">
-                                    <i class="fi fi-rr-edit"></i></a>
-                                
-                                <a class="btn btn-primary" onclick="displayAlert();" style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px; margin-right:39%;"><i
-                                                                    class="fa-solid fa-trash-can"></i>
-    </a>
-</div>
-                                <div class="card-body">
-                                    
-                                    <div>
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">รายการ</th>
-                                                    <th scope="col">วันที่สร้าง</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        
-                                                        <div class="card" style="border: none">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-sm-4 text-center">
-                                                <img src="/image/Mae-Fah-Luang-University-2.png" class="rounded" style="height: 100px;" alt="">
-                                            </div>
-                                            <div class="col-sm-8">
-                                                <a href="${doc.link}" target="_blank" class="card-link my-a">${doc.title}</a>
-                                                <div style="font-size: small">
-                                                    <i class="fa fa-calendar mb-2 mr-sm-2" style="font-weight: bold"></i>
-                                                    โดย ${doc.numberID} ${doc.adminName} ${resultRole}               
-                                                    <br />
-                                                    <span style="font-weight: bold">หมวด</span> ${doc.category}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                                    </td>
-                                                    <td>
-                                                        ${new Date(doc.createdAt).toLocaleString('th-TH')}
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+            <td>
+                <div class="card" style="border: none">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4 text-center">
+                                <img src="/image/Mae-Fah-Luang-University-2.png" class="rounded" style="height: 100px;" alt="">
+                            </div>
+                            <div class="col-sm-8">
+                                <a href="${doc.link}" target="_blank" class="card-link my-a">${doc.title}</a>
+                                <div style="font-size: small">
+                                    <i class="fa fa-calendar mb-2 mr-sm-2" style="font-weight: bold"></i>
+                                    โดย ${doc.numberID} ${doc.adminName} ${resultRole}
+                                    <br />
+                                    <span style="font-weight: bold">หมวด</span>
+                                    ${doc.category}
                                 </div>
                             </div>
                         </div>
                     </div>
-                `;
+                </div>
+            </td>
+            <td>
+                ${new Date(doc.createdAt).toLocaleString('th-TH')}
+            </td>
+            <td>
+                  <a href="/document/add" class="btn btn-primary"
+                                        style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px;">
+                                        <i class="fi fi-rr-edit"></i></a>
+                                    <a class="btn btn-primary" onclick="displayAlert();"
+                                        style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px;"><i
+                                            class="fa-solid fa-trash-can"></i>
+                                    </a>
+            </td>
+        `;
                     container.appendChild(documentElement);
                 });
             }
@@ -214,7 +219,6 @@
                     });
             }
         </script>
-
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

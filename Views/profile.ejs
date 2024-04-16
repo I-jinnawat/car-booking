@@ -50,8 +50,7 @@
                       <%= user.organization %>
                     </p>
                     <div class="d-grid gap-2">
-                      <a href="" class="btn btn-secondary">เปลี่ยนรหัสผ่าน</a>
-
+                      <a href="/profile/Change_PSW/<%= user._id%>" class="btn btn-secondary">เปลี่ยนรหัสผ่าน</a>
                       <a class="btn btn-warning " href="/profile/edit">Edit profile</a>
                       <form action="/logout" method="POST"><button class="btn btn-danger">ออกจากระบบ</button>
                       </form>
