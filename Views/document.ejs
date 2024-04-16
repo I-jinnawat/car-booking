@@ -90,10 +90,7 @@
                                 <div class="col-4">
                                     <label id="category"></label>
                                 </div>
-                                <div class="col-md-4 offset-md-4">
-
-                                </div>
-                            </div>
+                                                            </div>
                         </div>
                         <div class="card-body">
                             <div>
@@ -102,7 +99,9 @@
                                         <tr>
                                             <th scope="col">รายการ</th>
                                             <th scope="col">วันที่สร้าง</th>
+                                            <% if (userLoggedIn && user.role !=='user' ) { %>
                                             <th scope="col">จัดการ</th>
+                                            <%}%>
                                         </tr>
                                     </thead>
                                     <tbody id="document-list"></tbody>
@@ -142,6 +141,8 @@
                 container.innerHTML = '';
         
                 data.forEach(function (doc) {
+                    const categoryLabel = document.getElementById('category');
+                    categoryLabel.textContent = doc.category;
                     const role = doc.role;
                     const resultRole = role === 'admin' ? 'art' : '';
                     const documentElement = document.createElement('tr');
@@ -170,46 +171,87 @@
                         <td>
                             ${new Date(doc.createdAt).toLocaleString('th-TH')}
                         </td>
-                        <td>
-                            <div class="btn-group btn-group" role="group"
-                                                                style="width: 100px;">
-                                                                <a class="btn btn-warning"
-                                                                    href=""
-                                                                    role="button"><i
-                                                                        class="fa-regular fa-pen-to-square"></i></a>
-                                                                <button type="button" class="btn btn-danger"
-                                                                    onclick="displayAlert()"><i
-                                                                        class="fa-solid fa-trash-can"></i></button>
-                                                            </div>
-                        </td>
+                        <% if (userLoggedIn && user.role !=='user' ) { %>
+
+<td>
+      <a href="/document/add" class="btn btn-primary"
+                            style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px;">
+                            <i class="fi fi-rr-edit"></i></a>
+                        <a class="btn btn-primary" onclick="displayAlert();"
+                            style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px;"><i
+                                class="fa-solid fa-trash-can"></i>
+                        </a>
+</td>
+<%}%>
                     `;
                     container.appendChild(documentElement);
                 });
             }
         
             function searchDocuments() {
-                // Get input value
-                const input = document.getElementById('searchInput').value.toUpperCase();
+    // Get input value
+    const input = document.getElementById('searchInput').value.trim();
+    
+    // Check if the input is numeric
+    if (!isNaN(input)) {
+        // Convert the input to a number
+        const numericInput = parseInt(input, 10);
         
-                // Get all document items
-                const documentItems = document.querySelectorAll('#document-list tr');
-        
-                // Loop through each document item
-                documentItems.forEach(function(item) {
-                    // Get document title
-                    const title = item.querySelector('.card-link');
-                    if (title) {
-                        const titleText = title.innerText.toUpperCase();
-                        
-                        // Show or hide document item based on search input
-                        if (titleText.includes(input)) {
-                            item.style.display = 'table-row';
-                        } else {
-                            item.style.display = 'none';
-                        }
+        // Check if the input is within the range of 1 to 10
+        if (numericInput >= 1 && numericInput <= 10) {
+            // Get all document items
+            const documentItems = document.querySelectorAll('#document-list tr');
+            
+            // Loop through each document item
+            documentItems.forEach(function(item) {
+                // Get document title
+                const title = item.querySelector('.card-link');
+                if (title) {
+                    const titleText = title.innerText.toUpperCase();
+                    
+                    // Show or hide document item based on search input
+                    if (titleText.includes(input)) {
+                        item.style.display = 'table-row';
+                    } else {
+                        item.style.display = 'none';
                     }
-                });
+                }
+            });
+        } else {
+            // Input is outside the range, perform regular search
+            regularSearch(input);
+        }
+    } else {
+        // If input is not numeric, perform regular search
+        regularSearch(input);
+    }
+}
+
+function regularSearch(input) {
+    // Get input value
+    const searchInput = input.toUpperCase();
+    
+    // Get all document items
+    const documentItems = document.querySelectorAll('#document-list tr');
+    
+    // Loop through each document item
+    documentItems.forEach(function(item) {
+        // Get document title
+        const title = item.querySelector('.card-link');
+        if (title) {
+            const titleText = title.innerText.toUpperCase();
+            
+            // Show or hide document item based on search input
+            if (titleText.includes(searchInput)) {
+                item.style.display = 'table-row';
+            } else {
+                item.style.display = 'none';
             }
+        }
+    });
+}
+
+
         </script>
         <script>
             function displayAlert(booking) {
