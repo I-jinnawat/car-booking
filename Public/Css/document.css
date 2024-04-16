@@ -156,10 +156,7 @@ body {
     text-transform: capitalize;
   }
   
-  td:nth-of-type(3)::before {
-    content: "ประเภท :";
-    text-align: center;
-  }
+  
   td:nth-of-type(4)::before {
     content: "สี :";
     text-align: center;
