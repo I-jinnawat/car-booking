@@ -73,7 +73,8 @@
                                         </form>
                                     </div>
                                     <div class="search">
-                                        <input class="p-1" type="text" placeholder="&#xf002; ค้นหา"
+                                        <input class="p-1" type="text" placeholder="&#xf002; ค้นหา" id="searchInput"
+                                            onkeyup="searchDocuments()"
                                             style="width: 200px; border-radius: 8px ; border:1px solid black;">
                                     </div>
                                 </div>
@@ -90,9 +91,6 @@
                                 <div class="col-4">
                                     <label id="category"></label>
                                 </div>
-                                <div class="col-md-4 offset-md-4">
-
-                                </div>
                             </div>
                         </div>
                         <div class="card-body">
@@ -103,8 +101,12 @@
                                             <th scope="col">รายการ</th>
                                             <th scope="col">วันที่สร้าง</th>
                                             <% if (userLoggedIn && user.role !=='user' ) { %>
-                                                <th scope="col">จัดการ</th>
-                                                <% } %>
+                                                <<<<<<< HEAD <th scope="col">จัดการ</th>
+                                                    <% } %>
+                                                        =======
+                                                        <th scope="col">จัดการ</th>
+                                                        <%}%>
+                                                            >>>>>>> 7961138e37e8fcdee263435d75df0a6a2678ac97
                                         </tr>
                                     </thead>
                                     <tbody id="document-list"></tbody>
@@ -143,55 +145,118 @@
                 const container = document.getElementById('document-list');
                 container.innerHTML = '';
 
-
                 data.forEach(function (doc) {
                     const categoryLabel = document.getElementById('category');
                     categoryLabel.textContent = doc.category;
-
                     const role = doc.role;
                     const resultRole = role === 'admin' ? 'art' : '';
                     const documentElement = document.createElement('tr');
                     documentElement.innerHTML = `
-            <td>
-                <div class="card" style="border: none">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-sm-4 text-center">
-                                <img src="/image/Mae-Fah-Luang-University-2.png" class="rounded" style="height: 100px;" alt="">
-                            </div>
-                            <div class="col-sm-8">
-                                <a href="${doc.link}" target="_blank" class="card-link my-a">${doc.title}</a>
-                                <div style="font-size: small">
-                                    <i class="fa fa-calendar mb-2 mr-sm-2" style="font-weight: bold"></i>
-                                    โดย ${doc.numberID} ${doc.adminName} ${resultRole}
-                                    <br />
-                                    <span style="font-weight: bold">หมวด</span>
-                                    ${doc.category}
+                        <td>
+                            <div class="card" style="border: none">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-4 text-center">
+                                            <img src="/image/Mae-Fah-Luang-University-2.png" class="rounded" style="height: 100px;" alt="">
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <a href="${doc.link}" target="_blank" class="card-link my-a">${doc.title}</a>
+                                            <div style="font-size: small">
+                                                <i class="fa fa-calendar mb-2 mr-sm-2" style="font-weight: bold"></i>
+                                                โดย ${doc.numberID} ${doc.adminName} ${resultRole}
+                                                <br />
+                                                <span style="font-weight: bold">หมวด</span>
+                                                ${doc.category}
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </td>
-            <td>
-                ${new Date(doc.createdAt).toLocaleString('th-TH')}
-            </td>
-             <% if (userLoggedIn && user.role !=='user' ) { %>
+                        </td>
+                        <td>
+                            ${new Date(doc.createdAt).toLocaleString('th-TH')}
+                        </td>
+                        <% if (userLoggedIn && user.role !=='user' ) { %>
 
-                <td>
-                      <a href="/document/add" class="btn btn-primary"
-                                            style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px;">
-                                            <i class="fi fi-rr-edit"></i></a>
-                                        <a class="btn btn-primary" onclick="displayAlert();"
-                                            style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px;"><i
-                                                class="fa-solid fa-trash-can"></i>
-                                        </a>
-                </td>
-                <%}%>
-        `;
+<td>
+      <a href="/document/add" class="btn btn-primary"
+                            style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px;">
+                            <i class="fi fi-rr-edit"></i></a>
+                        <a class="btn btn-primary" onclick="displayAlert();"
+                            style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px;"><i
+                                class="fa-solid fa-trash-can"></i>
+                        </a>
+</td>
+<%}%>
+                    `;
                     container.appendChild(documentElement);
                 });
             }
+
+            function searchDocuments() {
+                // Get input value
+                const input = document.getElementById('searchInput').value.trim();
+
+                // Check if the input is numeric
+                if (!isNaN(input)) {
+                    // Convert the input to a number
+                    const numericInput = parseInt(input, 10);
+
+                    // Check if the input is within the range of 1 to 10
+                    if (numericInput >= 1 && numericInput <= 10) {
+                        // Get all document items
+                        const documentItems = document.querySelectorAll('#document-list tr');
+
+                        // Loop through each document item
+                        documentItems.forEach(function (item) {
+                            // Get document title
+                            const title = item.querySelector('.card-link');
+                            if (title) {
+                                const titleText = title.innerText.toUpperCase();
+
+                                // Show or hide document item based on search input
+                                if (titleText.includes(input)) {
+                                    item.style.display = 'table-row';
+                                } else {
+                                    item.style.display = 'none';
+                                }
+                            }
+                        });
+                    } else {
+                        // Input is outside the range, perform regular search
+                        regularSearch(input);
+                    }
+                } else {
+                    // If input is not numeric, perform regular search
+                    regularSearch(input);
+                }
+            }
+
+            function regularSearch(input) {
+                // Get input value
+                const searchInput = input.toUpperCase();
+
+                // Get all document items
+                const documentItems = document.querySelectorAll('#document-list tr');
+
+                // Loop through each document item
+                documentItems.forEach(function (item) {
+                    // Get document title
+                    const title = item.querySelector('.card-link');
+                    if (title) {
+                        const titleText = title.innerText.toUpperCase();
+
+                        // Show or hide document item based on search input
+                        if (titleText.includes(searchInput)) {
+                            item.style.display = 'table-row';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    }
+                });
+            }
+
+
         </script>
         <script>
             function displayAlert(booking) {
