@@ -11,6 +11,7 @@ exports.create = async (req, res) => {
     password,
     organization,
     role,
+    birth_year,
   } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10);
   try {
@@ -22,6 +23,7 @@ exports.create = async (req, res) => {
       password: hashedPassword,
       organization,
       role,
+      birth_year,
     });
 
     res.send('sucessfully');
@@ -57,6 +59,11 @@ exports.update = async (req, res) => {
       user.firstname = newfirstname;
       user.lastname = newlastname;
     }
+    if (newpassword) {
+      user.password = bcrypt.hashSync(newpassword, 10);
+      await user.save();
+      res.redirect('/login');
+    }
 
     // If old password and new password are provided
     if (oldpassword && newpassword) {
@@ -66,16 +73,14 @@ exports.update = async (req, res) => {
       }
       try {
         user.password = bcrypt.hashSync(newpassword, 10);
+        await user.save();
+        res.redirect('/profile/' + id);
       } catch (hashError) {
         console.error('Error hashing new password:', hashError.message);
         req.flash('error', 'เกิดข้อผิดพลาดในการเปลี่ยนรหัสผ่าน');
         return res.redirect('/profile/' + id);
       }
     }
-
-    // Saving the updated user
-    await user.save();
-    res.redirect('/profile/' + id); // Redirect to the user's profile page after successful update
   } catch (err) {
     console.error('Error updating user:', err.message);
     res.status(500).send('Server Error');
@@ -86,7 +91,7 @@ exports.read = async (req, res) => {
   try {
     const id = req.params.id;
     const User = await Auth.findOne({_id: id}).exec();
-    // res.send(User);
+    res.send(User);
   } catch (error) {
     console.log(error);
   }

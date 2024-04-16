@@ -42,7 +42,7 @@
                             <div class="row mt-2">
                                 <div class="col d-flex justify-content-between" id="search">
                                     <div id="categoryButtons" style="display: flex; align-items: center;">
-                                        <label for="">เมนู :</label>
+
                                         <form id="categoryForm" method="GET">
                                             <input style="width: 100px;" type="radio" class="btn-check" name="category"
                                                 id="option1" autocomplete="off" value="ระเบียบ">
@@ -102,7 +102,9 @@
                                         <tr>
                                             <th scope="col">รายการ</th>
                                             <th scope="col">วันที่สร้าง</th>
-                                            <th scope="col">จัดการ</th>
+                                            <% if (userLoggedIn && user.role !=='user' ) { %>
+                                                <th scope="col">จัดการ</th>
+                                                <% } %>
                                         </tr>
                                     </thead>
                                     <tbody id="document-list"></tbody>
@@ -174,15 +176,18 @@
             <td>
                 ${new Date(doc.createdAt).toLocaleString('th-TH')}
             </td>
-            <td>
-                  <a href="/document/add" class="btn btn-primary"
-                                        style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px;">
-                                        <i class="fi fi-rr-edit"></i></a>
-                                    <a class="btn btn-primary" onclick="displayAlert();"
-                                        style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px;"><i
-                                            class="fa-solid fa-trash-can"></i>
-                                    </a>
-            </td>
+             <% if (userLoggedIn && user.role !=='user' ) { %>
+
+                <td>
+                      <a href="/document/add" class="btn btn-primary"
+                                            style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px;">
+                                            <i class="fi fi-rr-edit"></i></a>
+                                        <a class="btn btn-primary" onclick="displayAlert();"
+                                            style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px;"><i
+                                                class="fa-solid fa-trash-can"></i>
+                                        </a>
+                </td>
+                <%}%>
         `;
                     container.appendChild(documentElement);
                 });

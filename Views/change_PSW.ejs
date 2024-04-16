@@ -20,62 +20,70 @@
     <div class="container-fluid mt-3" id="main">
       <div class="row justify-content-center align-items-center">
         <div class="col-12">
+
           <div class="container-fluid p-0 m-0" style="display: flex; align-items: center; ">
             <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0" style="font-size: 20px">
               <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
             </button>
+
             <nav style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
-                <li class="breadcrumb-item"><a href="http://localhost:8080/profile/661904d6a3e96a67939dd2f4">โปรไฟล์</a>
-                </li>
-                <li class="breadcrumb-item active" aria-current="page">เปลี่ยนรหัสผ่าน</li>
+                <% if (userLoggedIn) { %>
+                  <li class="breadcrumb-item"><a href="http://localhost:8080/profile/<%= user._id%>">โปรไฟล์</a>
+                  </li>
+                  <% } %>
+                    <li class="breadcrumb-item active" aria-current="page">เปลี่ยนรหัสผ่าน</li>
               </ol>
             </nav>
-            <div class="col d-flex justify-content-end me-3" id="userDisplay">
-            </div>
+
           </div>
+
 
           <div class="card mt-3">
             <div class="card-body">
               <div class="card-body">
                 <form action="/user/update/<%=user._id%>" method="POST">
-                  <div class="row mb-3">
-                    <div class="col-sm-3">
-                      <label class="form-label">รหัสผ่านเดิม</label>
-                    </div>
-                    <div class="col-sm-9">
-                      <input type="password" class="form-control" name="oldpassword" required>
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <div class="col-sm-3">
-                      <label class="form-label">รหัสผ่านใหม่</label>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      <input type="password" class="form-control" name="newpassword" required>
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <div class="col-sm-3">
-                      <label class="form-label">ยืนยันรหัสผ่านใหม่</label>
-                    </div>
-                    <div class="col-sm-9 text-secondary">
-                      <input type="password" class="form-control" name="newpasswordconfirm" required>
-                    </div>
-                  </div>
-                  <div class="row gy-2 text-center">
-                    <% if (errorMessage) { %>
-                      <div class="col-12 text-danger">
-                        <p id="showText">
-                          <%= errorMessage %>
-                        </p>
+                  <% if (userLoggedIn) { %>
+
+                    <div class="row mb-3">
+                      <div class="col-sm-3">
+                        <label class="form-label">รหัสผ่านเดิม</label>
                       </div>
-                      <% } %>
-                        <div class="col-md">
-                          <button type="submit" class="btn btn-primary">ยืนยัน</button>
+                      <div class="col-sm-9">
+                        <input type="password" class="form-control" name="oldpassword" required>
+                      </div>
+                    </div>
+                    <% } %>
+
+                      <div class="row mb-3">
+                        <div class="col-sm-3">
+                          <label class="form-label">รหัสผ่านใหม่</label>
                         </div>
-                  </div>
+                        <div class="col-sm-9 text-secondary">
+                          <input type="password" class="form-control" name="newpassword" required>
+                        </div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-sm-3">
+                          <label class="form-label">ยืนยันรหัสผ่านใหม่</label>
+                        </div>
+                        <div class="col-sm-9 text-secondary">
+                          <input type="password" class="form-control" name="newpasswordconfirm" required>
+                        </div>
+                      </div>
+                      <div class="row gy-2 text-center">
+                        <% if (errorMessage) { %>
+                          <div class="col-12 text-danger">
+                            <p id="showText">
+                              <%= errorMessage %>
+                            </p>
+                          </div>
+                          <% } %>
+                            <div class="col-md">
+                              <button type="submit" class="btn btn-primary">ยืนยัน</button>
+                            </div>
+                      </div>
                 </form>
               </div>
             </div>

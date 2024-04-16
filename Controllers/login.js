@@ -1,11 +1,11 @@
-const User = require("../Models/Auth");
-const bcrypt = require("bcryptjs");
-const app = require("../App"); // Import your Express app instance
+const User = require('../Models/Auth');
+const bcrypt = require('bcryptjs');
+const app = require('../App'); // Import your Express app instance
 
 exports.login = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    const user = await User.findOne({ username });
+    const {username, password} = req.body;
+    const user = await User.findOne({username});
 
     if (user) {
       // Verify password
@@ -22,19 +22,19 @@ exports.login = async (req, res) => {
           organization: user.organization,
         };
         // res.send(req.session.user);
-        return res.redirect("/");
+        return res.redirect('/');
       }
     }
     // Pass error message to the view
-    res.render("login", { error: "invalid username or password" });
+    res.render('login', {error: 'รหัสพนักงานหรือรหัสผ่านไม่ถูกต้อง'});
   } catch (error) {
-    res.status(500).send("Internal server Error");
+    res.status(500).send('Internal server Error');
   }
 };
 
 exports.list = async (req, res) => {
   try {
-    res.render("login");
+    res.render('login');
   } catch (error) {
     console.log(error);
   }
