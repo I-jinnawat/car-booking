@@ -1,4 +1,6 @@
-const Document = require('../Models/document');
+const multer = require('multer');
+const path = require('path');
+const Document = require('../models/Document');
 
 exports.list = async (req, res) => {
   const documents = null;
@@ -25,11 +27,33 @@ exports.read = async (req, res) => {
   }
 };
 
+// Set up multer storage for file uploads
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Destination folder for uploaded files
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname); // Set unique file name
+  },
+});
+
+// Create multer instance
+const upload = multer({storage: storage});
+
+// Middleware to handle file upload
+exports.uploadImage = upload.single('image');
+
+// Route to handle form submission including image upload
 exports.create = async (req, res) => {
   try {
     const {category, title, link, adminName, numberID, organization, role} =
       req.body;
-    const event = await Document.create({
+
+    // Get the file path of the uploaded image
+    const imagePath = req.file ? req.file.path : null;
+
+    // Create new document entry in the database
+    const document = await Document.create({
       category,
       title,
       link,
@@ -37,6 +61,7 @@ exports.create = async (req, res) => {
       numberID,
       organization,
       role,
+      image: imagePath, // Save the image path in the database
     });
 
     res.status(201).redirect('/document');
