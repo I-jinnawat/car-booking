@@ -6,9 +6,10 @@ const AuthSchema = new mongoose.Schema(
     password: {type: String},
     firstname: {type: String, required: true},
     lastname: {type: String, required: true},
-    numberID: {type: Number, require: true},
-    organization: {type: String, require: true},
-    role: {type: String, require: true},
+    numberID: {type: Number, required: true, unique: true},
+    organization: {type: String, required: true},
+    role: {type: String, required: true},
+    birth_year: {type: String},
   },
   {timestamps: true}
 );

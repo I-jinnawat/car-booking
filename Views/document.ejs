@@ -42,7 +42,7 @@
                             <div class="row mt-2">
                                 <div class="col d-flex justify-content-between" id="search">
                                     <div id="categoryButtons" style="display: flex; align-items: center;">
-                                        <label for="">เมนู :</label>
+
                                         <form id="categoryForm" method="GET">
                                             <input style="width: 100px;" type="radio" class="btn-check" name="category"
                                                 id="option1" autocomplete="off" value="ระเบียบ">
@@ -73,7 +73,8 @@
                                         </form>
                                     </div>
                                     <div class="search">
-                                        <input class="p-1" type="text" placeholder="&#xf002; ค้นหา" id="searchInput" onkeyup="searchDocuments()"
+                                        <input class="p-1" type="text" placeholder="&#xf002; ค้นหา" id="searchInput"
+                                            onkeyup="searchDocuments()"
                                             style="width: 200px; border-radius: 8px ; border:1px solid black;">
                                     </div>
                                 </div>
@@ -90,7 +91,7 @@
                                 <div class="col-4">
                                     <label id="category"></label>
                                 </div>
-                                                            </div>
+                            </div>
                         </div>
                         <div class="card-body">
                             <div>
@@ -100,8 +101,12 @@
                                             <th scope="col">รายการ</th>
                                             <th scope="col">วันที่สร้าง</th>
                                             <% if (userLoggedIn && user.role !=='user' ) { %>
-                                            <th scope="col">จัดการ</th>
-                                            <%}%>
+                                                <<<<<<< HEAD <th scope="col">จัดการ</th>
+                                                    <% } %>
+                                                        =======
+                                                        <th scope="col">จัดการ</th>
+                                                        <%}%>
+                                                            >>>>>>> 7961138e37e8fcdee263435d75df0a6a2678ac97
                                         </tr>
                                     </thead>
                                     <tbody id="document-list"></tbody>
@@ -139,7 +144,7 @@
             function updateUI(data) {
                 const container = document.getElementById('document-list');
                 container.innerHTML = '';
-        
+
                 data.forEach(function (doc) {
                     const categoryLabel = document.getElementById('category');
                     categoryLabel.textContent = doc.category;
@@ -187,69 +192,69 @@
                     container.appendChild(documentElement);
                 });
             }
-        
-            function searchDocuments() {
-    // Get input value
-    const input = document.getElementById('searchInput').value.trim();
-    
-    // Check if the input is numeric
-    if (!isNaN(input)) {
-        // Convert the input to a number
-        const numericInput = parseInt(input, 10);
-        
-        // Check if the input is within the range of 1 to 10
-        if (numericInput >= 1 && numericInput <= 10) {
-            // Get all document items
-            const documentItems = document.querySelectorAll('#document-list tr');
-            
-            // Loop through each document item
-            documentItems.forEach(function(item) {
-                // Get document title
-                const title = item.querySelector('.card-link');
-                if (title) {
-                    const titleText = title.innerText.toUpperCase();
-                    
-                    // Show or hide document item based on search input
-                    if (titleText.includes(input)) {
-                        item.style.display = 'table-row';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                }
-            });
-        } else {
-            // Input is outside the range, perform regular search
-            regularSearch(input);
-        }
-    } else {
-        // If input is not numeric, perform regular search
-        regularSearch(input);
-    }
-}
 
-function regularSearch(input) {
-    // Get input value
-    const searchInput = input.toUpperCase();
-    
-    // Get all document items
-    const documentItems = document.querySelectorAll('#document-list tr');
-    
-    // Loop through each document item
-    documentItems.forEach(function(item) {
-        // Get document title
-        const title = item.querySelector('.card-link');
-        if (title) {
-            const titleText = title.innerText.toUpperCase();
-            
-            // Show or hide document item based on search input
-            if (titleText.includes(searchInput)) {
-                item.style.display = 'table-row';
-            } else {
-                item.style.display = 'none';
+            function searchDocuments() {
+                // Get input value
+                const input = document.getElementById('searchInput').value.trim();
+
+                // Check if the input is numeric
+                if (!isNaN(input)) {
+                    // Convert the input to a number
+                    const numericInput = parseInt(input, 10);
+
+                    // Check if the input is within the range of 1 to 10
+                    if (numericInput >= 1 && numericInput <= 10) {
+                        // Get all document items
+                        const documentItems = document.querySelectorAll('#document-list tr');
+
+                        // Loop through each document item
+                        documentItems.forEach(function (item) {
+                            // Get document title
+                            const title = item.querySelector('.card-link');
+                            if (title) {
+                                const titleText = title.innerText.toUpperCase();
+
+                                // Show or hide document item based on search input
+                                if (titleText.includes(input)) {
+                                    item.style.display = 'table-row';
+                                } else {
+                                    item.style.display = 'none';
+                                }
+                            }
+                        });
+                    } else {
+                        // Input is outside the range, perform regular search
+                        regularSearch(input);
+                    }
+                } else {
+                    // If input is not numeric, perform regular search
+                    regularSearch(input);
+                }
             }
-        }
-    });
-}
+
+            function regularSearch(input) {
+                // Get input value
+                const searchInput = input.toUpperCase();
+
+                // Get all document items
+                const documentItems = document.querySelectorAll('#document-list tr');
+
+                // Loop through each document item
+                documentItems.forEach(function (item) {
+                    // Get document title
+                    const title = item.querySelector('.card-link');
+                    if (title) {
+                        const titleText = title.innerText.toUpperCase();
+
+                        // Show or hide document item based on search input
+                        if (titleText.includes(searchInput)) {
+                            item.style.display = 'table-row';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    }
+                });
+            }
 
 
         </script>
