@@ -174,13 +174,13 @@
                         <% if (userLoggedIn && user.role !=='user' ) { %>
 
 <td>
-      <a href="/document/add" class="btn btn-primary"
-                            style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px;">
-                            <i class="fi fi-rr-edit"></i></a>
-                        <a class="btn btn-primary" onclick="displayAlert();"
-                            style="border-color: #FFECB3; background-color:#FFECB3; color: black; width:90px;"><i
-                                class="fa-solid fa-trash-can"></i>
-                        </a>
+    <div class="btn-group btn-group" role="group" style="width: 100px;">
+                                                <button class="btn btn-warning" href="/document/edit"
+                                                    role="button"><i class="fa-regular fa-pen-to-square"></i></button>
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="displayAlert()"><i
+                                                        class="fa-solid fa-trash-can"></i></button>
+                                            </div>
 </td>
 <%}%>
                     `;
