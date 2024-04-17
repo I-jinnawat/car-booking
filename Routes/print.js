@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 
-const { list } = require("../Controllers/print");
+const {list} = require('../Controllers/print');
 
-router.get("/print", list);
+router.get('/print/:id', list);
 
 module.exports = router;
