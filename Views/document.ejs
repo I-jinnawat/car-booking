@@ -178,10 +178,10 @@
                         <% if (userLoggedIn && user.role !=='user' ) { %>
 <td>
     <div class="btn-group btn-group" role="group" style="width: 100px;">
-                                                <button class="btn btn-warning" href="/document/edit"
-                                                    role="button"><i class="fa-regular fa-pen-to-square"></i></button>
+                                                <a class="btn btn-warning" role="button" href="/document/edit/${doc._id}"
+                                                    role="button"><i class="fa-regular fa-pen-to-square"></i></a>
                                                 <button type="button" class="btn btn-danger"
-                                                    onclick="displayAlert()"><i
+                                                    onclick="displayAlert('${doc._id}')"><i
                                                         class="fa-solid fa-trash-can"></i></button>
                                             </div>
 </td>
@@ -260,7 +260,7 @@
 
         </script>
         <script>
-            function displayAlert(booking) {
+            function displayAlert(documentId) {
                 Swal.fire({
                     title: "คุณต้องการลบใช่หรือไม่?",
                     showDenyButton: true,
@@ -268,25 +268,25 @@
                     denyButtonText: `ยกเลิก`,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        deleteBooking(booking);
+                        deleteDocument(documentId); // Corrected function name
                     } else if (result.isDenied) {
                         Swal.fire("การลบไม่เปลี่ยนแปลง", "", "info");
                     }
                 });
-                return false;
             }
-            function deleteBooking(bookingId) {
-                fetch(`/events/${bookingId}`, {
+
+            function deleteDocument(documentId) { // Corrected function name
+                fetch(`/document/delete/${documentId}`, {
                     method: "DELETE",
                 })
                     .then((response) => {
                         if (!response.ok) {
-                            throw new Error("Failed to delete booking");
+                            throw new Error("Failed to delete document");
                         }
                         window.location.reload();
                     })
                     .catch((error) => {
-                        console.error("Error deleting booking:", error);
+                        console.error("Error deleting document:", error);
                     });
             }
         </script>

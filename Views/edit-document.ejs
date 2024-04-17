@@ -35,9 +35,10 @@
                         </nav>
                         <%- include('components/userinfo.ejs') -%>
                     </div>
+
                     <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                         <div id="booking-body" class="card-body">
-                            <form action="/document/create" method="POST">
+                            <form action="/document/edit/<%= document.id%>" method="POST">
                                 <div class="row" id="booking-body">
                                     <input type="hidden" value="<%= user.firstname%> <%= user.lastname%>"
                                         name="adminName">
@@ -46,19 +47,26 @@
                                     <input type="hidden" value="<%= user.role%>" name="role">
                                     <div class="col-md">
                                         <label class="form-label">หัวข้อ</label>
-                                        <input class="form-control" type="text" name="title" required><text>
+                                        <input class="form-control" type="text" name="title"
+                                            value="<%= document.title %>"><text>
                                     </div>
                                     <div class="col-md">
                                         <label class="form-label">Link</label>
-                                        <input class="form-control" type="url" name="link" required><text>
+                                        <input class="form-control" type="url" name="link"
+                                            value="<%= document.link %>"><text>
                                     </div>
                                     <div class="col-md">
                                         <label class="form-label">หมวด</label>
-                                        <select class="form-control" id="category" name="category" required>
-                                            <option value="ระเบียบ">ระเบียบ</option>
-                                            <option value="แบบฟอร์ม">แบบฟอร์ม</option>
-                                            <option value="ประกาศ">ประกาศ</option>
-                                            <option value="แนวทางการใช้รถ">แนวทางการใช้รถ</option>
+                                        <select class="form-control" id="category" name="category">
+                                            <option <%=document.category==='ระเบียบ' ? 'selected' : '' %>
+                                                value="ระเบียบ">ระเบียบ
+                                            </option>
+                                            <option <%=document.category==='แบบฟอร์ม' ? 'selected' : '' %>
+                                                value="แบบฟอร์ม">แบบฟอร์ม</option>
+                                            <option <%=document.category==='ประกาศ' ? 'selected' : '' %>
+                                                value="ประกาศ">ประกาศ</option>
+                                            <option <%=document.category==='แนวทางการใช้รถ' ? 'selected' : '' %>
+                                                value="แนวทางการใช้รถ">แนวทางการใช้รถ</option>
                                         </select>
                                     </div>
                                 </div>
@@ -66,13 +74,13 @@
                                     <div class="col-md">
                                         <div class="form-group mt-4 ">
                                             <label for="comment">รูปภาพ:</label>
-                                            <textarea class="form-control" rows="5" type="file" name="image"
-                                                accept=".png, .jpg, .jpeg" required></textarea>
+                                            <input type="file" value="<%= document.image %>" name="image">
                                         </div>
                                     </div>
                                 </div>
                         </div>
-                        <button type="submit"  class="btn btn-primary mb-3" style="height: 40px;" onsubmit="displatAlert(); return false;">ยืนยัน</button>
+                        <button type="submit" class="btn btn-primary mb-3" style="height: 40px;"
+                            onsubmit="displatAlert(); return false;">ยืนยัน</button>
                     </div>
 
                     <script>
@@ -104,7 +112,7 @@
                                 cancelButtonText: 'ยกเลิก',
                                 reverseButtons: true
                             });
-            
+
                             if (result.isConfirmed) {
                                 await Toast.fire({
                                     icon: 'success',
