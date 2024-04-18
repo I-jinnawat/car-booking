@@ -56,14 +56,14 @@
                 </div>
               </div>
             </div>
-            <% vehicles.forEach(vehicle=> { %>
-              <%= vehicle.register %>
                 <div class="col-8">
                   <div class="card mt-2">
                     <div class="card-body">
                       <select class="form-select" id="inputGroupSelect01">
                         <option selected></option>
-                        <option value="1">
+                        <option value="1"><% vehicles.forEach(vehicle=> { %>
+                          <%= vehicle.register %>
+                          <% }); %>
 
                         </option>
                       </select>
@@ -82,7 +82,6 @@
                     </div>
                   </div>
                 </div>
-                <% }); %>
           </div>
       </div>
     </div>

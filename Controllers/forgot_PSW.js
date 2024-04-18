@@ -25,7 +25,9 @@ exports.check = async (req, res) => {
       });
     } else {
       // If no matching user is found
-      res.render('forgot_PSW', {errorMessage: 'ไม่พบผู้ใช้งาน'}); // Render the forgot password page with an error message
+      res.render('forgot_PSW', {errorMessage: '<span style="color: red;">ไม่พบผู้ใช้งาน</span>'});
+
+      // Render the forgot password page with an error message
     }
   } catch (error) {
     console.error('Error checking user:', error);

@@ -17,19 +17,23 @@
 <body>
   <%- include('components/navbar.ejs') -%>
     <div class="container-fluid mt-3" id="main">
-      <div class="row d-flex align-items-center">
-        <div class="col" style="display: flex;justify-content: space-between;align-items: center;">
-          <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0" style="font-size: 20px">
-            <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
-          </button>
-          <nav style="--bs-breadcrumb-divider: '>'; margin-right: 62%;" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
-              <li class="breadcrumb-item active" aria-current="page">โปรไฟล์</li>
-            </ol>
-          </nav>
-        </div>
-        <%- include('components/userinfo.ejs') -%>
+      <div class="row ">
+        <div class="col-12">
+        <div class="container-fluid p-0 m-0"
+                        style="display: flex;justify-content: space-between;align-items: center;">
+                        <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0"
+                            style="font-size: 20px">
+                            <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
+                        </button>
+                        <nav style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                              <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
+                              <li class="breadcrumb-item active" aria-current="page">โปรไฟล์</li>
+                            </ol>
+                          </nav>
+                          <%- include('components/userinfo.ejs') -%>
+                    </div>
+
           <div class="row">
             <div class="col-12">
               <div class="card" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25)">
@@ -62,6 +66,7 @@
           </div>
       </div>
     </div>
+  </div>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         const newPasswordInput = document.querySelector('input[name="newpassword"]');
