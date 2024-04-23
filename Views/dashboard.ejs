@@ -60,12 +60,10 @@
                   <div class="card mt-2">
                     <div class="card-body">
                       <select class="form-select" id="inputGroupSelect01">
-                        <option selected></option>
-                        <option value="1"><% vehicles.forEach(vehicle=> { %>
-                          <%= vehicle.register %>
-                          <% }); %>
-
-                        </option>
+                        <option selected disabled value="null"></option>
+                        <% vehicles.forEach(vehicle => { %>
+                          <option value="<%= vehicle.register %>"><%= vehicle.register %></option>
+                        <% }); %>
                       </select>
                       <button type="button" class=" btn  mt-2 border-0 align-items-center"
                         style="width: 100%; background-color: #FFECB3;">
