@@ -180,3 +180,15 @@ button10 {
   cursor: pointer;
   height: 20px;
 }
+.my-a:visited{
+  color: darkgrey;
+}
+
+a {
+  color: darkgrey;
+  text-decoration: none;
+  background-color: transparent;
+}
+a:hover{
+  color: rgb(198, 199, 200);
+}
