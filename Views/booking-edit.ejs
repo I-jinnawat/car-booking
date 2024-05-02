@@ -123,16 +123,12 @@
                                                 <p id="displayText" style="color: red;"></p>
                                             </div>
                                             <% if (booking.status===4) { %>
-                                                <div class="row m-0 justify-content-center">
-                                        
-                                                        <button type="submit" class="print-button"
-                                                            
-                                                        style="width: 80px; height: 30px; background-color: red;">
-                                                        ลบ</button>
-                                                
-                                                    <button type="submit" class="print-button"
-                                                            
-                                                    style="width: 80px; height: 30px;">พิมพ์</button>
+                                                <div class="text-center mt-3">
+                                                    <button type="submit" class="btn btn-secondary btn-lg"
+                                                        style=" background-color: red;" id="save_manageBtn"
+                                                        onclick="displayAlert('<%= booking._id %>')">ลบ</button>
+                                                    <button type="submit" class="btn btn-primary btn-lg"
+                                                        style="background-color: rgb(44, 169, 44);">พิมพ์</button>
                                                 </div>
                                                 <% }else{ %>
                                                     <div class="text-center mt-3">
@@ -149,8 +145,38 @@
                 </div>
             </div>
         </div>
-
-        <script src="../JS/booking-edit.js"></script>
+        <!-- Delete -->
+        <script>
+            function displayAlert(booking) {
+                Swal.fire({
+                    title: "คุณต้องการลบใช่หรือไม่?",
+                    showDenyButton: true,
+                    confirmButtonText: "ยืนยัน",
+                    denyButtonText: `ยกเลิก`,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        deleteBooking(booking);
+                    } else if (result.isDenied) {
+                        Swal.fire("การลบไม่เปลี่ยนแปลง", "", "info");
+                    }
+                });
+                return false;
+            }
+            function deleteBooking(bookingId) {
+                fetch(`/events/${bookingId}`, {
+                    method: "DELETE",
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("Failed to delete booking");
+                        }
+                        window.location.reload();
+                    })
+                    .catch((error) => {
+                        console.error("Error deleting booking:", error);
+                    });
+            }
+        </script>
         <!-- calculateTotalKilometer -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
@@ -224,8 +250,9 @@
 
             }
         </script>
+        <!-- Display Aleart Record distance -->
         <script>
-            // Display Aleart Record distance
+
             async function displayAlertRecord() {
                 const Toast = Swal.mixin({
                     toast: true,
@@ -319,6 +346,7 @@
 
         </script>
         <script src="../JS/navbar.js"></script>
+        <script src="../JS/booking-edit.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

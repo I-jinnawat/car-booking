@@ -76,6 +76,7 @@ img {
   color: white;
 }
 .login-box {
+  z-index: 1;
   border: 1px solid;
   box-shadow: 0px 5px 10px #00000040;
   border-radius: 20px;
@@ -95,12 +96,6 @@ img {
 .form-group {
   margin-top: 20px;
 }
-#username {
-  margin-top: 0.1px;
-}
-#password {
-  margin-top: 0.1px;
-}
 
 input[type='text'],
 input[type='password'],
@@ -113,12 +108,9 @@ button[type='submit'] {
   border-radius: 20px;
   border: 1px solid black;
 }
-input::placeholder {
-  padding: 10px;
-}
 
 .login-box button {
-  margin-top: 100px;
+  margin-top: 10%;
   background-color: white;
   color: black;
   border: 1px solid black;

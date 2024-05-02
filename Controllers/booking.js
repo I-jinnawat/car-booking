@@ -25,7 +25,12 @@ exports.bookingEdit = async (req, res) => {
     const drivers = await User.find({role: 'driver'});
     const vehicle = await Vehicle.find({available: true});
     if (!booking) {
-      return res.status(404).json({error: 'Booking not found'});
+      return (
+        res
+          .status(404)
+          // .json({error: 'Booking not found'})
+          .redirect('/manage')
+      );
     }
 
     // Pass booking status to the frontend

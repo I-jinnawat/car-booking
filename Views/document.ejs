@@ -103,8 +103,6 @@
                                             <% if (userLoggedIn && user.role !=='user' ) { %>
                                                 <th scope="col">จัดการ</th>
                                                 <% } %>
-
-
                                         </tr>
                                     </thead>
                                     <tbody id="document-list"></tbody>
@@ -114,30 +112,8 @@
                     </div>
                 </div>
             </div>
-
         </div>
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const radioButtons = document.querySelectorAll('input[name="category"]');
-                let documentData = [];
-
-                radioButtons.forEach(function (radio) {
-                    radio.addEventListener('click', async function () {
-                        const selectedCategory = this.value;
-                        const api = `http://localhost:8080/document/search/${selectedCategory}`;
-                        try {
-                            const res = await axios.get(api);
-                            documentData = res.data;
-                            console.log(documentData);
-                            updateUI(documentData)
-                        } catch (error) {
-                            console.error('Error fetching data:', error);
-                        }
-                    });
-                });
-
-            });
-        </script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script>
             function updateUI(data) {
                 const container = document.getElementById('document-list');
@@ -232,7 +208,6 @@
                     regularSearch(input);
                 }
             }
-
             function regularSearch(input) {
                 // Get input value
                 const searchInput = input.toUpperCase();
@@ -256,8 +231,6 @@
                     }
                 });
             }
-
-
         </script>
         <script>
             function displayAlert(documentId) {
@@ -290,7 +263,28 @@
                     });
             }
         </script>
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const radioButtons = document.querySelectorAll('input[name="category"]');
+                let documentData = [];
+
+                radioButtons.forEach(function (radio) {
+                    radio.addEventListener('click', async function () {
+                        const selectedCategory = this.value;
+                        const api = `http://localhost:8080/document/search/${selectedCategory}`;
+                        try {
+                            const res = await axios.get(api);
+                            documentData = res.data;
+                            console.log(documentData);
+                            updateUI(documentData);
+                        } catch (error) {
+                            console.error('Error fetching data:', error);
+                        }
+                    });
+                });
+            });
+
+        </script>
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
