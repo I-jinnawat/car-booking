@@ -1,9 +1,10 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
+const redirectIfAuth = require('../middleware/redirectIfAuth');
 
-const { list, login } = require("../Controllers/login");
+const {list, login} = require('../Controllers/login');
 
-router.get("/login", list);
-router.post("/login", login);
+router.get('/login', redirectIfAuth, list);
+router.post('/login', redirectIfAuth, login);
 
 module.exports = router;

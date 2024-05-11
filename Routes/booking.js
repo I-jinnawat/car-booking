@@ -1,6 +1,6 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-
+const auth = require('../middleware/auth');
 const {
   list,
   Event,
@@ -8,12 +8,12 @@ const {
   bookingEdit,
   updateEvent,
   deleteEvent,
-} = require("../Controllers/booking");
+} = require('../Controllers/booking');
 
-router.get("/booking", list);
-router.get("/booking-edit/:id", bookingEdit);
-router.get("/events", Event);
-router.post("/events/:id", updateEvent);
-router.post("/events", createEvent);
-router.delete("/events/:id", deleteEvent);
+router.get('/booking', auth, list);
+router.get('/booking-edit/:id', auth, bookingEdit);
+router.get('/events', auth, Event);
+router.post('/events/:id', auth, updateEvent);
+router.post('/events', auth, createEvent);
+router.delete('/events/:id', auth, deleteEvent);
 module.exports = router;

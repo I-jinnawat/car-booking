@@ -31,13 +31,15 @@
                         <input id="cancelerName" type="hidden" name="cancelerName">
                         <% }%>
                             <label class="form-label">ชื่อ-สกุล</label>
-                            <input <%=user.role !=='user' ? 'disabled' : '' %> class="form-control" type="text"
+                            <input style="cursor:not-allowed;" <%=user.role !=='user' ? 'disabled' : '' %>
+                            class="form-control" type="text"
                             name="userinfo" value="<%= booking.userinfo %>"
                                 readonly>
                 </div>
                 <div class="col-md">
                     <label class="form-label">หน่วยงาน</label>
-                    <input <%=user.role !=='user' ? 'disabled' : '' %> class="form-control" name="organization"
+                    <input style="cursor:not-allowed;" <%=user.role !=='user' ? 'disabled' : '' %> class="form-control"
+                    name="organization"
                     value="<%= booking.organization %>" readonly>
                 </div>
                 <div class="col-md">

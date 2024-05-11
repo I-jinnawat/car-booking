@@ -58,13 +58,13 @@
                                     <input type="hidden" name="user_id" value="<%= user.id %>">
                                     <div class="col-md">
                                         <label class="form-label">ชื่อ-สกุล</label>
-                                        <input class="form-control" type="text" name="userinfo"
-                                            value="<%= user.firstname%> <%= user.lastname%>" readonly>
+                                        <input style="cursor:not-allowed;" class="form-control" type="text"
+                                            name="userinfo" value="<%= user.firstname%> <%= user.lastname%>" readonly>
                                     </div>
                                     <div class="col-md">
                                         <label class="form-label">หน่วยงาน</label>
-                                        <input class="form-control" name="organization" value="<%= user.organization %>"
-                                            readonly>
+                                        <input style="cursor:not-allowed;" class="form-control" name="organization"
+                                            value="<%= user.organization %>" readonly>
                                     </div>
                                     <div class="col-md">
                                         <label class="form-label">หมายเลขโทรศัพท์</label>

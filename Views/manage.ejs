@@ -56,10 +56,10 @@
                         </button>
                         <nav style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                              <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
-                              <li class="breadcrumb-item active" aria-current="page">จัดการ</li>
+                                <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">จัดการการจอง</li>
                             </ol>
-                          </nav>
+                        </nav>
                         <%- include('components/userinfo.ejs') -%>
                     </div>
                 </div>
@@ -106,7 +106,8 @@
                                                 จองรถ</a>
                                         </div>
                                         <div class="search">
-                                            <input class="p-1" type="text" id="searchInput" placeholder="&#xf002; ค้นหา" name="search" 
+                                            <input class="p-1" type="text" id="searchInput" placeholder="&#xf002; ค้นหา"
+                                                name="search"
                                                 style="width: 200px; border-radius: 8px ; border:1px solid black;">
                                         </div>
                                     </div>
@@ -283,23 +284,23 @@
             function handleSearch() {
                 // Get search input value
                 var searchValue = document.getElementById('searchInput').value.toLowerCase();
-        
+
                 // Get all rows in the table body
                 var rows = document.querySelectorAll("tbody tr");
-        
+
                 // Iterate through each row
-                rows.forEach(function(row) {
+                rows.forEach(function (row) {
                     var cells = row.querySelectorAll("td");
                     var found = false;
-                    
+
                     // Iterate through each cell in the row
-                    cells.forEach(function(cell) {
+                    cells.forEach(function (cell) {
                         // Check if the cell content contains the search value
                         if (cell.textContent.toLowerCase().includes(searchValue)) {
                             found = true;
                         }
                     });
-        
+
                     // Show or hide the row based on the search result
                     if (found) {
                         row.style.display = "";
@@ -308,67 +309,67 @@
                     }
                 });
             }
-        
+
             // Add event listener to search input field
             document.getElementById('searchInput').addEventListener('input', handleSearch);
         </script>
         <script>
             // Get the select element
-const selectElement = document.querySelector('.form-select');
+            const selectElement = document.querySelector('.form-select');
 
-// Add event listener to handle select change
-selectElement.addEventListener('change', function() {
-    // Get the selected value
-    const selectedValue = this.value;
+            // Add event listener to handle select change
+            selectElement.addEventListener('change', function () {
+                // Get the selected value
+                const selectedValue = this.value;
 
-    // Get all table rows
-    const rows = document.querySelectorAll('tbody tr');
+                // Get all table rows
+                const rows = document.querySelectorAll('tbody tr');
 
-    // Loop through each row and update visibility based on selected option
-    rows.forEach(row => {
-        const statusCell = row.querySelector('td:nth-child(2)');
-        const statusText = statusCell.textContent.trim();
+                // Loop through each row and update visibility based on selected option
+                rows.forEach(row => {
+                    const statusCell = row.querySelector('td:nth-child(2)');
+                    const statusText = statusCell.textContent.trim();
 
-        // Show row if "All" is selected or if the row status matches the selected option
-        if (selectedValue === '3') {
-            if (statusText === '4.เสร็จสิ้น') {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        } else if (selectedValue === '1') {
-            if (statusText === '1.ทำการจองเสร็จ รอหัวหน้าอนุมัติ') {
-                row.style.display = '';
-            } else if (statusText === '2.หัวหน้างานอนุมัติเสร็จ รอคนจัดรถ') {
-                row.style.display = '';
-            }else if (statusText === '3.จัดรถสำเร็จ,พร้อมใช้งาน') {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-            
-        } else if (selectedValue === '2') {
-            if (statusText === '1.ทำการจองเสร็จ รอหัวหน้าอนุมัติ') {
-                row.style.display = '';
-            } else if (statusText === '2.หัวหน้างานอนุมัติเสร็จ รอคนจัดรถ') {
-                row.style.display = '';
-            }else if (statusText === '3.จัดรถสำเร็จ,พร้อมใช้งาน') {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-            
-        } 
-        
-        else {
-            row.style.display = '';
-        }
-        
-    });
-});
+                    // Show row if "All" is selected or if the row status matches the selected option
+                    if (selectedValue === '3') {
+                        if (statusText === '4.เสร็จสิ้น') {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    } else if (selectedValue === '1') {
+                        if (statusText === '1.ทำการจองเสร็จ รอหัวหน้าอนุมัติ') {
+                            row.style.display = '';
+                        } else if (statusText === '2.หัวหน้างานอนุมัติเสร็จ รอคนจัดรถ') {
+                            row.style.display = '';
+                        } else if (statusText === '3.จัดรถสำเร็จ,พร้อมใช้งาน') {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
 
-     </script>
-        
+                    } else if (selectedValue === '2') {
+                        if (statusText === '1.ทำการจองเสร็จ รอหัวหน้าอนุมัติ') {
+                            row.style.display = '';
+                        } else if (statusText === '2.หัวหน้างานอนุมัติเสร็จ รอคนจัดรถ') {
+                            row.style.display = '';
+                        } else if (statusText === '3.จัดรถสำเร็จ,พร้อมใช้งาน') {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+
+                    }
+
+                    else {
+                        row.style.display = '';
+                    }
+
+                });
+            });
+
+        </script>
+
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

@@ -27,15 +27,16 @@
                         </button>
                         <nav style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                              <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
-                              <li class="breadcrumb-item"><a href="http://localhost:8080/profile/661904d6a3e96a67939dd2f4">โปรไฟล์</a></li>
-                              <li class="breadcrumb-item active" aria-current="page">แก้ไขโปรไฟล์</li>
+                                <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
+                                <li class="breadcrumb-item"><a
+                                        href="http://localhost:8080/profile/<%= user.id %>">ข้อมูลส่วนตัว</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">แก้ไขข้อมูลส่วนตัว</li>
                             </ol>
-                          </nav>
+                        </nav>
                         <div class="col d-flex justify-content-end me-3" id="userDisplay">
 
 
-                            
+
                         </div>
                     </div>
 

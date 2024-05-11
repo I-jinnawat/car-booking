@@ -1,6 +1,5 @@
 const User = require('../Models/Auth');
 const bcrypt = require('bcryptjs');
-const app = require('../App'); // Import your Express app instance
 
 exports.login = async (req, res) => {
   try {
@@ -22,6 +21,9 @@ exports.login = async (req, res) => {
           organization: user.organization,
         };
         // res.send(req.session.user);
+        // Set the user ID in the session
+        req.session.userId = user._id;
+
         return res.redirect('/');
       }
     }
