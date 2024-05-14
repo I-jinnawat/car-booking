@@ -93,9 +93,9 @@
                                     </div>
 
                                     <div class="row">
-                                        <div class="col-sm-9 text-center text-secondary">
+                                        <div class="text-center mt-3">
                                             <form onsubmit="displayAlert(); return false;">
-                                                <button class="btn btn-primary ">ยืนยัน</button>
+                                                <button type="submit" class="btn btn-primary" id="txt">ยืนยัน</button>
                                             </form>
                                         </div>
                                     </div>
@@ -106,98 +106,6 @@
                 </div>
             </div>
         </div>
-        <script>
-            async function displayAlertAdd() {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    iconColor: 'white',
-                    customClass: {
-                        popup: 'colored-toast',
-                    },
-                    showConfirmButton: false,
-                    timer: 1000,
-                    timerProgressBar: true,
-                });
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                });
-                const result = await swalWithBootstrapButtons.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'ยืนยัน',
-                    cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true
-                });
-
-                if (result.isConfirmed) {
-                    await Toast.fire({
-                        icon: 'success',
-                        title: 'Success',
-                    })
-
-                    await document.querySelector("#modal-body form").submit();
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    swalWithBootstrapButtons.fire({
-                        title: 'ยกเลิก',
-                        text: 'คุณได้ทำการยกเลิก',
-                        icon: 'error'
-                    });
-                }
-            }
-
-            async function displayAlertUpdated(form) {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    iconColor: 'white',
-                    customClass: {
-                        popup: 'colored-toast',
-                    },
-                    showConfirmButton: false,
-                    timer: 1000,
-                    timerProgressBar: true,
-                });
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                });
-                const result = await swalWithBootstrapButtons.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'ยืนยัน',
-                    cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true
-                });
-
-                if (result.isConfirmed) {
-                    await Toast.fire({
-                        icon: 'success',
-                        title: 'Success',
-                    })
-
-                    await form.submit();
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    swalWithBootstrapButtons.fire({
-                        title: 'ยกเลิก',
-                        text: 'คุณได้ทำการยกเลิก',
-                        icon: 'error'
-                    });
-                }
-            }
-
-        </script>
         <script src="/JS/alertSave.js"></script>
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

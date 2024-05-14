@@ -45,7 +45,6 @@
               <div class="card-body">
                 <form action="/user/update/<%=user._id%>" method="POST">
                   <% if (userLoggedIn) { %>
-
                     <div class="row mb-3">
                       <div class="col-sm-3">
                         <label class="form-label">รหัสผ่านเดิม</label>
@@ -55,7 +54,6 @@
                       </div>
                     </div>
                     <% } %>
-
                       <div class="row mb-3">
                         <div class="col-sm-3">
                           <label class="form-label">รหัสผ่านใหม่</label>
@@ -73,16 +71,17 @@
                         </div>
                       </div>
                       <div class="row gy-2 text-center">
-                        <% if (errorMessage) { %>
-                          <div class="col-12 text-danger">
-                            <p id="showText">
-                              <%= errorMessage %>
-                            </p>
-                          </div>
-                          <% } %>
-                            <div class="col-md">
-                              <button type="submit" class="btn btn-primary">ยืนยัน</button>
-                            </div>
+
+                        <div class="col-12 text-danger">
+                          <p id="showText">
+                            <% if (error_old && error_old.length> 0) { %>
+                              <%= error_old %>
+                                <% } %>
+                          </p>
+                        </div>
+                        <div class="col-md">
+                          <button type="submit" class="btn btn-primary">ยืนยัน</button>
+                        </div>
                       </div>
                 </form>
               </div>
