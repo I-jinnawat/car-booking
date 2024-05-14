@@ -182,13 +182,16 @@ button10 {
 }
 .my-a:visited{
   color: darkgrey;
+  
 }
 
 a {
   color: darkgrey;
   text-decoration: none;
   background-color: transparent;
+
 }
 a:hover{
   color: rgb(198, 199, 200);
+
 }
