@@ -70,20 +70,11 @@
                         <div class="card-body">
                             <div id="status-control">
                                 <div id="status-control">
-                                    <label for="">สิทธิ์ :</label>
-                                    <div class="btn-group" role="group">
-                                        <input type="radio" class="btn-check" name="btnradio" autocomplete="off"
-                                            readonly <%=user.role==="user" ? "checked" : "" %>>
-                                        <label class="btn btn-outline-primary" for="btnradio1">พนักงาน</label>
-
-                                        <input type="radio" class="btn-check" name="btnradio" autocomplete="off"
-                                            readonly <%=user.role==="admin" ? "checked" : "" %>>
-                                        <label class="btn btn-outline-primary" for="btnradio2">ผู้จัดรถ</label>
-
-                                        <input type="radio" class="btn-check" name="btnradio" autocomplete="off"
-                                            readonly <%=user.role==="approver" ? "checked" : "" %>>
-                                        <label class="btn btn-outline-primary" for="btnradio3">ผู้อนุมัติ</label>
-                                    </div>
+                                    <label for="">เมนู :</label>
+                                            <a href="/booking" class="btn border-0 bookingbtn"
+                                                style="background-color:#FFECB3; width: 100px;"><i
+                                                    class="fa-regular fa-pen-to-square"></i>
+                                                จองรถ</a>
                                     <span class="ms-3">
                                         <label for="">สถานะ</label>
                                         <div class="btn-group">
@@ -99,11 +90,7 @@
                                 <div class="row mt-2">
                                     <div class="col d-flex justify-content-between" id="search">
                                         <div>
-                                            <label for="">เมนู :</label>
-                                            <a href="/booking" class="btn border-0 bookingbtn"
-                                                style="background-color:#FFECB3; width: 100px;"><i
-                                                    class="fa-regular fa-pen-to-square"></i>
-                                                จองรถ</a>
+                                            
                                         </div>
                                         <div class="search">
                                             <input class="p-1" type="text" id="searchInput" placeholder="&#xf002; ค้นหา"
