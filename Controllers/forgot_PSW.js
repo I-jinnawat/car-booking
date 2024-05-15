@@ -1,10 +1,11 @@
+const {NOTFOUND} = require('dns');
 const User = require('../Models/Auth');
 exports.list = async (req, res) => {
   try {
     res.render('forgot_PSW', {
       userLoggedIn: !!req.session.user,
       user: req.session.user,
-      errorMessage: null,
+      NotFound: '',
     });
   } catch (error) {
     console.error(error);
@@ -17,17 +18,18 @@ exports.check = async (req, res) => {
     const user = await User.findOne({username, birth_year}); // Assuming dateOfBirth is the field name in your User model
 
     if (user) {
-      const userId = user._id;
       res.render(`Change_PSW`, {
         userLoggedIn: false,
         user: user,
-        errorMessage: '',
+        error_old: '',
       });
     } else {
       // If no matching user is found
-      res.render('forgot_PSW', {errorMessage: '<span style="color: red;">ไม่พบผู้ใช้งาน</span>'});
-
-      // Render the forgot password page with an error message
+      req.flash('NotFound', 'ไม่พบผู้ใช้งาน');
+      const NotFound = req.flash('NotFound');
+      res.render('forgot_PSW', {
+        NotFound: NotFound,
+      });
     }
   } catch (error) {
     console.error('Error checking user:', error);

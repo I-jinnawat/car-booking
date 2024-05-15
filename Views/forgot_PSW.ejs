@@ -32,15 +32,15 @@
                 <label>ปีเกิด</label>
                 <input type="number" class="form-control" id="birth_year" name="birth_year" placeholder="ปีเกิด"
                     min="1900" max="2100" required>
-                <!-- Ensure that the user enters a birth year -->
             </div>
-
-            <% if (errorMessage) { %>
-                <%- errorMessage %>
-                    <% } %>
-                        <div class="row mt-3">
-                            <button type="submit" class="btn btn-primary">เปลี่ยนรหัสผ่าน</button>
-                        </div>
+            <p class="text-danger">
+                <% if (NotFound) { %>
+                    <%= NotFound %>
+                        <% } %>
+            </p>
+            <div class="row mt-3">
+                <button type="submit" class="btn btn-primary">เปลี่ยนรหัสผ่าน</button>
+            </div>
         </form>
     </div>
     <div class="bottom">

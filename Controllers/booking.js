@@ -77,7 +77,7 @@ exports.Event = async (req, res) => {
       // Regular users can only see events with "booked" as title
       events = await Booking.find({});
       events.forEach(event => {
-        event.title = 'ถูกจองแล้วง้าบบ';
+        event.title = 'ถูกจองแล้ว';
       });
     }
 

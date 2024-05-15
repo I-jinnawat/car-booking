@@ -292,7 +292,7 @@
                 if (result.isConfirmed) {
                     await Toast.fire({
                         icon: 'success',
-                        title: 'Success',
+                        title: 'บันทึกข้อมูลสำเร็จ',
                     });
                     document.getElementById('statusRecord').value = 4;
                     await document.querySelector('#record-body form').submit();
@@ -337,10 +337,10 @@
                 if (result.isConfirmed) {
                     await Toast.fire({
                         icon: 'success',
-                        title: 'Success',
+                        title: 'บันทึกข้อมูลสำเร็จ',
                     });
                     document.getElementById('status2').value = 3;
-                    document.getElementById('adminName').value = '<%= user.username %>';
+                    document.getElementById('adminName').value = '<%= user.firstname%> <%= user.lastname%>';
                     await document.querySelector('#manage-vehicle_driver-body form').submit();
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     swalWithBootstrapButtons.fire({

@@ -34,10 +34,10 @@
                         </button>
                         <nav style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                              <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
-                              <li class="breadcrumb-item active" aria-current="page">ยานพาหนะ</li>
+                                <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">ยานพาหนะ</li>
                             </ol>
-                          </nav>
+                        </nav>
                         <%- include('components/userinfo.ejs') -%>
                     </div>
                     <div class="card" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
@@ -103,7 +103,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3 search">
-                                    <input type="text" class="form-control" id="searchInput" placeholder="&#xf002; ค้นหา">
+                                    <input type="text" class="form-control" id="searchInput"
+                                        placeholder="&#xf002; ค้นหา">
                                 </div>
                             </div>
                         </div>
@@ -327,7 +328,7 @@
                 if (result.isConfirmed) {
                     await Toast.fire({
                         icon: 'success',
-                        title: 'Success',
+                        title: 'เพิ่มยานพาหนะสำเร็จ',
                     })
 
                     await document.querySelector("#modal-body form").submit();
@@ -372,7 +373,7 @@
                 if (result.isConfirmed) {
                     await Toast.fire({
                         icon: 'success',
-                        title: 'Success',
+                        title: 'แก้ไขข้อมูลสำเร็จ',
                     })
 
                     await form.submit();
@@ -391,23 +392,23 @@
             function handleSearch() {
                 // Get search input value
                 var searchValue = document.getElementById('searchInput').value.toLowerCase();
-        
+
                 // Get all rows in the table body
                 var rows = document.querySelectorAll("tbody tr");
-        
+
                 // Iterate through each row
-                rows.forEach(function(row) {
+                rows.forEach(function (row) {
                     var cells = row.querySelectorAll("td");
                     var found = false;
-                    
+
                     // Iterate through each cell in the row
-                    cells.forEach(function(cell) {
+                    cells.forEach(function (cell) {
                         // Check if the cell content contains the search value
                         if (cell.textContent.toLowerCase().includes(searchValue)) {
                             found = true;
                         }
                     });
-        
+
                     // Show or hide the row based on the search result
                     if (found) {
                         row.style.display = "";
@@ -416,7 +417,7 @@
                     }
                 });
             }
-        
+
             // Add event listener to search input field
             document.getElementById('searchInput').addEventListener('input', handleSearch);
         </script>

@@ -190,7 +190,7 @@
         if (result.isConfirmed) {
             await Toast.fire({
                 icon: 'success',
-                title: 'Success',
+                title: 'ทำการอนุมัติสำเร็จ',
             });
             document.getElementById('status').value = 2;
             document.getElementById('approverName').value = '<%= user.firstname %>  <%= user.lastname %> ';
@@ -284,7 +284,7 @@
         if (result.isConfirmed) {
             await Toast.fire({
                 icon: 'success',
-                title: 'Success',
+                title: 'แก้ไขสำเร็จ',
             });
             // Show your alert or perform any other necessary actions
             await document.querySelector('#booking-body form').submit();

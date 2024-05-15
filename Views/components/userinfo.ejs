@@ -4,7 +4,7 @@
       <%= user.role==='approver' ? 'ผู้อนุมัติ' : (user.role==='admin' ? 'คนจัดรถ' : 'พนักงาน' ) %>
     </p>
     <a href="/profile/<%= user.id %>" class="user-link" style=" color: black; display: inline;">
-      <%= user.username %>
+      <%= user.numberID %>
     </a>
     <% } else { %>
       <a href="/login" style="text-decoration: none; color: rgb(0, 0, 0); display: inline;">เข้าสู่ระบบ</a>

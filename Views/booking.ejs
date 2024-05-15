@@ -85,7 +85,7 @@
                                 </div>
                                 <div class="row mt-4">
                                     <div class="col-md">
-                                        <label for="">วัน/เวลาไปถึงสถานที่รับรถ</label>
+                                        <label for="">วัน/เวลาไปถึงสถานที่รับ</label>
                                         <input type="datetime-local" name="start" class="form-control" required>
                                     </div>
                                     <div class="col-md">
@@ -171,7 +171,7 @@
                 if (result.isConfirmed) {
                     await Toast.fire({
                         icon: 'success',
-                        title: 'Success',
+                        title: 'ทำการจองสำเร็จ',
                     })
                     // Show your alert or perform any other necessary actions
                     await document.querySelector("#booking-body form").submit();
