@@ -153,47 +153,115 @@
                             <th scope="col">หน่วยงาน</th>
                         </tr>
                     </thead>
-                    <% if (Array.isArray(users) && users.length> 0) { %>
-                        <% users.forEach(USER=> { %>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="btn-group btn-group" role="group" style="width: 100px;">
-                                            <button class="btn btn-warning" data-bs-toggle="modal"
-                                                data-bs-target="#UpdateInfo_<%= USER._id%>"><i
-                                                    class="fa-regular fa-pen-to-square"></i></button>
-                                            <div class="modal fade" id="UpdateInfo_<%= USER._id%>" aria-hidden="true"
-                                                tabindex="-1">
-                                                <div class="modal-dialog modal-dialog-centered">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title">แก้ไขข้อมูลสมาชิก</h5>
-                                                            <button type="button" class="btn-close"
-                                                                data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body" id="modal-body">
-                                                            <form action="/setting/member/update/<%= USER._id%>"
-                                                                method="POST">
-                                                                <div class="row mb-3">
-                                                                    <div class="col-sm-3">
-                                                                        <label class="form-label">ประเภท</label>
-                                                                    </div>
-                                                                    <div class="col-sm-9">
-                                                                        <select name="newrole" class="form-select">
-                                                                            <option value="approver"
-                                                                                <%=USER.role==='approver' ? 'selected'
-                                                                                : '' %>>ผู้อนุมัติ</option>
-                                                                            <option value="admin" <%=USER.role==='admin'
-                                                                                ? 'selected' : '' %>
-                                                                                >คนจัดรถ</option>
-                                                                            <option value="user" <%=USER.role==='user'
-                                                                                ? 'selected' : '' %>
-                                                                                >พนักงาน</option>
-                                                                            <option value="driver"
-                                                                                <%=USER.role==='driver' ? 'selected'
-                                                                                : '' %>
-                                                                                >พนักงานขับรถ</option>
-                                                                        </select>
+                    <% users.forEach(USER=> { %>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="btn-group btn-group" role="group" style="width: 100px;">
+                                        <button class="btn btn-warning" data-bs-toggle="modal"
+                                            data-bs-target="#UpdateInfo_<%= USER._id%>"><i
+                                                class="fa-regular fa-pen-to-square"></i></button>
+                                        <div class="modal fade" id="UpdateInfo_<%= USER._id%>" aria-hidden="true"
+                                            tabindex="-1">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">แก้ไขข้อมูลสมาชิก</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body" id="modal-body">
+                                                        <form action="/setting/member/update/<%= USER._id%>"
+                                                            method="POST">
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-3">
+                                                                    <label class="form-label">ประเภท</label>
+                                                                </div>
+                                                                <div class="col-sm-9">
+                                                                    <select name="newrole" class="form-select">
+                                                                        <option value="approver"
+                                                                            <%=USER.role==='approver' ? 'selected' : ''
+                                                                            %>>ผู้อนุมัติ</option>
+                                                                        <option value="admin" <%=USER.role==='admin'
+                                                                            ? 'selected' : '' %>
+                                                                            >คนจัดรถ</option>
+                                                                        <option value="user" <%=USER.role==='user'
+                                                                            ? 'selected' : '' %>
+                                                                            >พนักงาน</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-3">
+                                                                    <label class="form-label">รหัสพนักงาน</label>
+                                                                </div>
+                                                                <div class="col-sm-9 text-secondary">
+                                                                    <input type="text" class="form-control"
+                                                                        value="<%= USER.numberID %>" disabled>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-3">
+                                                                    <label class="form-label">ชื่อ</label>
+                                                                </div>
+                                                                <div class="col-sm-9 text-secondary">
+                                                                    <input type="text" class="form-control"
+                                                                        name="newfirstname"
+                                                                        value="<%= USER.firstname %>" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-3">
+                                                                    <label class="form-label">นามสกุล</label>
+                                                                </div>
+                                                                <div class="col-sm-9 text-secondary">
+                                                                    <input type="text" class="form-control"
+                                                                        name="newlastname" value=<%=USER.lastname%>
+                                                                    required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-3">
+                                                                    <label class="form-label">หน่วยงาน</label>
+                                                                </div>
+                                                                <div class="col-sm-9">
+                                                                    <select name="neworganization" class="form-select"
+                                                                        required>
+                                                                        <option
+                                                                            value="ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง"
+                                                                            <%=USER.organization==='ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง'
+                                                                            ? 'selected' : '' %>
+                                                                            >ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง</option>
+                                                                        <option value="test"
+                                                                            <%=USER.organization==='admin' ? 'selected'
+                                                                            : '' %>
+                                                                            >รอ</option>
+                                                                        <option value="test"
+                                                                            <%=USER.organization==='user' ? 'selected'
+                                                                            : '' %>
+                                                                            >รอ</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <div class="col-sm-3">
+                                                                    <label class="form-label">รหัสผ่าน
+                                                                        (โปรดกรอกรหัสผ่านที่ท่านเข้าสู่ระบบ)</label>
+                                                                </div>
+                                                                <div class="col-sm-9">
+                                                                    <input name="newpassword" type="password"
+                                                                        class="form-control"
+                                                                        id="passwordInput_<%= USER._id %>" disabled>
+                                                                    <div class="form-check">
+                                                                        <input class="form-check-input" type="checkbox"
+                                                                            id="enablePassword_<%= USER._id %>">
+                                                                        <label class="form-check-label"
+                                                                            for="enablePassword_<%= USER._id %>">
+                                                                            <span>ต้องการเปลี่ยนรหัส</span>
+                                                                        </label>
+                                                                        <i id="passwordVisibilityToggle_<%= USER._id %>"
+                                                                            class="bi bi-eye-slash"
+                                                                            aria-hidden="true"></i>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row mb-3">
@@ -277,34 +345,34 @@
                                                                             id="updatedBtn">ยืนยัน</button>
                                                                     </div>
                                                                 </div>
-                                                            </form>
-                                                        </div>
+                                                        </form>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <button type="button" class="btn btn-danger"
-                                                onclick="displayAlert('<%= USER._id%>')"><i
-                                                    class="fa-solid fa-trash-can"></i></button>
                                         </div>
-                                    </td>
-                                    <td>
-                                        <%= USER.role==='approver' ? "ผู้อนุมัติ" : USER.role==='admin' ? "คนจัดรถ" :
-                                            USER.role==="driver" ? 'คนขับรถ' : 'พนักงาน' %>
-                                    </td>
-                                    <td>
-                                        <%= USER.numberID %>
-                                    </td>
-                                    <td>
-                                        <%= USER.firstname %>
-                                            <%= USER.lastname %>
-                                    </td>
-                                    <td>
-                                        <%= USER.organization %>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <% }) %>
-                                <% } %>
+                                        <button type="button" class="btn btn-danger"
+                                            onclick="displayAlert('<%= USER._id%>')"><i
+                                                class="fa-solid fa-trash-can"></i></button>
+                                    </div>
+                                </td>
+                                <td>
+                                    <%= USER.role==='approver' ? "ผู้อนุมัติ" : USER.role==='admin' ? "คนจัดรถ" :
+                                        USER.role==="driver" ? 'คนขับรถ' : 'พนักงาน' %>
+                                </td>
+                                <td>
+                                    <%= USER.numberID %>
+                                </td>
+                                <td>
+                                    <%= USER.firstname %>
+                                        <%= USER.lastname %>
+                                </td>
+                                <td>
+                                    <%= USER.organization %>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <% }) %>
+                            <% } %>
                 </table>
             </div>
         </div>

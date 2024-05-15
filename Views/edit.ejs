@@ -37,59 +37,65 @@
 
                     <div class="card mt-3">
                         <div class="card-body">
-                            <form id="updateForm" method="POST" action="/user/update/<%= user.id %>">
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
-                                        <label class="form-label">รหัสพนักงาน</label>
+                            <div class="card-body">
+                                <form id="updateForm" method="POST" action="/user/update/<%= user.id %>"
+                                    onsubmit="return displayAlert();">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <label class="form-label">รหัสพนักงาน</label>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input type="text" class="form-control" value="<%= user.numberID  %>"
+                                                readonly disabled>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" value="<%= user.numberID %>" readonly
-                                            disabled>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <label class="form-label">ชื่อ</label>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input type="text" class="form-control" name="newfirstname"
+                                                value="<%= user.firstname%>">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
-                                        <label class="form-label">ชื่อ</label>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <label class="form-label">นามสกุล</label>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input type="text" class="form-control" name="newlastname"
+                                                value="<%= user.lastname %>">
+                                        </div>
                                     </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" name="newfirstname"
-                                            value="<%= user.firstname %>">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <label class="form-label">หน่วยงาน</label>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input type="text" class="form-control" name="organization"
+                                                value="<%= user.organization %>" readonly disabled>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
-                                        <label class="form-label">นามสกุล</label>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <label class="form-label">ประเภท</label>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input type="text" class="form-control"
+                                                value="<%=(user.role === 'approver' ? 'ผู้อนุมัติ' : (user.role === 'admin' ? 'คนจัดรถ' : 'พนักงาน'))%>"
+                                                readonly disabled>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" name="newlastname"
-                                            value="<%= user.lastname %>">
+
+                                    <div class="row">
+                                        <div class="text-center mt-3">
+                                            <form onsubmit="displayAlert(); return false;">
+                                                <button type="submit" class="btn btn-primary" id="txt">ยืนยัน</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
-                                        <label class="form-label">หน่วยงาน</label>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control" name="organization"
-                                            value="<%= user.organization %>" readonly disabled>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-sm-3">
-                                        <label class="form-label">ประเภท</label>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        <input type="text" class="form-control"
-                                            value="<%= (user.role === 'approver' ? 'ผู้อนุมัติ' : (user.role === 'admin' ? 'คนจัดรถ' : 'พนักงาน')) %>"
-                                            readonly disabled>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="text-center mt-3">
-                                        <button type="submit" class="btn btn-primary" id="submitBtn">ยืนยัน</button>
-                                    </div>
-                                </div>
-                            </form>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
