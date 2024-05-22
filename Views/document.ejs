@@ -113,7 +113,6 @@
                 </div>
             </div>
         </div>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <script>
             function updateUI(data) {
                 const container = document.getElementById('document-list');
@@ -271,7 +270,7 @@
                 radioButtons.forEach(function (radio) {
                     radio.addEventListener('click', async function () {
                         const selectedCategory = this.value;
-                        const api = `http://localhost:8080/document/search/${selectedCategory}`;
+                        const api = `http://localhost:3000/document/search/${selectedCategory}`;
                         try {
                             const res = await axios.get(api);
                             documentData = res.data;
@@ -291,6 +290,8 @@
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.6/dompurify.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 
 </html>
