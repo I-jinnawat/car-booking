@@ -1,6 +1,5 @@
 const multer = require('multer');
-const path = require('path');
-const Document = require('../models/Document');
+const Document = require('../Models/document');
 
 exports.list = async (req, res) => {
   const documents = null;

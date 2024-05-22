@@ -1,5 +1,5 @@
 const User = require('../Models/Auth');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 exports.read = async (req, res) => {
   const page = req.query.page || 1;

@@ -7,7 +7,6 @@ const path = require('path');
 require('dotenv').config();
 const session = require('express-session');
 const flash = require('connect-flash');
-
 const app = express();
 const port = process.env.PORT || 3000;
 const moment = require('moment-timezone');
@@ -20,13 +19,18 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json({limit: '10mb'}));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/uploads', express.static('uploads'));
+
+// Session setup
 app.use(session({secret: 'secret', resave: true, saveUninitialized: true}));
+
+// Static files
+app.use(express.static(path.join(__dirname, 'Public')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Set the timezone to Asia/Bangkok
 moment.tz.setDefault('Asia/Bangkok');
-//engine setup
-app.set('Views', path.join(__dirname, 'Views'));
+
+// Engine setup
+app.set('views', path.join(__dirname, 'Views')); // Use lowercase "views"
 app.set('view engine', 'ejs');
 
 //routes
@@ -36,7 +40,7 @@ readdirSync('./Routes').map(r => app.use('/', require('./Routes/' + r)));
 connectDB()
   .then(
     app.listen(port, () =>
-      console.log(`Server is running on http://localhost:${port}`)
+      console.log(`Server is running on http://localhost:${port} Try to use`)
     )
   )
   .catch(err => console.log(err));
