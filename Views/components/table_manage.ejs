@@ -44,7 +44,7 @@
                                                         class="fa-solid fa-trash-can"></i></button>
                                             </div>
                                             <% } else { %>
-                                                <button type="button" class="btn btn-info"
+                                                <button type="button" class="btn btn-primary"
                                                     style="width: 100px;">Waiting</button>
                                                 <% } %>
                                                     <% } else if(user.role==="approver" &&booking.status==1) { %>
@@ -169,7 +169,7 @@
                                                                         class="fa-solid fa-trash-can"></i></button>
                                                             </div>
                                                             <% } else { %>
-                                                                <button type="button" class="btn btn-warning"
+                                                                <button type="button" class="btn btn-primary"
                                                                     style="width: 100px;">Waiting</button>
                                                                 <% } %>
                                                                     <% } else { %>
@@ -202,12 +202,9 @@
                                                                                                     style="width: 100px;">ถูกยกเลิก</button>
 
                                                                                                 <%}else{%>
-                                                                                                    <button
-                                                                                                        type="button"
-                                                                                                        class="btn btn-danger"
-                                                                                                        onclick="displayAlert('<%= booking._id %>')"
-                                                                                                        style="width: 100px;"><i
-                                                                                                            class="fa-solid fa-trash-can"></i></button>
+                                                                                                    <button type="button"
+                                                                                                    class="btn btn-danger"
+                                                                                                    style="width: 100px;">ถูกยกเลิก</button>
                                                                                                     <%}%>
                                                                                                         <%}%>
 

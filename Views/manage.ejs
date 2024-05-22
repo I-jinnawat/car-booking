@@ -83,6 +83,7 @@
                                                 <option selected>ทั้งหมด</option>
                                                 <option value="1">กำลังดำเนินการ...</option>
                                                 <option value="3">เสร็จสิ้น</option>
+                                                <option value="4">ยกเลิก</option>
                                             </select>
                                         </div>
                                     </span>
@@ -319,7 +320,13 @@
                     const statusText = statusCell.textContent.trim();
 
                     // Show row if "All" is selected or if the row status matches the selected option
-                    if (selectedValue === '3') {
+                    if (selectedValue === '4') {
+                        if (statusText === 'ถูกยกเลิก') {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    } else if (selectedValue === '3') {
                         if (statusText === '4.เสร็จสิ้น') {
                             row.style.display = '';
                         } else {
