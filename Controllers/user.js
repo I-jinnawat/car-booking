@@ -25,7 +25,7 @@ exports.create = async (req, res) => {
       birth_year,
     });
 
-    res.send('sucessfully');
+    res.redirect('/setting/member');
   } catch (err) {
     console.error(err);
   }
