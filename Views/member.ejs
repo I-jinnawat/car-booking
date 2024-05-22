@@ -55,7 +55,7 @@
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title">เพิ่ม</h5>
+                                                        <h5 class="modal-title">เพิ่มสมาชิก</h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                             aria-label="Close"></button>
                                                     </div>
@@ -77,7 +77,7 @@
                                                             </div>
                                                             <div class="row mb-3">
                                                                 <div class="col-sm-3">
-                                                                    <label class="form-label">รหัส</label>
+                                                                    <label class="form-label">รหัสพนักงาน</label>
                                                                 </div>
                                                                 <div class="col-sm-9 text-secondary">
                                                                     <input type="number" class="form-control"
@@ -106,10 +106,33 @@
                                                                 <div class="col-sm-3">
                                                                     <label class="form-label">หน่วยงาน</label>
                                                                 </div>
-                                                                <div class="col-sm-9 text-secondary">
-                                                                    <input type="text" class="form-control"
-                                                                        name="organization" required>
+                                                                <div class="col-sm-9">
+                                                                    <select name="organization" class="form-select"
+                                                                        required>
+                                                                        <option></option>
+                                                                        <option
+                                                                            value="สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง">
+                                                                            สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
+                                                                        </option>
+                                                                        <option
+                                                                            value="โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง">
+                                                                            โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
+                                                                        </option>
+                                                                        <option
+                                                                            value="โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง เชียงราย">
+                                                                            โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง เชียงราย
+                                                                        </option>
+                                                                        <option
+                                                                            value="ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือ และอนุภูมิภาคลุ่มแม่น้ำโขง">
+                                                                            ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือ
+                                                                            และอนุภูมิภาคลุ่มแม่น้ำโขง</option>
+                                                                    </select>
                                                                 </div>
+
+                                                            </div>
+                                                            <div class="row mb-3">
+                                                                <label for="birthDate">วัน/เดือน/ปี เกิด</label>
+                                                                <input type="date">
                                                             </div>
                                                             <div class="row mb-3">
                                                                 <div class="col-sm-3">
@@ -157,204 +180,134 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <div class="btn-group btn-group" role="group" style="width: 100px;">
+                                    <div class="btn-group " role="group" style="width: 50px;">
                                         <button class="btn btn-warning" data-bs-toggle="modal"
                                             data-bs-target="#UpdateInfo_<%= USER._id%>"><i
                                                 class="fa-regular fa-pen-to-square"></i></button>
-                                        <div class="modal fade" id="UpdateInfo_<%= USER._id%>" aria-hidden="true"
-                                            tabindex="-1">
-                                            <div class="modal-dialog modal-dialog-centered">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">แก้ไขข้อมูลสมาชิก</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body" id="modal-body">
-                                                        <form action="/setting/member/update/<%= USER._id%>"
-                                                            method="POST">
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label">ประเภท</label>
-                                                                </div>
-                                                                <div class="col-sm-9">
-                                                                    <select name="newrole" class="form-select">
-                                                                        <option value="approver"
-                                                                            <%=USER.role==='approver' ? 'selected' : ''
-                                                                            %>>ผู้อนุมัติ</option>
-                                                                        <option value="admin" <%=USER.role==='admin'
-                                                                            ? 'selected' : '' %>
-                                                                            >คนจัดรถ</option>
-                                                                        <option value="user" <%=USER.role==='user'
-                                                                            ? 'selected' : '' %>
-                                                                            >พนักงาน</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label">รหัสพนักงาน</label>
-                                                                </div>
-                                                                <div class="col-sm-9 text-secondary">
-                                                                    <input type="text" class="form-control"
-                                                                        value="<%= USER.numberID %>" disabled>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label">ชื่อ</label>
-                                                                </div>
-                                                                <div class="col-sm-9 text-secondary">
-                                                                    <input type="text" class="form-control"
-                                                                        name="newfirstname"
-                                                                        value="<%= USER.firstname %>" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label">นามสกุล</label>
-                                                                </div>
-                                                                <div class="col-sm-9 text-secondary">
-                                                                    <input type="text" class="form-control"
-                                                                        name="newlastname" value=<%=USER.lastname%>
-                                                                    required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label">หน่วยงาน</label>
-                                                                </div>
-                                                                <div class="col-sm-9">
-                                                                    <select name="neworganization" class="form-select"
-                                                                        required>
-                                                                        <option
-                                                                            value="ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง"
-                                                                            <%=USER.organization==='ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง'
-                                                                            ? 'selected' : '' %>
-                                                                            >ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง</option>
-                                                                        <option value="test"
-                                                                            <%=USER.organization==='admin' ? 'selected'
-                                                                            : '' %>
-                                                                            >รอ</option>
-                                                                        <option value="test"
-                                                                            <%=USER.organization==='user' ? 'selected'
-                                                                            : '' %>
-                                                                            >รอ</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label">รหัสผ่าน
-                                                                        (โปรดกรอกรหัสผ่านที่ท่านเข้าสู่ระบบ)</label>
-                                                                </div>
-                                                                <div class="col-sm-9">
-                                                                    <input name="newpassword" type="password"
-                                                                        class="form-control"
-                                                                        id="passwordInput_<%= USER._id %>" disabled>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox"
-                                                                            id="enablePassword_<%= USER._id %>">
-                                                                        <label class="form-check-label"
-                                                                            for="enablePassword_<%= USER._id %>">
-                                                                            <span>ต้องการเปลี่ยนรหัส</span>
-                                                                        </label>
-                                                                        <i id="passwordVisibilityToggle_<%= USER._id %>"
-                                                                            class="bi bi-eye-slash"
-                                                                            aria-hidden="true"></i>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mb-3">
-                                                                    <div class="col-sm-3">
-                                                                        <label class="form-label">รหัสพนักงาน</label>
-                                                                    </div>
-                                                                    <div class="col-sm-9 text-secondary">
-                                                                        <input type="text" class="form-control"
-                                                                            value="<%= USER.numberID %>" disabled>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mb-3">
-                                                                    <div class="col-sm-3">
-                                                                        <label class="form-label">ชื่อ</label>
-                                                                    </div>
-                                                                    <div class="col-sm-9 text-secondary">
-                                                                        <input type="text" class="form-control"
-                                                                            name="newfirstname"
-                                                                            value="<%= USER.firstname %>" required>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mb-3">
-                                                                    <div class="col-sm-3">
-                                                                        <label class="form-label">นามสกุล</label>
-                                                                    </div>
-                                                                    <div class="col-sm-9 text-secondary">
-                                                                        <input type="text" class="form-control"
-                                                                            name="newlastname" value=<%=USER.lastname%>
-                                                                        required>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mb-3">
-                                                                    <div class="col-sm-3">
-                                                                        <label class="form-label">หน่วยงาน</label>
-                                                                    </div>
-                                                                    <div class="col-sm-9">
-                                                                        <select name="neworganization"
-                                                                            class="form-select" required>
-                                                                            <option
-                                                                                value="ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง"
-                                                                                <%=USER.organization==='ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง'
-                                                                                ? 'selected' : '' %>
-                                                                                >ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
-                                                                            </option>
-                                                                            <option value="test"
-                                                                                <%=USER.organization==='admin'
-                                                                                ? 'selected' : '' %>
-                                                                                >รอ</option>
-                                                                            <option value="test"
-                                                                                <%=USER.organization==='user'
-                                                                                ? 'selected' : '' %>
-                                                                                >รอ</option>
-                                                                        </select>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row mb-3">
-                                                                    <div class="col-sm-3">
-                                                                        <label class="form-label">รหัสผ่าน</label>
-                                                                    </div>
-                                                                    <div class="col-sm-9">
-                                                                        <input name="newpassword" type="password"
-                                                                            class="form-control"
-                                                                            id="passwordInput_<%= USER._id %>" disabled>
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input"
-                                                                                type="checkbox"
-                                                                                id="enablePassword_<%= USER._id %>">
-                                                                            <label class="form-check-label"
-                                                                                for="enablePassword_<%= USER._id %>">
-                                                                                <span>ต้องการเปลี่ยนรหัส</span>
-                                                                            </label>
-                                                                            <i id="passwordVisibilityToggle_<%= USER._id %>"
-                                                                                class="bi bi-eye-slash"
-                                                                                aria-hidden="true"></i>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="row gy-2 text-end">
-                                                                    <div class="col-md ">
-                                                                        <button type="submit" class="btn btn-primary "
-                                                                            id="updatedBtn">ยืนยัน</button>
-                                                                    </div>
-                                                                </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn btn-danger"
-                                            onclick="displayAlert('<%= USER._id%>')"><i
+                                        <button class="btn btn-danger" onclick="displayAlert('<%= USER._id%>')"><i
                                                 class="fa-solid fa-trash-can"></i></button>
                                     </div>
                                 </td>
+                                <div class="modal fade" id="UpdateInfo_<%= USER._id%>" aria-hidden="true" tabindex="-1">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">แก้ไขข้อมูลสมาชิก</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body" id="modal-body">
+                                                <form action="/setting/member/update/<%= USER._id%>" method="POST">
+                                                    <div class="row mb-3">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-label">ประเภท</label>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <select name="newrole" class="form-select">
+                                                                <option value="approver" <%=USER.role==='approver'
+                                                                    ? 'selected' : '' %>>ผู้อนุมัติ
+                                                                </option>
+                                                                <option value="admin" <%=USER.role==='admin'
+                                                                    ? 'selected' : '' %>
+                                                                    >คนจัดรถ</option>
+                                                                <option value="user" <%=USER.role==='user' ? 'selected'
+                                                                    : '' %>
+                                                                    >พนักงาน</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-label">รหัสพนักงาน</label>
+                                                        </div>
+                                                        <div class="col-sm-9 text-secondary">
+                                                            <input type="text" class="form-control"
+                                                                value="<%= USER.numberID %>" disabled>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-label">ชื่อ</label>
+                                                        </div>
+                                                        <div class="col-sm-9 text-secondary">
+                                                            <input type="text" class="form-control" name="newfirstname"
+                                                                value="<%= USER.firstname %>" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-label">นามสกุล</label>
+                                                        </div>
+                                                        <div class="col-sm-9 text-secondary">
+                                                            <input type="text" class="form-control" name="newlastname"
+                                                                value=<%=USER.lastname%>
+                                                            required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-label">หน่วยงาน</label>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <select name="neworganization" class="form-select" required>
+                                                                <option>
+                                                                    <%=USER.organization==='สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง'
+                                                                        ? 'selected' : '' %>
+                                                                        สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
+                                                                </option>
+                                                                <option
+                                                                    value="โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง"
+                                                                    <%=USER.organization==='โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง'
+                                                                    ? 'selected' : '' %>
+                                                                    >โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
+                                                                </option>
+                                                                <option value="โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง เชียงราย"
+                                                                    <%=USER.organization==='โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง เชียงราย'
+                                                                    ? 'selected' : '' %>
+                                                                    >โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง เชียงราย
+                                                                </option>
+                                                                <option
+                                                                    value="ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือ และอนุภูมิภาคลุ่มแม่น้ำโขง"
+                                                                    <%=USER.organization==='ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือ และอนุภูมิภาคลุ่มแม่น้ำโขง'
+                                                                    ? 'selected' : '' %>
+                                                                    >ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือ
+                                                                    และอนุภูมิภาคลุ่มแม่น้ำโขง</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-3">
+                                                        <div class="col-sm-3">
+                                                            <label class="form-label">รหัสผ่าน
+                                                            </label>
+                                                            <p>(โปรดกรอกรหัสผ่านที่ท่านเข้าสู่ระบบ)</p>
+                                                        </div>
+                                                        <div class="col-sm-9">
+                                                            <input name="newpassword" type="password"
+                                                                class="form-control" id="passwordInput_<%= USER._id %>"
+                                                                disabled>
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox"
+                                                                    id="enablePassword_<%= USER._id %>">
+                                                                <label class="form-check-label"
+                                                                    for="enablePassword_<%= USER._id %>">
+                                                                    <span>ต้องการเปลี่ยนรหัส</span>
+                                                                </label>
+                                                                <i id="passwordVisibilityToggle_<%= USER._id %>"
+                                                                    class="bi bi-eye-slash" aria-hidden="true"></i>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row gy-2 text-center">
+                                                            <div class="col-md ">
+                                                                <button type="submit" class="btn btn-primary "
+                                                                    id="updatedBtn">ยืนยัน</button>
+                                                            </div>
+                                                        </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <td>
                                     <%= USER.role==='approver' ? "ผู้อนุมัติ" : USER.role==='admin' ? "คนจัดรถ" :
                                         USER.role==="driver" ? 'คนขับรถ' : 'พนักงาน' %>
@@ -372,7 +325,6 @@
                             </tr>
                         </tbody>
                         <% }) %>
-                            <% } %>
                 </table>
             </div>
         </div>
