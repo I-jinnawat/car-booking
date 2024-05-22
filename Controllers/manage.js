@@ -9,7 +9,11 @@ exports.list = async (req, res) => {
     const totalBookings = await Booking.countDocuments();
     const totalPages = Math.ceil(totalBookings / limit);
 
-    const bookings = await Booking.find().skip(skip).limit(limit).lean();
+    const bookings = await Booking.find()
+      .sort({status: 1, createdAt: -1})
+      .skip(skip)
+      .limit(limit)
+      .lean();
 
     req.session.user
       ? res.render('manage', {
