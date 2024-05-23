@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    <%- include('components/navbar.ejs') -%>
+    <button%- include('components/navbar.ejs') -%>
         <div class="container-fluid mt-3 " id="main">
             <div class="row">
                 <div class="col-12 ">
@@ -49,12 +49,35 @@
                                     </button>
                                     </div>
                                     <div class="btn-group btn-group" role="group" style="width: 100px;">
-                                        <a class="btn btn-warning" role="button" href="/document/edit/${doc._id}"
-                                            role="button"><i class="fa-regular fa-pen-to-square"></i></a>
-                                        <button type="button" class="btn btn-danger"
-                                            onclick="displayAlert('${doc._id}')"><i
-                                                class="fa-solid fa-trash-can"></i></button>
+                                        <button class="btn btn-warning edit-btn" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-regular fa-pen-to-square"></i></button>
+                                        
                                     </div>
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title" id="exampleModalLabel">แก้ไข</h5>
+                                            
+                                            </div>
+                                            <div class="modal-body">
+                                              <form>
+                                                <div class="mb-3">
+                                                  <label for="recipient-name" class="col-form-label">ชื่อ:</label>
+                                                  <input type="text" class="form-control" id="recipient-name">
+                                                </div>
+                                                <div class="mb-3">
+                                                  <label for="message-text" class="col-form-label">ไฟล์:</label>
+                                                  <input type="file" name="link" accept=".pdf,.doc,.docx">
+                                                </div>
+                                              </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                                              <button type="button" class="btn btn-primary">ยืนยัน</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
                                 </div>
                             </div>
                         </div>
@@ -70,12 +93,35 @@
                                     </button>
                                     </div>
                                     <div class="btn-group btn-group" role="group" style="width: 100px;">
-                                        <a class="btn btn-warning" role="button" href="/document/edit/${doc._id}"
-                                            role="button"><i class="fa-regular fa-pen-to-square"></i></a>
-                                        <button type="button" class="btn btn-danger"
-                                            onclick="displayAlert('${doc._id}')"><i
-                                                class="fa-solid fa-trash-can"></i></button>
+                                        <button class="btn btn-warning edit-btn" role="button" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-regular fa-pen-to-square"></i></button>
+                                        
                                     </div>
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h5 class="modal-title" id="exampleModalLabel">แก้ไข</h5>
+                                            
+                                            </div>
+                                            <div class="modal-body">
+                                              <form>
+                                                <div class="mb-3">
+                                                  <label for="recipient-name" class="col-form-label">ชื่อ:</label>
+                                                  <input type="text" class="form-control" id="recipient-name">
+                                                </div>
+                                                <div class="mb-3">
+                                                  <label for="message-text" class="col-form-label">ไฟล์:</label>
+                                                  <input type="file" name="link" accept=".pdf,.doc,.docx">
+                                                </div>
+                                              </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+                                              <button type="button" class="btn btn-primary">ยืนยัน</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
                                 </div>
                             </div>
                         </div>
