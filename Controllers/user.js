@@ -11,6 +11,7 @@ exports.create = async (req, res) => {
     organization,
     role,
     birth_year,
+    mobile_number,
   } = req.body;
   const hashedPassword = bcrypt.hashSync(password, 10);
   try {
@@ -23,6 +24,7 @@ exports.create = async (req, res) => {
       organization,
       role,
       birth_year,
+      mobile_number,
     });
 
     res.redirect('/setting/member');
@@ -33,7 +35,13 @@ exports.create = async (req, res) => {
 
 exports.update = async (req, res) => {
   const {id} = req.params;
-  const {newfirstname, newlastname, oldpassword, newpassword} = req.body;
+  const {
+    newfirstname,
+    newlastname,
+    newmobile_number,
+    oldpassword,
+    newpassword,
+  } = req.body;
 
   try {
     let user = await Auth.findById(id);
@@ -43,16 +51,27 @@ exports.update = async (req, res) => {
       return res.redirect('/');
     }
 
-    // Update user information
-    if (newfirstname || newlastname) {
+    if (newfirstname || newlastname || newmobile_number) {
       user.firstname = newfirstname;
       user.lastname = newlastname;
-      await user.save();
-      return res.redirect('/profile/' + id);
+      user.mobile_number = newmobile_number;
+
+      try {
+        await user.save();
+        req.flash('success', 'User updated successfully.');
+        return res.redirect('/profile/' + id);
+      } catch (err) {
+        // Catch validation errors
+        if (err.name === 'ValidationError') {
+          req.flash('error', err.errors['mobile_number'].message);
+          return res.status(400).redirect('/profile/edit/' + id);
+        }
+        throw err; // Throw other errors to the catch block
+      }
     }
 
+    // Change password
     if (newpassword && oldpassword) {
-      // Change password
       if (!bcrypt.compareSync(oldpassword, user.password)) {
         req.flash('error_old', 'รหัสผ่านเดิมไม่ถูกต้อง');
         return res.redirect('/profile/Change_PSW/' + id);
@@ -67,7 +86,7 @@ exports.update = async (req, res) => {
   } catch (err) {
     console.error('Error updating user:', err.message);
     req.flash('error', 'An error occurred while updating user information.');
-    res.redirect('/manage');
+    res.redirect('/profile/' + id);
   }
 };
 
