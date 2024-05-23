@@ -38,65 +38,61 @@
 
                     <div class="card mt-3">
                         <div class="card-body">
-                            <div class="card-body">
-                                <form id="updateForm" method="POST" action="/user/update/<%= user.id %>"
-                                    onsubmit="return displayAlert();">
-                                    <div class="row mb-3">
-                                        <div class="col-sm-3">
-                                            <label class="form-label">รหัสพนักงาน</label>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <input type="text" class="form-control" value="<%= user.numberID  %>"
-                                                readonly disabled>
-                                        </div>
+                            <form id="updateForm" method="POST" action="/user/update/<%= user.id %>">
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-label">รหัสพนักงาน</label>
                                     </div>
-                                    <div class="row mb-3">
-                                        <div class="col-sm-3">
-                                            <label class="form-label">ชื่อ</label>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <input type="text" class="form-control" name="newfirstname"
-                                                value="<%= user.firstname%>">
-                                        </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" class="form-control" value="<%= user.numberID  %>" readonly
+                                            disabled>
                                     </div>
-                                    <div class="row mb-3">
-                                        <div class="col-sm-3">
-                                            <label class="form-label">นามสกุล</label>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <input type="text" class="form-control" name="newlastname"
-                                                value="<%= user.lastname %>">
-                                        </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-label">ชื่อ</label>
                                     </div>
-                                    <div class="row mb-3">
-                                        <div class="col-sm-3">
-                                            <label class="form-label">หน่วยงาน</label>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <input type="text" class="form-control" name="organization"
-                                                value="<%= user.organization %>" readonly disabled>
-                                        </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" class="form-control" name="newfirstname"
+                                            value="<%= user.firstname%>">
                                     </div>
-                                    <div class="row mb-3">
-                                        <div class="col-sm-3">
-                                            <label class="form-label">ประเภท</label>
-                                        </div>
-                                        <div class="col-sm-9 text-secondary">
-                                            <input type="text" class="form-control"
-                                                value="<%=(user.role === 'approver' ? 'ผู้อนุมัติ' : (user.role === 'admin' ? 'คนจัดรถ' : 'พนักงาน'))%>"
-                                                readonly disabled>
-                                        </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-label">นามสกุล</label>
                                     </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" class="form-control" name="newlastname"
+                                            value="<%= user.lastname %>">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-label">หน่วยงาน</label>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" class="form-control" name="organization"
+                                            value="<%= user.organization %>" readonly disabled>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-label">ประเภท</label>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" class="form-control"
+                                            value="<%=(user.role === 'approver' ? 'ผู้อนุมัติ' : (user.role === 'admin' ? 'คนจัดรถ' : 'พนักงาน'))%>"
+                                            readonly disabled>
+                                    </div>
+                                </div>
 
-                                    <div class="row">
-                                        <div class="text-center mt-3">
-                                            <form onsubmit="displayAlert(); return false;">
-                                                <button type="submit" class="btn btn-primary" id="txt">ยืนยัน</button>
-                                            </form>
-                                        </div>
+                                <div class="row">
+                                    <div class="text-center mt-3">
+                                        <button type="submit" class="btn btn-primary" id="UpdateBtn">ยืนยัน</button>
                                     </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
+
                         </div>
                     </div>
                 </div>
@@ -104,27 +100,56 @@
         </div>
 
         <script>
-            document.getElementById('updateForm').addEventListener('submit', function (event) {
+            document.querySelector("#card-body form").addEventListener("submit", function (event) {
                 event.preventDefault();
-                displayAlertUpdated();
+                if (event.submitter && event.submitter.id === 'UpdateBtn') {
+                    displayAlertUpdate()
+                }
             });
 
-            async function displayAlertUpdated() {
-                const result = await Swal.fire({
-                    title: 'คุณต้องการบันทึกใช่หรือไม่?',
-                    showDenyButton: true,
-                    confirmButtonText: 'บันทึก',
-                    denyButtonText: `ไม่บันทึก`,
+            async function displayAlertUpdate() {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    iconColor: 'white',
+                    customClass: {
+                        popup: 'colored-toast',
+                    },
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                });
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                });
+                const result = await swalWithBootstrapButtons.fire({
+                    title: 'คุณแน่ใจหรือไม่?',
+                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'ยืนยัน',
+                    cancelButtonText: 'ยกเลิก',
+                    reverseButtons: true
                 });
 
                 if (result.isConfirmed) {
-                    // Proceed with form submission
-                    document.getElementById('updateForm').submit();
-                } else if (result.isDenied) {
-                    Swal.fire('ไม่มีการเปลี่ยนแปลง', '', 'info');
-                }
+                    await Toast.fire({
+                        icon: 'success',
+                        title: 'เพิ่มยานพาหนะสำเร็จ',
+                    })
 
-                return false;
+                    await document.querySelector("#modal-body form").submit();
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire({
+                        title: 'ยกเลิก',
+                        text: 'คุณได้ทำการยกเลิก',
+                        icon: 'error'
+                    });
+                }
             }
         </script>
         <script src="../JS/navbar.js"></script>

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
-const upload = multer({dest: 'uploads/'});
+const upload = require('../Config/multer');
+const auth = require('../middleware/auth');
 
 const {
   list,
@@ -14,11 +14,27 @@ const {
 } = require('../Controllers/document');
 
 router.get('/document', list);
-router.get('/document/add', display_add_page);
-router.get('/document/edit/:id', display_edit_page);
+router.get('/document/add', auth, display_add_page);
+router.get('/document/edit/:id', auth, display_edit_page);
 router.get('/document/search/:category', read);
-router.post('/document/add', upload.single('image'), create);
-router.post('/document/edit/:id', update);
-router.delete('/document/delete/:id', remove);
+router.post(
+  '/document/add',
+  auth,
+  upload.fields([
+    {name: 'link', maxCount: 1},
+    {name: 'image', maxCount: 1},
+  ]),
+  create
+);
+router.post(
+  '/document/edit/:id',
+  auth,
+  upload.fields([
+    {name: 'link', maxCount: 1},
+    {name: 'image', maxCount: 1},
+  ]),
+  update
+);
+router.delete('/document/delete/:id', auth, remove);
 
 module.exports = router;

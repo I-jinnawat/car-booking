@@ -4,11 +4,11 @@ const DocSchema = new mongoose.Schema(
   {
     category: {type: String, required: true},
     title: {type: String},
-    link: {type: String, required: true},
+    file: {type: String},
     adminName: {type: String, required: true},
     numberID: {type: Number, required: true},
     organization: {type: String, required: true},
-    image: {type: String},
+    image: {type: String, require: true},
     role: {type: String, required: true},
   },
   {timestamps: true}

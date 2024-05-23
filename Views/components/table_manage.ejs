@@ -17,7 +17,9 @@
     </thead>
 
     <% bookings.forEach(booking=> { %>
-        <% if (booking.user_id===user.id || user.role==='admin' || user.role==='approver' ){ %>
+        <!-- booking.user_id===user.id || -->
+        <% if ( (user.role==='user' && booking.user_id===user.id ) ||user.role==='admin' || user.role==='approver' ||
+            user.role==='driver' ){ %>
             <tbody>
                 <tr>
                     <td>
@@ -28,7 +30,7 @@
                                 <% if (user.role==='user' ) { %>
                                     <!-- Role user can see only booking status 1  or booking status 3 -->
                                     <% if (booking.status===1) { %>
-                                        <div class="btn-group btn-group" role="group" style="width: 100px;">
+                                        <div class="btn-group btn-group" role="group" style="width: 100px; ">
                                             <a class="btn btn-warning" href="/booking-edit/<%= booking._id %>"
                                                 role="button"><i class="fa-regular fa-pen-to-square"></i></a>
                                             <button type="button" class="btn btn-danger"
@@ -44,8 +46,8 @@
                                                         class="fa-solid fa-trash-can"></i></button>
                                             </div>
                                             <% } else { %>
-                                                <button type="button" class="btn btn-primary"
-                                                    style="width: 100px;">Waiting</button>
+                                                <button type="button" class="btn"
+                                                    style="width: 100px; background-color:#f28500 ;">Waiting</button>
                                                 <% } %>
                                                     <% } else if(user.role==="approver" &&booking.status==1) { %>
                                                         <div class="btn-group btn-group" role="group"
@@ -169,8 +171,8 @@
                                                                         class="fa-solid fa-trash-can"></i></button>
                                                             </div>
                                                             <% } else { %>
-                                                                <button type="button" class="btn btn-primary"
-                                                                    style="width: 100px;">Waiting</button>
+                                                                <button type="button" class="btn"
+                                                                    style="width: 100px; background-color:#f28500 ;">Waiting</button>
                                                                 <% } %>
                                                                     <% } else { %>
                                                                         <%if(user.role !=='user' ){%>
@@ -202,9 +204,10 @@
                                                                                                     style="width: 100px;">ถูกยกเลิก</button>
 
                                                                                                 <%}else{%>
-                                                                                                    <button type="button"
-                                                                                                    class="btn btn-danger"
-                                                                                                    style="width: 100px;">ถูกยกเลิก</button>
+                                                                                                    <button
+                                                                                                        type="button"
+                                                                                                        class="btn btn-danger"
+                                                                                                        style="width: 100px;">ถูกยกเลิก</button>
                                                                                                     <%}%>
                                                                                                         <%}%>
 

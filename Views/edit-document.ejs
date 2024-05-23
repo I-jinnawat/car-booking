@@ -13,7 +13,6 @@
         href="https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
 </head>
 
 <body>
@@ -21,10 +20,9 @@
         <div class="container-fluid mt-3" id="main">
             <div class="row">
                 <div class="col-12">
-                    <div class="container-fluid p-0 m-0"
-                        style="display: flex;justify-content: space-between;align-items: center;">
-                        <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0"
-                            style="font-size: 20px">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <button type="button" onclick="toggleNav()" class="toggler p-0" aria-label="Toggle navigation"
+                            style="font-size: 20px;">
                             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
                         </button>
                         <nav style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
@@ -37,32 +35,31 @@
                         <%- include('components/userinfo.ejs') -%>
                     </div>
 
-                    <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
-                        <div id="booking-body" class="card-body">
-                            <form action="/document/edit/<%= document.id%>" method="POST">
-                                <div class="row" id="booking-body">
-                                    <input type="hidden" value="<%= user.firstname%> <%= user.lastname%>"
-                                        name="adminName">
-                                    <input type="hidden" value="<%= user.numberID%>" name="numberID">
-                                    <input type="hidden" value="<%= user.organization%>" name="organization">
-                                    <input type="hidden" value="<%= user.role%>" name="role">
+                    <div class="card mt-3 mb-3" id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                        <div class="card-body">
+                            <form action="/document/edit/<%= document.id%>" method="POST" enctype="multipart/form-data"
+                                id="editForm">
+                                <input type="hidden" value="<%= user.firstname%> <%= user.lastname%>" name="adminName">
+                                <input type="hidden" value="<%= user.numberID%>" name="numberID">
+                                <input type="hidden" value="<%= user.organization%>" name="organization">
+                                <input type="hidden" value="<%= user.role%>" name="role">
 
+                                <div class="row">
                                     <div class="col-md">
-                                        <label class="form-label">หัวข้อ</label>
-                                        <input class="form-control" type="text" name="title"
-                                            value="<%= document.title %>"><text>
+                                        <label class="form-label" for="title">หัวข้อ</label>
+                                        <input class="form-control" type="text" name="title" id="title"
+                                            value="<%= document.title %>">
                                     </div>
                                     <div class="col-md">
-                                        <label class="form-label">Link</label>
-                                        <input class="form-control" type="url" name="link"
-                                            value="<%= document.link %>"><text>
+                                        <label class="form-label" for="link">Link</label>
+                                        <input class="form-control" type="file" name="link" id="link"
+                                            value="<%= document.link %>">
                                     </div>
                                     <div class="col-md">
-                                        <label class="form-label">หมวด</label>
+                                        <label class="form-label" for="category">หมวด</label>
                                         <select class="form-control" id="category" name="category">
                                             <option <%=document.category==='ระเบียบ' ? 'selected' : '' %>
-                                                value="ระเบียบ">ระเบียบ
-                                            </option>
+                                                value="ระเบียบ">ระเบียบ</option>
                                             <option <%=document.category==='แบบฟอร์ม' ? 'selected' : '' %>
                                                 value="แบบฟอร์ม">แบบฟอร์ม</option>
                                             <option <%=document.category==='ประกาศ' ? 'selected' : '' %>
@@ -74,94 +71,115 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md">
-                                        <div class="form-group mt-4 ">
-                                            <label for="comment">รูปภาพ:</label>
-                                            <input type="file" value="<%= document.image %>" name="image">
+                                        <div class="form-group mt-4">
+                                            <label class="form-label">รูปภาพ:</label>
+                                            <input type="file" accept="image/*" name="image" id="image"
+                                                class="form-control" onchange="previewImage(event)"
+                                                style="cursor: pointer;">
+                                            <!-- Image preview -->
+                                            <img id="imagePreview" src="<%= document.image %>" alt="Image Preview"
+                                                style="max-width: 50%; margin-top: 10px;">
+                                            <!-- Show the current value of the image file input field -->
+
                                         </div>
                                     </div>
                                 </div>
+                                <button type="submit" class="btn btn-primary mb-3" style="height: 40px;">ยืนยัน</button>
+                            </form>
                         </div>
-                        <button type="submit" class="btn btn-primary mb-3" style="height: 40px;"
-                            onsubmit="displatAlert(); return false;">ยืนยัน</button>
                     </div>
+                </div>
+            </div>
+        </div>
 
-                    <script>
-                        async function displayAlert() {
-                            const Toast = Swal.mixin({
-                                toast: true,
-                                position: 'top-end',
-                                iconColor: 'white',
-                                customClass: {
-                                    popup: 'colored-toast',
-                                },
-                                showConfirmButton: false,
-                                timer: 1500,
-                                timerProgressBar: true,
-                            });
-                            const swalWithBootstrapButtons = Swal.mixin({
-                                customClass: {
-                                    confirmButton: 'btn btn-success',
-                                    cancelButton: 'btn btn-danger'
-                                },
-                                buttonsStyling: false
-                            });
-                            const result = await swalWithBootstrapButtons.fire({
-                                title: 'คุณแน่ใจหรือไม่?',
-                                text: 'คุณต้องการยืนยันที่จะส่ง!',
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonText: 'ยืนยัน',
-                                cancelButtonText: 'ยกเลิก',
-                                reverseButtons: true
-                            });
+        <script>
+            async function displayAlert() {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    iconColor: 'white',
+                    customClass: {
+                        popup: 'colored-toast',
+                    },
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                });
 
-                            if (result.isConfirmed) {
-                                await Toast.fire({
-                                    icon: 'success',
-                                    title: 'Success',
-                                })
-                                // Show your alert or perform any other necessary actions
-                                await document.querySelector("#booking-body form").submit();
-                            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                                swalWithBootstrapButtons.fire({
-                                    title: 'ยกเลิก',
-                                    text: 'คุณได้ทำการยกเลิก',
-                                    icon: 'error'
-                                });
-                            }
-                        }
-                        document.querySelector("#booking-body form").addEventListener("submit", function (event) {
-                            event.preventDefault();
-                            displayAlert();
-                        });
-                    </script>
-                    <script>
-                        let isSidebarOpen = false;
-                        function toggleNav() {
-                            const sidenav = document.getElementById("mySidenav");
-                            const main = document.getElementById("main");
-                            const toggleIcon = document.getElementById("toggleIcon");
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                });
 
-                            isSidebarOpen = !isSidebarOpen;
-                            if (isSidebarOpen) {
-                                sidenav.style.width = "250px";
-                                main.style.marginLeft = "250px";
-                                toggleIcon.classList.remove("fi-rr-indent");
-                                toggleIcon.classList.add("fi-rr-outdent");
-                            } else {
-                                sidenav.style.width = "0";
-                                main.style.marginLeft = "0";
-                                toggleIcon.classList.remove("fi-rr-outdent");
-                                toggleIcon.classList.add("fi-rr-indent");
-                            }
-                        }
+                const result = await swalWithBootstrapButtons.fire({
+                    title: 'คุณแน่ใจหรือไม่?',
+                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'ยืนยัน',
+                    cancelButtonText: 'ยกเลิก',
+                    reverseButtons: true
+                });
 
-                    </script>
-                    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-                    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+                if (result.isConfirmed) {
+                    await Toast.fire({
+                        icon: 'success',
+                        title: 'แก้ไขเอกสารสำเร็จ',
+                    });
+                    document.getElementById("editForm").submit();
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire({
+                        title: 'ยกเลิก',
+                        text: 'คุณได้ทำการยกเลิก',
+                        icon: 'error'
+                    });
+                }
+            }
+
+            document.getElementById("editForm").addEventListener("submit", function (event) {
+                event.preventDefault();
+                displayAlert();
+            });
+
+            let isSidebarOpen = false;
+
+            function toggleNav() {
+                const sidenav = document.getElementById("mySidenav");
+                const main = document.getElementById("main");
+                const toggleIcon = document.getElementById("toggleIcon");
+
+                isSidebarOpen = !isSidebarOpen;
+                if (isSidebarOpen) {
+                    sidenav.style.width = "250px";
+                    main.style.marginLeft = "250px";
+                    toggleIcon.classList.remove("fi-rr-indent");
+                    toggleIcon.classList.add("fi-rr-outdent");
+                } else {
+                    sidenav.style.width = "0";
+                    main.style.marginLeft = "0";
+                    toggleIcon.classList.remove("fi-rr-outdent");
+                    toggleIcon.classList.add("fi-rr-indent");
+                }
+            }
+
+            function previewImage(event) {
+                const reader = new FileReader();
+                reader.onload = function () {
+                    const output = document.getElementById('imagePreview');
+                    output.src = reader.result;
+                };
+                reader.readAsDataURL(event.target.files[0]);
+            }
+        </script>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 </body>
 
 </html>

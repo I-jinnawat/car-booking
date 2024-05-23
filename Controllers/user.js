@@ -44,12 +44,13 @@ exports.update = async (req, res) => {
     }
 
     // Update user information
-    if (newfirstname) {
+    if (newfirstname || newlastname) {
       user.firstname = newfirstname;
-    }
-    if (newlastname) {
       user.lastname = newlastname;
+      await user.save();
+      return res.redirect('/profile/' + id);
     }
+
     if (newpassword && oldpassword) {
       // Change password
       if (!bcrypt.compareSync(oldpassword, user.password)) {
