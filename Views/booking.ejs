@@ -60,7 +60,7 @@
                                     <div class="col-md">
                                         <label class="form-label">ชื่อ-สกุล</label>
                                         <input style="cursor:not-allowed;" class="form-control" type="text"
-                                            name="userinfo" value="<%= user.firstname%> <%= user.lastname%>" readonly>
+                                            name="userinfo" value="<%= user.firstname %> <%= user.lastname %>" readonly>
                                     </div>
                                     <div class="col-md">
                                         <label class="form-label">หน่วยงาน</label>
@@ -70,7 +70,7 @@
                                     <div class="col-md">
                                         <label class="form-label">หมายเลขโทรศัพท์</label>
                                         <input class="form-control" type="tel" id="mobileNumber" name="mobile_number"
-                                            placeholder="เช่น 08x-xxx-xxxx" required>
+                                            value="<%= user.mobile_number %>" required>
                                         <small id="mobileNumberError"
                                             class="text-danger d-none">โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10 ตัวเลข</small>
                                     </div>
@@ -121,13 +121,13 @@
                                             <li>
                                                 <input class="form-control passenger-input" type="text"
                                                     name="passengers" required>
-
                                             </li>
                                         </ol>
                                         <button class="btn btn-success add-passenger-btn mt-1">เพิ่ม</button>
                                     </div>
                                 </div>
                             </form>
+
                         </div>
                         <div class="text-center mt-3">
                             <form onsubmit="displayAlert(); return false;">

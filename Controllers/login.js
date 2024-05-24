@@ -36,6 +36,7 @@ exports.login = async (req, res) => {
       lastname: user.lastname,
       numberID: user.numberID,
       organization: user.organization,
+      mobile_number: user.mobile_number,
     };
 
     // Set the user ID in the session

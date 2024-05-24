@@ -3,7 +3,16 @@ const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema(
   {
-    status: {type: Number, required: true, default: 1},
+    bookingID: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    status: {
+      type: Number,
+      enum: [1, 2, 3, 4, 5, 6],
+      default: 1,
+    },
     vehicle: {type: String},
     userinfo: {type: String, required: true},
     user_id: {type: String, require: true},
@@ -36,10 +45,10 @@ eventSchema.pre('save', function (next) {
   const thaiTimeZone = 'Asia/Bangkok';
   // Convert start and end timestamps to Thai time zone
   if (this.start) {
-    this.start = moment(this.start).tz(thaiTimeZone);
+    this.start = moment(this.start).tz(thaiTimeZone).toDate();
   }
   if (this.end) {
-    this.end = moment(this.end).tz(thaiTimeZone);
+    this.end = moment(this.end).tz(thaiTimeZone).toDate();
   }
   next();
 });

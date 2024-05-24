@@ -1,14 +1,27 @@
 const Booking = require('../Models/booking');
 const User = require('../Models/Auth');
 const Vehicle = require('../Models/vehicles');
+const Counter = require('../Models/Counter');
+
+async function initializeCounter(year) {
+  let counter = await Counter.findOne({year});
+  if (!counter) {
+    counter = new Counter({year, count: 0});
+    await counter.save();
+  }
+}
+
+initializeCounter(new Date().getFullYear());
 
 exports.list = async (req, res) => {
   const bookings = await Booking.find().lean();
+  const id = req.session.user.id;
+  const user = await User.findById(id);
   try {
     req.session.user
       ? res.render('booking', {
           userLoggedIn: true,
-          user: req.session.user,
+          user: user,
           bookings,
         })
       : res.render('booking', {userLoggedIn: false});
@@ -54,6 +67,23 @@ exports.bookingEdit = async (req, res) => {
 
 exports.createEvent = async (req, res) => {
   try {
+    const currentYear = new Date().getFullYear();
+
+    // Get or initialize the counter for the current year
+    let counter = await Counter.findOneAndUpdate(
+      {year: currentYear},
+      {$inc: {count: 1}},
+      {new: true, upsert: true}
+    );
+
+    // Construct the booking ID
+    const bookingID = `${currentYear}-${counter.count}`;
+
+    // Add the booking ID to the request body
+    req.body.bookingID = bookingID;
+
+    const status = req.body.status;
+
     // Create the booking in the database
     const event = await Booking.create(req.body);
 
@@ -89,6 +119,7 @@ exports.Event = async (req, res) => {
 
 exports.updateEvent = async (req, res) => {
   const {id} = req.params;
+
   try {
     const {
       status,
@@ -119,6 +150,7 @@ exports.updateEvent = async (req, res) => {
       // Remove the passenger at the specified index from the passengers array
       passengers.splice(deletedPassengerIndex, 1);
     }
+
     await Booking.findByIdAndUpdate(id, {
       status,
       vehicle,
@@ -139,8 +171,6 @@ exports.updateEvent = async (req, res) => {
       kilometer_end,
       total_kilometer,
     });
-
-    // Redirect the user to a success page or send a success response
 
     res.redirect('/manage');
   } catch (error) {
