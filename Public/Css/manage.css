@@ -140,17 +140,22 @@ body {
   padding-left: 5px;
 }
 
-@media (max-width: 768px) {
-  #main {
-    margin-left: 0;
+@media (max-width: 768px) { 
+  .breadcrumb-nav, 
+  .user-display { 
+    display: none !important;
   }
 
-  #card-header div {
-    margin-top: 10px;
+  #main { 
+    margin-left: 0; 
   }
 
-  #booking-body .row div {
-    margin-top: 5px;
+  #card-header div { 
+    margin-top: 10px; 
+  }
+
+  #booking-body .row div { 
+    margin-top: 5px; 
   }
 }
 .stepper-wrapper {
@@ -192,8 +197,23 @@ body {
     z-index: 2;
   }
 
-  @media (max-width: 768px) {
-    font-size: 12px;
+  @media (max-width: 768px) { 
+    .breadcrumb-nav, 
+    .user-display { 
+      display: none !important;
+    }
+  
+    #main { 
+      margin-left: 0; 
+    }
+  
+    #card-header div { 
+      margin-top: 10px; 
+    }
+  
+    #booking-body .row div { 
+      margin-top: 5px; 
+    }
   }
 }
 
