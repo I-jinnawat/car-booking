@@ -1,8 +1,15 @@
 const express = require('express');
 const router = express.Router();
+const upload = require('../Config/multer');
 const auth = require('../middleware/auth');
-const {list} = require('../Controllers/edit-manual');
+const {list, update, create} = require('../Controllers/edit-manual');
 
 router.get('/setting/edit-manual', auth, list);
+router.post(
+  '/setting/edit-manual/:id',
+  upload.fields([{name: 'link', maxCount: 1}]),
+  update
+);
+router.post('/setting/edit-manual', create);
 
 module.exports = router;

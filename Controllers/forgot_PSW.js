@@ -15,14 +15,21 @@ exports.list = async (req, res) => {
 exports.check = async (req, res) => {
   const {username, birth_year} = req.query; // Since the form uses method="GET", access query parameters instead of body
   try {
-    const user = await User.findOne({username, birth_year}); // Assuming dateOfBirth is the field name in your User model
+    const user = await User.findOne({username});
 
     if (user) {
-      res.render(`Change_PSW`, {
-        userLoggedIn: false,
-        user: user,
-        error_old: '',
-      });
+      const year = new Date(user.birth_year).getFullYear();
+      const check = year === parseInt(birth_year); // Ensure to parse birth_year to an integer
+      if (check) {
+        res.render('Change_PSW', {
+          user: user,
+          error_old: '',
+          userLoggedIn: false,
+        });
+      } else {
+        req.flash('error', 'ปีเกิดไม่ถูกต้อง');
+        res.render('forgot_PSW');
+      }
     } else {
       // If no matching user is found
       req.flash('NotFound', 'ไม่พบผู้ใช้งาน');

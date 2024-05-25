@@ -98,21 +98,21 @@ exports.Event = async (req, res) => {
   try {
     const currentUser = req.session.user;
     console.log(currentUser);
+
     let events;
 
     if (currentUser.role === 'approver' || currentUser.role === 'admin') {
-      // Admin can see all events with their actual titles
-      events = await Booking.find({});
+      // Admin and approvers can see all events with their actual titles
+      events = await Booking.find({status: {$gte: 2, $lt: 4}}).lean();
     } else {
-      // Regular users can only see events with "booked" as title
-      events = await Booking.find({});
-      events.forEach(event => {
-        event.title = 'ถูกจองแล้ว';
-      });
+      // Regular users can only see events with status >= 2 and < 4, and "booked" as title
+      events = await Booking.find({status: {$gte: 2, $lt: 4}}).lean(); // Ensure status >= 2 and < 4
+      events = events.map(event => ({...event, title: 'ถูกจองแล้ว'}));
     }
 
     res.json(events);
   } catch (error) {
+    console.error('Error fetching events:', error);
     res.status(500).json({error: error.message});
   }
 };

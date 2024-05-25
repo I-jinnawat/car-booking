@@ -45,6 +45,7 @@ exports.display_edit_page = async (req, res) => {
 
 exports.uploadImage = upload.single('image');
 exports.uploadFile = upload.single('file');
+
 exports.create = async (req, res) => {
   try {
     const {category, title, adminName, numberID, organization, role} = req.body;
