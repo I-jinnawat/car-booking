@@ -26,10 +26,19 @@ exports.create = async (req, res) => {
       birth_year,
       mobile_number,
     });
-
+    req.flash('success_msg', 'User created successfully');
     res.redirect('/setting/member');
   } catch (err) {
     console.error(err);
+
+    if (err.code === 11000 && err.keyPattern && err.keyPattern.username) {
+      // Handle duplicate username error
+      req.flash('error_msg', 'รหัสพนักงานมีอยู่แล้ว');
+      res.status(400).redirect('/setting/member');
+    } else {
+      // Handle other errors
+      res.status(500).send('An error occurred while creating the user');
+    }
   }
 };
 

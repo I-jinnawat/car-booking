@@ -1,5 +1,5 @@
+const {ReturnDocument} = require('mongodb');
 const User = require('../Models/Auth');
-const bcrypt = require('bcryptjs');
 
 exports.read = async (req, res) => {
   const page = req.query.page || 1;
@@ -10,6 +10,9 @@ exports.read = async (req, res) => {
     const totalUsers = await User.countDocuments();
     const totalPages = Math.ceil(totalUsers / limit);
 
+    // Check if there's a flash message stored in the session
+    const errorMessage = req.flash('error_msg');
+
     const users = await User.find().skip(skip).limit(limit).lean();
     const data = {
       userLoggedIn: !!req.session.user,
@@ -17,7 +20,9 @@ exports.read = async (req, res) => {
       users: users,
       totalPages: totalPages,
       currentPage: parseInt(page),
+      successMessage: errorMessage,
     };
+
     if (req.session.user) {
       res.render('member', data);
     } else {
@@ -43,28 +48,16 @@ exports.list = async (req, res) => {
 
 exports.update = async (req, res) => {
   const {id} = req.params;
-  const {newpassword, newfirstname, newlastname, neworganization, newrole} =
-    req.body;
+  const {password, firstname, lastname, organization, role} = req.body;
 
   try {
-    let user = await User.findById(id); // Finding the user by id
-    if (!user) {
-      return res.status(404).send('User not found');
-    }
-
-    // Update user fields
-    user.firstname = newfirstname;
-    user.lastname = newlastname;
-    user.organization = neworganization;
-    user.role = newrole;
-
-    // Check if new password provided and hash it
-    if (newpassword) {
-      user.password = bcrypt.hashSync(newpassword, 10);
-    }
-
-    await user.save();
-
+    const user = await User.findByIdAndUpdate(id, {
+      firstname,
+      password,
+      lastname,
+      organization,
+      role,
+    });
     res.redirect('/setting/member');
   } catch (err) {
     console.error(err.message);

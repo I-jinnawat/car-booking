@@ -44,138 +44,140 @@
                         <div class="card-body">
                             <div class="row mt-2 ">
                                 <div class="col-md">
-                                    <div>
-                                        <label>เมนู :</label>
-                                        <button
-                                            style=" border-color: #FFECB3; background-color:#FFECB3; color: black; width: 100px; "
-                                            type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                            data-bs-target="#AddVehicle">
-                                            <i class="fi fi-rr-edit" style="margin-right: 6px;"></i>เพิ่ม
-                                        </button>
-                                        <div class="modal fade" id="AddVehicle" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title">เพิ่มสมาชิก</h5>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body" id="modal-body">
-                                                        <form action="/user" method="POST">
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label" for="role">ประเภท</label>
-                                                                </div>
-                                                                <div class="col-sm-9">
-                                                                    <select name="role" id="role" class="form-select"
-                                                                        required>
-                                                                        <option value=""></option>
-                                                                        <option value="approver">ผู้อนุมัติ</option>
-                                                                        <option value="admin">คนจัดรถ</option>
-                                                                        <option value="user">พนักงาน</option>
-                                                                        <option value="user">พนักงานขับรถ</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label"
-                                                                        for="numberID">รหัสพนักงาน</label>
-                                                                </div>
-                                                                <div class="col-sm-9 text-secondary">
-                                                                    <input type="number" id="numberID"
-                                                                        class="form-control" name="numberID" required>
-                                                                    <input type="hidden" id="username" name="username">
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label"
-                                                                        for="firstname">ชื่อ</label>
-                                                                </div>
-                                                                <div class="col-sm-9 text-secondary">
-                                                                    <input type="text" id="firstname"
-                                                                        class="form-control" name="firstname" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label"
-                                                                        for="lastname">นามสกุล</label>
-                                                                </div>
-                                                                <div class="col-sm-9 text-secondary">
-                                                                    <input type="text" id="lastname"
-                                                                        class="form-control" name="lastname" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label"
-                                                                        for="organization">หน่วยงาน</label>
-                                                                </div>
-                                                                <div class="col-sm-9">
-                                                                    <select name="organization" id="organization"
-                                                                        class="form-select" required>
-                                                                        <option value=""></option>
-                                                                        <option
-                                                                            value="สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง">
-                                                                            สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
-                                                                        </option>
-                                                                        <option
-                                                                            value="โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง">
-                                                                            โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
-                                                                        </option>
-                                                                        <option
-                                                                            value="โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง เชียงราย">
-                                                                            โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง เชียงราย
-                                                                        </option>
-                                                                        <option
-                                                                            value="ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือ และอนุภูมิภาคลุ่มแม่น้ำโขง">
-                                                                            ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือ
-                                                                            และอนุภูมิภาคลุ่มแม่น้ำโขง</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label"
-                                                                        for="birthDate">วัน/เดือน/ปี เกิด</label>
-                                                                </div>
-                                                                <div class="col-sm-9">
-                                                                    <input name="birth_year" id="birthDate" type="date"
-                                                                        class="form-control">
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label"
-                                                                        for="password">รหัสผ่าน</label>
-                                                                </div>
-                                                                <div class="col-sm-9 text-secondary">
-                                                                    <input type="password" id="password"
-                                                                        class="form-control" name="password" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mb-3">
-                                                                <div class="col-sm-3">
-                                                                    <label class="form-label"
-                                                                        for="password">เบอร์โทร</label>
-                                                                </div>
-                                                                <div class="col-sm-9 text-secondary">
-                                                                    <input type="mobilenumber" id="mobilenumber"
-                                                                        class="form-control" name="mobilenumber" required>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row gy-2 text-end">
-                                                                <div class="col-md">
-                                                                    <button type="submit" class="btn btn-primary"
-                                                                        id="AddBtn">ยืนยัน</button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-
+                                    <label>เมนู :</label>
+                                    <button
+                                        style=" border-color: #FFECB3; background-color:#FFECB3; color: black; width: 100px; "
+                                        type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#AddVehicle">
+                                        <i class="fi fi-rr-edit" style="margin-right: 6px;"></i>เพิ่ม
+                                    </button>
+                                    <div class="modal fade" id="AddVehicle" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">เพิ่มสมาชิก</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
                                                 </div>
+                                                <div class="modal-body" id="modal-body">
+                                                    <form action="/user" method="POST">
+                                                        <div class="row mb-3">
+                                                            <div class="col-sm-3">
+                                                                <label class="form-label" for="role">ประเภท</label>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                <select name="role" id="role" class="form-select"
+                                                                    required>
+                                                                    <option value=""></option>
+                                                                    <option value="approver">ผู้อนุมัติ</option>
+                                                                    <option value="admin">คนจัดรถ</option>
+                                                                    <option value="user">พนักงาน</option>
+                                                                    <option value="user">พนักงานขับรถ</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col-sm-3">
+                                                                <label class="form-label"
+                                                                    for="numberID">รหัสพนักงาน</label>
+                                                            </div>
+                                                            <div class="col-sm-9 text-secondary">
+                                                                <input type="number" id="numberID" class="form-control"
+                                                                    name="numberID" required>
+                                                                <input type="hidden" id="username" name="username">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col-sm-3">
+                                                                <label class="form-label" for="firstname">ชื่อ</label>
+                                                            </div>
+                                                            <div class="col-sm-9 text-secondary">
+                                                                <input type="text" id="firstname" class="form-control"
+                                                                    name="firstname" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col-sm-3">
+                                                                <label class="form-label" for="lastname">นามสกุล</label>
+                                                            </div>
+                                                            <div class="col-sm-9 text-secondary">
+                                                                <input type="text" id="lastname" class="form-control"
+                                                                    name="lastname" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col-sm-3">
+                                                                <label class="form-label"
+                                                                    for="organization">หน่วยงาน</label>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                <select name="organization" id="organization"
+                                                                    class="form-select" required>
+                                                                    <option value=""></option>
+                                                                    <option
+                                                                        value="สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง">
+                                                                        สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
+                                                                    </option>
+                                                                    <option
+                                                                        value="โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง">
+                                                                        โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
+                                                                    </option>
+                                                                    <option
+                                                                        value="โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง เชียงราย">
+                                                                        โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง เชียงราย
+                                                                    </option>
+                                                                    <option
+                                                                        value="ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือ และอนุภูมิภาคลุ่มแม่น้ำโขง">
+                                                                        ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือ
+                                                                        และอนุภูมิภาคลุ่มแม่น้ำโขง</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col-sm-3">
+                                                                <label class="form-label" for="birthDate">วัน/เดือน/ปี
+                                                                    เกิด</label>
+                                                            </div>
+                                                            <div class="col-sm-9">
+                                                                <input name="birth_year" id="birthDate" type="date"
+                                                                    class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col-sm-3">
+                                                                <label class="form-label"
+                                                                    for="password">รหัสผ่าน</label>
+                                                            </div>
+                                                            <div class="col-sm-9 text-secondary">
+                                                                <input type="password" id="password"
+                                                                    class="form-control" name="password" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row mb-3">
+                                                            <div class="col-sm-3">
+                                                                <label class="form-label"
+                                                                    for="password">เบอร์โทร</label>
+                                                            </div>
+                                                            <div class="col-sm-9 text-secondary">
+                                                                <input type="number" id="mobilenumber"
+                                                                    class="form-control" name="mobile_number" required>
+                                                            </div>
+                                                        </div>
+                                                        <% if (successMessage && successMessage>0) { %>
+                                                            <p class="text-danger">
+                                                                <%= successMessage %>
+                                                            </p>
+                                                            <% } %>
+                                                                <div class="row gy-2 text-end">
+                                                                    <div class="col-md">
+                                                                        <button type="submit" class="btn btn-primary"
+                                                                            id="AddBtn">ยืนยัน</button>
+                                                                    </div>
+                                                                </div>
+
+                                                    </form>
+                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -198,6 +200,8 @@
                             <th scope="col">รหัส</th>
                             <th scope="col">ชื่อ</th>
                             <th scope="col">หน่วยงาน</th>
+
+                            </th>
                         </tr>
                     </thead>
                     <% users.forEach(USER=> { %>
@@ -227,7 +231,7 @@
                                                             <label class="form-label">ประเภท</label>
                                                         </div>
                                                         <div class="col-sm-9">
-                                                            <select name="newrole" class="form-select">
+                                                            <select name="role" class="form-select">
                                                                 <option value="approver" <%=USER.role==='approver'
                                                                     ? 'selected' : '' %>>ผู้อนุมัติ
                                                                 </option>
@@ -237,6 +241,9 @@
                                                                 <option value="user" <%=USER.role==='user' ? 'selected'
                                                                     : '' %>
                                                                     >พนักงาน</option>
+                                                                <option value="driver" <%=USER.role==='driver'
+                                                                    ? 'selected' : '' %>
+                                                                    >พนักงานขับรถ</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -254,7 +261,7 @@
                                                             <label class="form-label">ชื่อ</label>
                                                         </div>
                                                         <div class="col-sm-9 text-secondary">
-                                                            <input type="text" class="form-control" name="newfirstname"
+                                                            <input type="text" class="form-control" name="firstname"
                                                                 value="<%= USER.firstname %>" required>
                                                         </div>
                                                     </div>
@@ -263,7 +270,7 @@
                                                             <label class="form-label">นามสกุล</label>
                                                         </div>
                                                         <div class="col-sm-9 text-secondary">
-                                                            <input type="text" class="form-control" name="newlastname"
+                                                            <input type="text" class="form-control" name="lastname"
                                                                 value=<%=USER.lastname%>
                                                             required>
                                                         </div>
@@ -273,11 +280,12 @@
                                                             <label class="form-label">หน่วยงาน</label>
                                                         </div>
                                                         <div class="col-sm-9">
-                                                            <select name="neworganization" class="form-select" required>
-                                                                <option>
+                                                            <select name="organization" class="form-select" required>
+                                                                <option
+                                                                    value="สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง"
                                                                     <%=USER.organization==='สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง'
-                                                                        ? 'selected' : '' %>
-                                                                        สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
+                                                                    ? 'selected' : '' %>>
+                                                                    สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
                                                                 </option>
                                                                 <option
                                                                     value="โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง"
@@ -304,12 +312,11 @@
                                                             <label class="form-label">รหัสผ่าน
                                                             </label>
                                                             <p class="form-text text-danger">
-                                                                (รหัสผ่านที่ท่านเข้าสู่ระบบ)</p>
+                                                                (รหัสผ่านที่ใช้เข้าสู่ระบบ)</p>
                                                         </div>
                                                         <div class="col-sm-9">
-                                                            <input name="newpassword" type="password"
-                                                                class="form-control" id="passwordInput_<%= USER._id %>"
-                                                                disabled>
+                                                            <input name="password" type="password" class="form-control"
+                                                                id="passwordInput_<%= USER._id %>" disabled>
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="checkbox"
                                                                     id="enablePassword_<%= USER._id %>">
@@ -355,11 +362,17 @@
         </div>
         <!-- preventDefault -->
         <script>
+            document.querySelector("#modal-body form").addEventListener("submit", function (event) {
+                event.preventDefault();
+                if (event.submitter && event.submitter.id === 'updatedBtn') {
+                    displayAlertUpdated(this)
+                }
+            });
             document.querySelectorAll("#modal-body form").forEach(form => {
                 form.addEventListener("submit", function (event) {
                     event.preventDefault();
                     if (event.submitter && event.submitter.id === 'updatedBtn') {
-                        displayAlertUpdated(this);
+                        displayAlertUpdated(this); // Pass the form element as an argument
                     }
                 });
             });
