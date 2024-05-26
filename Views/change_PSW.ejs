@@ -15,6 +15,16 @@
   <link rel='stylesheet'
     href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 </head>
+<style>
+  @media (max-width: 768px) { 
+  .breadcrumb-nav, 
+  .user-display { 
+    display: none !important;
+  }
+
+ 
+}
+</style>
 
 <body>
   <%- include('components/navbar.ejs') -%>
@@ -27,7 +37,7 @@
               <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
             </button>
 
-            <nav style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
+            <nav class="breadcrumb-nav" style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
                 <% if (userLoggedIn) { %>

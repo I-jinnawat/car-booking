@@ -17,6 +17,14 @@
     .colored-toast.swal2-icon-success {
       background-color: #a5dc86 !important;
     }
+    @media (max-width: 768px) { 
+  .breadcrumb-nav, 
+  .user-display { 
+    display: none !important;
+  }
+
+ 
+}
   </style>
 </head>
 
@@ -30,7 +38,7 @@
             <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0" style="font-size: 20px">
               <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
             </button>
-            <nav style="--bs-breadcrumb-divider: '>'; margin-left: 3%;">
+            <nav class="breadcrumb-nav" style="--bs-breadcrumb-divider: '>'; margin-left: 3%;">
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
                 <li class="breadcrumb-item active" aria-current="page">ข้อมูลส่วนตัว</li>
