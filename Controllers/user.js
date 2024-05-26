@@ -50,6 +50,7 @@ exports.update = async (req, res) => {
     newmobile_number,
     oldpassword,
     newpassword,
+    newpasswordconfirm,
   } = req.body;
 
   try {
@@ -85,10 +86,21 @@ exports.update = async (req, res) => {
         req.flash('error_old', 'รหัสผ่านเดิมไม่ถูกต้อง');
         return res.redirect('/profile/Change_PSW/' + id);
       }
+
       user.password = bcrypt.hashSync(newpassword, 10);
       await user.save();
       req.flash('success', 'เปลี่ยนรหัสผ่านสำเร็จ');
       return res.redirect('/profile/' + id);
+    }
+
+    if (newpassword && newpasswordconfirm) {
+      try {
+        user.password = bcrypt.hashSync(newpasswordconfirm, 10);
+        await user.save();
+        res.redirect('/login');
+      } catch (error) {
+        res.send('test4');
+      }
     }
 
     await user.save();

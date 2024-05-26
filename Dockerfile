@@ -1,5 +1,9 @@
 FROM node:16
 
+# Set the timezone
+ENV TZ=Asia/Bangkok
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 # Set working directory
 WORKDIR /opt/Testhosting_3-app
 

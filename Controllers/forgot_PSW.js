@@ -1,11 +1,11 @@
-const {NOTFOUND} = require('dns');
 const User = require('../Models/Auth');
 exports.list = async (req, res) => {
   try {
     res.render('forgot_PSW', {
       userLoggedIn: !!req.session.user,
       user: req.session.user,
-      NotFound: '',
+      notfound: '',
+      username: '',
     });
   } catch (error) {
     console.error(error);
@@ -21,21 +21,22 @@ exports.check = async (req, res) => {
       const year = new Date(user.birth_year).getFullYear();
       const check = year === parseInt(birth_year); // Ensure to parse birth_year to an integer
       if (check) {
-        res.render('Change_PSW', {
+        res.render('change_PSW', {
           user: user,
           error_old: '',
           userLoggedIn: false,
+          username: username || '',
         });
       } else {
-        req.flash('error', 'ปีเกิดไม่ถูกต้อง');
-        res.render('forgot_PSW');
+        res.render('forgot_PSW', {
+          error: 'ปีเกิดไม่ถูกต้อง',
+          username: username || '',
+        });
       }
     } else {
-      // If no matching user is found
-      req.flash('NotFound', 'ไม่พบผู้ใช้งาน');
-      const NotFound = req.flash('NotFound');
       res.render('forgot_PSW', {
-        NotFound: NotFound,
+        error: 'ไม่พบผู้ใช้งาน',
+        username: username || '',
       });
     }
   } catch (error) {
