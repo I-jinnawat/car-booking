@@ -15,7 +15,6 @@
             <th scope="col">หมายเหตุ</th>
         </tr>
     </thead>
-
     <% bookings.forEach(booking=> { %>
         <% if (booking.status !==6) { %>
             <!-- booking.user_id===user.id || -->
@@ -44,7 +43,7 @@
                                                         href="/booking-edit/<%= booking._id %>" role="button"><i
                                                             class="fa-regular fa-pen-to-square"></i></button>
                                                     <button type="button" class="btn btn-danger"
-                                                        onclick="displayAlert('<%= booking._id %>', '<%= booking.status%>')"><i
+                                                        onclick="displayAlert('<%= booking._id %>', 1)"><i
                                                             class="fa-solid fa-trash-can"></i></button>
                                                 </div>
                                                 <% } else { %>
@@ -178,7 +177,7 @@
                                                                         role="button"><i
                                                                             class="fa-regular fa-pen-to-square"></i></a>
                                                                     <button type="button" class="btn btn-danger"
-                                                                        onclick="displayAlert('<%= booking._id %>', '<%= booking.status%>')"><i
+                                                                        onclick="displayAlert('<%= booking._id %>','<%= booking.status%>')"><i
                                                                             class="fa-solid fa-trash-can"></i></button>
                                                                 </div>
                                                                 <% } else { %>

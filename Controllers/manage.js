@@ -19,12 +19,42 @@ exports.list = async (req, res) => {
     const totalBookings = await Booking.countDocuments(filter);
     const totalPages = Math.ceil(totalBookings / limit);
 
+    // Determine the sort order based on user role
+    let sortOrder;
+    if (user.role === 'admin') {
+      sortOrder = {
+        $switch: {
+          branches: [
+            {case: {$eq: ['$status', 2]}, then: 0},
+            {case: {$eq: ['$status', 3]}, then: 1},
+            {case: {$eq: ['$status', 1]}, then: 2},
+            {case: {$eq: ['$status', 4]}, then: 3},
+          ],
+          default: 4,
+        },
+      };
+    } else {
+      sortOrder = {
+        $switch: {
+          branches: [
+            {case: {$eq: ['$status', 1]}, then: 0},
+            {case: {$eq: ['$status', 2]}, then: 1},
+            {case: {$eq: ['$status', 3]}, then: 2},
+            {case: {$eq: ['$status', 4]}, then: 3},
+          ],
+          default: 4,
+        },
+      };
+    }
+
     // Get the bookings based on the filter and pagination
-    const bookings = await Booking.find(filter)
-      .sort({status: 1, createdAt: -1})
-      .skip(skip)
-      .limit(limit)
-      .lean();
+    const bookings = await Booking.aggregate([
+      {$match: filter},
+      {$addFields: {sortOrder: sortOrder}},
+      {$sort: {sortOrder: 1, createdAt: -1}},
+      {$skip: skip},
+      {$limit: limit},
+    ]);
 
     res.render('manage', {
       userLoggedIn: !!user,

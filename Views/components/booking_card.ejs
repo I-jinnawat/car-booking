@@ -26,6 +26,7 @@
             <div class="row" id="booking-body">
                 <div class="col">
                     <% if (user.role!=="user" ) {%>
+                        <input type="hidden" id="check" name="check">
                         <input id="status" type="hidden" name="status">
                         <input id="approverName" type="hidden" name="approverName">
                         <input id="cancelerName" type="hidden" name="cancelerName">
@@ -123,25 +124,34 @@
                 </div>
             </div>
             <% if (user.role==="approver" && booking.status===1) { %>
-                <div class="col-mt-4">
-                    <input class="form-control" id="myInput" type="text" style="display: none;"
-                        placeholder="หมายเหตุ  (เหตุผลที่ไม่อนุมัติ)" name="note" required>
-                </div>
-                <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-primary btn-lg" id="unapproveBtn"
-                        style="background-color: red;" id="txt">ไม่อนุมัติ</button>
+                <% if (errorBooking && errorBooking.length> 0) { %>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', (event) => {
+                            displayAlertExistbookin();
+                        });
+                    </script>
+                    <% } %>
+                        <div class="col-mt-4">
+                            <input class="form-control" id="myInput" type="text" style="display: none;"
+                                placeholder="หมายเหตุ  (เหตุผลที่ไม่อนุมัติ)" name="note" required>
+                        </div>
+                        <div class="text-center mt-3">
+                            <button type="submit" class="btn btn-primary btn-lg" id="unapproveBtn"
+                                style="background-color: red;" id="txt">ไม่อนุมัติ</button>
 
-                    <button type="submit" class="btn btn-primary btn-lg" id="approveBtn"
-                        style="background-color: rgb(44, 169, 44);" onclick="displayAlertApprove()">อนุมัติ</button>
-                </div>
-                <% }else if(user.role==="user" && booking.status===1){ %>
-                    <div class="text-center mt-3">
-                        <button type="submit" id="saveupdateBtn" class="btn btn-primary btn-lg">ยืนยันการแก้ใข</button>
-                    </div>
-                    <% }else if (booking.status !==1 ){ %>
-                        <p style="font-size: 20px; " class="text-center mt-3">
-                            หัวหน้างานอนุมัติสำเร็จ,รอคนจัดรถ</p>
-                        <% } %>
+                            <button type="submit" class="btn btn-primary btn-lg" id="approveBtn"
+                                style="background-color: rgb(44, 169, 44);"
+                                onclick="displayAlertApprove()">อนุมัติ</button>
+                        </div>
+                        <% }else if(user.role==="user" && booking.status===1){ %>
+                            <div class="text-center mt-3">
+                                <button type="submit" id="saveupdateBtn"
+                                    class="btn btn-primary btn-lg">ยืนยันการแก้ใข</button>
+                            </div>
+                            <% }else if (booking.status !==1 ){ %>
+                                <p style="font-size: 20px; " class="text-center mt-3">
+                                    หัวหน้างานอนุมัติสำเร็จ,รอคนจัดรถ</p>
+                                <% } %>
         </form>
     </div>
 </div>
@@ -296,6 +306,48 @@
             });
         }
     }
+
+</script>
+<script>
+    async function displayAlertExistbookin() {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            iconColor: 'white',
+            customClass: {
+                popup: 'colored-toast',
+            },
+            showConfirmButton: false,
+            timer: 1000,
+            timerProgressBar: true,
+        });
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: false
+        });
+        const result = await swalWithBootstrapButtons.fire({
+            title: "มีการจองที่มีเวลานี้และถูกอนุมัติแล้ว",
+            text: "คุณยืนยันที่จะอนุมัติหรือไม่",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "อนุมัติ",
+            cancelButtonText: "กลับ",
+            reverseButtons: true
+        });
+        if (result.isConfirmed) {
+            await Toast.fire({
+                icon: 'success',
+                title: 'ทำการอนุมัติสำเร็จ',
+            });
+            document.getElementById('check').value = true;
+            document.getElementById('status').value = 2;
+            document.getElementById('approverName').value = '<%= user.firstname %>  <%= user.lastname %> ';
+            await document.querySelector('#booking-body form').submit();
+        }
+    };
 
 </script>
 <script>

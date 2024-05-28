@@ -13,7 +13,7 @@ const {
 router.get('/booking', auth, list);
 router.get('/booking-edit/:id', auth, bookingEdit);
 router.get('/events', auth, Event);
-router.post('/events/:id', auth, updateEvent);
+router.post('/events/:id', updateEvent);
 router.post('/events', auth, createEvent);
 router.delete('/events/:id', auth, deleteEvent);
 module.exports = router;
