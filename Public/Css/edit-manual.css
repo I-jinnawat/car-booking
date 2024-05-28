@@ -190,7 +190,7 @@ a {
   background-color: transparent;
 }
 a:hover{
-  color: rgb(198, 199, 200);
+  color: rgb(119, 126, 134);
 }
 .card button {
   height: 39px;
@@ -203,6 +203,12 @@ a:hover{
 .card .sample {
   background: #ffd600;
 }
+.card .sample :hover {
+  background-color: none !important;
+}
 .card .manual {
   background: #14a2b8;
+}
+.card .manual :hover {
+  background-color: none !important;
 }
