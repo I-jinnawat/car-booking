@@ -41,13 +41,22 @@
             color: #6c757d !important;
             border-color: #6c757d !important;
         }
-        @media (max-width: 768px) { 
-  .breadcrumb-nav { 
-    display: none !important;
-  }
 
- 
-}
+        @media (max-width: 768px) {
+            .breadcrumb-nav {
+                display: none !important;
+            }
+
+            @media (max-width: 768px) {
+
+                .breadcrumb-nav,
+                .user-display {
+                    display: none !important;
+                }
+
+
+            }
+        }
     </style>
 </head>
 
@@ -169,7 +178,7 @@
                     denyButtonText: `ยกเลิก`,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        bookingStatus === '1' ? deleteBooking(bookingId) : updateBookingStatus(bookingId, 6);
+                        if (bookingStatus === 1) { deleteBooking(bookingId) } else { updateBookingStatus(bookingId, 6) };
 
                     } else if (result.isDenied) {
                         Swal.fire("การลบไม่เปลี่ยนแปลง", "", "info");
@@ -192,22 +201,23 @@
                     });
             }
             function updateBookingStatus(bookingId, status) {
-                fetch(`/events/${bookingId}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ status: status }),
-                })
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error("Failed to update booking status");
-                        }
-                        window.location.reload();
-                    })
-                    .catch((error) => {
-                        console.error("Error updating booking status:", error);
-                    });
+                // fetch(`/events/${bookingId}`, {
+                //     method: "POST",
+                //     headers: {
+                //         "Content-Type": "application/json",
+                //     },
+                //     body: JSON.stringify({ status: status }),
+                // })
+                //     .then((response) => {
+                //         if (!response.ok) {
+                //             throw new Error("Failed to update booking status");
+                //         }
+                //         window.location.reload();
+                //     })
+                //     .catch((error) => {
+                //         console.error("Error updating booking status:", error);
+                //     });
+                console.log(bookingId, status)
             }
         </script>
         <script src="../JS/manage.js"></script>

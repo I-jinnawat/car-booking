@@ -48,7 +48,7 @@ exports.bookingEdit = async (req, res) => {
 
     // Pass booking status to the frontend
     const bookingStatus = booking.status;
-
+    const errorBooking = req.flash('errorBooking');
     req.session.user
       ? res.render('booking-edit', {
           userLoggedIn: true,
@@ -57,6 +57,7 @@ exports.bookingEdit = async (req, res) => {
           bookingStatus,
           drivers,
           vehicle,
+          errorBooking: errorBooking,
         })
       : res.render('dashboard', {userLoggedIn: false});
   } catch (error) {
@@ -97,7 +98,6 @@ exports.createEvent = async (req, res) => {
 exports.Event = async (req, res) => {
   try {
     const currentUser = req.session.user;
-    console.log(currentUser);
 
     let events;
 
@@ -119,7 +119,8 @@ exports.Event = async (req, res) => {
 
 exports.updateEvent = async (req, res) => {
   const {id} = req.params;
-
+  const currentBooking = await Booking.findById(id);
+  const user = req.session.user;
   try {
     const {
       status,
@@ -141,14 +142,26 @@ exports.updateEvent = async (req, res) => {
       kilometer_end,
       total_kilometer,
       deletedPassengerIndex,
+      check,
     } = req.body;
+
     if (
       deletedPassengerIndex !== undefined &&
       deletedPassengerIndex >= 0 &&
       deletedPassengerIndex < passengers.length
     ) {
-      // Remove the passenger at the specified index from the passengers array
       passengers.splice(deletedPassengerIndex, 1);
+    }
+    const existingDate = currentBooking.start;
+    const existingBooking = await Booking.findOne({
+      status: 2,
+      start: existingDate,
+    });
+
+    if (user.role === 'apprver' && existingBooking && check) {
+      // req.flash('errorBooking', ' ');
+      // return res.status(400).redirect('/booking-edit/' + id);
+      return res.send(check);
     }
 
     await Booking.findByIdAndUpdate(id, {
@@ -172,6 +185,7 @@ exports.updateEvent = async (req, res) => {
       total_kilometer,
     });
 
+    // res.send('existingDate');
     res.redirect('/manage');
   } catch (error) {
     console.error(error);

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ยานพาหนะ</title>
-    <link rel="icon" href="image/Mae-Fah-Luang-University-2.png" type="image/x-icon">
+    <link rel="icon" href="../image/Mae-Fah-Luang-University-2.png" type="image/x-icon">
     <link rel="stylesheet" href="/Css/car.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,13 +19,22 @@
         .colored-toast.swal2-icon-success {
             background-color: #a5dc86 !important;
         }
-        @media (max-width: 768px) { 
-  .breadcrumb-nav { 
-    display: none !important;
-  }
 
- 
-}
+        @media (max-width: 768px) {
+            .breadcrumb-nav {
+                display: none !important;
+            }
+
+            @media (max-width: 768px) {
+
+                .breadcrumb-nav,
+                .user-display {
+                    display: none !important;
+                }
+
+
+            }
+        }
     </style>
 </head>
 
@@ -40,7 +49,8 @@
                             style="font-size: 20px">
                             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
                         </button>
-                        <nav class="breadcrumb-nav" style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
+                        <nav class="breadcrumb-nav" style="--bs-breadcrumb-divider: '>'; margin-left: 3%;"
+                            aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">ยานพาหนะ</li>
@@ -186,24 +196,44 @@
                                                                         <label class="form-label">สถานะ</label>
                                                                     </div>
                                                                     <div class="col-sm-9">
-                                                                        <div class="form-check">
-                                                                            <input <% if (vehicle.available) { %>
-                                                                            checked
-                                                                            <% } %> value="true"
-                                                                                class="form-check-input"
-                                                                                type="radio" name="available" >
-                                                                                <label
-                                                                                    class="form-check-label">พร้อมใช้งาน</label>
-                                                                        </div>
-                                                                        <div class="form-check">
-                                                                            <input <% if (!vehicle.available) { %>
-                                                                            checked
-                                                                            <% } %> value="false" class="
-                                                                                form-check-input" type="radio"
-                                                                                name="available">
-                                                                                <label
-                                                                                    class="form-check-label">ไม่พร้อมใช้งาน</label>
-                                                                        </div>
+                                                                        <% if (vehicle.available !=="in_Progress" ) { %>
+
+                                                                            <div class="form-check">
+                                                                                <input <% if
+                                                                                    (vehicle.available==="available" ) {
+                                                                                    %>
+                                                                                checked <% } %>
+                                                                                    value="available"
+                                                                                    class="form-check-input"
+                                                                                    type="radio"
+                                                                                    name="available">
+                                                                                    <label
+                                                                                        class="form-check-label">พร้อมใช้งาน</label>
+                                                                            </div>
+                                                                            <div class="form-check">
+                                                                                <input <% if
+                                                                                    (vehicle.available==="not_Available"
+                                                                                    ) { %> checked <% } %>
+                                                                                    value="not_Available"
+                                                                                    class="form-check-input"
+                                                                                    type="radio"
+                                                                                    name="available" >
+                                                                                    <label
+                                                                                        class="form-check-label">ไม่พร้อมใช้งาน</label>
+                                                                            </div>
+                                                                            <% }else { %>
+                                                                                <div class="form-check">
+                                                                                    <input disabled <% if
+                                                                                        (vehicle.available==="in_Progress"
+                                                                                        ) { %> checked <% } %>
+                                                                                        value="in_Progress"
+                                                                                        class="form-check-input"
+                                                                                        type="radio"
+                                                                                        name="available">
+                                                                                        <label
+                                                                                            class="form-check-label">กำลังดำเนินการ</label>
+                                                                                </div>
+                                                                                <%}%>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row gy-2 text-end">
@@ -232,11 +262,9 @@
                                         <%= vehicle.seat %>
                                     </td>
                                     <td>
-                                        <% if (vehicle.available) { %>
-                                            พร้อมใช้งาน
-                                            <% }else{ %>
-                                                ไม่พร้อมใช้งาน
-                                                <% } %>
+                                        <%= vehicle.available==='available' ? "พร้อมใช้งาน" :
+                                            vehicle.available==='not_Available' ? "ไม่พร้อมใช้งาน" :
+                                            vehicle.available==='in_Progress' ? "กำลังดำเนินการ" : '' %>
                                     </td>
                                 </tr>
                                 <% }) %>
