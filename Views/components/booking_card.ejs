@@ -151,7 +151,6 @@
                         หัวหน้างานอนุมัติสำเร็จ,รอคนจัดรถ
                     </p>
                     <% } %>
-
                         <% if (errorBooking && errorBooking.length> 0) { %>
                             <script>
                                 document.addEventListener('DOMContentLoaded', () => {
@@ -163,6 +162,88 @@
         </form>
     </div>
 </div>
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('#booking-body form');
+        const approveBtn = document.getElementById('approveBtn');
+        const unapproveBtn = document.getElementById('unapproveBtn');
+
+        approveBtn.addEventListener('click', async function (event) {
+            event.preventDefault();
+            const result = await Swal.fire({
+                title: 'คุณแน่ใจหรือไม่?',
+                text: 'คุณต้องการยืนยันที่จะอนุมัติ!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ยืนยัน',
+                cancelButtonText: 'ยกเลิก',
+                reverseButtons: true
+            });
+
+            if (result.isConfirmed) {
+                const response = await fetch('/events/<%= booking._id %>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        status: 2,
+                        approverName: '<%= user.firstname %> <%= user.lastname %>'
+                    })
+                });
+
+                if (response.ok) {
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'ทำการอนุมัติสำเร็จ',
+                        timer: 1000,
+                        timerProgressBar: true,
+                        showConfirmButton: false
+                    });
+                    location.reload();
+                }
+            }
+        });
+
+        unapproveBtn.addEventListener('click', async function (event) {
+            event.preventDefault();
+            const result = await Swal.fire({
+                title: 'คุณแน่ใจหรือไม่?',
+                text: 'คุณต้องการยืนยันที่จะไม่อนุมัติ!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ยืนยัน',
+                cancelButtonText: 'ยกเลิก',
+                reverseButtons: true
+            });
+
+            if (result.isConfirmed) {
+                const response = await fetch('/events/<%= booking._id %>', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        status: 5,
+                        cancelerName: '<%= user.firstname %> <%= user.lastname %>'
+                    })
+                });
+
+                if (response.ok) {
+                    await Swal.fire({
+                        icon: 'success',
+                        title: 'ทำการไม่อนุมัติสำเร็จ',
+                        timer: 1000,
+                        timerProgressBar: true,
+                        showConfirmButton: false
+                    });
+                    location.reload();
+                }
+            }
+        });
+    });
+</script> -->
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const removeButtons = document.querySelectorAll('.remove-passenger-btn');
@@ -348,15 +429,18 @@
             reverseButtons: true
         });
         if (result.isConfirmed) {
-            await Toast.fire({
-                icon: 'success',
-                title: 'ทำการอนุมัติสำเร็จ',
-            });
-            document.getElementById('check').value = true;
-            document.getElementById('status').value = 2;
-            document.getElementById('approverName').value = '<%= user.firstname %>  <%= user.lastname %> ';
-            await document.querySelector('#booking-body form').submit();
-        }
+            fetch('/confirm', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    status: 2,
+                    approverName: '<%= user.firstname %> <%= user.lastname %>'
+                })
+
+            })
+        };
     };
 
 </script>

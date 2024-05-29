@@ -5,6 +5,7 @@ const {
   list,
   Event,
   createEvent,
+  confirmBooking,
   bookingEdit,
   updateEvent,
   deleteEvent,
@@ -13,7 +14,8 @@ const {
 router.get('/booking', auth, list);
 router.get('/booking-edit/:id', auth, bookingEdit);
 router.get('/events', auth, Event);
-router.post('/events/:id', updateEvent);
 router.post('/events', auth, createEvent);
+router.post('/events/:id', updateEvent);
+router.post('/events/confirm/:id', confirmBooking);
 router.delete('/events/:id', auth, deleteEvent);
 module.exports = router;

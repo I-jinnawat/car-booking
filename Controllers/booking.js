@@ -121,6 +121,7 @@ exports.updateEvent = async (req, res) => {
   const {id} = req.params;
   const currentBooking = await Booking.findById(id);
   const user = req.session.user;
+
   try {
     const {
       status,
@@ -144,7 +145,6 @@ exports.updateEvent = async (req, res) => {
       deletedPassengerIndex,
       check,
     } = req.body;
-
     if (
       deletedPassengerIndex !== undefined &&
       deletedPassengerIndex >= 0 &&
@@ -157,11 +157,86 @@ exports.updateEvent = async (req, res) => {
       status: 2,
       start: existingDate,
     });
+    if (existingBooking) {
+      req.flash('errorBooking', ' ');
+      return res.status(400).redirect('/booking-edit/' + id);
+      // return res.send('check');
+    }
 
-    if (user.role === 'apprver' && existingBooking && check) {
-      // req.flash('errorBooking', ' ');
-      // return res.status(400).redirect('/booking-edit/' + id);
-      return res.send(check);
+    await Booking.findByIdAndUpdate(id, {
+      status,
+      vehicle,
+      mobile_number,
+      title,
+      start,
+      end,
+      placestart,
+      placeend,
+      passengerCount,
+      passengers,
+      driver,
+      adminName,
+      approverName,
+      note,
+      cancelerName,
+      kilometer_start,
+      kilometer_end,
+      total_kilometer,
+    });
+
+    // res.send('existingDate');
+    res.redirect('/manage');
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({error: 'Internal Server Error'});
+  }
+};
+
+exports.deleteEvent = async (req, res) => {
+  const {id} = req.params;
+
+  try {
+    await Booking.findByIdAndDelete(id);
+    res.sendStatus(204);
+  } catch (error) {
+    console.error('Error deleting booking:', error);
+    res.status(500).json({error: 'Internal Server Error'});
+  }
+};
+exports.confirmBooking = async (req, res) => {
+  const {id} = req.params;
+  const currentBooking = await Booking.findById(id);
+  const user = req.session.user;
+
+  try {
+    const {
+      status,
+      vehicle,
+      mobile_number,
+      title,
+      start,
+      end,
+      placestart,
+      placeend,
+      passengerCount,
+      passengers,
+      driver,
+      adminName,
+      approverName,
+      note,
+      cancelerName,
+      kilometer_start,
+      kilometer_end,
+      total_kilometer,
+      deletedPassengerIndex,
+      check,
+    } = req.body;
+    if (
+      deletedPassengerIndex !== undefined &&
+      deletedPassengerIndex >= 0 &&
+      deletedPassengerIndex < passengers.length
+    ) {
+      passengers.splice(deletedPassengerIndex, 1);
     }
 
     await Booking.findByIdAndUpdate(id, {
