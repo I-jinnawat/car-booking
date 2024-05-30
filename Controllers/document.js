@@ -43,9 +43,6 @@ exports.display_edit_page = async (req, res) => {
   }
 };
 
-exports.uploadImage = upload.single('image');
-exports.uploadFile = upload.single('file');
-
 exports.create = async (req, res) => {
   try {
     const {category, title, adminName, numberID, organization, role} = req.body;
@@ -86,20 +83,22 @@ exports.display_add_page = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const id = req.params.id;
-    const {category, title, link, adminName, numberID, organization, role} =
-      req.body;
-    const imagePath = req.file ? req.file.path : null;
+    const {category, title, adminName, numberID, organization, role} = req.body;
+
+    // Check if files are uploaded and get their paths
+    const linkPath = req.files['link'] ? req.files['link'][0].path : null;
+    const imagePath = req.files['image'] ? req.files['image'][0].path : null;
 
     // Construct the update object based on the fields that are provided
     const updateData = {};
     if (category) updateData.category = category;
     if (title) updateData.title = title;
-    if (link) updateData.link = link;
+    if (linkPath) updateData.file = linkPath; // Updated to use linkPath
     if (adminName) updateData.adminName = adminName;
     if (numberID) updateData.numberID = numberID;
     if (organization) updateData.organization = organization;
     if (role) updateData.role = role;
-    if (imagePath) updateData.image = imagePath;
+    if (imagePath) updateData.image = imagePath; // Updated to use imagePath
 
     // Find the document by ID and update it
     const updatedDocument = await Document.findByIdAndUpdate(id, updateData, {
