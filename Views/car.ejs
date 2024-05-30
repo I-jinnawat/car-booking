@@ -31,8 +31,6 @@
                 .user-display {
                     display: none !important;
                 }
-
-
             }
         }
     </style>
@@ -120,10 +118,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 search">
-                                    <input type="text" class="form-control" id="searchInput"
-                                        placeholder="&#xf002; ค้นหา">
-                                </div>
+                                <% if (error_msg && error_msg.length>0) { %>
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', (event) => {
+                                            displayError();
+                                        })
+                                    </script>
+                                    <% } %>
+                                        <div class="col-md-3 search">
+                                            <input type="text" class="form-control" id="searchInput"
+                                                placeholder="&#xf002; ค้นหา">
+                                        </div>
                             </div>
                         </div>
                     </div>
@@ -197,7 +202,6 @@
                                                                     </div>
                                                                     <div class="col-sm-9">
                                                                         <% if (vehicle.available !=="in_Progress" ) { %>
-
                                                                             <div class="form-check">
                                                                                 <input <% if
                                                                                     (vehicle.available==="available" ) {
@@ -274,6 +278,11 @@
                 </div>
             </div>
         </div>
+        <script>
+            async function displayError() {
+                Swal.fire("<%= error_msg%>");
+            }
+        </script>
         <!-- Delete -->
         <script>
             function displayAlert(vehicle) {

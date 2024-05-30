@@ -18,13 +18,14 @@
         .colored-toast.swal2-icon-success {
             background-color: #a5dc86 !important;
         }
-        @media (max-width: 768px) { 
-  .breadcrumb-nav { 
-    display: none !important;
-  }
 
- 
-}
+        @media (max-width: 768px) {
+            .breadcrumb-nav {
+                display: none !important;
+            }
+
+
+        }
     </style>
 </head>
 
@@ -39,7 +40,8 @@
                             style="font-size: 20px">
                             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
                         </button>
-                        <nav class="breadcrumb-nav" style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
+                        <nav class="breadcrumb-nav" style="--bs-breadcrumb-divider: '>'; margin-left: 3%;"
+                            aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">สมาชิก</li>
@@ -147,7 +149,7 @@
                                                             </div>
                                                             <div class="col-sm-9">
                                                                 <input name="birth_year" id="birthDate" type="date"
-                                                                    class="form-control">
+                                                                    class="form-control" required>
                                                             </div>
                                                         </div>
                                                         <div class="row mb-3">
@@ -170,17 +172,13 @@
                                                                     class="form-control" name="mobile_number" required>
                                                             </div>
                                                         </div>
-                                                        <% if (successMessage && successMessage>0) { %>
-                                                            <p class="text-danger">
-                                                                <%= successMessage %>
-                                                            </p>
-                                                            <% } %>
-                                                                <div class="row gy-2 text-end">
-                                                                    <div class="col-md">
-                                                                        <button type="submit" class="btn btn-primary"
-                                                                            id="AddBtn">ยืนยัน</button>
-                                                                    </div>
-                                                                </div>
+
+                                                        <div class="row gy-2 text-end">
+                                                            <div class="col-md">
+                                                                <button type="submit" class="btn btn-primary"
+                                                                    id="AddBtn">ยืนยัน</button>
+                                                            </div>
+                                                        </div>
 
                                                     </form>
                                                 </div>
@@ -189,10 +187,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3 search">
-                                    <input type="text" class="form-control" id="searchInput"
-                                        placeholder="&#xf002; ค้นหา">
-                                </div>
+                                <% if (error_msg && error_msg.length>0) { %>
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', (event) => {
+                                            displayError();
+                                        });
+                                    </script>
+                                    <% } %>
+                                        <div class="col-md-3 search">
+                                            <input type="text" class="form-control" id="searchInput"
+                                                placeholder="&#xf002; ค้นหา">
+                                        </div>
                             </div>
                         </div>
                     </div>
@@ -377,6 +382,11 @@
                 </table>
             </div>
         </div>
+        <script>
+            async function displayError() {
+                Swal.fire("รหัสพนักงานมีอยู่แล้ว!");
+            }
+        </script>
         <!-- preventDefault -->
         <script>
             document.querySelector("#modal-body form").addEventListener("submit", function (event) {

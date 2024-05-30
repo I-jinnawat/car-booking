@@ -1,5 +1,7 @@
 const {ReturnDocument} = require('mongodb');
 const User = require('../Models/Auth');
+const axios = require('axios');
+const member_API = process.env.member_API;
 
 exports.read = async (req, res) => {
   const page = req.query.page || 1;
@@ -11,16 +13,24 @@ exports.read = async (req, res) => {
     const totalPages = Math.ceil(totalUsers / limit);
 
     // Check if there's a flash message stored in the session
-    const errorMessage = req.flash('error_msg');
+    const error_msg = req.flash('error_msg');
 
-    const users = await User.find().skip(skip).limit(limit).lean();
+    // const users = await User.find().skip(skip).limit(limit).lean();
+    const usersResponse = await axios.get(`${member_API}`, {
+      params: {
+        skip,
+        limit,
+      },
+    });
+    const users = usersResponse.data;
+
     const data = {
       userLoggedIn: !!req.session.user,
       user: req.session.user || null,
       users: users,
       totalPages: totalPages,
       currentPage: parseInt(page),
-      successMessage: errorMessage,
+      error_msg: error_msg,
     };
 
     if (req.session.user) {

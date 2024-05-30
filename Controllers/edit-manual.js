@@ -8,12 +8,12 @@ exports.list = async (req, res) => {
       res.render('edit-manual', {
         userLoggedIn: true,
         user: req.session.user,
-        manuals: manuals, // Use `manuals` instead of `manual` for clarity
+        manuals: manuals,
       });
     } else {
       res.render('edit-manual', {
         userLoggedIn: false,
-        manuals: manuals, // Include manuals even if the user is not logged in
+        manuals: manuals,
       });
     }
   } catch (error) {

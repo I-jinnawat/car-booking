@@ -1,12 +1,14 @@
 const Vehicle = require('../Models/vehicles');
 exports.list = async (req, res) => {
   const vehicles = await Vehicle.find().lean();
+  const error_msg = req.flash('error_msg');
   try {
     req.session.user
       ? res.render('car', {
           userLoggedIn: true,
           user: req.session.user,
           vehicles,
+          error_msg: error_msg,
         })
       : res.redirect('/');
   } catch (error) {
@@ -17,15 +19,22 @@ exports.list = async (req, res) => {
 exports.create = async (req, res) => {
   try {
     const {register, type, seat, available} = req.body;
-    const event = await Vehicle.create({
-      register,
-      type,
-      seat,
-      available,
-    });
+    const alreadyRegisteredVehicle = await Vehicle.findOne({register});
 
-    res.status(201).redirect('/setting/car');
+    if (alreadyRegisteredVehicle) {
+      req.flash('error_msg', 'เลขทะเบียนนี้มีอยู่แล้ว');
+      return res.redirect('/setting/car');
+    } else {
+      const vehicle = await Vehicle.create({
+        register,
+        type,
+        seat,
+        available,
+      });
+      res.status(201).redirect('/setting/car');
+    }
   } catch (error) {
+    console.error(error);
     res.status(500).json({error: error.message});
   }
 };
