@@ -18,8 +18,8 @@
     <% bookings.forEach(booking=> { %>
         <% if (booking.status !==6) { %>
             <!-- booking.user_id===user.id || -->
-            <% if ( (user.role==='user' && booking.user_id===user.id ) ||user.role==='admin' || user.role==='approver'
-                || user.role==='driver' ){ %>
+            <% if ( ((user.role==='driver' ||user.role==='user' ) && booking.user_id===user.id ) ||user.role==='admin'
+                || user.role==='approver' ){ %>
                 <tbody>
                     <tr>
                         <td>
