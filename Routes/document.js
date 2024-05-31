@@ -15,22 +15,22 @@ const {
 
 router.get('/document', list);
 router.get('/document/add', auth, display_add_page);
-router.get('/document/edit/:id', auth, display_edit_page);
+router.get('/document/edit/:id', display_edit_page);
 router.get('/document/search/:category', read);
 router.post(
   '/document/add',
   auth,
   upload.fields([
-    {name: 'link', maxCount: 1},
+    {name: 'attachment', maxCount: 1},
     {name: 'image', maxCount: 1},
   ]),
   create
 );
 router.post(
   '/document/edit/:id',
-  auth,
+
   upload.fields([
-    {name: 'link', maxCount: 1},
+    {name: 'attachment ', maxCount: 1},
     {name: 'image', maxCount: 1},
   ]),
   update

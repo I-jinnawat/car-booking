@@ -19,13 +19,13 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <style>
-    @media (max-width: 768px) { 
-  .breadcrumb-nav { 
-    display: none !important;
-  }
+    @media (max-width: 768px) {
+        .breadcrumb-nav {
+            display: none !important;
+        }
 
- 
-}
+
+    }
 </style>
 
 <body>
@@ -132,8 +132,15 @@
                     const categoryLabel = document.getElementById('category');
                     categoryLabel.textContent = doc.category;
                     // console.log('Image Path:', doc.image);
-                    console.log('File Path:', doc.file);
-                    const role = doc.role;
+
+                    let attachment
+                    if (doc.file == null) {
+                        attachment = doc.link
+                        console.log(attachment)
+                    } else {
+                        attachment = doc.file
+                    }
+
                     const documentElement = document.createElement('tr');
                     documentElement.innerHTML = `
                         <td>
@@ -144,7 +151,7 @@
     <img src="${doc.image}" class="rounded" style="height: 100px;" alt="">
 </div>
                                         <div class="col-sm-8">
-                                            <a href="${doc.file}" target="_blank" class="user-link" style=" color: black; display: inline;">${doc.title}</a>
+                                            <a href="${attachment}" target="_blank" class="user-link" style=" color: black; display: inline;">${doc.title}</a>
                                             <div style="font-size: small">
                                                 <i class="fa fa-calendar mb-2 mr-sm-2" style="font-weight: bold"></i>
                                                 โดย ${doc.numberID} ${doc.adminName} 
@@ -285,7 +292,7 @@
                         try {
                             const res = await axios.get(api);
                             documentData = res.data;
-                            console.log(documentData);
+
                             updateUI(documentData);
                         } catch (error) {
                             console.error('Error fetching data:', error);

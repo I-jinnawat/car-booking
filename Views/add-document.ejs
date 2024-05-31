@@ -15,14 +15,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <style>
-    @media (max-width: 768px) { 
-  .breadcrumb-nav { 
-    display: none !important;
-  }
-
- 
-}
+    @media (max-width: 768px) {
+        .breadcrumb-nav {
+            display: none !important;
+        }
+    }
 </style>
+
 <body>
     <%- include('components/navbar.ejs') -%>
         <div class="container-fluid mt-3" id="main">
@@ -34,7 +33,8 @@
                             style="font-size: 20px">
                             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
                         </button>
-                        <nav class="breadcrumb-nav" style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
+                        <nav class="breadcrumb-nav" style="--bs-breadcrumb-divider: '>'; margin-left: 3%;"
+                            aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
                                 <li class="breadcrumb-item"><a href="/document">เอกสาร</a></li>
@@ -43,44 +43,58 @@
                         </nav>
                         <%- include('components/userinfo.ejs') -%>
                     </div>
-                    <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                    <div class="card mt-3 mb-3" id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                         <div id="booking-body" class="card-body">
                             <form action="/document/add" method="POST" enctype="multipart/form-data" id="addForm">
-                                <div class="row" id="booking-body">
-                                    <input type="hidden" value="<%= user.firstname%> <%= user.lastname%>"
-                                        name="adminName">
-                                    <input type="hidden" value="<%= user.numberID%>" name="numberID">
-                                    <input type="hidden" value="<%= user.organization%>" name="organization">
-                                    <input type="hidden" value="<%= user.role%>" name="role">
+                                <div class="row">
+                                    <input type="hidden" name="adminName"
+                                        value="<%= user.firstname %> <%= user.lastname %>">
+                                    <input type="hidden" name="numberID" value="<%= user.numberID %>">
+                                    <input type="hidden" name="organization" value="<%= user.organization %>">
+                                    <input type="hidden" name="role" value="<%= user.role %>">
+
                                     <div class="col-md">
                                         <label class="form-label">หัวข้อ</label>
                                         <input class="form-control" type="text" name="title" required>
                                     </div>
-                                    <div class="col-md">
-                                        <label class="form-label">แนบไฟล์</label>
-                                        <input type="file" name="link" class="form-control" accept=".pdf,.doc,.docx">
-                                    </div>
+
                                     <div class="col-md">
                                         <label class="form-label">หมวด</label>
-                                        <select class="form-control" id="category" name="category" required>
+                                        <select class="form-control" name="category" required>
                                             <option value="ระเบียบ">ระเบียบ</option>
                                             <option value="แบบฟอร์ม">แบบฟอร์ม</option>
                                             <option value="ประกาศ">ประกาศ</option>
                                             <option value="แนวทางการใช้รถ">แนวทางการใช้รถ</option>
                                         </select>
                                     </div>
+                                    <div class="col-md">
+                                        <label class="form-label">แนบไฟล์หรือลิงก์</label>
+                                        <select class="form-control" id="attachmentType" name="attachmentType"
+                                            onchange="toggleAttachmentField()">
+                                            <option value="file">ไฟล์</option>
+                                            <option value="link">ลิงก์</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md" id="fileInput">
+                                        <label class="form-label">ไฟล์</label>
+                                        <input type="file" name="attachment" class="form-control"
+                                            accept=".pdf,.doc,.docx">
+                                    </div>
+                                    <div class="col-md" id="linkInput" style="display: none;">
+                                        <label class="form-label">ลิงก์</label>
+                                        <input type="url" name="attachment" class="form-control">
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md">
-                                        <div class="form-group mt-4">
-                                            <label class="form-lable">รูปภาพ:</label>
-                                            <input type="file" accept="image/*" name="image" id="image"
-                                                onchange="previewImage(event)" class="form-control">
-                                            <img id="imagePreview" alt="Image Preview"
-                                                style="max-width: 50%; height: 10%; margin-top: 10px;">
-                                        </div>
+                                        <label class="form-label">รูปภาพ:</label>
+                                        <input type="file" accept="image/*" name="image" class="form-control"
+                                            onchange="previewImage(event)" required>
+                                        <img id="imagePreview" alt="Image Preview"
+                                            style="max-width: 50%; margin-top: 10px;">
                                     </div>
                                 </div>
+
                                 <button type="submit" class="btn btn-primary mt-4" style="height: 40px;">ยืนยัน</button>
                             </form>
                         </div>
@@ -141,27 +155,6 @@
                 displayAlert();
             });
 
-            let isSidebarOpen = false;
-
-            function toggleNav() {
-                const sidenav = document.getElementById("mySidenav");
-                const main = document.getElementById("main");
-                const toggleIcon = document.getElementById("toggleIcon");
-
-                isSidebarOpen = !isSidebarOpen;
-                if (isSidebarOpen) {
-                    sidenav.style.width = "250px";
-                    main.style.marginLeft = "250px";
-                    toggleIcon.classList.remove("fi-rr-indent");
-                    toggleIcon.classList.add("fi-rr-outdent");
-                } else {
-                    sidenav.style.width = "0";
-                    main.style.marginLeft = "0";
-                    toggleIcon.classList.remove("fi-rr-outdent");
-                    toggleIcon.classList.add("fi-rr-indent");
-                }
-            }
-
             function previewImage(event) {
                 const reader = new FileReader();
                 reader.onload = function () {
@@ -170,8 +163,24 @@
                 };
                 reader.readAsDataURL(event.target.files[0]);
             }
+
+
+            function toggleAttachmentField() {
+                const attachmentType = document.getElementById('attachmentType').value;
+                const fileInput = document.getElementById('fileInput');
+                const linkInput = document.getElementById('linkInput');
+
+                if (attachmentType === 'file') {
+                    fileInput.style.display = 'block';
+                    linkInput.style.display = 'none';
+                } else if (attachmentType === 'link') {
+                    fileInput.style.display = 'none';
+                    linkInput.style.display = 'block';
+                }
+            }
         </script>
 
+        <script src="../JS/navbar.js"></script>
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

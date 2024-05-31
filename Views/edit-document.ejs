@@ -61,11 +61,6 @@
                                             value="<%= document.title %>" required>
                                     </div>
                                     <div class="col-md">
-                                        <label class="form-label" for="link">แนบไฟล์</label>
-                                        <input class="form-control" type="file" accept=".pdf,.doc,.docx" name="link"
-                                            id="link" value="<%= document.link %>">
-                                    </div>
-                                    <div class="col-md">
                                         <label class="form-label" for="category">หมวด</label>
                                         <select class="form-control" id="category" name="category">
                                             <option <%=document.category==='ระเบียบ' ? 'selected' : '' %>
@@ -77,6 +72,24 @@
                                             <option <%=document.category==='แนวทางการใช้รถ' ? 'selected' : '' %>
                                                 value="แนวทางการใช้รถ">แนวทางการใช้รถ</option>
                                         </select>
+                                    </div>
+                                    <div class="col-md">
+                                        <label class="form-label">แนบไฟล์หรือลิงก์</label>
+                                        <select class="form-control" id="attachmentType" name="attachmentType"
+                                            onchange="toggleAttachmentField()">
+                                            <option value="file">ไฟล์</option>
+                                            <option value="link">ลิงก์</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md" id="fileInput">
+                                        <label class="form-label">ไฟล์</label>
+                                        <input type="file" name="attachment" class="form-control"
+                                            accept=".pdf,.doc,.docx">
+                                    </div>
+
+                                    <div class="col-md" id="linkInput" style="display: none;">
+                                        <label class="form-label">ลิงก์</label>
+                                        <input type="url" name="attachment" class="form-control">
                                     </div>
                                 </div>
                                 <div class="row">
@@ -180,6 +193,19 @@
                     output.src = reader.result;
                 };
                 reader.readAsDataURL(event.target.files[0]);
+            }
+            function toggleAttachmentField() {
+                const attachmentType = document.getElementById('attachmentType').value;
+                const fileInput = document.getElementById('fileInput');
+                const linkInput = document.getElementById('linkInput');
+
+                if (attachmentType === 'file') {
+                    fileInput.style.display = 'block';
+                    linkInput.style.display = 'none';
+                } else if (attachmentType === 'link') {
+                    fileInput.style.display = 'none';
+                    linkInput.style.display = 'block';
+                }
             }
         </script>
 

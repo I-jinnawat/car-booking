@@ -1,15 +1,27 @@
 const multer = require('multer');
 const path = require('path');
 
-// Set up multer storage
+// Set up storage configuration
 const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'uploads/'); // Destination folder for uploaded files
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Replace 'uploads/' with your desired directory
   },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname); // Set unique file name
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
-const upload = multer({storage: storage});
 
+// Initialize Multer with the storage configuration
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    if (file.fieldname === 'attachment' || file.fieldname === 'image') {
+      cb(null, true);
+    } else {
+      cb(new Error('Unexpected field'), false);
+    }
+  },
+});
+
+// Export the upload middleware
 module.exports = upload;

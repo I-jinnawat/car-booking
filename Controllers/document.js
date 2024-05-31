@@ -45,17 +45,38 @@ exports.display_edit_page = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    const {category, title, adminName, numberID, organization, role} = req.body;
+    const {
+      category,
+      title,
+      adminName,
+      numberID,
+      organization,
+      role,
+      attachmentType,
+    } = req.body;
 
-    // Get the file paths of the uploaded files
-    const linkPath = req.files['link'] ? req.files['link'][0].path : null;
+    let attachment = null;
+
+    if (attachmentType === 'file') {
+      // Get the file path of the uploaded file
+      attachment = req.files['attachment']
+        ? req.files['attachment'][0].path
+        : null;
+    } else if (attachmentType === 'link') {
+      // Get the URL of the link
+      attachment = req.body.attachment;
+      // res.send(attachment);
+    }
+
+    // res.send('test2');
     const imagePath = req.files['image'] ? req.files['image'][0].path : null;
 
     // Create new document entry in the database
     const document = await Document.create({
       category,
       title,
-      file: linkPath,
+      file: attachmentType === 'file' ? attachment : null,
+      link: attachmentType === 'link' ? attachment : null,
       adminName,
       numberID,
       organization,
@@ -83,33 +104,51 @@ exports.display_add_page = async (req, res) => {
 exports.update = async (req, res) => {
   try {
     const id = req.params.id;
-    const {category, title, adminName, numberID, organization, role} = req.body;
+    const {
+      category,
+      title,
+      adminName,
+      numberID,
+      organization,
+      role,
+      attachmentType,
+    } = req.body;
 
     // Check if files are uploaded and get their paths
-    const linkPath = req.files['link'] ? req.files['link'][0].path : null;
-    const imagePath = req.files['image'] ? req.files['image'][0].path : null;
+    const linkPath = req.files['attachment']
+      ? req.files['attachment'][0].path
+      : null;
+    // const imagePath = req.files['image'] ? req.files['image'][0].path : null;
+    const linkURL = attachmentType === 'link' ? req.body.attachment : null;
 
     // Construct the update object based on the fields that are provided
     const updateData = {};
     if (category) updateData.category = category;
     if (title) updateData.title = title;
-    if (linkPath) updateData.file = linkPath; // Updated to use linkPath
+    if (attachmentType === 'file') {
+      res.send(attachmentType, linkPath);
+      // updateData.file = linkPath;
+      // updateData.link = null;
+    } else if (attachmentType === 'link' && linkURL) {
+      updateData.link = linkURL;
+      updateData.file = null;
+    }
     if (adminName) updateData.adminName = adminName;
     if (numberID) updateData.numberID = numberID;
     if (organization) updateData.organization = organization;
     if (role) updateData.role = role;
-    if (imagePath) updateData.image = imagePath; // Updated to use imagePath
+    if (imagePath) updateData.image = imagePath;
 
     // Find the document by ID and update it
-    const updatedDocument = await Document.findByIdAndUpdate(id, updateData, {
-      new: true,
-    });
+    // const updatedDocument = await Document.findByIdAndUpdate(id, updateData, {
+    //   new: true,
+    // });
 
-    if (!updatedDocument) {
-      return res.status(404).json({error: 'Document not found'});
-    }
+    // if (!updatedDocument) {
+    //   return res.status(404).json({error: 'Document not found'});
+    // }
 
-    res.status(200).redirect('/document'); // Redirect to document listing page after successful update
+    // res.status(200).redirect('/document');
   } catch (error) {
     console.error(error);
     res.status(500).json({error: 'Internal server error'});
