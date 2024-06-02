@@ -1,4 +1,3 @@
-const upload = require('../Config/multer');
 const Document = require('../Models/document');
 
 exports.list = async (req, res) => {
@@ -56,7 +55,6 @@ exports.create = async (req, res) => {
     } = req.body;
 
     let attachment = null;
-
     if (attachmentType === 'file') {
       // Get the file path of the uploaded file
       attachment = req.files['attachment']
@@ -101,6 +99,7 @@ exports.display_add_page = async (req, res) => {
     res.status(500).json({error: 'Internal Server Error'});
   }
 };
+
 exports.update = async (req, res) => {
   try {
     const id = req.params.id;
@@ -114,41 +113,46 @@ exports.update = async (req, res) => {
       attachmentType,
     } = req.body;
 
-    // Check if files are uploaded and get their paths
-    const linkPath = req.files['attachment']
-      ? req.files['attachment'][0].path
-      : null;
-    // const imagePath = req.files['image'] ? req.files['image'][0].path : null;
-    const linkURL = attachmentType === 'link' ? req.body.attachment : null;
+    let attachment = null;
+    if (attachmentType === 'file') {
+      attachment = req.files['attachment']
+        ? req.files['attachment'][0].path
+        : null;
+      // res.send(attachment);
+    } else if (attachmentType === 'link') {
+      attachment = req.body.attachment;
+      // res.send(attachment);
+    }
 
-    // Construct the update object based on the fields that are provided
+    const imagePath = req.files['image'] ? req.files['image'][0].path : null;
+
     const updateData = {};
     if (category) updateData.category = category;
     if (title) updateData.title = title;
-    if (attachmentType === 'file') {
-      res.send(attachmentType, linkPath);
-      // updateData.file = linkPath;
-      // updateData.link = null;
-    } else if (attachmentType === 'link' && linkURL) {
-      updateData.link = linkURL;
+
+    if (attachmentType === 'file' && attachment) {
+      updateData.file = attachment;
+      updateData.link = null;
+    } else if (attachmentType === 'link' && attachment) {
+      updateData.link = attachment;
       updateData.file = null;
     }
+
     if (adminName) updateData.adminName = adminName;
     if (numberID) updateData.numberID = numberID;
     if (organization) updateData.organization = organization;
     if (role) updateData.role = role;
     if (imagePath) updateData.image = imagePath;
 
-    // Find the document by ID and update it
-    // const updatedDocument = await Document.findByIdAndUpdate(id, updateData, {
-    //   new: true,
-    // });
+    const updatedDocument = await Document.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
 
-    // if (!updatedDocument) {
-    //   return res.status(404).json({error: 'Document not found'});
-    // }
+    if (!updatedDocument) {
+      return res.status(404).json({error: 'Document not found'});
+    }
 
-    // res.status(200).redirect('/document');
+    res.status(200).redirect('/document');
   } catch (error) {
     console.error(error);
     res.status(500).json({error: 'Internal server error'});

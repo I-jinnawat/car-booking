@@ -136,10 +136,10 @@
                     let attachment
                     if (doc.file == null) {
                         attachment = doc.link
-                        console.log(attachment)
-                    } else {
+                    } else if (doc.link === null) {
                         attachment = doc.file
                     }
+                    console.log(attachment)
 
                     const documentElement = document.createElement('tr');
                     documentElement.innerHTML = `

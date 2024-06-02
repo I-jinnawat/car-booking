@@ -16,9 +16,9 @@ const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
     if (file.fieldname === 'attachment' || file.fieldname === 'image') {
-      cb(null, true);
+      cb(null, true); // No error, accept the file
     } else {
-      cb(new Error('Unexpected field'), false);
+      cb(new Error('Unexpected field'), false); // Error, reject the file
     }
   },
 });
