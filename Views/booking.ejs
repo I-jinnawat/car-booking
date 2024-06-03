@@ -150,55 +150,80 @@
         </div>
         <!-- Display aleart -->
         <script>
-            async function displayAlert() {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    iconColor: 'white',
-                    customClass: {
-                        popup: 'colored-toast',
-                    },
-                    showConfirmButton: false,
-                    timer: 1500,
-                    timerProgressBar: true,
-                });
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                });
-                const result = await swalWithBootstrapButtons.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'ยืนยัน',
-                    cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true
-                });
+            document.addEventListener("DOMContentLoaded", function () {
+             var mobileInput = document.querySelector('input[name="mobile_number"]');
+       
+             mobileInput.addEventListener("input", function (event) {
+               var inputValue = event.target.value;
+               // ตรวจสอบว่ามีเฉพาะตัวเลขหรือไม่
+               if (/[^0-9]/.test(inputValue)) {
+                 event.target.value = inputValue.replace(/[^0-9]/g, '');
+               }
+               // ตรวจสอบจำนวนตัวเลข
+               if (inputValue.length !== 10) {
+                 event.target.setCustomValidity("โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10 ตัวเลข");
+               } else {
+                 event.target.setCustomValidity("");
+               }
+             });
+       
+             var txt = document.querySelector("#txt");
+             form.displayAlert("submit", function (event) {
+               if (mobileInput.validity.valid) {
+                 displayAlert();
+               } else {
+                 event.preventDefault();
+               }
+             });
+           });
+           function displayAlert() {
+ // Check if the form is valid
+ if (!document.querySelector("#booking-body form").reportValidity()) {
+   return;
+ }
 
-                if (result.isConfirmed) {
-                    await Toast.fire({
-                        icon: 'success',
-                        title: 'ทำการจองสำเร็จ',
-                    })
-                    // Show your alert or perform any other necessary actions
-                    await document.querySelector("#booking-body form").submit();
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    swalWithBootstrapButtons.fire({
-                        title: 'ยกเลิก',
-                        text: 'คุณได้ทำการยกเลิก',
-                        icon: 'error'
-                    });
-                }
-            }
-            document.querySelector("#booking-body form").addEventListener("submit", function (event) {
-                event.preventDefault();
-                displayAlert();
-            });
-        </script>
+ // If the form is valid, show the alert
+ const swalWithBootstrapButtons = Swal.mixin({
+   customClass: {
+     confirmButton: 'btn btn-success',
+     cancelButton: 'btn btn-danger'
+   },
+   buttonsStyling: false
+ });
+
+ swalWithBootstrapButtons.fire({
+   title: 'คุณแน่ใจหรือไม่?',
+   text: 'คุณต้องการยืนยันที่จะส่ง!',
+   icon: 'warning',
+   showCancelButton: true,
+   confirmButtonText: 'ยืนยัน',
+   cancelButtonText: 'ยกเลิก',
+   reverseButtons: true
+ }).then((result) => {
+   if (result.isConfirmed) {
+     // Submit the form
+     document.querySelector("#booking-body form").submit();
+   } else if (
+     /* Read more about handling dismissals below */
+     result.dismiss === Swal.DismissReason.cancel
+   ) {
+     swalWithBootstrapButtons.fire({
+       title: 'ยกเลิก',
+       text: 'คุณได้ทำการยกเลิก)',
+       icon: 'error'
+     });
+   }
+ });
+}
+// Add an event listener to the form's submit event
+document.querySelector("#booking-body form").addEventListener("submit", function(event) {
+ // Prevent the form from submitting normally
+ event.preventDefault();
+// Call the displayAlert function
+ displayAlert();
+});
+           
+         </script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 var mobileNumberInput = document.getElementById("mobileNumber");
@@ -286,6 +311,7 @@
             });
 
         </script>
+        
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
