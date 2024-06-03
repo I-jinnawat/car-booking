@@ -15,7 +15,7 @@ const eventSchema = new mongoose.Schema(
     },
     vehicle: {type: String},
     userinfo: {type: String, required: true},
-    user_id: {type: String, require: true},
+    user_id: {type: String, required: true},
     organization: {type: String, required: true},
     mobile_number: {type: String, required: true},
     title: {type: String, required: true},
@@ -43,7 +43,6 @@ const eventSchema = new mongoose.Schema(
 // Define a pre-save hook to convert start and end timestamps to Thai time zone
 eventSchema.pre('save', function (next) {
   const thaiTimeZone = 'Asia/Bangkok';
-  // Convert start and end timestamps to Thai time zone
   if (this.start) {
     this.start = moment(this.start).tz(thaiTimeZone).toDate();
   }
