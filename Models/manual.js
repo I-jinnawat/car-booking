@@ -4,6 +4,7 @@ const manualSchema = mongoose.Schema(
   {
     title: {type: String},
     file: {type: String},
+    link: {type: String},
   },
   {timestamps: true}
 );

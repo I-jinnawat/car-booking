@@ -7,9 +7,14 @@ const {list, update, create} = require('../Controllers/edit-manual');
 router.get('/setting/edit-manual', auth, list);
 router.post(
   '/setting/edit-manual/:id',
-  upload.fields([{name: 'link', maxCount: 1}]),
+  auth,
+  upload.fields([{name: 'attachment', maxCount: 1}]),
   update
 );
-router.post('/setting/edit-manual', create);
+router.post(
+  '/setting/edit-manual',
+  upload.fields([{name: 'attachment', maxCount: 1}]),
+  create
+);
 
 module.exports = router;

@@ -26,15 +26,13 @@
             .breadcrumb-nav {
                 display: none !important;
             }
-
-
         }
 
         .card .sample {
             background: #ffd600;
         }
 
-        .card .sample :hover {
+        .card .sample:hover {
             background-color: none !important;
         }
 
@@ -42,7 +40,7 @@
             background: #14a2b8;
         }
 
-        .card .manual :hover {
+        .card .manual:hover {
             background-color: none !important;
         }
     </style>
@@ -50,11 +48,11 @@
 
 <body>
     <%- include('components/navbar.ejs') -%>
-        <div class="container-fluid mt-3 " id="main">
+        <div class="container-fluid mt-3" id="main">
             <div class="row">
-                <div class="col-12 ">
+                <div class="col-12">
                     <div class="container-fluid p-0 m-0"
-                        style="display: flex;justify-content: space-between;align-items: center;">
+                        style="display: flex; justify-content: space-between; align-items: center;">
                         <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0"
                             style="font-size: 20px">
                             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
@@ -70,23 +68,28 @@
                     <% manuals.forEach((manual, index)=> { %>
                         <div class="card mb-3" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                             <div class="card-body">
-                                <div class="row mt-2">
-                                    <div class="col d-flex justify-content-between" id="search">
-                                        <div class="btn-group btn-group" role="button" id="categoryButtons"
-                                            style="display: flex; align-items: center;">
-                                            <a role="button" target="_blank"
-                                                class="<%= index === 0 ? 'sample' : 'manual' %>  me-1 ms-2 btn"
-                                                style="color: black; display: inline;" href="/<%= manual.file %>">
-                                                <%= manual.title %>
-                                            </a>
+                                <% let attachment %>
+                                    <% if(manual.file===null){ attachment=manual.link}else
+                                        if(manual.link===null){attachment=`/${manual.file}`}%>
+                                        <div class="row mt-2">
+                                            <div class="col d-flex justify-content-between" id="search">
+                                                <div class="btn-group" role="button" id="categoryButtons"
+                                                    style="display: flex; align-items: center;">
+                                                    <a role="button" target="_blank"
+                                                        class="<%= index === 0 ? 'sample' : 'manual' %> me-1 ms-2 btn"
+                                                        style="color: black; display: inline;" href="
+                                                        <%= attachment%>">
+                                                        <%= manual.title %>
+                                                    </a>
+                                                </div>
+                                                <div class="btn-group" role="button" style="width: 100px;">
+                                                    <a class="btn btn-warning" role="button" data-bs-toggle="modal"
+                                                        data-bs-target="#UpdateModal_<%= manual._id %>">
+                                                        <i class="fa-regular fa-pen-to-square"></i>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="btn-group btn-group" role="button" style="width: 100px;">
-                                            <a class="btn btn-warning" role="button" data-bs-toggle="modal"
-                                                data-bs-target="#UpdateModal_<%= manual._id %>"><i
-                                                    class="fa-regular fa-pen-to-square"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="modal fade" id="UpdateModal_<%= manual._id %>" aria-hidden="true">
@@ -104,14 +107,25 @@
                                                     value="<%= manual.title %>">
                                             </div>
                                             <div class="mb-3">
-                                                <labe class="form-label">แนบไฟล์:</label>
-                                                    <input type="file" name="link" class="form-control"
-                                                        accept=".pdf,.doc,.docx">
-
+                                                <label class="form-label">แนบไฟล์หรือลิงก์</label>
+                                                <select class="form-control" id="attachmentType" name="attachmentType"
+                                                    onchange="toggleAttachmentField()">
+                                                    <option value="file">ไฟล์</option>
+                                                    <option value="link">ลิงก์</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md" id="fileInput">
+                                                <label class="form-label">ไฟล์</label>
+                                                <input type="file" name="attachment" class="form-control"
+                                                    accept=".pdf,.doc,.docx">
+                                            </div>
+                                            <div class="col-md" id="linkInput" style="display: none;">
+                                                <label class="form-label">ลิงก์</label>
+                                                <input type="url" name="attachment" class="form-control">
                                             </div>
                                             <div class="row gy-2 text-end">
-                                                <div class="col-md ">
-                                                    <button type="submit" class="btn btn-primary "
+                                                <div class="col-md">
+                                                    <button type="submit" class="btn btn-primary"
                                                         id="UpdateBtn">ยืนยัน</button>
                                                 </div>
                                             </div>
@@ -120,70 +134,70 @@
                                 </div>
                             </div>
                         </div>
-
-
+                        <% }) %>
                 </div>
             </div>
-            <% }) %>
         </div>
         <script>
-            document.querySelector("#UpdateModal-body form").addEventListener("submit", function (event) {
-                event.preventDefault();
-                if (event.submitter && event.submitter.id === 'UpdateBtn') {
-                    displayAlertUpdated(this)
-                }
-            });
             document.querySelectorAll("#UpdateModal-body form").forEach(form => {
-                form.addEventListener("submit", function (event) {
+                form.addEventListener("submit", async function (event) {
                     event.preventDefault();
                     if (event.submitter && event.submitter.id === 'UpdateBtn') {
-                        displayAlertUpdated(this); // Pass the form element as an argument
+                        const swalWithBootstrapButtons = Swal.mixin({
+                            customClass: {
+                                confirmButton: 'btn btn-success',
+                                cancelButton: 'btn btn-danger'
+                            },
+                            buttonsStyling: false
+                        });
+                        const result = await swalWithBootstrapButtons.fire({
+                            title: 'คุณแน่ใจหรือไม่?',
+                            text: 'คุณต้องการยืนยันที่จะส่ง!',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'ยืนยัน',
+                            cancelButtonText: 'ยกเลิก',
+                            reverseButtons: true
+                        });
+
+                        if (result.isConfirmed) {
+                            const Toast = Swal.mixin({
+                                toast: true,
+                                position: 'top-end',
+                                iconColor: 'white',
+                                customClass: {
+                                    popup: 'colored-toast',
+                                },
+                                showConfirmButton: false,
+                                timer: 1000,
+                                timerProgressBar: true,
+                            });
+                            await Toast.fire({
+                                icon: 'success',
+                                title: 'แก้ไขข้อมูลสำเร็จ',
+                            });
+                            form.submit();
+                        } else if (result.dismiss === Swal.DismissReason.cancel) {
+                            swalWithBootstrapButtons.fire({
+                                title: 'ยกเลิก',
+                                text: 'คุณได้ทำการยกเลิก',
+                                icon: 'error'
+                            });
+                        }
                     }
                 });
             });
+            function toggleAttachmentField() {
+                const attachmentType = document.getElementById('attachmentType').value;
+                const fileInput = document.getElementById('fileInput');
+                const linkInput = document.getElementById('linkInput');
 
-            async function displayAlertUpdated(form) {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    iconColor: 'white',
-                    customClass: {
-                        popup: 'colored-toast',
-                    },
-                    showConfirmButton: false,
-                    timer: 1000,
-                    timerProgressBar: true,
-                });
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                });
-                const result = await swalWithBootstrapButtons.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'ยืนยัน',
-                    cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true
-                });
-
-                if (result.isConfirmed) {
-                    await Toast.fire({
-                        icon: 'success',
-                        title: 'แก้ไขข้อมูลสำเร็จ',
-                    })
-
-                    await form.submit();
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    swalWithBootstrapButtons.fire({
-                        title: 'ยกเลิก',
-                        text: 'คุณได้ทำการยกเลิก',
-                        icon: 'error'
-                    });
+                if (attachmentType === 'file') {
+                    fileInput.style.display = 'block';
+                    linkInput.style.display = 'none';
+                } else if (attachmentType === 'link') {
+                    fileInput.style.display = 'none';
+                    linkInput.style.display = 'block';
                 }
             }
         </script>
