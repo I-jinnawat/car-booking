@@ -233,9 +233,10 @@
 
             // Password validation using zxcvbn
             function validatePassword(password) {
-                const result = zxcvbn(password);
-                return result.score >= 2; // Example threshold, you can adjust it based on your requirements
-            }
+  const result = zxcvbn(password);
+  const hasValidLength = /^[a-zA-Z0-9]{1,10}$/.test(password);
+  return result.score >= 2 && hasValidLength;
+}
 
             document.querySelectorAll('#modal-body form').forEach(form => {
                 form.addEventListener('submit', function (event) {
