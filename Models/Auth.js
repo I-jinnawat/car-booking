@@ -12,12 +12,6 @@ const AuthSchema = new mongoose.Schema(
     mobile_number: {
       type: String,
       required: true,
-      validate: {
-        validator: function (v) {
-          return /^0\d{9}$/.test(v); // Ensure it starts with 0 and is 10 digits long
-        },
-        message: `กรอกหมายเลขโทรศัพท์ให้ถูกต้อง`,
-      },
     },
     birth_year: {type: String},
   },

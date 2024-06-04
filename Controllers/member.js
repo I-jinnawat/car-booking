@@ -27,6 +27,12 @@ exports.read = async (req, res) => {
     const data = {
       userLoggedIn: !!req.session.user,
       user: req.session.user || null,
+      role: null,
+      firstname: null,
+      lastname: null,
+      numberID: null,
+      organization: null,
+      birth_year: null,
       users: users,
       totalPages: totalPages,
       currentPage: parseInt(page),
