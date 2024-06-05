@@ -1,3 +1,4 @@
+const {time} = require('console');
 const moment = require('moment-timezone');
 const mongoose = require('mongoose');
 
@@ -25,14 +26,18 @@ const eventSchema = new mongoose.Schema(
     placeend: {type: String, required: true},
     passengerCount: {type: Number, required: true},
     passengers: [{}],
+    booking_Time: {type: Date},
     approverName: {type: String},
-    note: {type: String},
-    adminName: {type: String},
     cancelerName: {type: String},
+    note: {type: String},
+    approve_Time: {type: Date, require: true},
+    adminName: {type: String},
     driver: {type: String},
+    carArrange_Time: {type: Date},
     kilometer_start: {type: Number},
     kilometer_end: {type: Number},
     total_kilometer: {type: Number},
+    completion_Time: {type: Date},
     allDay: {type: Boolean, default: false},
   },
   {

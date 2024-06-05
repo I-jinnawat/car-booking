@@ -69,6 +69,7 @@
                                     <hr>
                                     <input id="status2" type="hidden" name="status">
                                     <input id="adminName" type="hidden" name="adminName">
+                                    <input type="hidden" id="carArrange_Time" name="carArrange_Time">
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="form-label mt-2">คนขับรถ</label>
@@ -88,7 +89,7 @@
                                         <div class="col-md">
                                             <label class="form-label mt-2">ยานพหนะ</label>
                                             <select <%=booking.status>2 ? 'disabled' : '' %> name="vehicle"
-                                                class="form-select" required>
+                                                class="form-select" >
                                                 <option>
                                                     <%= booking.vehicle %>
                                                 </option>
@@ -119,6 +120,7 @@
                                         <h5 class="form-label">คนบันทึกเลขไมล์</h5>
                                         <hr>
                                         <input id="statusRecord" type="hidden" name="status">
+                                        <input type="hidden" id="completion_Time" name="completion_Time">
                                         <div class="row">
                                             <div class="row">
                                                 <div class="col-md">
@@ -305,10 +307,12 @@
                 });
 
                 if (result.isConfirmed) {
+                    const time = new Date();
                     await Toast.fire({
                         icon: 'success',
                         title: 'บันทึกข้อมูลสำเร็จ',
                     });
+                    document.getElementById('completion_Time').value = time.toISOString();
                     document.getElementById('statusRecord').value = 4;
                     await document.querySelector('#record-body form').submit();
                 } else if (result.dismiss === Swal.DismissReason.cancel) {

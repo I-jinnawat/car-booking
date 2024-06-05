@@ -77,8 +77,7 @@
                                                     style="display: flex; align-items: center;">
                                                     <a role="button" target="_blank"
                                                         class="<%= index === 0 ? 'sample' : 'manual' %> me-1 ms-2 btn"
-                                                        style="color: black; display: inline;" href="
-                                                        <%= attachment%>">
+                                                        style="color: black; display: inline;" href="<%= attachment%>">
                                                         <%= manual.title %>
                                                     </a>
                                                 </div>
@@ -98,7 +97,7 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title">แก้ไข</h5>
                                     </div>
-                                    <div class="modal-body" id="UpdateModal-body">
+                                    <div class="modal-body" id="UpdateModal-body_<%= manual._id %>">
                                         <form action="/setting/edit-manual/<%= manual._id %>"
                                             enctype="multipart/form-data" method="POST">
                                             <div class="mb-3">
@@ -108,18 +107,19 @@
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">แนบไฟล์หรือลิงก์</label>
-                                                <select class="form-control" id="attachmentType" name="attachmentType"
-                                                    onchange="toggleAttachmentField()">
+                                                <select class="form-control" id="attachmentType_<%= manual._id %>"
+                                                    name="attachmentType"
+                                                    onchange="toggleAttachmentField('<%= manual._id %>')">
                                                     <option value="file">ไฟล์</option>
                                                     <option value="link">ลิงก์</option>
                                                 </select>
                                             </div>
-                                            <div class="col-md" id="fileInput">
+                                            <div class="col-md" id="fileInput_<%= manual._id %>">
                                                 <label class="form-label">ไฟล์</label>
                                                 <input type="file" name="attachment" class="form-control"
                                                     accept=".pdf,.doc,.docx">
                                             </div>
-                                            <div class="col-md" id="linkInput" style="display: none;">
+                                            <div class="col-md" id="linkInput_<%= manual._id %>" style="display: none;">
                                                 <label class="form-label">ลิงก์</label>
                                                 <input type="url" name="attachment" class="form-control">
                                             </div>
@@ -139,6 +139,32 @@
             </div>
         </div>
         <script>
+            // Function to toggle between file and link inputs
+            function toggleAttachmentField(modalId) {
+                const attachmentType = document.getElementById(`attachmentType_${modalId}`).value;
+                const fileInput = document.getElementById(`fileInput_${modalId}`);
+                const linkInput = document.getElementById(`linkInput_${modalId}`);
+
+                if (attachmentType === 'file') {
+                    fileInput.style.display = 'block';
+                    linkInput.style.display = 'none';
+                } else if (attachmentType === 'link') {
+                    fileInput.style.display = 'none';
+                    linkInput.style.display = 'block';
+                }
+            }
+
+            // Add event listeners to ensure the toggle function runs on change
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('shown.bs.modal', function (event) {
+                    const attachmentType = modal.querySelector('select[name="attachmentType"]');
+                    if (attachmentType) {
+                        toggleAttachmentField(modal.id.split('_')[1]);
+                    }
+                });
+            });
+
+            // SweetAlert2 confirmation for form submission
             document.querySelectorAll("#UpdateModal-body form").forEach(form => {
                 form.addEventListener("submit", async function (event) {
                     event.preventDefault();
@@ -187,19 +213,6 @@
                     }
                 });
             });
-            function toggleAttachmentField() {
-                const attachmentType = document.getElementById('attachmentType').value;
-                const fileInput = document.getElementById('fileInput');
-                const linkInput = document.getElementById('linkInput');
-
-                if (attachmentType === 'file') {
-                    fileInput.style.display = 'block';
-                    linkInput.style.display = 'none';
-                } else if (attachmentType === 'link') {
-                    fileInput.style.display = 'none';
-                    linkInput.style.display = 'block';
-                }
-            }
         </script>
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

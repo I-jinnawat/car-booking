@@ -10,10 +10,12 @@ const flash = require('connect-flash');
 const app = express();
 const port = process.env.PORT || 3000;
 const moment = require('moment-timezone');
+const loadManuals = require('./middleware/loadManuals'); // Adjust the path to your middleware
 
 const connectDB = require('./Config/db');
 
 global.error = null;
+app.use(loadManuals);
 app.use(flash());
 app.use(morgan('dev'));
 app.use(cors());

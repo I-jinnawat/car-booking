@@ -25,14 +25,21 @@
               </ul>
               <ul class="list-unstyled">
                 <li>
-                  <a class="dropdown-item" href=""
-                    onclick="window.open('https://drive.google.com/file/d/183XCsyxziCWhWC_j51zZjPcTMmTt__ZK/view', '_blank')">ภายนอกจังหวัด</a>
+                  <% manuals.slice(2,3).forEach((manual, index)=> { %>
+                    <% let attachment %>
+                      <% if(manual.file===null) { attachment=manual.link } else if(manual.link===null)
+                        {attachment=`/${manual.file}` } %>
+                        <a class="dropdown-item" href="<%= attachment %>" target="_blank">
+                          <%= manual.title %>
+                        </a>
+                        <% }) %>
+
                 </li>
               </ul>
             </div>
           </div>
         </div>
-        <% if(user.role==="approver" || user.role==="admin" ) {%>
+        <% if(user.role===" approver" || user.role==="admin" ) {%>
           <div class="accordion-item">
             <h2 class="accordion-header">
               <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"

@@ -17,14 +17,15 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <style>
-    @media (max-width: 768px) { 
-        .user-display,
-        .accept { 
-    display: none !important;
-  }
+    @media (max-width: 768px) {
 
- 
-}
+        .user-display,
+        .accept {
+            display: none !important;
+        }
+
+
+    }
 </style>
 
 <body>
@@ -47,17 +48,21 @@
                     <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                         <div class="card-header" id="card-header" style="background-color: #FFECB3;">
                             <div class="row">
-                                <div class="col-md-4">ทำการจอง
-                                    <button class="sample me-1 ms-2"
-                                        onclick="window.open('https://drive.google.com/file/d/12wW1XdZdaXZjxYiy_TX4c0WiFvMCtGQU/view?usp=sharing', '_blank')">
-                                        ตัวอย่างการกรอกข้อมูล
-                                    </button>
-                                    <button class="manual"
-                                        onclick="window.open('https://drive.google.com/file/d/12wW1XdZdaXZjxYiy_TX4c0WiFvMCtGQU/view?usp=sharing', '_blank')">
-                                        คู่มือการใช้งาน
-                                    </button>
+
+                                <div class="col-md-6">ทำการจอง
+                                    <% manuals.slice(0, 2).forEach((manual, index)=> { %>
+                                        <% let attachment %>
+                                            <% if(manual.file===null) { attachment=manual.link } else
+                                                if(manual.link===null) { attachment=`/${manual.file}` } %>
+                                                <a role="button" target="_blank"
+                                                    class="<%= index === 0 ? 'sample' : 'manual' %> me-1 ms-2 btn"
+                                                    style="color: black; display: inline;" href="<%= attachment %>">
+                                                    <%= manual.title %>
+                                                </a>
+                                                <% }) %>
                                 </div>
-                                <div class="col-md-4 ms-auto">รหัสการจอง
+
+                                <div class="col-md-6 ms-auto">รหัสการจอง
                                     <input class=" border-1 rounded-1 ms-2 pe-2" type="text"
                                         placeholder="รหัสการจองระบบสร้างขึ้นเอง" disabled>
                                 </div>
@@ -151,79 +156,79 @@
         <!-- Display aleart -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-             var mobileInput = document.querySelector('input[name="mobile_number"]');
-       
-             mobileInput.addEventListener("input", function (event) {
-               var inputValue = event.target.value;
-               // ตรวจสอบว่ามีเฉพาะตัวเลขหรือไม่
-               if (/[^0-9]/.test(inputValue)) {
-                 event.target.value = inputValue.replace(/[^0-9]/g, '');
-               }
-               // ตรวจสอบจำนวนตัวเลข
-               if (inputValue.length !== 10) {
-                 event.target.setCustomValidity("โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10 ตัวเลข");
-               } else {
-                 event.target.setCustomValidity("");
-               }
-             });
-       
-             var txt = document.querySelector("#txt");
-             form.displayAlert("submit", function (event) {
-               if (mobileInput.validity.valid) {
-                 displayAlert();
-               } else {
-                 event.preventDefault();
-               }
-             });
-           });
-           function displayAlert() {
- // Check if the form is valid
- if (!document.querySelector("#booking-body form").reportValidity()) {
-   return;
- }
+                var mobileInput = document.querySelector('input[name="mobile_number"]');
 
- // If the form is valid, show the alert
- const swalWithBootstrapButtons = Swal.mixin({
-   customClass: {
-     confirmButton: 'btn btn-success',
-     cancelButton: 'btn btn-danger'
-   },
-   buttonsStyling: false
- });
+                mobileInput.addEventListener("input", function (event) {
+                    var inputValue = event.target.value;
+                    // ตรวจสอบว่ามีเฉพาะตัวเลขหรือไม่
+                    if (/[^0-9]/.test(inputValue)) {
+                        event.target.value = inputValue.replace(/[^0-9]/g, '');
+                    }
+                    // ตรวจสอบจำนวนตัวเลข
+                    if (inputValue.length !== 10) {
+                        event.target.setCustomValidity("โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10 ตัวเลข");
+                    } else {
+                        event.target.setCustomValidity("");
+                    }
+                });
 
- swalWithBootstrapButtons.fire({
-   title: 'คุณแน่ใจหรือไม่?',
-   text: 'คุณต้องการยืนยันที่จะส่ง!',
-   icon: 'warning',
-   showCancelButton: true,
-   confirmButtonText: 'ยืนยัน',
-   cancelButtonText: 'ยกเลิก',
-   reverseButtons: true
- }).then((result) => {
-   if (result.isConfirmed) {
-     // Submit the form
-     document.querySelector("#booking-body form").submit();
-   } else if (
-     /* Read more about handling dismissals below */
-     result.dismiss === Swal.DismissReason.cancel
-   ) {
-     swalWithBootstrapButtons.fire({
-       title: 'ยกเลิก',
-       text: 'คุณได้ทำการยกเลิก)',
-       icon: 'error'
-     });
-   }
- });
-}
-// Add an event listener to the form's submit event
-document.querySelector("#booking-body form").addEventListener("submit", function(event) {
- // Prevent the form from submitting normally
- event.preventDefault();
-// Call the displayAlert function
- displayAlert();
-});
-           
-         </script>
+                var txt = document.querySelector("#txt");
+                form.displayAlert("submit", function (event) {
+                    if (mobileInput.validity.valid) {
+                        displayAlert();
+                    } else {
+                        event.preventDefault();
+                    }
+                });
+            });
+            function displayAlert() {
+                // Check if the form is valid
+                if (!document.querySelector("#booking-body form").reportValidity()) {
+                    return;
+                }
+
+                // If the form is valid, show the alert
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                });
+
+                swalWithBootstrapButtons.fire({
+                    title: 'คุณแน่ใจหรือไม่?',
+                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'ยืนยัน',
+                    cancelButtonText: 'ยกเลิก',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // Submit the form
+                        document.querySelector("#booking-body form").submit();
+                    } else if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        swalWithBootstrapButtons.fire({
+                            title: 'ยกเลิก',
+                            text: 'คุณได้ทำการยกเลิก)',
+                            icon: 'error'
+                        });
+                    }
+                });
+            }
+            // Add an event listener to the form's submit event
+            document.querySelector("#booking-body form").addEventListener("submit", function (event) {
+                // Prevent the form from submitting normally
+                event.preventDefault();
+                // Call the displayAlert function
+                displayAlert();
+            });
+
+        </script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 var mobileNumberInput = document.getElementById("mobileNumber");
@@ -311,7 +316,7 @@ document.querySelector("#booking-body form").addEventListener("submit", function
             });
 
         </script>
-        
+
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

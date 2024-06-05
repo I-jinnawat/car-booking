@@ -2,7 +2,7 @@ const Booking = require('../Models/booking');
 const User = require('../Models/Auth');
 const Vehicle = require('../Models/vehicles');
 const Counter = require('../Models/Counter');
-
+const Manual = require('../Models/manual');
 async function initializeCounter(year) {
   let counter = await Counter.findOne({year});
   if (!counter) {
@@ -17,6 +17,7 @@ exports.list = async (req, res) => {
   const bookings = await Booking.find().lean();
   const id = req.session.user.id;
   const user = await User.findById(id);
+  const manuals = await Manual.find().lean();
   try {
     req.session.user
       ? res.render('booking', {
@@ -36,7 +37,7 @@ exports.bookingEdit = async (req, res) => {
   try {
     const booking = await Booking.findById(id);
     const drivers = await User.find({role: 'driver'});
-    const vehicle = await Vehicle.find({available: true});
+    const vehicle = await Vehicle.find({available: 'available'});
     if (!booking) {
       return (
         res
@@ -136,12 +137,15 @@ exports.updateEvent = async (req, res) => {
       passengers,
       driver,
       adminName,
+      carArrange_Time,
       approverName,
       note,
       cancelerName,
+      approve_Time,
       kilometer_start,
       kilometer_end,
       total_kilometer,
+      completion_Time,
       deletedPassengerIndex,
       check,
     } = req.body;
@@ -176,12 +180,15 @@ exports.updateEvent = async (req, res) => {
       passengers,
       driver,
       adminName,
+      carArrange_Time,
       approverName,
       note,
       cancelerName,
+      approve_Time,
       kilometer_start,
       kilometer_end,
       total_kilometer,
+      completion_Time,
     });
 
     // res.send('existingDate');
