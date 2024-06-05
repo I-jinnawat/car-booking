@@ -6,21 +6,21 @@
                 <div class="step-name mt-1">1.ทำการจองเสร็จ,รอหัวหน้าอนุมัติ</div>
                 <div class="step-name option1">ผู้จอง: <%= booking.userinfo %>
                 </div>
-                <span id="step1-time" class="step-time"></span>
+                <span id="step1-time" class="step-time">เวลาหัวหน้าอนุมัติ</span>
             </div>
             <div class="stepper-item" id="step2">
                 <div class="step-counter">2</div>
                 <div class="step-name mt-1">2.หัวหน้างานอนุมัติ,รอคนจัดรถ</div>
                 <div class="step-name option1">ผู้อนุมัติ: <%= booking.approverName %>
                 </div>
-                <span id="step2-time" class="step-time"></span>
+                <span id="step2-time" class="step-time">เวลารอคนจัดรถ</span>
             </div>
             <div class="stepper-item" id="step3">
                 <div class="step-counter">3</div>
                 <div class="step-name mt-1">3.จัดรถสำเร็จ,พร้อมใช้งาน</div>
                 <div class="step-name option1">ผู้จัดรถ: <%= booking.adminName %>
                 </div>
-                <span id="step3-time" class="step-time"></span>
+                <span id="step3-time" class="step-time">เวลารถพร้อมใช้งาน</span>
             </div>
             <div class="stepper-item" id="step4">
                 <div class="step-counter">4</div>
@@ -31,7 +31,7 @@
                         <%= booking.adminName %>
                             <% } %>
                 </div>
-                <span id="step4-time" class="step-time"></span>
+                <span id="step4-time" class="step-time">เวลาเสร็จสิ้นภารกิจ</span>
             </div>
         </div>
     </div>

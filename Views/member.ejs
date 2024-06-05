@@ -168,6 +168,7 @@
                                                                     value="<%= typeof birth_year !== 'undefined' ? birth_year:'' %>">
                                                             </div>
                                                         </div>
+                                                        <form class="needs-validation" novalidate>
                                                         <div class="row mb-3">
                                                             <div class="col-sm-3">
                                                                 <label class="form-label"
@@ -177,7 +178,11 @@
                                                                 <input type="password" id="password"
                                                                     class="form-control" name="password" required>
                                                             </div>
+                                                            <div class="invalid-feedback">
+                                                                โปรดกรอกรหัสผ่านให้ถูกต้อง
+                                                              </div>
                                                         </div>
+                                                    </form>
                                                         <div class="row mb-3">
                                                             <div class="col-sm-3">
                                                                 <label class="form-label"
@@ -237,6 +242,26 @@
   const hasValidLength = /^[a-zA-Z0-9]{1,10}$/.test(password);
   return result.score >= 2 && hasValidLength;
 }
+
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+(() => {
+  'use strict'
+
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  const forms = document.querySelectorAll('.needs-validation')
+
+  // Loop over them and prevent submission
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
+      if (!form.checkValidity()) {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+
+      form.classList.add('was-validated')
+    }, false)
+  })
+})()
 
             document.querySelectorAll('#modal-body form').forEach(form => {
                 form.addEventListener('submit', function (event) {
