@@ -20,96 +20,101 @@
         <!-- ถ้าเป็นคนขับรถหรือพนักงานทั่วไปจะเห็นแค่การจองของตัวเอง -->
         <% if ((booking.user_id===user.id ) ||user.role==='admin' ||user.role==='approver' &&booking.status !==6) { %>
             <tbody>
-                <tr>
-                    <td>
-                        <!-- ถ้า status ไม่ 5 ถึงแสดง -->
-                        <% if (booking.status !==5) { %>
-                            <% if (booking.status !==4) { %>
-                                <% if (booking.status===1) { %>
-                                    <% if (booking.user_id===user.id || user.role==='approver' ) { %>
-                                        <div class="btn-group btn-group" role="group" style="width: 100px; ">
-                                            <a class="btn btn-warning" href="/booking-edit/<%= booking._id %>"
-                                                role="button"><i class="fa-regular fa-pen-to-square"></i></a>
-                                            <button type="button" class="btn btn-danger"
-                                                onclick="displayAlert('<%= booking._id %>', '<%= booking.status%>' )"><i
-                                                    class="fa-solid fa-trash-can"></i></button>
-                                        </div>
-                                        <% } %>
+                <% if (booking.status!==6) { %>
 
-                                            <% if (user.role==='admin' ) { %>
-                                                <div class="btn-group btn-group" role="group" style="width: 100px; ">
-                                                    <button type="button" class="btn btn-danger"
-                                                        onclick="displayAlert('<%= booking._id %>', '<%= booking.status%>' )"><i
-                                                            class="fa-solid fa-trash-can"></i></button>
-                                                </div>
-                                                <% } %>
+                    <tr>
+                        <td>
+                            <!-- ถ้า status ไม่ 5 ถึงแสดง -->
+                            <% if (booking.status !==5) { %>
+                                <% if (booking.status !==4) { %>
+                                    <% if (booking.status===1) { %>
+                                        <% if (booking.user_id===user.id || user.role==='approver' ) { %>
+                                            <div class="btn-group btn-group" role="group" style="width: 100px; ">
+                                                <a class="btn btn-warning" href="/booking-edit/<%= booking._id %>"
+                                                    role="button"><i class="fa-regular fa-pen-to-square"></i></a>
+                                                <button type="button" class="btn btn-danger"
+                                                    onclick="displayAlert('<%= booking._id %>', '<%= booking.status%>' )"><i
+                                                        class="fa-solid fa-trash-can"></i></button>
+                                            </div>
+                                            <% } %>
 
-                                                    <% }else if(booking.status===2 || booking.status===3){ %>
-                                                        <% if (user.role==='admin' ) { %>
-                                                            <div class="btn-group btn-group" role="group"
-                                                                style="width: 100px; ">
-                                                                <a class="btn btn-warning"
-                                                                    href="/booking-edit/<%= booking._id %>"
-                                                                    role="button"><i
-                                                                        class="fa-regular fa-pen-to-square"></i></a>
-                                                                <button type="button" class="btn btn-danger"
-                                                                    onclick="displayAlert('<%= booking._id %>', '<%= booking.status%>' )"><i
-                                                                        class="fa-solid fa-trash-can"></i></button>
-                                                            </div>
-                                                            <% }else { %>
-                                                                <button type="button" class="btn"
-                                                                    style="width: 100px; background-color:#f28500 ;">Waiting</button>
-                                                                <% } %>
+                                                <% if (user.role==='admin' ) { %>
+                                                    <div class="btn-group btn-group" role="group"
+                                                        style="width: 100px; ">
+                                                        <button type="button" class="btn btn-danger"
+                                                            onclick="displayAlert('<%= booking._id %>', '<%= booking.status%>' )"><i
+                                                                class="fa-solid fa-trash-can"></i></button>
+                                                    </div>
+                                                    <% } %>
+
+                                                        <% }else if(booking.status===2 || booking.status===3){ %>
+                                                            <% if (user.role==='admin' ) { %>
+                                                                <div class="btn-group btn-group" role="group"
+                                                                    style="width: 100px; ">
+                                                                    <a class="btn btn-warning"
+                                                                        href="/booking-edit/<%= booking._id %>"
+                                                                        role="button"><i
+                                                                            class="fa-regular fa-pen-to-square"></i></a>
+                                                                    <button type="button" class="btn btn-danger"
+                                                                        onclick="displayAlert('<%= booking._id %>', '<%= booking.status%>' )"><i
+                                                                            class="fa-solid fa-trash-can"></i></button>
+                                                                </div>
+                                                                <% }else { %>
+                                                                    <button type="button" class="btn"
+                                                                        style="width: 100px; background-color:#f28500 ;">Waiting</button>
                                                                     <% } %>
-                                                                        <% }else{ %>
-                                                                            <button type="button"
-                                                                                class="btn btn-success"
-                                                                                style="width: 100px;">เสร็จสิ้น</button>
-                                                                            <% } %>
-                                                                                <% }else{ %>
-                                                                                    <button type="button"
-                                                                                        class="btn btn-danger"
-                                                                                        style="width: 100px;">ถูกยกเลิก</button>
+                                                                        <% } %>
+                                                                            <% }else{ %>
+                                                                                <button type="button"
+                                                                                    class="btn btn-success"
+                                                                                    style="width: 100px;">เสร็จสิ้น</button>
+                                                                                <% } %>
+                                                                                    <% }else{ %>
+                                                                                        <button type="button"
+                                                                                            class="btn btn-danger"
+                                                                                            style="width: 100px;">ถูกยกเลิก</button>
 
-                                                                                    <% } %>
-                    </td>
-                    <td>
-                        <% const statusText=booking.status===1 ? '1.ทำการจองเสร็จ รอหัวหน้าอนุมัติ' : booking.status===2
-                            ? '2.หัวหน้างานอนุมัติเสร็จ รอคนจัดรถ' : booking.status===3 ? '3.จัดรถสำเร็จ,พร้อมใช้งาน' :
-                            booking.status===4 ? '4.เสร็จสิ้น' : booking.status===5 ?'ถูกยกเลิก': '' ; %>
-                            <%= statusText %>
-                    </td>
-                    <td>
-                        <%= new Date(booking.createdAt).toLocaleDateString('th-TH') %>
-                    </td>
-                    <td>
-                        <%= booking.title %>
-                    </td>
-                    <td>
-                        <%= new Date(booking.start).toLocaleDateString('th-TH') %>
-                    </td>
-                    <td>
-                        <%= booking.vehicle %>
-                    </td>
-                    <td>
-                        <%= booking.userinfo %>
-                    </td>
-                    <td>
-                        <%= booking.approverName %>
-                    </td>
-                    <td>
-                        <%= booking.adminName %>
-                    </td>
-                    <td>
-                        <%= booking.driver %>
-                    </td>
-                    <td>
-                        <%= booking.cancelerName%>
-                    </td>
-                    <td>
-                        <%= booking.note%>
-                    </td>
-                </tr>
+                                                                                        <% } %>
+                        </td>
+                        <td>
+                            <% const statusText=booking.status===1 ? '1.ทำการจองเสร็จ รอหัวหน้าอนุมัติ' :
+                                booking.status===2 ? '2.หัวหน้างานอนุมัติเสร็จ รอคนจัดรถ' : booking.status===3
+                                ? '3.จัดรถสำเร็จ,พร้อมใช้งาน' : booking.status===4 ? '4.เสร็จสิ้น' : booking.status===5
+                                ?'ถูกยกเลิก': '' ; %>
+                                <%= statusText %>
+                        </td>
+                        <td>
+                            <%= new Date(booking.createdAt).toLocaleDateString('th-TH') %>
+                        </td>
+                        <td>
+                            <%= booking.title %>
+                        </td>
+                        <td>
+                            <%= new Date(booking.start).toLocaleDateString('th-TH') %>
+                        </td>
+                        <td>
+                            <%= booking.vehicle %>
+                        </td>
+                        <td>
+                            <%= booking.userinfo %>
+                        </td>
+                        <td>
+                            <%= booking.approverName %>
+                        </td>
+                        <td>
+                            <%= booking.adminName %>
+                        </td>
+                        <td>
+                            <%= booking.driver %>
+                        </td>
+                        <td>
+                            <%= booking.cancelerName%>
+                        </td>
+                        <td>
+                            <%= booking.note%>
+                        </td>
+                    </tr>
+                    <% } %>
             </tbody>
             <% } %>
                 <% }) %>
