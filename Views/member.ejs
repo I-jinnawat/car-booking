@@ -98,6 +98,7 @@
                                                                 <input type="number" id="numberID" class="form-control"
                                                                     name="numberID" required>
                                                                 <input type="hidden" id="username" name="username">
+                                                                <div id="numberError" class="error-message"></div>
                                                             </div>
                                                         </div>
                                                         <div class="row mb-3">
@@ -396,10 +397,12 @@
                 // Get form values
                 var password = document.getElementById('password').value;
                 var mobileNumber = document.getElementById('mobilenumber').value;
+                var numberID = document.getElementById('numberID').value;
         
                 // Initialize error messages
                 var passwordError = '';
                 var mobileError = '';
+                var numberError = '';
         
                 // Validate password
                 if (!/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,7}$/.test(password)) {
@@ -410,10 +413,15 @@
                 if (!/^\d{10}$/.test(mobileNumber)) {
                     mobileError = 'โปรดใส่เบอร์โทรให้ครบ 10 ตัว';
                 }
+
+                if (!/^\d{10}$/.test(numberID)) {
+                    numberError = 'โปรดใส่รหัสให้ครบ 10 ตัว';
+                }
         
                 // Display error messages
                 document.getElementById('passwordError').textContent = passwordError;
                 document.getElementById('mobileError').textContent = mobileError;
+                document.getElementById('numberError').textContent = numberError;
         
                 // If no errors, proceed with SweetAlert confirmation
                 if (passwordError === '' && mobileError === '') {
@@ -455,6 +463,7 @@
                 Swal.fire("รหัสพนักงานมีอยู่แล้ว!");
             }
         </script>
+        
         
         <!-- preventDefault -->
         <script>
