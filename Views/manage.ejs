@@ -201,22 +201,22 @@
                     });
             }
             function updateBookingStatus(bookingId, status) {
-                // fetch(`/events/${bookingId}`, {
-                //     method: "POST",
-                //     headers: {
-                //         "Content-Type": "application/json",
-                //     },
-                //     body: JSON.stringify({ status: status }),
-                // })
-                //     .then((response) => {
-                //         if (!response.ok) {
-                //             throw new Error("Failed to update booking status");
-                //         }
-                //         window.location.reload();
-                //     })
-                //     .catch((error) => {
-                //         console.error("Error updating booking status:", error);
-                //     });
+                fetch(`/events/${bookingId}`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ status: status }),
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("Failed to update booking status");
+                        }
+                        window.location.reload();
+                    })
+                    .catch((error) => {
+                        console.error("Error updating booking status:", error);
+                    });
                 console.log(bookingId, status)
             }
         </script>
