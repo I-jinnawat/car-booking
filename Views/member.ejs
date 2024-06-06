@@ -392,30 +392,29 @@
             document.getElementById('form').addEventListener('submit', async function (event) {
                 // Prevent form submission
                 event.preventDefault();
-    
+        
                 // Get form values
                 var password = document.getElementById('password').value;
                 var mobileNumber = document.getElementById('mobilenumber').value;
-    
+        
                 // Initialize error messages
                 var passwordError = '';
                 var mobileError = '';
-    
+        
                 // Validate password
                 if (!/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,7}$/.test(password)) {
-    passwordError = 'รหัสผ่านต้องมีตัวอักษรขนาดใหญ่และตัวเลขและมีความยาวระหว่าง 6 ถึง 7 ตัวอักษร.';
-}
-
-    
+                    passwordError = 'รหัสผ่านต้องมีตัวอักษรขนาดใหญ่และตัวเลขและมีความยาวระหว่าง 6 ถึง 7 ตัวอักษร.';
+                }
+        
                 // Validate mobile number
                 if (!/^\d{10}$/.test(mobileNumber)) {
                     mobileError = 'โปรดใส่เบอร์โทรให้ครบ 10 ตัว';
                 }
-    
+        
                 // Display error messages
                 document.getElementById('passwordError').textContent = passwordError;
                 document.getElementById('mobileError').textContent = mobileError;
-    
+        
                 // If no errors, proceed with SweetAlert confirmation
                 if (passwordError === '' && mobileError === '') {
                     const result = await Swal.fire({
@@ -427,7 +426,7 @@
                         cancelButtonText: 'ยกเลิก',
                         reverseButtons: true
                     });
-    
+        
                     if (result.isConfirmed) {
                         await Swal.fire({
                             icon: 'success',
@@ -435,7 +434,7 @@
                             showConfirmButton: false,
                             timer: 1000
                         });
-    
+        
                         // Submit the form
                         document.getElementById('form').submit();
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -447,12 +446,16 @@
                     }
                 }
             });
-        </script>
-        <script>
+        
+            document.querySelector('form').addEventListener('submit', function () {
+                document.getElementById('username').value = document.getElementById('numberID').value;
+            });
+        
             async function displayError() {
                 Swal.fire("รหัสพนักงานมีอยู่แล้ว!");
             }
         </script>
+        
         <!-- preventDefault -->
         <script>
             document.querySelector("#modal-body form").addEventListener("submit", function (event) {
