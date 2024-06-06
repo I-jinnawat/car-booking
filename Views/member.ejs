@@ -402,9 +402,10 @@
                 var mobileError = '';
     
                 // Validate password
-                if (!/(?=.*[A-Z])(?=.*\d)/.test(password)) {
-                    passwordError = 'รหัสผ่านต้องมีตัวอักษรขนาดใหญ่และตัวเลข.';
-                }
+                if (!/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,7}$/.test(password)) {
+    passwordError = 'รหัสผ่านต้องมีตัวอักษรขนาดใหญ่และตัวเลขและมีความยาวระหว่าง 6 ถึง 7 ตัวอักษร.';
+}
+
     
                 // Validate mobile number
                 if (!/^\d{10}$/.test(mobileNumber)) {
