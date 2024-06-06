@@ -48,20 +48,19 @@
                     <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                         <div class="card-header" id="card-header" style="background-color: #FFECB3;">
                             <div class="row">
-
-                                <div class="col-md-6">ทำการจอง
-                                    <% manuals.slice(0, 2).forEach((manual, index)=> { %>
+                                <div class="col-md-6">
+                                    <label>ทำการจอง</label>
+                                    <% manuals.slice(0,2).forEach((manual, index)=> { %>
                                         <% let attachment %>
-                                            <% if(manual.file===null) { attachment=manual.link } else
-                                                if(manual.link===null) { attachment=`/${manual.file}` } %>
+                                            <% if(manual.file===null){ attachment=manual.link}else
+                                                if(manual.link===null){attachment=`/${manual.file}`}%>
                                                 <a role="button" target="_blank"
                                                     class="<%= index === 0 ? 'sample' : 'manual' %> me-1 ms-2 btn"
-                                                    style="color: black; display: inline;" href="<%= attachment %>">
+                                                    style="color: black; display: inline;" href="<%= attachment%>">
                                                     <%= manual.title %>
                                                 </a>
                                                 <% }) %>
                                 </div>
-
                                 <div class="col-md-6 ms-auto">รหัสการจอง
                                     <input class=" border-1 rounded-1 ms-2 pe-2" type="text"
                                         placeholder="รหัสการจองระบบสร้างขึ้นเอง" disabled>
@@ -72,6 +71,7 @@
                             <form action="/events" method="POST">
                                 <div class="row" id="booking-body">
                                     <input type="hidden" name="user_id" value="<%= user.id %>">
+                                    <input type="hidden" name="booking_Time" id="booking_Time">
                                     <div class="col-md">
                                         <label class="form-label">ชื่อ-สกุล</label>
                                         <input style="cursor:not-allowed;" class="form-control" type="text"
@@ -207,6 +207,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // Submit the form
+                        document.getElementById('booking_Time').value = new Date().toISOString(); // Set the approve_Time here
                         document.querySelector("#booking-body form").submit();
                     } else if (
                         /* Read more about handling dismissals below */

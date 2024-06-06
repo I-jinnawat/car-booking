@@ -24,11 +24,8 @@
                     <tr>
                         <td>
                             <% if (booking.status !==5 ) { %>
-                                <!-- if status not equal 4 will show  (status 1,2,3) -->
-                                <% if (booking.status !==4) { %>
-                                    <!-- Role user can see this part-->
+                                <% if (booking.status !==4 && booking.status !==5 ) { %>
                                     <% if (user.role==='user' || booking.user_id===user.id ) { %>
-                                        <!-- Role user can see only booking status 1  or booking status 3 -->
                                         <% if (booking.status===1) { %>
                                             <div class="btn-group btn-group" role="group" style="width: 100px; ">
                                                 <a class="btn btn-warning" href="/booking-edit/<%= booking._id %>"
@@ -168,8 +165,8 @@
                                                                     onclick="displayAlert('<%= booking._id %>', '<%= booking.status%>')"><i
                                                                         class="fa-solid fa-trash-can"></i></button>
                                                             </div>
-                                                            <% } else if(user.role==="admin" && (booking.status===2 ||
-                                                                booking.status===3)){%>
+                                                            <% } else if(user.role==="admin" &&
+                                                                (booking.status===2||booking.status===3)){%>
                                                                 <div class="btn-group btn-group" role="group"
                                                                     style="width: 100px;">
                                                                     <a class="btn btn-warning"

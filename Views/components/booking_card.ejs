@@ -1,22 +1,24 @@
 <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
     <div class="card-header" id="card-header" style="background-color: #FFECB3;">
         <form>
-            <div class="row align-items-center">
-                <div class="col-md-6 d-flex">
+            <div class="row">
+                <div class="col-md-6">
                     <label>ทำการจอง</label>
-                    <button class="sample me-1 ms-2"
-                        onclick="window.open('https://drive.google.com/file/d/12wW1XdZdaXZjxYiy_TX4c0WiFvMCtGQU/view?usp=sharing', '_blank')">
-                        ตัวอย่างการกรอกข้อมูล
-                    </button>
-                    <button class="manual"
-                        onclick="window.open('https://drive.google.com/file/d/12wW1XdZdaXZjxYiy_TX4c0WiFvMCtGQU/view?usp=sharing', '_blank')">
-                        คู่มือการใช้งาน
-                    </button>
+                    <% manuals.slice(0,2).forEach((manual, index)=> { %>
+                        <% let attachment %>
+                            <% if(manual.file===null){ attachment=manual.link}else
+                                if(manual.link===null){attachment=`/${manual.file}`}%>
+                                <a role="button" target="_blank"
+                                    class="<%= index === 0 ? 'sample' : 'manual' %> me-1 ms-2 btn"
+                                    style="color: black; display: inline;" href="<%= attachment%>">
+                                    <%= manual.title %>
+                                </a>
+                                <% }) %>
                 </div>
-                <div class="col-md-6 text-right">
-                    <label class="form-label">รหัสการจอง</label>
-                    <input class="border-1 rounded-1 ms-2 pe-2" type="text" value="<%=booking.bookingID %>" disabled
-                        style="width: auto; text-align: auto;" name="bookingID">
+                <div class="col-md-6 ms-auto">
+                    <label>รหัสการจอง</label>
+                    <input class=" border-1 rounded-1 ms-2 pe-2" type="text" placeholder="รหัสการจองระบบสร้างขึ้นเอง"
+                        disabled>
                 </div>
             </div>
         </form>
