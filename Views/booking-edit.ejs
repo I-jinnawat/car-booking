@@ -359,6 +359,7 @@
                         title: 'บันทึกข้อมูลสำเร็จ',
                     });
                     document.getElementById('status2').value = 3;
+                    document.getElementById('carArrange_Time').value = new Date().toISOString();
                     document.getElementById('adminName').value = '<%= user.firstname%> <%= user.lastname%>';
                     await document.querySelector('#manage-vehicle_driver-body form').submit();
                 } else if (result.dismiss === Swal.DismissReason.cancel) {

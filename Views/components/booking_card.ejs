@@ -264,9 +264,8 @@
         });
 
         if (result.isConfirmed) {
-            document.getElementById('status').value = 5; // Set status to 5 for unapproved
-            document.getElementById('cancelerName').value = '<%= user.username%>'; // Clear approverName
-            // // Show your alert or perform any other necessary actions
+            document.getElementById('status').value = 5;
+            document.getElementById('cancelerName').value = '<%= user.firstname %> <%= user.lastname %>'
             await document.querySelector('#booking-body form').submit();
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire({

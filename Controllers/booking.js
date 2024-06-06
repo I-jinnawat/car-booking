@@ -163,7 +163,7 @@ exports.updateEvent = async (req, res) => {
       start: existingDate,
     });
 
-    if (existingBooking) {
+    if (existingBooking && currentBooking.status === 1) {
       // Render a page with SweetAlert to ask for confirmation
       res.render('confirm-approval', {bookingId: id});
       return;
