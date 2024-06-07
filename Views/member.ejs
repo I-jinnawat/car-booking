@@ -406,7 +406,7 @@
         
                 // Validate password
                 if (!/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,7}$/.test(password)) {
-                    passwordError = 'รหัสผ่านต้องมีตัวอักษรขนาดใหญ่และตัวเลขและมีความยาวระหว่าง 6 ถึง 7 ตัวอักษร.';
+                    passwordError = 'ต้องมีตัวอักษรขนาดใหญ่และตัวเลข 6-8 ตัว';
                 }
         
                 // Validate mobile number
@@ -424,7 +424,7 @@
                 document.getElementById('numberError').textContent = numberError;
         
                 // If no errors, proceed with SweetAlert confirmation
-                if (passwordError === '' && mobileError === '') {
+                if (passwordError === '' && mobileError === '' && numberError === '') {
                     const result = await Swal.fire({
                         title: 'คุณแน่ใจหรือไม่?',
                         text: 'คุณต้องการยืนยันที่จะส่ง!',
