@@ -13,14 +13,16 @@ exports.list = async (req, res) => {
   }
 };
 exports.check = async (req, res) => {
-  const {username, birth_year} = req.query; // Since the form uses method="GET", access query parameters instead of body
+  const {username, birth_year} = req.query; // Access query parameters since the form uses method="GET"
+
   try {
     const user = await User.findOne({username});
 
     if (user) {
       const year = new Date(user.birth_year).getFullYear();
-      const check = year === parseInt(birth_year); // Ensure to parse birth_year to an integer
-      if (check) {
+      const birthYearInt = parseInt(birth_year, 10); // Ensure birth_year is parsed as an integer
+
+      if (year === birthYearInt) {
         res.render('change_PSW', {
           user: user,
           error_old: '',
@@ -41,6 +43,6 @@ exports.check = async (req, res) => {
     }
   } catch (error) {
     console.error('Error checking user:', error);
-    res.status(500).send('เกิดข้อผิดพลาดบางอย่าง'); // Send a generic server error message
+    res.sendStatus(500).send('เกิดข้อผิดพลาดบางอย่าง'); // Send a generic server error message
   }
 };
