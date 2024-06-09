@@ -33,11 +33,15 @@
                 }
             }
         }
+        .error {
+            color: red;
+            
+        }
     </style>
 </head>
 
 <body>
-    <%- include('components/navbar.ejs') -%>
+    <div%- include('components/navbar.ejs') -%>
         <div class="container-fluid mt-3 " id="main">
             <div class="row">
                 <div class="col-12 ">
@@ -83,8 +87,9 @@
                                                                     <label class="form-label">ทะเบียน</label>
                                                                 </div>
                                                                 <div class="col-sm-9">
-                                                                    <input type="text" class="form-control"
-                                                                        name="register" required>
+                                                                    <input type="text" class="form-control" name="register" id="register" required>
+                <div class="error" id="registerError">ต้องมีตัวอักษรและตัวเลข5-6ตัว</div>
+
                                                                 </div>
                                                             </div>
                                                             <div class="row mb-3">
@@ -465,6 +470,22 @@
 
             // Add event listener to search input field
             document.getElementById('searchInput').addEventListener('input', handleSearch);
+        </script>
+        <script>
+            document.getElementById('vehicleForm').addEventListener('submit', function(event) {
+                var registerInput = document.getElementById('register');
+                var registerValue = registerInput.value;
+                var registerError = document.getElementById('registerError');
+                var regex = /^[a-zA-Z0-9]{5,6}$/;
+    
+                if (!regex.test(registerValue)) {
+                    registerError.textContent = 'Registration number must be 5-6 alphanumeric characters.'; // Custom error message
+                    registerError.style.display = 'block';
+                    event.preventDefault(); // Prevent form submission
+                } else {
+                    registerError.style.display = 'block'; // Hide error message if valid
+                }
+            });
         </script>
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
