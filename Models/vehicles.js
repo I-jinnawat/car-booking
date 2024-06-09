@@ -6,6 +6,7 @@ const CarSchema = new mongoose.Schema(
     type: {type: String, required: true},
     seat: {type: Number, require: true},
     available: {type: String, default: 'available'},
+    last_distance: {type: Number},
   },
   {timestamps: true}
 );

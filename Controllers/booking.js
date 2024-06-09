@@ -13,30 +13,31 @@ async function initializeCounter(year) {
 
 initializeCounter(new Date().getFullYear());
 
-exports.list = async (req, res) => {
-  const bookings = await Booking.find().lean();
-  const id = req.session.user.id;
-  const user = await User.findById(id);
+exports.list = async (req, res, next) => {
   try {
-    req.session.user
-      ? res.render('booking', {
-          userLoggedIn: true,
-          user: user,
-          bookings,
-        })
-      : res.render('booking', {userLoggedIn: false});
+    const bookings = await Booking.find().lean();
+    const id = req.session.user.id;
+    const user = await User.findById(id);
+
+    res.render('booking', {
+      userLoggedIn: Boolean(req.session.user),
+      user,
+      bookings,
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({error: 'Internal Server Error'});
+    next(error);
   }
 };
 
-exports.bookingEdit = async (req, res) => {
+exports.bookingEdit = async (req, res, next) => {
   const {id} = req.params;
   try {
-    const booking = await Booking.findById(id);
-    const drivers = await User.find({role: 'driver'});
-    const vehicle = await Vehicle.find({available: 'available'});
+    const [booking, drivers, vehicles] = await Promise.all([
+      Booking.findById(id),
+      User.find({role: 'driver'}),
+      Vehicle.find({available: 'available'}),
+    ]);
 
     if (!booking) {
       return res.status(404).redirect('/manage');
@@ -46,21 +47,21 @@ exports.bookingEdit = async (req, res) => {
     const errorBooking = req.flash('errorBooking');
 
     res.render('booking-edit', {
-      userLoggedIn: !!req.session.user,
+      userLoggedIn: Boolean(req.session.user),
       user: req.session.user,
       booking,
       bookingStatus,
       drivers,
-      vehicle,
+      vehicles,
       errorBooking,
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({error: 'Internal Server Error'});
+    next(error);
   }
 };
 
-exports.createEvent = async (req, res) => {
+exports.createEvent = async (req, res, next) => {
   try {
     const currentYear = new Date().getFullYear();
 
@@ -74,20 +75,18 @@ exports.createEvent = async (req, res) => {
     req.body.bookingID = bookingID;
 
     await Booking.create(req.body);
-
     res.status(201).redirect('/manage');
   } catch (error) {
     console.error('Error creating booking:', error);
-    res.status(500).json({error: 'Internal Server Error'});
+    next(error);
   }
 };
 
-exports.updateEvent = async (req, res) => {
-  const {id} = req.params;
-
+exports.updateEvent = async (req, res, next) => {
   try {
+    const {id} = req.params;
     const currentBooking = await Booking.findById(id);
-
+    const user = await User.findById(req.session.user.id);
     const {
       status,
       vehicle,
@@ -129,7 +128,7 @@ exports.updateEvent = async (req, res) => {
     if (
       existingBooking &&
       currentBooking.status === 1 &&
-      currentBooking.role === 'approver'
+      user.role === 'approver'
     ) {
       return res.render('confirm-approval', {bookingId: id});
     }
@@ -158,45 +157,55 @@ exports.updateEvent = async (req, res) => {
       completion_Time,
     });
 
+    const vehicleInfo = await Vehicle.findOne({
+      register: vehicle || currentBooking.vehicle,
+    });
+    const vehicleID = vehicleInfo._id;
+    if (currentBooking.status === 2 && user.role === 'admin') {
+      await Vehicle.findByIdAndUpdate(vehicleID, {
+        available: 'in_Progress',
+      });
+    } else if (currentBooking.status === 3) {
+      await Vehicle.findByIdAndUpdate(vehicleID, {
+        available: 'available',
+      });
+    }
+
     res.redirect('/manage');
   } catch (error) {
     console.error(error);
-    res.status(500).json({error: 'Internal Server Error'});
+    next(error);
   }
 };
 
-exports.Event = async (req, res) => {
+exports.Event = async (req, res, next) => {
   try {
     const currentUser = req.session.user;
-    let events;
+    let events = await Booking.find({status: {$gte: 2, $lt: 4}}).lean();
 
-    if (currentUser.role === 'approver' || currentUser.role === 'admin') {
-      events = await Booking.find({status: {$gte: 2, $lt: 4}}).lean();
-    } else {
-      events = await Booking.find({status: {$gte: 2, $lt: 4}}).lean();
+    if (!(currentUser.role === 'approver' || currentUser.role === 'admin')) {
       events = events.map(event => ({...event, title: 'ถูกจองแล้ว'}));
     }
 
     res.json(events);
   } catch (error) {
     console.error('Error fetching events:', error);
-    res.status(500).json({error: 'Internal Server Error'});
+    next(error);
   }
 };
 
-exports.deleteEvent = async (req, res) => {
+exports.deleteEvent = async (req, res, next) => {
   const {id} = req.params;
-
   try {
     await Booking.findByIdAndDelete(id);
     res.sendStatus(204);
   } catch (error) {
     console.error('Error deleting booking:', error);
-    res.status(500).json({error: 'Internal Server Error'});
+    next(error);
   }
 };
 
-exports.confirmBooking = async (req, res) => {
+exports.confirmBooking = async (req, res, next) => {
   const {id} = req.params;
   const user = req.session.user;
 
@@ -206,7 +215,6 @@ exports.confirmBooking = async (req, res) => {
     }
 
     const booking = await Booking.findById(id);
-
     if (!booking) {
       return res.status(404).send('Booking not found');
     }
@@ -219,6 +227,6 @@ exports.confirmBooking = async (req, res) => {
     res.redirect('/manage');
   } catch (error) {
     console.error(error);
-    res.status(500).json({error: 'Internal Server Error'});
+    next(error);
   }
 };
