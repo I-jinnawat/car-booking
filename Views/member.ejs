@@ -31,6 +31,10 @@
             color: red;
             font-size: 0.9em;
         }
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
     </style>
 </head>
 
@@ -344,8 +348,9 @@
                                                         </div>
                                                         <div class="col-sm-9 text-secondary">
                                                             <input value="<%= user.mobile_number %>" type="number"
-                                                                id="mobilenumber" class="form-control"
+                                                                id="mobile_number" class="form-control"
                                                                 name="mobile_number" required>
+                                                                <div class="error" id="registerError">โปรดใส่เบอร์โทรให้ครบ10ตัว</div>
                                                             <div id="mobileError" class="error-message"></div>
                                                         </div>
                                                     </div>
@@ -359,6 +364,7 @@
                                                         <div class="col-sm-9">
                                                             <input name="password" type="password" class="form-control"
                                                                 id="passwordInput_<%= USER._id %>" disabled>
+                                                                <div class="error" id="registerError">ต้องมีตัวอักษรขนาดใหญ่และตัวเลข 6-8 ตัว</div>
                                                                 <div id="passwordError" class="error-message"></div>
                                                             <div class="form-check">
                                                                 <input class="form-check-input" type="checkbox"
@@ -477,6 +483,7 @@
                 Swal.fire("รหัสพนักงานมีอยู่แล้ว!");
             }
         </script>
+        
 
 
         <!-- preventDefault -->
