@@ -126,26 +126,28 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card mt-3" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
-                        <%- include('components/table_manage.ejs') -%>
-                            <!-- Pagination -->
-                            <nav aria-label="Page navigation">
-                                <ul class="pagination justify-content-center">
-                                    <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
-                                        <a class="page-link" href="/manage?page=<%= currentPage - 1 %>" tabindex="-1"
-                                            aria-disabled="true">Previous</a>
+                        <div class="table-responsive">
+                            <%- include('components/table_manage.ejs') -%>
+                        </div>
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                                    <a class="page-link" href="/manage?page=<%= currentPage - 1 %>" tabindex="-1"
+                                        aria-disabled="true">Previous</a>
+                                </li>
+                                <% for (let i=1; i <=totalPages; i++) { %>
+                                    <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                                        <a class="page-link" href="/manage?page=<%= i %>">
+                                            <%= i %>
+                                        </a>
                                     </li>
-                                    <% for (let i=1; i <=totalPages; i++) { %>
-                                        <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                                            <a class="page-link" href="/manage?page=<%= i %>">
-                                                <%= i %>
-                                            </a>
+                                    <% } %>
+                                        <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                            <a class="page-link" href="/manage?page=<%= currentPage + 1 %>">Next</a>
                                         </li>
-                                        <% } %>
-                                            <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
-                                                <a class="page-link" href="/manage?page=<%= currentPage + 1 %>">Next</a>
-                                            </li>
-                                </ul>
-                            </nav>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>

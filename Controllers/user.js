@@ -1,6 +1,5 @@
 const bcrypt = require('bcryptjs');
 const Auth = require('../Models/Auth');
-const zxcvbn = require('zxcvbn');
 const axios = require('axios');
 const member_API = process.env.member_API;
 
@@ -18,47 +17,6 @@ exports.create = async (req, res) => {
     birth_year,
     mobile_number,
   } = req.body;
-
-  // Validate phone number length
-  if (mobile_number.length !== 10 || !/^\d+$/.test(mobile_number)) {
-    req.flash('error_msg', 'เบอร์โทรต้องมี 10 หลัก');
-    const error_msg = req.flash('error_msg');
-    return res.status(400).render('member', {
-      user: req.session.user || null,
-      users: users,
-      userLoggedIn: !!req.session.user,
-      firstname: firstname,
-      lastname: lastname,
-      numberID: numberID,
-      username: username,
-      organization: organization,
-      role: role,
-      birth_year: birth_year,
-
-      error_msg: error_msg,
-    });
-  }
-
-  // Validate password security
-  const result = zxcvbn(password);
-  if (result.score < 2) {
-    req.flash('error_msg', 'รหัสผ่านไม่ปลอดภัยพอ');
-    const error_msg = req.flash('error_msg');
-    return res.status(400).render('member', {
-      user: req.session.user || null,
-      users: users,
-      userLoggedIn: !!req.session.user,
-      firstname: firstname,
-      lastname: lastname,
-      numberID: numberID,
-      username: username,
-      organization: organization,
-      role: role,
-      birth_year: birth_year,
-      mobile_number: mobile_number,
-      error_msg: error_msg,
-    });
-  }
 
   const hashedPassword = bcrypt.hashSync(password, 10);
 

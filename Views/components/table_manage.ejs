@@ -38,7 +38,7 @@
                                             </div>
                                             <% } %>
 
-                                                <% if (user.role==='admin' ) { %>
+                                                <% if (user.role==='admin' && booking.user_id!==user.id ) { %>
                                                     <div class="btn-group btn-group" role="group"
                                                         style="width: 100px; ">
                                                         <button type="button" class="btn btn-danger"
@@ -65,23 +65,45 @@
                                                                     <% } %>
                                                                         <% } %>
                                                                             <% }else{ %>
-                                                                                <button type="button"
-                                                                                    class="btn btn-success"
-                                                                                    style="width: 100px;">เสร็จสิ้น</button>
-                                                                                <% } %>
-                                                                                    <% }else{ %>
+                                                                                <%if(user.role !=='user' ){%>
+                                                                                    <div class="btn-group btn-group"
+                                                                                        role="group"
+                                                                                        style="width: 120px;">
+                                                                                        <a class="btn btn-warning"
+                                                                                            href="/booking-edit/<%= booking._id %>"
+                                                                                            role="button"><i
+                                                                                                class="fa-regular fa-pen-to-square"></i></a>
+                                                                                        <a href="/print/<%= booking._id %>"
+                                                                                            target="_blank"
+                                                                                            class="btn btn-secondary"
+                                                                                            role="button"><i
+                                                                                                class="fa-solid fa-print"></i></a>
+
                                                                                         <button type="button"
                                                                                             class="btn btn-danger"
-                                                                                            style="width: 100px;">ถูกยกเลิก</button>
-
+                                                                                            onclick="displayAlert('<%= booking._id %>', '<%= booking.status%>')"><i
+                                                                                                class="fa-solid fa-trash-can"></i></button>
+                                                                                    </div>
+                                                                                    <% }else{ %>
+                                                                                        <button type="button"
+                                                                                            class="btn btn-success"
+                                                                                            style="width: 100px;">เสร็จสิ้น</button>
                                                                                         <% } %>
+                                                                                            <% } %>
+                                                                                                <% }else{ %>
+                                                                                                    <button
+                                                                                                        type="button"
+                                                                                                        class="btn btn-danger"
+                                                                                                        style="width: 100px;">ถูกยกเลิก</button>
+
+                                                                                                    <% } %>
                         </td>
                         <td>
-                            <% const statusText=booking.status===1 ? '1.ทำการจองเสร็จ รอหัวหน้าอนุมัติ' :
-                                booking.status===2 ? '2.หัวหน้างานอนุมัติเสร็จ รอคนจัดรถ' : booking.status===3
-                                ? '3.จัดรถสำเร็จ,พร้อมใช้งาน' : booking.status===4 ? '4.เสร็จสิ้น' : booking.status===5
-                                ?'ถูกยกเลิก': '' ; %>
-                                <%= statusText %>
+                            <p style="width: 120px;">
+                                <%= booking.status===1 ? '1.รอหัวหน้าอนุมัติ' : booking.status===2 ? '2.รอคนจัดรถ' :
+                                    booking.status===3 ? '3.รถพร้อมใช้งาน' : booking.status===4 ? '4.เสร็จสิ้น' :
+                                    booking.status===5 ? 'ถูกยกเลิก' : '' %>
+                            </p>
                         </td>
                         <td>
                             <%= new Date(booking.createdAt).toLocaleDateString('th-TH') %>

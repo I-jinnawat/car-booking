@@ -29,32 +29,31 @@
 
     }
 
-        .colored-toast.swal2-icon-success {
-            background-color: #a5dc86 !important;
-        }
+    .colored-toast.swal2-icon-success {
+        background-color: #a5dc86 !important;
+    }
 
-        @media (max-width: 768px) {
-            .breadcrumb-nav {
-                display: none !important;
-            }
+    @media (max-width: 768px) {
+        .breadcrumb-nav {
+            display: none !important;
         }
+    }
 
-        .card .sample {
-            background: #ffd600;
-        }
+    .card .sample {
+        background: #ffd600;
+    }
 
-        .card .sample:hover {
-            background-color: none !important;
-        }
+    .card .sample:hover {
+        background-color: none !important;
+    }
 
-        .card .manual {
-            background: #14a2b8;
-        }
+    .card .manual {
+        background: #14a2b8;
+    }
 
-        .card .manual:hover {
-            background-color: none !important;
-        }
-    
+    .card .manual:hover {
+        background-color: none !important;
+    }
 </style>
 
 <body>
@@ -339,7 +338,7 @@
                         icon: 'success',
                         title: 'บันทึกข้อมูลสำเร็จ',
                     });
-                    document.getElementById('completion_Time').value = time.toISOString();
+                    document.getElementById('completion_Time').value = new Date().toISOString();
                     document.getElementById('statusRecord').value = 4;
                     await document.querySelector('#record-body form').submit();
                 } else if (result.dismiss === Swal.DismissReason.cancel) {

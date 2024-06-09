@@ -27,12 +27,6 @@ exports.read = async (req, res) => {
     const data = {
       userLoggedIn: !!req.session.user,
       user: req.session.user || null,
-      role: null,
-      firstname: null,
-      lastname: null,
-      numberID: null,
-      organization: null,
-      birth_year: null,
       users: users,
       totalPages: totalPages,
       currentPage: parseInt(page),
@@ -63,18 +57,36 @@ exports.list = async (req, res) => {
 };
 
 exports.update = async (req, res) => {
+  const usersResponse = await axios.get(`${member_API}`);
+  const users = usersResponse.data;
   const {id} = req.params;
-  const {password, firstname, lastname, organization, role} = req.body;
+  const {
+    password,
+    firstname,
+    lastname,
+    organization,
+    role,
+    mobile_number,
+    birth_year,
+  } = req.body;
 
   try {
     const user = await User.findByIdAndUpdate(id, {
+      role,
       firstname,
-      password,
       lastname,
       organization,
-      role,
+      mobile_number,
+      birth_year,
+      password,
     });
-    res.redirect('/setting/member');
+
+    res.render('member', {
+      userLoggedIn: !!req.session.user,
+      user: req.session.user || null,
+      users: users,
+      error_msg: null,
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

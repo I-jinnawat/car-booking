@@ -21,17 +21,15 @@
         </div>
         <a id="home" href="/">หน้าหลัก</a>
     </div>
-    <div class="login-box ">
-        <form action="/login" method="POST" id="loginForm">
+    <div class="login-box">
+        <form action="/login" method="POST" id="loginForm" onsubmit="return validateForm(event)">
             <h2>เข้าสู่ระบบ</h2>
             <div class="form-group row mb-3 mt-3">
                 <label for="username">รหัสพนักงาน</label>
-
-                <input type="text" id="username" name="username"
-                    value="<%= typeof username !== 'undefined' ? username : '' %>">
-
+                <input type="text" id="username" name="username" class="form-control"
+                    value="<%= typeof username !== 'undefined' ? username : '' %>" maxlength="10" required>
             </div>
-            <div class="form-group row mb-3 ">
+            <div class="form-group row mb-3">
                 <label for="password">รหัสผ่าน</label>
                 <input type="password" class="form-control" id="password" name="password" required>
                 <a class="m-0 mt-2" style="font-size:14px" href="/forgot_PSW">ลืมรหัสผ่าน</a>
@@ -49,12 +47,18 @@
 
     <div class="bottom">
         <div class="manual">
-            <button class="manual-button"
-                onclick="window.open('https://drive.google.com/file/d/12wW1XdZdaXZjxYiy_TX4c0WiFvMCtGQU/view?usp=sharing', '_blank')">
-                <i class="fi fi-sr-document"></i>
-                คู่มือการใช้งาน
-            </button>
-            <p>มีข้อสงสัยในการใช้ระบบ ฯ ติดต่อ ฝ่ายระบบสารสนเทศ 4174</p>
+            <% manuals.slice(1,2).forEach((manual, index)=> { %>
+                <% let attachment %>
+                    <% if(manual.file===null) { attachment=manual.link } else if(manual.link===null)
+                        {attachment=`/${manual.file}` } %>
+                        <a class="manual-button" style="text-decoration: none; color: black;" href="<%= attachment %>"
+                            target="_blank">
+                            <i class="fi fi-sr-document"></i>
+                            <%= manual.title %>
+                        </a>
+                        <% }) %>
+
+                            <p>มีข้อสงสัยในการใช้ระบบ ฯ ติดต่อ ฝ่ายระบบสารสนเทศ 4174</p>
         </div>
     </div>
     <script>
@@ -62,6 +66,21 @@
             const usernameInput = document.getElementById('username');
             usernameInput.value = usernameInput.value.trim();
         });
+
+        function validateForm(event) {
+            let numberID = document.getElementById("username").value;
+            let showText = document.getElementById('showText')
+            let numberPattern = /^\d{10}$/;
+
+            if (!numberPattern.test(numberID)) {
+                showText.innerText = "รหัสพนักงาน: กรอกตัวเลขให้ครบ 10 หลัก"
+                event.preventDefault();
+                return false;
+            }
+
+
+            return true;
+        }
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
