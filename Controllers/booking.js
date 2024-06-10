@@ -156,19 +156,20 @@ exports.updateEvent = async (req, res, next) => {
       total_kilometer,
       completion_Time,
     });
-
-    const vehicleInfo = await Vehicle.findOne({
-      register: vehicle || currentBooking.vehicle,
-    });
-    const vehicleID = vehicleInfo._id;
-    if (currentBooking.status === 2 && user.role === 'admin') {
-      await Vehicle.findByIdAndUpdate(vehicleID, {
-        available: 'in_Progress',
+    if (currentBooking.status !== 1) {
+      const vehicleInfo = await Vehicle.findOne({
+        register: vehicle || currentBooking.vehicle,
       });
-    } else if (currentBooking.status === 3) {
-      await Vehicle.findByIdAndUpdate(vehicleID, {
-        available: 'available',
-      });
+      const vehicleID = vehicleInfo._id;
+      if (currentBooking.status === 2 && user.role !== 'approver ') {
+        await Vehicle.findByIdAndUpdate(vehicleID, {
+          available: 'in_Progress',
+        });
+      } else if (currentBooking.status === 3 && user.role !== 'approver') {
+        await Vehicle.findByIdAndUpdate(vehicleID, {
+          available: 'available',
+        });
+      }
     }
 
     res.redirect('/manage');

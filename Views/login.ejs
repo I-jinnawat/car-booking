@@ -15,6 +15,7 @@
         cursor: pointer;
     }
 </style>
+
 <body>
     <div class="top">
         <div class="brand">
@@ -90,18 +91,18 @@
     </script>
     <script>
         function togglePassword() {
-  var passwordInput = document.getElementById("password");
-  var toggleButton = document.querySelector(".toggle-btn");
-  var icon = toggleButton.querySelector("i");
-  
-  if (passwordInput.type === "password") {
-    passwordInput.type = "text";
-    icon.className = "fa-regular fa-eye";
-  } else {
-    passwordInput.type = "password";
-    icon.className = "fa-regular fa-eye-slash";
-  }
-}
+            var passwordInput = document.getElementById("password");
+            var toggleButton = document.querySelector(".toggle-btn");
+            var icon = toggleButton.querySelector("i");
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                icon.className = "fa-regular fa-eye";
+            } else {
+                passwordInput.type = "password";
+                icon.className = "fa-regular fa-eye-slash";
+            }
+        }
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
