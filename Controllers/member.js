@@ -1,7 +1,7 @@
 const {ReturnDocument} = require('mongodb');
 const User = require('../Models/Auth');
 const axios = require('axios');
-const member_API = process.env.member_API;
+const member_API = process.env.Member_API;
 
 exports.read = async (req, res) => {
   const page = req.query.page || 1;
