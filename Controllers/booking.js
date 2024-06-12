@@ -38,6 +38,7 @@ exports.bookingEdit = async (req, res, next) => {
       User.find({role: 'driver'}),
       Vehicle.find({available: 'available'}),
     ]);
+    const vehicle = await Vehicle.findOne({register: booking.vehicle});
 
     if (!booking) {
       return res.status(404).redirect('/manage');
@@ -54,6 +55,7 @@ exports.bookingEdit = async (req, res, next) => {
       drivers,
       vehicles,
       errorBooking,
+      vehicle: vehicle,
     });
   } catch (error) {
     console.error(error);
@@ -74,6 +76,20 @@ exports.createEvent = async (req, res, next) => {
     const bookingID = `${currentYear}-${counter.count}`;
     req.body.bookingID = bookingID;
 
+    // Convert start and end times to UTC
+    if (req.body.start && req.body.end) {
+      // Convert start and end to JavaScript Date objects
+      const start = new Date(
+        new Date(req.body.start).getTime() + 7 * 60 * 60 * 1000
+      );
+      const end = new Date(
+        new Date(req.body.end).getTime() + 7 * 60 * 60 * 1000
+      );
+
+      req.body.start = start;
+      req.body.end = end;
+    }
+
     await Booking.create(req.body);
     res.status(201).redirect('/manage');
   } catch (error) {
@@ -92,8 +108,6 @@ exports.updateEvent = async (req, res, next) => {
       vehicle,
       mobile_number,
       title,
-      start,
-      end,
       placestart,
       placeend,
       passengerCount,
@@ -112,6 +126,19 @@ exports.updateEvent = async (req, res, next) => {
       deletedPassengerIndex,
     } = req.body;
 
+    // Convert start and end to JavaScript Date objects
+    const startTime = new Date(
+      new Date(req.body.start).getTime() + 7 * 60 * 60 * 1000
+    );
+    const endTime = new Date(
+      new Date(req.body.end).getTime() + 7 * 60 * 60 * 1000
+    );
+
+    if (isNaN(startTime) || isNaN(endTime)) {
+      return res.status(400).send('Invalid start or end time');
+    }
+
+    // ตรวจสอบดัชนีของ passenger ที่จะลบ
     if (
       deletedPassengerIndex !== undefined &&
       deletedPassengerIndex >= 0 &&
@@ -120,11 +147,13 @@ exports.updateEvent = async (req, res, next) => {
       passengers.splice(deletedPassengerIndex, 1);
     }
 
+    // ค้นหา Booking ที่ทับซ้อนกัน
     const existingBooking = await Booking.findOne({
       status: 2,
       start: currentBooking.start,
     });
 
+    // ตรวจสอบการอนุมัติ
     if (
       existingBooking &&
       currentBooking.status === 1 &&
@@ -133,13 +162,47 @@ exports.updateEvent = async (req, res, next) => {
       return res.render('confirm-approval', {bookingId: id});
     }
 
+    // ค้นหาข้อมูล Vehicle
+    let vehicleInfo;
+    if (currentBooking.status !== 1 && currentBooking.status <= 4) {
+      vehicleInfo = await Vehicle.findOne({
+        register: vehicle || currentBooking.vehicle,
+      });
+
+      if (vehicleInfo) {
+        let last_distance = vehicleInfo.last_distance || 0;
+        let start_time = vehicleInfo.start_time || null;
+        let end_time = vehicleInfo.end_time || null;
+
+        if (currentBooking.status === 2 && user.role !== 'approver') {
+          vehicleInfo.start_time = currentBooking.start;
+          vehicleInfo.end_time = currentBooking.end;
+          await vehicleInfo.save();
+        } else if (currentBooking.status === 3 && user.role !== 'approver') {
+          vehicleInfo.start_time = '';
+          vehicleInfo.end_time = '';
+          last_distance += parseFloat(total_kilometer);
+          console.log('New last_distance:', last_distance);
+          vehicleInfo.last_distance = last_distance;
+          await vehicleInfo.save();
+          console.log(vehicleInfo.start_time);
+          console.log(vehicleInfo.end_time);
+        }
+      } else {
+        // Handle the case where vehicleInfo is not found
+        console.error('Vehicle information not found');
+        return res.status(404).send('Vehicle information not found');
+      }
+    }
+
+    // อัปเดตข้อมูลการจอง
     await Booking.findByIdAndUpdate(id, {
       status,
       vehicle,
       mobile_number,
       title,
-      start,
-      end,
+      start: startTime,
+      end: endTime,
       placestart,
       placeend,
       passengerCount,
@@ -156,21 +219,6 @@ exports.updateEvent = async (req, res, next) => {
       total_kilometer,
       completion_Time,
     });
-    if (currentBooking.status !== 1) {
-      const vehicleInfo = await Vehicle.findOne({
-        register: vehicle || currentBooking.vehicle,
-      });
-      const vehicleID = vehicleInfo._id;
-      if (currentBooking.status === 2 && user.role !== 'approver ') {
-        await Vehicle.findByIdAndUpdate(vehicleID, {
-          available: 'in_Progress',
-        });
-      } else if (currentBooking.status === 3 && user.role !== 'approver') {
-        await Vehicle.findByIdAndUpdate(vehicleID, {
-          available: 'available',
-        });
-      }
-    }
 
     res.redirect('/manage');
   } catch (error) {
@@ -195,6 +243,18 @@ exports.Event = async (req, res, next) => {
   }
 };
 
+exports.deleteBooking = async (req, res, next) => {
+  try {
+    const {id} = req.params;
+    const {status} = req.body;
+
+    if (status !== 6) {
+      return res.status(400).send('Invalid status');
+    }
+    await Booking.findByIdAndUpdate(id, {status});
+    res.status(200).redirect('/manage');
+  } catch (e) {}
+};
 exports.deleteEvent = async (req, res, next) => {
   const {id} = req.params;
   try {

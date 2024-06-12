@@ -157,71 +157,20 @@
             document.querySelectorAll("#modal-body form").forEach(form => {
                 form.addEventListener("submit", function (event) {
                     event.preventDefault();
-                    // Get the booking ID from the form
+
                     const bookingId = form.querySelector('input[name="bookingId"]').value;
                     // Check which button was clicked
                     if (event.submitter && event.submitter.textContent.trim() === 'อนุมัติ') {
                         displayAlertApprove();
-                        // You can also do further actions with the booking ID
+
                     } else {
                         displayAlertUnapprove();
-                        // You can also do further actions with the booking ID
+
                     }
                 });
             });
         </script>
-        <!-- Delete -->
-        <script>
-            function displayAlert(bookingId, bookingStatus) {
-                Swal.fire({
-                    title: "คุณต้องการลบใช่หรือไม่?",
-                    showDenyButton: true,
-                    confirmButtonText: "ยืนยัน",
-                    denyButtonText: `ยกเลิก`,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        if (bookingStatus === 1) { deleteBooking(bookingId) } else { updateBookingStatus(bookingId, 6) };
 
-                    } else if (result.isDenied) {
-                        Swal.fire("การลบไม่เปลี่ยนแปลง", "", "info");
-                    }
-                });
-                return false;
-            }
-            function deleteBooking(bookingId) {
-                fetch(`/events/${bookingId}`, {
-                    method: "DELETE",
-                })
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error("Failed to delete booking");
-                        }
-                        window.location.reload();
-                    })
-                    .catch((error) => {
-                        console.error("Error deleting booking:", error);
-                    });
-            }
-            function updateBookingStatus(bookingId, status) {
-                fetch(`/events/${bookingId}`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({ status: status }),
-                })
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error("Failed to update booking status");
-                        }
-                        window.location.reload();
-                    })
-                    .catch((error) => {
-                        console.error("Error updating booking status:", error);
-                    });
-                console.log(bookingId, status)
-            }
-        </script>
         <script src="../JS/manage.js"></script>
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

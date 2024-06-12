@@ -140,7 +140,7 @@
                             </div>
                         </div>
                         <% if(booking.status>=3) {%>
-                            <div class="card mt-3 mb-3 " style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                            <div class="card mt-3 mb-3" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                                 <div id="record-body" class="card-body">
                                     <form action="/events/<%= booking._id %>" method="POST">
                                         <h5 class="form-label">คนบันทึกเลขไมล์</h5>
@@ -148,86 +148,52 @@
                                         <input id="statusRecord" type="hidden" name="status">
                                         <input type="hidden" id="completion_Time" name="completion_Time">
                                         <div class="row">
-                                            <div class="row">
-                                                <div class="col-md">
-                                                    <label class="form-label mt-4">เลขไมล์ก่อนเดินทาง</label>
-                                                    <input <%=booking.status> 3 ? 'disabled' : '' %> type="number" min
-                                                    ="0"
-                                                    class="form-control" name="kilometer_start"
-                                                    id="km_start" placeholder="km" required value="<%=
-                                                        booking.kilometer_start %>">
-                                                </div>
-                                                <div class="col-md">
-                                                    <label class="form-label mt-4">เลขไมล์หลังเดินทาง</label>
-                                                    <input <%=booking.status> 3 ? 'disabled' : '' %> type="number"
-                                                    min="0" class="form-control" name="kilometer_end"
-                                                    id="km_end" placeholder="km" required value="<%=
-                                                        booking.kilometer_end %>">
-                                                </div>
-                                                <div class="col-md">
-                                                    <label class="form-label mt-4">ระยะทางทั้งหมด</label>
-                                                    <input <%=booking.status>3 ? 'disabled' : '' %> type="number"
-                                                    class="form-control" name="total_kilometer"
-                                                    id="total_km" value="<%= booking. total_kilometer %>"readonly
-                                                        required>
-                                                </div>
-                                                <p id="displayText" style="color: red;"></p>
+                                            <div class="col-md">
+                                                <label class="form-label mt-4">เลขไมล์ก่อนเดินทาง</label>
+                                                <input type="text" min="0" step="0.01" class="form-control"
+                                                    name="kilometer_start" id="km_start" placeholder="km" required
+                                                    <%=booking.status> 3 ?
+                                                'disabled' : '' %> value="<%= vehicle.last_distance %>">
                                             </div>
-                                            <% if (booking.status===4) { %>
+                                            <div class="col-md">
+                                                <label class="form-label mt-4">เลขไมล์หลังเดินทาง</label>
+                                                <input type="number" min="0" step="0.01" max="3000" class="form-control"
+                                                    name="kilometer_end" id="km_end" placeholder="km" required
+                                                    <%=booking.status> 3 ? 'disabled' : '' %> value="<%=
+                                                    booking.kilometer_end %>">
+                                            </div>
+
+                                            <div class="col-md">
+                                                <label class="form-label mt-4">ระยะทางทั้งหมด</label>
+                                                <input type="number" class="form-control" name="total_kilometer"
+                                                    id="total_km" value="<%= booking.total_kilometer %>" readonly
+                                                    required <%=booking.status> 3 ? 'disabled' : ''
+                                                %>>
+                                            </div>
+                                            <p id="displayText" style="color: red;"></p>
+                                        </div>
+                                        <% if (booking.status===4) { %>
+                                            <div class="text-center mt-3">
+
+                                                <button type="submit" class="btn btn-primary btn-lg"
+                                                    style="background-color: rgb(44, 169, 44);">พิมพ์</button>
+                                            </div>
+                                            <% } else { %>
                                                 <div class="text-center mt-3">
-                                                    <button type="submit" class="btn btn-secondary btn-lg"
-                                                        style=" background-color: red;" id="save_manageBtn"
-                                                        onclick="displayAlert('<%= booking._id %>')">ลบ</button>
                                                     <button type="submit" class="btn btn-primary btn-lg"
-                                                        style="background-color: rgb(44, 169, 44);">พิมพ์</button>
+                                                        id="save_recordBtn"
+                                                        style="background-color: rgb(44, 169, 44);">บันทึก</button>
                                                 </div>
-                                                <% }else{ %>
-                                                    <div class="text-center mt-3">
-                                                        <button type="submit" class="btn btn-primary btn-lg"
-                                                            id="save_recordBtn"
-                                                            style="background-color: rgb(44, 169, 44);">บันทึก</button>
-                                                    </div>
-                                                    <% } %>
+                                                <% } %>
                                     </form>
                                 </div>
                             </div>
+
                             <% } %>
                                 <% } %>
                 </div>
             </div>
         </div>
-        <!-- Delete -->
-        <script>
-            function displayAlert(booking) {
-                Swal.fire({
-                    title: "คุณต้องการลบใช่หรือไม่?",
-                    showDenyButton: true,
-                    confirmButtonText: "ยืนยัน",
-                    denyButtonText: `ยกเลิก`,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        deleteBooking(booking);
-                    } else if (result.isDenied) {
-                        Swal.fire("การลบไม่เปลี่ยนแปลง", "", "info");
-                    }
-                });
-                return false;
-            }
-            function deleteBooking(bookingId) {
-                fetch(`/events/${bookingId}`, {
-                    method: "DELETE",
-                })
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error("Failed to delete booking");
-                        }
-                        window.location.reload();
-                    })
-                    .catch((error) => {
-                        console.error("Error deleting booking:", error);
-                    });
-            }
-        </script>
         <!-- calculateTotalKilometer -->
         <script>
             document.addEventListener("DOMContentLoaded", function () {

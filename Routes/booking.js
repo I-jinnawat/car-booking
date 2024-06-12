@@ -8,7 +8,7 @@ const {
   confirmBooking,
   bookingEdit,
   updateEvent,
-  confirmApproval,
+  deleteBooking,
   deleteEvent,
 } = require('../Controllers/booking');
 
@@ -17,6 +17,7 @@ router.get('/booking-edit/:id', auth, bookingEdit);
 router.get('/events', auth, Event);
 router.post('/events', auth, createEvent);
 router.post('/events/:id', auth, updateEvent);
+router.post('/booking-delete/:id', auth, deleteBooking);
 router.get('/force-approve/:id', auth, confirmBooking);
 router.delete('/events/:id', auth, deleteEvent);
 module.exports = router;
