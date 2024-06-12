@@ -12,7 +12,7 @@
 </head>
 <style>
     .toggle-btn {
-        cursor: pointer;
+        margin-left: 85%;
     }
 </style>
 
@@ -38,7 +38,7 @@
             <div class="form-group row mb-3">
                 <label for="password">รหัสผ่าน</label>
                 <input type="password" class="form-control" id="password" name="password" required>
-                <span class="toggle-btn" onclick="togglePassword()"><i class="fa-regular fa-eye-slash"></i></span>
+                <div class="toggle-btn" onclick="togglePassword()"><i class="fa-regular fa-eye-slash"></i></div>
                 <a class="m-0 mt-2" style="font-size:14px" href="/forgot_PSW">ลืมรหัสผ่าน</a>
             </div>
             <div class="row mt-3">
@@ -77,10 +77,10 @@
         function validateForm(event) {
             let numberID = document.getElementById("username").value;
             let showText = document.getElementById('showText')
-            let numberPattern = /^\d{10}$/;
+            let numberPattern = /^\d{8}$/;
 
             if (!numberPattern.test(numberID)) {
-                showText.innerText = "รหัสพนักงาน: กรอกตัวเลขให้ครบ 10 หลัก"
+                showText.innerText = "รหัสพนักงาน: กรอกตัวเลขให้ครบ 8 หลัก"
                 event.preventDefault();
                 return false;
             }
