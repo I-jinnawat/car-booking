@@ -112,6 +112,8 @@ exports.updateEvent = async (req, res, next) => {
       placeend,
       passengerCount,
       passengers,
+      start,
+      end,
       driver,
       adminName,
       carArrange_Time,
@@ -127,15 +129,17 @@ exports.updateEvent = async (req, res, next) => {
     } = req.body;
 
     // Convert start and end to JavaScript Date objects
-    const startTime = new Date(
-      new Date(req.body.start).getTime() + 7 * 60 * 60 * 1000
-    );
-    const endTime = new Date(
-      new Date(req.body.end).getTime() + 7 * 60 * 60 * 1000
-    );
-
-    if (isNaN(startTime) || isNaN(endTime)) {
-      return res.status(400).send('Invalid start or end time');
+    console.log(start);
+    console.log(end);
+    if ((start || end) && currentBooking.status === 1) {
+      console.log('function');
+      const startTime = new Date(
+        new Date(req.body.start).getTime() + 7 * 60 * 60 * 1000
+      );
+      const endTime = new Date(
+        new Date(req.body.end).getTime() + 7 * 60 * 60 * 1000
+      );
+      await Booking.findByIdAndUpdate(id, {start: startTime, end: endTime});
     }
 
     // ตรวจสอบดัชนีของ passenger ที่จะลบ
@@ -201,8 +205,6 @@ exports.updateEvent = async (req, res, next) => {
       vehicle,
       mobile_number,
       title,
-      start: startTime,
-      end: endTime,
       placestart,
       placeend,
       passengerCount,

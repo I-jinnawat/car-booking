@@ -1,84 +1,231 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>PDF Form</title>
-    <link rel="icon" href="image/Mae-Fah-Luang-University-2.png" type="image/x-icon">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <link rel="icon" href="../image/Mae-Fah-Luang-University-2.png" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <style>
-        form {
-            margin: 20px auto;
-            padding: 20px;
-            border: 1px solid gray;
-            border-radius: 5px;
-            width: 500px;
-            text-align: center;
+        body {
+            font-family: 'Arial', sans-serif;
         }
-        label {
-            display: inline-block;
-            width: 120px;
-            text-align: left;
-            margin-right: 10px;
+
+        .container {
+            margin-top: 50px;
         }
-        input[type="text"],
-        input[type="email"],
-        input[type="tel"] {
-            padding: 10px;
-            font-size: 18px;
-            border-radius: 5px;
-            border: 1px solid gray;
-            width: 250px;
+
+        .section {
             margin-bottom: 20px;
         }
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            border-radius: 5px;
-            background-color: rgb(34, 90, 195);
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
+
+        .header,
+        .middle {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .header-left,
+        .header-right,
+        .middle-left,
+        .middle-right {
+            width: 48%;
+        }
+
+        .header-left {
+            text-align: center;
+        }
+
+        .header-left img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        .middle-left,
+        .middle-right {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .middle-column {
+            width: 48%;
+        }
+
+        @media print {
+
+            .print-button,
+            .navbar {
+                display: none;
+            }
+
+            #org_img {
+                width: 150px;
+                display: block;
+            }
+        }
+
+        #org_img {
+            width: 100px;
         }
     </style>
-    <script>
-        
-        function downloadPDF() {
-            var name = document.getElementById("name").value;
-            var email = document.getElementById("email").value;
-            var phone = document.getElementById("phone").value;
-            var city = document.getElementById("city").value;
-            var state = document.getElementById("state").value;
-            var doc = new jsPDF();
-            
-
-            
-            doc.setFontSize(16);
-        doc.text(105, 10, "Form", null, null, 'center');
-        
-        // Adding other fields
-        doc.setFontSize(14);
-            doc.text(20, 20, "Name: " + name);
-            doc.text(20, 30, "Email: " + email);
-            doc.text(20, 40, "Phone: " + phone);
-            doc.text(20, 50, "City: " + city);
-            doc.text(20, 60, "State: " + state);
-            doc.save("form.pdf");
-        }
-    </script>
 </head>
+
 <body>
-    <form>
-        <h2>แบบฟอร์ม</h2>
-        <label for="name">ชื่อ:</label>
-        <input type="text" id="name" name="name"><br><br>
-        <label for="email">อีเมล:</label>
-        <input type="email" id="email" name="email"><br><br>
-        <label for="phone">เบอร์โทร:</label>
-        <input type="tel" id="phone" name="phone"><br><br>
-        <label for="city">เมือง:</label>
-        <input type="text" id="city" name="city"><br><br>
-        <label for="state">อำเภอ:</label>
-        <input type="text" id="state" name="state"><br><br>
-        <button onclick="downloadPDF()"> Download </button>
-    </form>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-md">
+            <a class="navbar-brand" id="generate-pdf" style="cursor: pointer;">พิมพ์</a>
+        </div>
+    </nav>
+
+    <div class="container" id="content">
+        <!-- ส่วนบน -->
+        <div class="section header">
+            <div class="header-left">
+                <img src="../image/Mae-Fah-Luang-University-2.png" id="org_img" alt="Organization Logo">
+            </div>
+            <div class="header-right">
+                <p>แบบฟอร์มการขอใช้รถยนต์</p>
+                <p>ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง โทร 053-914-023</p>
+                <p>Email: medical-center@mfu.ac.th</p>
+                <p><strong>รหัสการจอง:</strong>
+                    <%= booking.bookingID %>
+                </p>
+                <p><strong>วันที่จองรถ:</strong>
+                    <%= bookingDate %>
+                </p>
+            </div>
+        </div>
+        <hr>
+        <!-- ส่วนกลาง -->
+        <div class="section middle">
+            <div class="middle-left">
+                <div class="middle-column">
+                    <p><strong>ผู้ร้องขอ:</strong></p>
+                    <p>
+                        <%= booking.userinfo %>
+                    </p>
+                    <p><strong>เบอร์โทร:</strong></p>
+                    <p>
+                        <%= mobile_number_user %>
+                    </p>
+                </div>
+                <div class="middle-column">
+                    <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
+                    <p>ตำแหน่ง: พนักงาน</p>
+                </div>
+            </div>
+            <div class="middle-right">
+                <div class="middle-column">
+                    <p><strong>ผู้อนุมัติ:</strong></p>
+                    <p>
+                        <%= booking.approverName %>
+                    </p>
+                    <p><strong>เบอร์โทร:</strong></p>
+                    <p>
+                        <%= mobile_number_approver %>
+                    </p>
+                </div>
+                <div class="middle-column">
+                    <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
+                    <p>ตำแหน่ง: ผู้จัดการ</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="section middle">
+            <div class="middle-left">
+                <div class="middle-column">
+                    <p><strong>ผู้จัดรถ:</strong></p>
+                    <p>
+                        <%= booking.adminName %>
+                    </p>
+                    <p><strong>เบอร์โทร:</strong></p>
+                    <p>
+                        <%= mobile_number_admin %>
+                    </p>
+                </div>
+                <div class="middle-column">
+                    <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
+                    <p>ตำแหน่ง: พนักงาน</p>
+                </div>
+            </div>
+            <div class="middle-right">
+                <div class="middle-column">
+                    <p><strong>พนักงานขับรถ:</strong></p>
+                    <p>
+                        <%= booking.driver %>
+                    </p>
+                    <p><strong>เบอร์โทร:</strong></p>
+                    <p>
+                        <%= mobile_number_driver %>
+                    </p>
+                </div>
+                <div class="middle-column">
+                    <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
+                    <p>ตำแหน่ง: ผู้จัดการ</p>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!-- ส่วนล่าง -->
+        <div class="section footer">
+            <p>ส่วนล่าง: เพิ่มข้อความที่นี่</p>
+            <p><strong>จำนวนผู้เดินทาง</strong>
+                <%= booking.passengerCount %>
+            </p>
+            <p><strong>เวลารับ-เวลากลับ</strong>
+                <%= startDate %> - <%= endDate %>
+
+            </p>
+            <p><strong>สถานที่รับ-สถานที่กลับ</strong>
+                <%= booking.placestart %> - <%= booking.placeend %>
+            </p>
+            <p><strong>รถที่ใช้</strong>
+                <%= booking.vehicle %>
+            </p>
+            <p><strong>ขอใช้รถเพื่อปฏิบัติภารกิจ</strong> เพิ่มข้อความที่นี่</p>
+        </div>
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        document.getElementById('generate-pdf').addEventListener('click', function () {
+            var { jsPDF } = window.jspdf;
+
+            html2canvas(document.getElementById('content')).then(canvas => {
+                var imgData = canvas.toDataURL('image/png');
+                var pdf = new jsPDF('p', 'mm', 'a4');
+                var imgWidth = 210;
+                var pageHeight = 295;
+                var imgHeight = canvas.height * imgWidth / canvas.width;
+                var heightLeft = imgHeight;
+
+                // เพิ่ม margin-top 20 มิลลิเมตร
+                var marginTop = 20;
+                var position = marginTop;
+
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= (pageHeight - marginTop);
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight + marginTop;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                // สร้าง URL สำหรับ PDF
+                var pdfOutput = pdf.output('blob');
+                var pdfUrl = URL.createObjectURL(pdfOutput);
+
+                // เปิด PDF ในแท็บใหม่
+                window.open(pdfUrl);
+            });
+        });
+    </script>
 </body>
+
 </html>

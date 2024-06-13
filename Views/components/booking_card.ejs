@@ -28,18 +28,18 @@
             <div class="row" id="booking-body">
                 <div class="col">
                     <label class="form-label">ชื่อ-สกุล</label>
-                    <input style="cursor:not-allowed;" <%=booking.user_id !==user.id && booking.status !==1 ? 'disabled'
-                        : '' %> class="form-control" type="text" name="userinfo" value="<%= booking.userinfo %>"
+                    <input style="cursor:not-allowed;" <%=booking.user_id !==user.id && booking.status>1 ? 'disabled'
+                    : '' %> class="form-control" type="text" name="userinfo" value="<%= booking.userinfo %>"
                         readonly>
                 </div>
                 <div class="col-md">
                     <label class="form-label">หน่วยงาน</label>
-                    <input style="cursor:not-allowed;" <%=booking.user_id !==user.id && booking.status !==1 ? 'disabled'
-                        : '' %> class="form-control" name="organization" value="<%= booking.organization %>" readonly>
+                    <input style="cursor:not-allowed;" <%=booking.user_id !==user.id && booking.status>1 ? 'disabled'
+                    : '' %> class="form-control" name="organization" value="<%= booking.organization %>" readonly>
                 </div>
                 <div class="col-md">
                     <label class="form-label">เบอร์โทร</label>
-                    <input <%=booking.user_id !==user.id && booking.status !==1 ? 'disabled' : '' %>
+                    <input <%=booking.user_id !==user.id && booking.status>1 ? 'disabled' : '' %>
                     class="form-control"
                     type="tel" maxlength="10" name="mobile_number" placeholder="เช่น 08x-xxx-xxxx" value="<%=
                         booking.mobile_number %>" required>
@@ -50,7 +50,7 @@
                     <div class="form-group mt-4">
                         <label for="comment">ขอใช้รถเพื่อปฎิบัติภารกิจ:</label>
                         <textarea class="form-control" rows="5" id="comment" name="title" required <%=booking.user_id
-                            !==user.id && booking.status !==1 ? 'disabled' : '' %>><%= booking.title %></textarea>
+                            !==user.id && booking.status>1 ? 'disabled' : '' %>><%= booking.title %></textarea>
                     </div>
                 </div>
             </div>
@@ -58,29 +58,29 @@
                 <div class="row">
                     <div class="col-md">
                         <label for="">วัน/เวลาไปถึงสถานที่รับรถ</label>
-                        <input type="datetime-local" name="start" required
-                            value="<%= booking.start.toISOString().slice(0, 16) %>" class="form-control"
-                            <%=booking.user_id !==user.id && booking.status !==1 ? 'disabled' : '' %>>
+                        <input type="datetime-local" name="start" required class="form-control"
+                            value="<%= booking.start.toISOString().slice(0,16) %>" <%=booking.user_id !==user.id &&
+                            booking.status>1 ? 'disabled' : '' %>>
 
                     </div>
                     <div class="col-md">
                         <label for="">วัน/เวลาเสร็จสิ้นภารกิจ</label>
-                        <input type="datetime-local" name="end" required
-                            value="<%= booking.end.toISOString().slice(0, 16) %>" class="form-control"
-                            <%=booking.user_id !==user.id && booking.status !==1 ? 'disabled' : '' %>>
+                        <input type="datetime-local" name="end" required class="form-control"
+                            value="<%= booking.end.toISOString().slice(0,16)%>" <%=booking.user_id !==user.id &&
+                            booking.status>1 ? 'disabled' : '' %>>
                     </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-md">
                         <label for="">สถานที่รับ</label>
                         <input type="text" name="placestart" required value="<%= booking.placestart %>"
-                            class="form-control" <%=booking.user_id !==user.id && booking.status !==1 ? 'disabled' : ''
-                            %>>
+                            class="form-control" <%=booking.user_id !==user.id && booking.status>1 ? 'disabled' : ''
+                        %>>
                     </div>
                     <div class="col-md">
                         <label for="">สถานที่ส่ง</label>
                         <input type="text" name="placeend" required value="<%= booking.placeend %>" class="form-control"
-                            <%=booking.user_id !==user.id && booking.status !==1 ? 'disabled' : '' %>>
+                            <%=booking.user_id !==user.id && booking.status>1 ? 'disabled' : '' %>>
                     </div>
                 </div>
                 <div class="row mt-4">
@@ -88,7 +88,7 @@
                         <label for="">จำนวนผู้โดยสาร</label>
                         <input type="number" required id="passenger" name="passengerCount" min="0"
                             value="<%= booking.passengerCount %>" class="form-control" <%=booking.user_id !==user.id &&
-                            booking.status !==1 ? 'disabled' : '' %>>
+                            booking.status>1 ? 'disabled' : '' %>>
                     </div>
                 </div>
                 <div class="row mt-4">
@@ -99,10 +99,10 @@
                         <ol class="passenger-list mt-3">
                             <% booking.passengers.forEach((passenger, index)=> { %>
                                 <li>
-                                    <input <%=booking.user_id !==user.id && booking.status !==1 ? 'disabled' : '' %>
+                                    <input <%=booking.user_id !==user.id && booking.status>1 ? 'disabled' : '' %>
                                     class="form-control passenger-input mt-3" type="text" name="passengers" value="<%=
                                         passenger %>" required>
-                                        <% if (index>= 1 && user.role === 'user') { %>
+                                        <% if (index>= 1 && user.role > 'user') { %>
                                             <button class="btn btn-danger remove-passenger-btn mt-2"
                                                 style="width: 50px;">ลบ</button>
                                             <% } %>
@@ -277,6 +277,7 @@
 <!-- Display Aleart Update -->
 <script>
     async function displayAlertSaveupdate() {
+        console.log('test')
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -310,9 +311,8 @@
                 icon: 'success',
                 title: 'แก้ไขสำเร็จ',
             });
-            document.getElementById('status').value = 1;
+
             await document.querySelector('#booking-body form').submit();
-            console.log('successful')
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire({
                 title: 'ยกเลิก',
