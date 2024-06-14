@@ -1,18 +1,17 @@
 const Booking = require('../Models/booking');
 
 exports.list = async (req, res) => {
-  const page = Math.max(parseInt(req.query.page) || 1, 1); // Ensure page is a positive integer
-  const limit = 5; // The limit for a single page is 8 rows
+  const page = Math.max(parseInt(req.query.page, 10) || 1, 1); // Ensure page is a positive integer
+  const limit = 5; // The limit for a single page is 5 rows (updated to reflect the code)
   const skip = (page - 1) * limit;
 
   const user = req.session.user;
 
   // Determine the query filter based on user role
-  let filter = {};
+  const filter = {status: {$lte: 5}};
   if (user.role === 'user') {
-    filter = {user_id: user.id};
+    filter.user_id = user.id;
   }
-
   try {
     // Get the total count of bookings based on the filter
     const totalBookings = await Booking.countDocuments(filter);
