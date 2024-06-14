@@ -26,33 +26,32 @@
 
 
     }
-    
-        .colored-toast.swal2-icon-success {
-            background-color: #a5dc86 !important;
-        }
 
-        @media (max-width: 768px) {
-            .breadcrumb-nav {
-                display: none !important;
-            }
-        }
+    .colored-toast.swal2-icon-success {
+        background-color: #a5dc86 !important;
+    }
 
-        .card .sample {
-            background: #ffd600;
+    @media (max-width: 768px) {
+        .breadcrumb-nav {
+            display: none !important;
         }
+    }
 
-        .card .sample:hover {
-            background-color: none !important;
-        }
+    .card .sample {
+        background: #ffd600;
+    }
 
-        .card .manual {
-            background: #14a2b8;
-        }
+    .card .sample:hover {
+        background-color: none !important;
+    }
 
-        .card .manual:hover {
-            background-color: none !important;
-        }
-    
+    .card .manual {
+        background: #14a2b8;
+    }
+
+    .card .manual:hover {
+        background-color: none !important;
+    }
 </style>
 
 <body>
@@ -224,8 +223,8 @@
                 });
 
                 swalWithBootstrapButtons.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    title: 'โปรดตัวสอบข้อมูลของท่าน?',
+                    text: 'หากถูกต้อง กรุณากดยืนยันเพื่อส่งแบบฟอร์ม!!',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'ยืนยัน',
@@ -291,20 +290,20 @@
                     const year = today.getFullYear();
                     const day = today.getDate();
                     const monthList = [
-                        "January",
-                        "February",
-                        "March",
-                        "April",
-                        "May",
-                        "June",
-                        "July",
-                        "August",
-                        "September",
-                        "October",
-                        "November",
-                        "December"
+                        'ม.ค.',
+                        'ก.พ.',
+                        'มี.ค.',
+                        'เม.ย.',
+                        'พ.ค.',
+                        'มิ.ย.',
+                        'ก.ค.',
+                        'ส.ค.',
+                        'ก.ย.',
+                        'ต.ค.',
+                        'พ.ย.',
+                        'ธ.ค.',
                     ];
-                    const date = monthList[month] + " " + day + ", " + year;
+                    const date = day + ',' + " " + monthList[month] + ", " + year;
                     const time = hourTime + ":" + minute + ":" + second + ampm;
                     const dateTime = date + " - " + time;
                     document.getElementById("date-time").innerHTML = dateTime;

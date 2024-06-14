@@ -167,20 +167,9 @@
     </div>
 
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const removeButtons = document.querySelectorAll('.remove-passenger-btn');
-
-        removeButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                button.parentNode.remove();
-            });
-        });
-    });
-
-</script>
 <!-- Display Aleart Approve -->
 <script>
+
     async function displayAlertApprove() {
         const Toast = Swal.mixin({
             toast: true,
@@ -230,6 +219,7 @@
     }
 
 </script>
+<!-- Display Aleart Unapprove -->
 <script>
     document.getElementById('unapproveBtn').addEventListener('click', function () {
         var inputField = document.getElementById('myInput');
@@ -240,9 +230,6 @@
         }
     });
 
-</script>
-<!-- Display Aleart Unapprove -->
-<script>
     async function displayAlertUnapprove() {
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -370,6 +357,16 @@
 
 </script>
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const removeButtons = document.querySelectorAll('.remove-passenger-btn');
+
+        removeButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                button.parentNode.remove();
+            });
+        });
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
         const addPassengerBtn = document.querySelector('.add-passenger-btn');
         const passengerList = document.querySelector('.passenger-list');

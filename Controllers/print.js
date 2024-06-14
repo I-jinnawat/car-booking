@@ -48,21 +48,42 @@ exports.list = async (req, res) => {
     const adminInfo = await getUserInfo(adminName);
     const driverInfo = await getUserInfo(driver);
 
-    const mobile_number_user = userInfo.mobile_number || '-';
+    const mobile_number_user = userInfo?.mobile_number || '-';
     const mobile_number_approver = approverInfo?.mobile_number || '-';
     const mobile_number_admin = adminInfo?.mobile_number || '-';
     const mobile_number_driver = driverInfo?.mobile_number || '-';
+
+    const getOrganizationName = org => {
+      switch (org) {
+        case 'สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง':
+          return 'สำนักงานเลขานุการศูนย์การแพทย์ฯ';
+        case 'ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือ และอนุภูมิภาคลุ่มแม่น้ำโขง':
+          return 'ศูนย์บริการสุขภาพฯ';
+        case 'โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง':
+          return 'โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวงฯ';
+        case 'โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง เชียงราย':
+          return 'โรงพยาบาลศูนย์การแพทย์ฯ';
+        default:
+          return '-';
+      }
+    };
+    const org_user = getOrganizationName(userInfo?.organization);
+    const org_Approver = getOrganizationName(approverInfo?.organization);
+    const org_Admin = getOrganizationName(adminInfo?.organization);
+    const org_driver = getOrganizationName(driverInfo?.organization);
 
     const formatDate = date => formatDateThai(moment(date).tz('Asia/Bangkok'));
 
     const bookingDate = formatDate(booking.createdAt);
     const startDate = formatDate(booking.start);
     const endDate = formatDate(booking.end);
+    const approvalTime = formatDate(booking.approve_Time);
+    const carArrangeTime = formatDate(booking.carArrange_Time);
 
     console.log(startDate);
 
     res.render('print', {
-      booking: booking,
+      booking,
       bookingDate,
       startDate,
       endDate,
@@ -73,9 +94,16 @@ exports.list = async (req, res) => {
       mobile_number_approver,
       mobile_number_admin,
       mobile_number_driver,
+      approvalTime,
+      carArrangeTime,
+      org_user,
+      org_Approver,
+      org_Admin,
+      org_driver,
     });
   } catch (e) {
-    console.error(e).json('error :' + e);
+    console.error(e);
+    res.status(500).json({error: `Error: ${e.message}`});
   }
 };
 
