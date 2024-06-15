@@ -1,14 +1,15 @@
 const Booking = require('../Models/booking');
 
 exports.list = async (req, res) => {
-  const page = Math.max(parseInt(req.query.page, 10) || 1, 1); // Ensure page is a positive integer
-  const limit = 5; // The limit for a single page is 5 rows (updated to reflect the code)
+  const page = Math.max(parseInt(req.query.page) || 1, 1); // Ensure page is a positive integer
+  const singlePageLimit = 8; // The original limit for a single page
+  const limit = singlePageLimit * 2; // Double the limit to cover two pages
   const skip = (page - 1) * limit;
 
   const user = req.session.user;
 
   // Determine the query filter based on user role
-  const filter = {status: {$lte: 5}};
+  const filter = {status: {$lte: 8}};
   if (user.role === 'user') {
     filter.user_id = user.id;
   }
