@@ -105,13 +105,14 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <label class="form-label">เบอร์โทร</label>
+                                      <label class="form-label">เบอร์โทร</label>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                        <input type="tel" class="form-control" id="mobile_number"
-                                            name="newmobile_number" value="<%= user.mobile_number %>">
+                                      <input type="tel" class="form-control" id="mobile_number" name="newmobile_number" value="<%= user.mobile_number %>">
+                                      <div id="mobileNumberError" class="error-message" style="color: red;"></div>
                                     </div>
-                                </div>
+                                  </div>
+                                  
                                 <div class="row">
                                     <div class="text-center mt-3">
                                         <% if (error && error.length>0 ) { %>
@@ -132,6 +133,31 @@
                 </div>
             </div>
         </div>
+        <script>
+            document.getElementById('mobile_number').addEventListener('input', validateMobileNumber);
+
+function validateMobileNumber() {
+  const mobileNumber = document.getElementById('mobile_number').value;
+  const errorDiv = document.getElementById('mobileNumberError');
+  
+  // Define the mobile number requirements
+  const requiredLength = 10;
+
+  // Initialize error message
+  let errorMessage = '';
+
+  // Check mobile number length
+  if (mobileNumber.length !== requiredLength) {
+    errorMessage = `เบอร์โทรต้องมี ${requiredLength} ตัวเลข`;
+  } else {
+    errorMessage = ''; // Clear the error message if the condition is met
+  }
+
+  // Display the error message
+  errorDiv.textContent = errorMessage;
+}
+
+        </script>
         <script>
             let isSidebarOpen = false;
             function toggleNav() {

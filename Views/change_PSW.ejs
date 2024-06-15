@@ -21,7 +21,10 @@
     display: none !important;
   }
 
- 
+  .error-message {
+            color: red;
+            font-size: 0.9em;
+        }
 }
 </style>
 
@@ -70,7 +73,8 @@
 
                         </div>
                         <div class="col-sm-9 text-secondary">
-                          <input type="password" class="form-control" name="newpassword" required>
+                          <input type="password" id="password" class="form-control" name="newpassword" required>
+                          <div id="passwordError" class="error-message" style="color: red;"></div>
                         </div>
                       </div>
                       <div class="row mb-3">
@@ -79,7 +83,8 @@
                           </label>
                         </div>
                         <div class="col-sm-9 text-secondary">
-                          <input type="password" class="form-control" name="newpasswordconfirm" required>
+                          <input type="password" id="password" class="form-control" name="newpasswordconfirm" required>
+                          <div id="passwordError" class="error-message"></div>
                         </div>
                       </div>
                       <div class="row gy-2 text-center">
@@ -102,6 +107,44 @@
         </div>
       </div>
     </div>
+    <script>
+      document.getElementById('password').addEventListener('input', validatePassword);
+
+function validatePassword() {
+  const password = document.getElementById('password').value;
+  const errorDiv = document.getElementById('passwordError');
+  
+  // Define your password requirements here
+  const minLength = 8;
+  const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/;
+  const numberPattern = /[0-9]/;
+  const upperCasePattern = /[A-Z]/;
+
+  // Initialize error message
+  let errorMessage = '';
+
+  // Check password length
+  if (password.length < minLength) {
+    errorMessage = `รหัสผ่านต้องมีอย่างน้อย ${minLength} ตัวอักษร`;
+  } 
+ 
+ 
+  // Check for numbers
+  else if (!numberPattern.test(password)) {
+    errorMessage = 'รหัสผ่านต้องมีตัวเลขอย่างน้อย 1 ตัว';
+  } 
+  // Check for uppercase letters
+  else if (!upperCasePattern.test(password)) {
+    errorMessage = 'รหัสผ่านต้องมีตัวอักษรตัวใหญ่ (A-Z) อย่างน้อย 1 ตัว';
+  } else {
+    errorMessage = ''; // Clear the error message if all conditions are met
+  }
+
+  // Display the error message
+  errorDiv.textContent = errorMessage;
+}
+
+    </script>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         const newPasswordInput = document.querySelector('input[name="newpassword"]');
