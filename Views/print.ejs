@@ -171,7 +171,7 @@
                         <%= booking.approverName ? booking.approverName : '-' %>
                     </p>
                     <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
-                    <p>เวลาอนุมัติ: <%= approvalTime %>
+                    <p>เวลาอนุมัติ: <%= approvalTime ? approvalTime : '-' %>
                             <p>หน่วยงาน: <%= org_Approver %>
                             </p>
                     </p>
@@ -193,7 +193,7 @@
                         <%= booking.adminName ? booking.adminName : '-' %>
                     </p>
                     <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
-                    <p>เวลาจัดรถ: <%= carArrangeTime %>
+                    <p>เวลาจัดรถ: <%= carArrangeTime? carArrangeTime: '-' %>
                     </p>
                     <p>หน่วยงาน: <%= org_Admin? org_Admin: '-' %>
                 </div>
@@ -246,6 +246,7 @@
                     <hr>
                     <p>
                         <%= startDate %> - <%= endDate %>
+
                     </p>
                     <hr>
                     <p>

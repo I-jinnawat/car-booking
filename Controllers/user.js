@@ -6,6 +6,9 @@ const member_API = process.env.member_API;
 exports.create = async (req, res) => {
   const usersResponse = await axios.get(`${member_API}`, {});
   const users = usersResponse.data;
+  const page = parseInt(req.query.page) || 1; // Parse page number from query parameters (default to page 1)
+  const limit = 5; // Number of users per page
+
   const {
     firstname,
     lastname,
@@ -35,20 +38,41 @@ exports.create = async (req, res) => {
     req.flash('success_msg', 'User created successfully');
     res.redirect('/setting/member');
   } catch (err) {
-    console.error(err);
-
+    console.error(err.message);
+    const {
+      numberID,
+      password,
+      firstname,
+      lastname,
+      organization,
+      role,
+      mobile_number,
+      birth_year,
+    } = req.body;
+    const usersResponse = await axios.get(member_API, {
+      params: {
+        page: page,
+        limit: limit,
+      },
+    });
+    const usersResponseCount = await axios.get(member_API);
+    const usersCount = usersResponseCount.data.length;
+    const users = usersResponse.data;
+    const totalPages = Math.ceil(usersCount / limit);
     if (err.code === 11000 && err.keyPattern && err.keyPattern.username) {
       // Handle duplicate username error
       req.flash('error_msg', 'รหัสพนักงานมีอยู่แล้ว');
       const error_msg = req.flash('error_msg');
       return res.status(400).render('member', {
         user: req.session.user || null,
-        users: users,
         userLoggedIn: !!req.session.user,
+        users: users,
+        currentPage: page,
+        totalPages: totalPages,
         firstname: firstname,
         lastname: lastname,
         numberID: numberID,
-        username: username,
+        username: numberID,
         organization: organization,
         role: role,
         birth_year: birth_year,
@@ -57,7 +81,7 @@ exports.create = async (req, res) => {
       });
     } else {
       // Handle other errors
-      res.status(500).send('An error occurred while creating the user');
+      res.status(500).send('An error occurred while updating the user');
     }
   }
 };

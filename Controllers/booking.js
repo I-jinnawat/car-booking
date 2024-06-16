@@ -131,7 +131,11 @@ exports.updateEvent = async (req, res, next) => {
     // Convert start and end to JavaScript Date objects
     console.log(start);
     console.log(end);
-    if ((start || end) && currentBooking.status === 1) {
+    if (
+      (start || end) &&
+      currentBooking.status === 1 &&
+      user.role !== 'approver'
+    ) {
       console.log('function');
       const startTime = new Date(
         new Date(req.body.start).getTime() + 7 * 60 * 60 * 1000

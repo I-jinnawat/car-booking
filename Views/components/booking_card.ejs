@@ -39,10 +39,12 @@
                 </div>
                 <div class="col-md">
                     <label class="form-label">เบอร์โทร</label>
-                    <input <%=booking.user_id !==user.id && booking.status>1 ? 'disabled' : '' %>
-                    class="form-control"
-                    type="tel" maxlength="10" name="mobile_number" placeholder="เช่น 08x-xxx-xxxx" value="<%=
-                        booking.mobile_number %>" required>
+
+                    <input <%=booking.user_id !==user.id && booking.status>1 ? 'disabled' : '' %> class="form-control"
+                    type="tel" id="mobileNumber" name="mobile_number"
+                    value="<%= booking.mobile_number %>" required>
+                        <small id="mobileNumberError" class="text-danger d-none">โปรดกรอกเบอร์โทรศัพท์ให้ครบ 10
+                            ตัวเลข</small>
                 </div>
             </div>
             <div class="row">
@@ -171,6 +173,20 @@
 </div>
 <!-- Display Aleart Approve -->
 <script>
+
+    document.addEventListener("DOMContentLoaded", function () {
+        var mobileNumberInput = document.getElementById("mobileNumber");
+        mobileNumberInput.addEventListener("input", function () {
+            var mobileNumber = mobileNumberInput.value.trim();
+            var numericMobileNumber = mobileNumber.replace(/\D/g, "");
+            mobileNumberInput.value = numericMobileNumber;
+            if (numericMobileNumber.length === 10) {
+                document.getElementById("mobileNumberError").classList.add("d-none");
+            } else {
+                document.getElementById("mobileNumberError").classList.remove("d-none");
+            }
+        });
+    });
 
     async function displayAlertApprove() {
         const Toast = Swal.mixin({

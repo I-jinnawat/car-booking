@@ -23,8 +23,6 @@
             .breadcrumb-nav {
                 display: none !important;
             }
-
-
         }
 
         .error-message {
@@ -221,6 +219,12 @@
         </div>
         <script>
             // Prevent Default Form Submission
+            document.querySelector("#modal-body form").addEventListener("submit", function (event) {
+                event.preventDefault();
+                if (event.submitter && event.submitter.id === 'updatedBtn') {
+                    displayAlertUpdated(this)
+                }
+            });
             document.querySelectorAll("#modal-body form").forEach(form => {
                 form.addEventListener("submit", async function (event) {
                     event.preventDefault();
@@ -294,10 +298,50 @@
                 }
             });
 
-            document.querySelector('form').addEventListener('submit', function () {
-                document.getElementById('username').value = document.getElementById('numberID').value;
-            });
+            async function displayAlertUpdated(form) {
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    iconColor: 'white',
+                    customClass: {
+                        popup: 'colored-toast',
+                    },
+                    showConfirmButton: false,
+                    timer: 1000,
+                    timerProgressBar: true,
+                });
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger',
+                    },
+                    buttonsStyling: false,
+                });
+                const result = await swalWithBootstrapButtons.fire({
+                    title: 'คุณแน่ใจหรือไม่?',
+                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'ยืนยัน',
+                    cancelButtonText: 'ยกเลิก',
+                    reverseButtons: true,
+                });
 
+                if (result.isConfirmed) {
+                    await Toast.fire({
+                        icon: 'success',
+                        title: 'แก้ไขข้อมูลสำเร็จ',
+                    });
+
+                    await form.submit();
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire({
+                        title: 'ยกเลิก',
+                        text: 'คุณได้ทำการยกเลิก',
+                        icon: 'error',
+                    });
+                }
+            }
             function displayAlert(userID) {
                 Swal.fire({
                     title: "คุณต้องการลบใช่หรือไม่?",
@@ -356,93 +400,47 @@
 
             99
 
-            // Display Alert Updated
-            async function displayAlertUpdated(form) {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    iconColor: 'white',
-                    customClass: {
-                        popup: 'colored-toast',
-                    },
-                    showConfirmButton: false,
-                    timer: 1000,
-                    timerProgressBar: true,
-                });
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger'
-                    },
-                    buttonsStyling: false
-                });
 
-                const result = await swalWithBootstrapButtons.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'ยืนยัน',
-                    cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true
+        </script>
+        <script>
+            // Store all table data in an array
+            var tableData = [];
+            document.querySelectorAll("tbody tr").forEach(row => {
+                var rowData = [];
+                Array.from(row.querySelectorAll("td")).forEach(cell => {
+                    rowData.push(cell.textContent.trim());
                 });
+                tableData.push(rowData);
+            });
 
-                if (result.isConfirmed) {
-                    await Toast.fire({
-                        icon: 'success',
-                        title: 'แก้ไขข้อมูลสำเร็จ',
-                    });
-                    form.submit();
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    swalWithBootstrapButtons.fire({
-                        title: 'ยกเลิก',
-                        text: 'คุณได้ทำการยกเลิก',
-                        icon: 'error'
+            // Function to show all pages or all data
+            function showAllPages() {
+                document.querySelectorAll("tbody tr").forEach((row, index) => {
+                    row.style.display = "";
+                });
+            }
+
+            // Handle Search Input
+            function handleSearch() {
+                var searchValue = document.getElementById('searchInput').value.trim().toLowerCase();
+
+                if (searchValue === "showall") {
+                    // Show all pages or all data
+                    showAllPages();
+                } else {
+                    // Filter rows based on search term
+                    document.querySelectorAll("tbody tr").forEach((row, index) => {
+                        var found = tableData[index].some(cell => cell.toLowerCase().includes(searchValue));
+                        row.style.display = found ? "" : "none";
                     });
                 }
             }
 
-
+            // Add event listener for search input
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
         </script>
-      <script>
-        // Store all table data in an array
-        var tableData = [];
-        document.querySelectorAll("tbody tr").forEach(row => {
-            var rowData = [];
-            Array.from(row.querySelectorAll("td")).forEach(cell => {
-                rowData.push(cell.textContent.trim());
-            });
-            tableData.push(rowData);
-        });
-    
-        // Function to show all pages or all data
-        function showAllPages() {
-            document.querySelectorAll("tbody tr").forEach((row, index) => {
-                row.style.display = "";
-            });
-        }
-    
-        // Handle Search Input
-        function handleSearch() {
-            var searchValue = document.getElementById('searchInput').value.trim().toLowerCase();
-            
-            if (searchValue === "showall") {
-                // Show all pages or all data
-                showAllPages();
-            } else {
-                // Filter rows based on search term
-                document.querySelectorAll("tbody tr").forEach((row, index) => {
-                    var found = tableData[index].some(cell => cell.toLowerCase().includes(searchValue));
-                    row.style.display = found? "" : "none";
-                });
-            }
-        }
-    
-        // Add event listener for search input
-        document.getElementById('searchInput').addEventListener('input', handleSearch);
-    </script>
-    
-        
+
+
         <script>
             let isSidebarOpen = false;
             function toggleNav() {
