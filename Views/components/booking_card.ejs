@@ -130,10 +130,10 @@
                                 <div class="row text-center">
                                     <div class="mt-3">
                                         <% if (booking.user_id===user.id && user.role !=='approver' ) { %>
+                                            <a role="button" href=" /print/<%=booking._id %>"
+                                                class=" btn btn btn-secondary">พิมพ์เอกสาร</a>
                                             <button type="submit" id="saveupdateBtn" class="btn btn-primary btn-lg"
                                                 onclick="displayAlertSaveupdate()">ยืนยันการแก้ใข</button>
-                                            <button href="/print/<%= booking._id %>"
-                                                class="btn btn-secondary">พิมพ์เอกสาร</button>
                                             <% } else if (user.role==='approver' && booking.user_id===user.id) { %>
                                                 <button type="submit" id="saveupdateBtn" class="btn btn-primary btn-lg"
                                                     onclick="displayAlertSaveupdate()">ยืนยันการแก้ใข</button>

@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>เปลี่ยนรหัสผ่าน</title>
   <link rel="icon" href="../image/Mae-Fah-Luang-University-2.png" type="image/x-icon">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="/Css/edit.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -14,18 +13,19 @@
     crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel='stylesheet'
     href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <style>
-  @media (max-width: 768px) { 
-  .breadcrumb-nav { 
-    display: none !important;
+  @media (max-width: 768px) {
+    .breadcrumb-nav {
+      display: none !important;
+    }
   }
 
   .error-message {
-            color: red;
-            font-size: 0.9em;
-        }
-}
+    color: red;
+    font-size: 0.9em;
+  }
 </style>
 
 <body>
@@ -33,8 +33,7 @@
     <div class="container-fluid mt-3" id="main">
       <div class="row justify-content-center align-items-center">
         <div class="col-12">
-
-          <div class="container-fluid p-0 m-0" style="display: flex; align-items: center; ">
+          <div class="container-fluid p-0 m-0" style="display: flex; align-items: center;">
             <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0" style="font-size: 20px">
               <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
             </button>
@@ -43,112 +42,101 @@
               <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
                 <% if (userLoggedIn) { %>
-                  <li class="breadcrumb-item"><a href="/profile/<%= user.id %>">ข้อมูลส่วนตัว</a>
-                  </li>
+                  <li class="breadcrumb-item"><a href="/profile/<%= user.id %>">ข้อมูลส่วนตัว</a></li>
                   <% } %>
                     <li class="breadcrumb-item active" aria-current="page">เปลี่ยนรหัสผ่าน</li>
               </ol>
             </nav>
-
           </div>
-
 
           <div class="card mt-3">
             <div class="card-body">
-              <div class="card-body">
-                <form action="/user/update/<%=user._id%>" method="POST">
-                  <% if (userLoggedIn) { %>
+              <form action="/user/update/<%=user._id%>" method="POST">
+                <% if (userLoggedIn) { %>
+                  <div class="row mb-3">
+                    <div class="col-sm-3">
+                      <label class="form-label">รหัสผ่านเดิม</label>
+                    </div>
+                    <div class="col-sm-9">
+                      <input type="password" class="form-control" name="oldpassword" required>
+                    </div>
+                  </div>
+                  <% } %>
                     <div class="row mb-3">
                       <div class="col-sm-3">
-                        <label class="form-label">รหัสผ่านเดิม</label>
+                        <label class="form-label">รหัสผ่านใหม่</label>
                       </div>
-                      <div class="col-sm-9">
-                        <input type="password" class="form-control" name="oldpassword" required>
+                      <div class="col-sm-9 text-secondary">
+                        <input type="password" id="newpassword" class="form-control" name="newpassword" required>
+                        <div id="passwordError" class="error-message"></div>
                       </div>
                     </div>
-                    <% } %>
-                      <div class="row mb-3">
-                        <div class="col-sm-3">
-                          <label class="form-label">รหัสผ่านใหม่</label>
-
-                        </div>
-                        <div class="col-sm-9 text-secondary">
-                          <input type="password" id="password" class="form-control" name="newpassword" required>
-                          <div id="passwordError" class="error-message" style="color: red;"></div>
-                        </div>
+                    <div class="row mb-3">
+                      <div class="col-sm-3">
+                        <label class="form-label">ยืนยันรหัสผ่านใหม่</label>
                       </div>
-                      <div class="row mb-3">
-                        <div class="col-sm-3">
-                          <label class="form-label">ยืนยันรหัสผ่านใหม่
-                          </label>
-                        </div>
-                        <div class="col-sm-9 text-secondary">
-                          <input type="password" id="password" class="form-control" name="newpasswordconfirm" required>
-                          <div id="passwordError" class="error-message"></div>
-                        </div>
+                      <div class="col-sm-9 text-secondary">
+                        <input type="password" id="newpasswordconfirm" class="form-control" name="newpasswordconfirm"
+                          required>
+                        <div id="confirmPasswordError" class="error-message"></div>
                       </div>
-                      <div class="row gy-2 text-center">
-
-                        <div class="col-12 text-danger">
-                          <p id="showText">
-                            <% if (error_old && error_old.length> 0) { %>
-                              <%= error_old %>
-                                <% } %>
-                          </p>
-                        </div>
-                        <div class="col-md">
-                          <button type="submit" class="btn btn-primary">ยืนยัน</button>
-                        </div>
+                    </div>
+                    <div class="row gy-2 text-center">
+                      <div class="col-12 text-danger">
+                        <p id="showText">
+                          <% if (error_old && error_old.length> 0) { %>
+                            <%= error_old %>
+                              <% } %>
+                        </p>
                       </div>
-                </form>
-              </div>
+                      <div class="col-md">
+                        <button type="submit" class="btn btn-primary">ยืนยัน</button>
+                      </div>
+                    </div>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
+
     <script>
-      document.getElementById('password').addEventListener('input', validatePassword);
+      document.getElementById('newpassword').addEventListener('input', validatePassword);
+      document.getElementById('newpasswordconfirm').addEventListener('input', validatePassword);
 
-function validatePassword() {
-  const password = document.getElementById('password').value;
-  const errorDiv = document.getElementById('passwordError');
-  
-  // Define your password requirements here
-  const minLength = 8;
-  const specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/;
-  const numberPattern = /[0-9]/;
-  const upperCasePattern = /[A-Z]/;
+      function validatePassword() {
+        const password = document.getElementById('newpassword').value;
+        const confirmPassword = document.getElementById('newpasswordconfirm').value;
+        const errorDiv = document.getElementById('passwordError');
+        const confirmErrorDiv = document.getElementById('confirmPasswordError');
 
-  // Initialize error message
-  let errorMessage = '';
+        // Define password requirements
+        const minLength = 8;
+        const numberPattern = /[0-9]/;
+        const upperCasePattern = /[A-Z]/;
 
-  // Check password length
-  if (password.length < minLength) {
-    errorMessage = `รหัสผ่านต้องมีอย่างน้อย ${minLength} ตัวอักษร`;
-  } 
- 
- 
-  // Check for numbers
-  else if (!numberPattern.test(password)) {
-    errorMessage = 'รหัสผ่านต้องมีตัวเลขอย่างน้อย 1 ตัว';
-  } 
-  // Check for uppercase letters
-  else if (!upperCasePattern.test(password)) {
-    errorMessage = 'รหัสผ่านต้องมีตัวอักษรตัวใหญ่ (A-Z) อย่างน้อย 1 ตัว';
-  } else {
-    errorMessage = ''; // Clear the error message if all conditions are met
-  }
+        let errorMessage = '';
 
-  // Display the error message
-  errorDiv.textContent = errorMessage;
-}
+        if (password.length < minLength) {
+          errorMessage = `รหัสผ่านต้องมีอย่างน้อย ${minLength} ตัวอักษร`;
+        } else if (!numberPattern.test(password)) {
+          errorMessage = 'รหัสผ่านต้องมีตัวเลขอย่างน้อย 1 ตัว';
+        } else if (!upperCasePattern.test(password)) {
+          errorMessage = 'รหัสผ่านต้องมีตัวอักษรตัวใหญ่ (A-Z) อย่างน้อย 1 ตัว';
+        } else {
+          errorMessage = '';
+        }
 
+
+
+        errorDiv.textContent = errorMessage;
+      }
     </script>
+
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        const newPasswordInput = document.querySelector('input[name="newpassword"]');
-        const newPasswordConfirmInput = document.querySelector('input[name="newpasswordconfirm"]');
+        const newPasswordInput = document.getElementById('newpassword');
+        const newPasswordConfirmInput = document.getElementById('newpasswordconfirm');
         const submitButton = document.querySelector('button[type="submit"]');
         const showText = document.getElementById('showText');
 
@@ -165,16 +153,15 @@ function validatePassword() {
           }
         });
 
-        // Optional: Disable submit button if passwords don't match
         submitButton.addEventListener('click', function (event) {
           if (newPasswordInput.value !== newPasswordConfirmInput.value) {
             event.preventDefault();
-
             showText.textContent = 'รหัสผ่านใหม่และการยืนยันรหัสผ่านไม่ตรงกัน';
           }
         });
       });
     </script>
+
     <script>
       let isSidebarOpen = false;
       function toggleNav() {
@@ -196,10 +183,10 @@ function validatePassword() {
         }
       }
     </script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

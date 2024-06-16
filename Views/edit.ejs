@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>แก้ไขข้อมูลส่วนตัว</title>
-    <link rel="icon" href="image/Mae-Fah-Luang-University-2.png" type="image/x-icon">
+    <link rel="icon" href="../Public/image/Mae-Fah-Luang-University-2.png" type="image/x-icon">
     <link rel="stylesheet" href="/Css/edit.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -15,13 +15,11 @@
         href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
 </head>
 <style>
-    @media (max-width: 768px) { 
-  .breadcrumb-nav { 
-    display: none !important;
-  }
-
- 
-}
+    @media (max-width: 768px) {
+        .breadcrumb-nav {
+            display: none !important;
+        }
+    }
 </style>
 
 <body>
@@ -34,7 +32,8 @@
                             style="font-size: 20px">
                             <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
                         </button>
-                        <nav class="breadcrumb-nav" style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
+                        <nav class="breadcrumb-nav" style="--bs-breadcrumb-divider: '>'; margin-left: 3%;"
+                            aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
                                 <li class="breadcrumb-item"><a href="/profile/<%= user.id %>">ข้อมูลส่วนตัว</a></li>
@@ -99,31 +98,25 @@
                                             เกิด</label>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input name="birth_year" id="birthDate" type="date"
-                                            class="form-control">
+                                        <input value="<%= new Date(user.birth_year).toISOString().split('T')[0] %>"
+                                            name="birth_year" id="birthDate" type="date" class="form-control">
+
                                     </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                      <label class="form-label">เบอร์โทร</label>
+                                        <label class="form-label">เบอร์โทร</label>
                                     </div>
                                     <div class="col-sm-9 text-secondary">
-                                      <input type="tel" class="form-control" id="mobile_number" name="newmobile_number" value="<%= user.mobile_number %>">
-                                      <div id="mobileNumberError" class="error-message" style="color: red;"></div>
+                                        <input type="tel" class="form-control" id="mobile_number"
+                                            name="newmobile_number" value="<%= user.mobile_number %>">
+                                        <div id="mobileNumberError" class="error-message" style="color: red;"></div>
                                     </div>
-                                  </div>
-                                  
+                                </div>
+
                                 <div class="row">
                                     <div class="text-center mt-3">
-                                        <% if (error && error.length>0 ) { %>
-                                            <p class="text-danger">
-                                                <%= error %>
-                                            </p>
-
-                                            <% } %>
-
-                                                <button type="submit" class="btn btn-primary"
-                                                    id="UpdateBtn">ยืนยัน</button>
+                                        <button type="submit" class="btn btn-primary" id="UpdateBtn">ยืนยัน</button>
                                     </div>
                                 </div>
                             </form>
@@ -136,26 +129,26 @@
         <script>
             document.getElementById('mobile_number').addEventListener('input', validateMobileNumber);
 
-function validateMobileNumber() {
-  const mobileNumber = document.getElementById('mobile_number').value;
-  const errorDiv = document.getElementById('mobileNumberError');
-  
-  // Define the mobile number requirements
-  const requiredLength = 10;
+            function validateMobileNumber() {
+                const mobileNumber = document.getElementById('mobile_number').value;
+                const errorDiv = document.getElementById('mobileNumberError');
 
-  // Initialize error message
-  let errorMessage = '';
+                // Define the mobile number requirements
+                const requiredLength = 10;
 
-  // Check mobile number length
-  if (mobileNumber.length !== requiredLength) {
-    errorMessage = `เบอร์โทรต้องมี ${requiredLength} ตัวเลข`;
-  } else {
-    errorMessage = ''; // Clear the error message if the condition is met
-  }
+                // Initialize error message
+                let errorMessage = '';
 
-  // Display the error message
-  errorDiv.textContent = errorMessage;
-}
+                // Check mobile number length
+                if (mobileNumber.length !== requiredLength) {
+                    errorMessage = `เบอร์โทรต้องมี ${requiredLength} ตัวเลข`;
+                } else {
+                    errorMessage = ''; // Clear the error message if the condition is met
+                }
+
+                // Display the error message
+                errorDiv.textContent = errorMessage;
+            }
 
         </script>
         <script>
@@ -182,23 +175,6 @@ function validateMobileNumber() {
         </script>
         <script>
             document.getElementById('updateForm').addEventListener('submit', function (event) {
-                const mobileNumberInput = document.getElementById('mobile_number');
-                const displayError = document.getElementById('displayError');
-                let mobileNumber = mobileNumberInput.value;
-
-                // Ensure the mobile number starts with 0
-                if (!mobileNumber.startsWith('0')) {
-                    mobileNumber = '0' + mobileNumber;
-                    mobileNumberInput.value = mobileNumber; // Update the input field value
-                }
-
-                // Ensure the mobile number is 10 digits long
-                if (mobileNumber.length !== 10) {
-                    event.preventDefault(); // Prevent form submission
-                    alert('Mobile number must be 10 digits long');
-                    return;
-                }
-
                 // Prevent default form submission and show confirmation dialog
                 event.preventDefault();
 
@@ -227,7 +203,10 @@ function validateMobileNumber() {
                 });
 
                 if (result.isConfirmed) {
-                    document.getElementById('updateForm').submit();
+                    validateMobileNumber(); // Ensure the mobile number is validated
+                    if (!document.getElementById('mobileNumberError').textContent) {
+                        document.getElementById('updateForm').submit();
+                    }
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     swalWithBootstrapButtons.fire({
                         title: 'ยกเลิก',
@@ -237,7 +216,6 @@ function validateMobileNumber() {
                 }
             }
         </script>
-
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

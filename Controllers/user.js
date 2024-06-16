@@ -72,6 +72,10 @@ exports.update = async (req, res) => {
     newpasswordconfirm,
   } = req.body;
 
+  const start = new Date(
+    new Date(req.body.birth_year).getTime() + 7 * 60 * 60 * 1000
+  );
+
   try {
     let user = await Auth.findById(id);
 
@@ -80,51 +84,49 @@ exports.update = async (req, res) => {
       return res.redirect('/');
     }
 
-    if (newfirstname || newlastname || newmobile_number) {
-      user.firstname = newfirstname;
-      user.lastname = newlastname;
-      user.mobile_number = newmobile_number;
-
-      try {
-        await user.save();
-        req.flash('success', 'User updated successfully.');
-        return res.redirect('/profile/' + id);
-      } catch (err) {
-        // Catch validation errors
-        if (err.name === 'ValidationError') {
-          req.flash('error', err.errors['mobile_number'].message);
-          return res.status(400).redirect('/profile/edit/' + id);
-        }
-        throw err; // Throw other errors to the catch block
-      }
+    // Update user details if provided
+    if (
+      newfirstname ||
+      newlastname ||
+      newmobile_number ||
+      req.body.birth_year
+    ) {
+      user.firstname = newfirstname || user.firstname;
+      user.lastname = newlastname || user.lastname;
+      user.mobile_number = newmobile_number || user.mobile_number;
+      user.birth_year = req.body.birth_year ? start : user.birth_year;
+      await user.save();
     }
 
-    // Change password
+    // Change password if both old and new passwords are provided
     if (newpassword && oldpassword) {
       if (!bcrypt.compareSync(oldpassword, user.password)) {
         req.flash('error_old', 'รหัสผ่านเดิมไม่ถูกต้อง');
         return res.redirect('/profile/Change_PSW/' + id);
       }
-
       user.password = bcrypt.hashSync(newpassword, 10);
       await user.save();
       req.flash('success', 'เปลี่ยนรหัสผ่านสำเร็จ');
-      return res.redirect('/profile/' + id);
     }
 
-    if (newpassword && newpasswordconfirm) {
-      try {
-        user.password = bcrypt.hashSync(newpasswordconfirm, 10);
-        await user.save();
-        res.redirect('/login');
-      } catch (error) {
-        res.send('test4');
-      }
+    // Ensure the new password and confirmation match
+    if (
+      newpassword &&
+      newpasswordconfirm &&
+      newpassword === newpasswordconfirm
+    ) {
+      user.password = bcrypt.hashSync(newpasswordconfirm, 10);
+      await user.save();
+      req.flash('success', 'Password changed successfully.');
+      return res.redirect('/login');
     }
 
-    await user.save();
+    // Save user only if there were updates
+
+    req.flash('info', 'No updates were made.');
+    res.redirect('/profile/' + id);
   } catch (err) {
-    console.error('Error updating user:', err.message);
+    console.error('Error updating user:', err);
     req.flash('error', 'An error occurred while updating user information.');
     res.redirect('/profile/' + id);
   }

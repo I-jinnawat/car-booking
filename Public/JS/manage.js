@@ -53,36 +53,6 @@ selectElement.addEventListener('change', function () {
   });
 });
 
-// Function to handle search input
-function handleSearch() {
-  // Get search input value
-  var searchValue = document.getElementById('searchInput').value.toLowerCase();
-
-  // Get all rows in the table body
-  var rows = document.querySelectorAll('tbody tr');
-
-  // Iterate through each row
-  rows.forEach(function (row) {
-    var cells = row.querySelectorAll('td');
-    var found = false;
-
-    // Iterate through each cell in the row
-    cells.forEach(function (cell) {
-      // Check if the cell content contains the search value
-      if (cell.textContent.toLowerCase().includes(searchValue)) {
-        found = true;
-      }
-    });
-
-    // Show or hide the row based on the search result
-    if (found) {
-      row.style.display = '';
-    } else {
-      row.style.display = 'none';
-    }
-  });
-}
-
 // Add event listener to search input field
 document.getElementById('searchInput').addEventListener('input', handleSearch);
 
