@@ -404,23 +404,45 @@
 
 
         </script>
-        <script>
-            // Handle Search Input
-            function handleSearch() {
-                var searchValue = document.getElementById('searchInput').value.toLowerCase();
-                var rows = document.querySelectorAll("tbody tr");
-
-                rows.forEach(row => {
-                    var found = Array.from(row.querySelectorAll("td")).some(cell =>
-                        cell.textContent.toLowerCase().includes(searchValue)
-                    );
-                    row.style.display = found ? "" : "none";
+      <script>
+        // Store all table data in an array
+        var tableData = [];
+        document.querySelectorAll("tbody tr").forEach(row => {
+            var rowData = [];
+            Array.from(row.querySelectorAll("td")).forEach(cell => {
+                rowData.push(cell.textContent.trim());
+            });
+            tableData.push(rowData);
+        });
+    
+        // Function to show all pages or all data
+        function showAllPages() {
+            document.querySelectorAll("tbody tr").forEach((row, index) => {
+                row.style.display = "";
+            });
+        }
+    
+        // Handle Search Input
+        function handleSearch() {
+            var searchValue = document.getElementById('searchInput').value.trim().toLowerCase();
+            
+            if (searchValue === "showall") {
+                // Show all pages or all data
+                showAllPages();
+            } else {
+                // Filter rows based on search term
+                document.querySelectorAll("tbody tr").forEach((row, index) => {
+                    var found = tableData[index].some(cell => cell.toLowerCase().includes(searchValue));
+                    row.style.display = found? "" : "none";
                 });
             }
-
-            document.getElementById('searchInput').addEventListener('input', handleSearch);
-
-        </script>
+        }
+    
+        // Add event listener for search input
+        document.getElementById('searchInput').addEventListener('input', handleSearch);
+    </script>
+    
+        
         <script>
             let isSidebarOpen = false;
             function toggleNav() {
