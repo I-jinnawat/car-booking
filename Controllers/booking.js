@@ -46,11 +46,18 @@ exports.bookingEdit = async (req, res, next) => {
 
     const bookingStatus = booking.status;
     const errorBooking = req.flash('errorBooking');
+    const start = new Date(
+      new Date(booking.start).getTime() + 7 * 60 * 60 * 1000
+    );
+    const end = new Date(new Date(booking.end).getTime() + 7 * 60 * 60 * 1000);
 
+    console.log(start);
     res.render('booking-edit', {
       userLoggedIn: Boolean(req.session.user),
       user: req.session.user,
       booking,
+      start: start,
+      end: end,
       bookingStatus,
       drivers,
       vehicles,
@@ -77,18 +84,18 @@ exports.createEvent = async (req, res, next) => {
     req.body.bookingID = bookingID;
 
     // Convert start and end times to UTC
-    if (req.body.start && req.body.end) {
-      // Convert start and end to JavaScript Date objects
-      const start = new Date(
-        new Date(req.body.start).getTime() + 7 * 60 * 60 * 1000
-      );
-      const end = new Date(
-        new Date(req.body.end).getTime() + 7 * 60 * 60 * 1000
-      );
+    // if (req.body.start && req.body.end) {
+    //   // Convert start and end to JavaScript Date objects
+    //   const start = new Date(
+    //     new Date(req.body.start).getTime() + 7 * 60 * 60 * 1000
+    //   );
+    //   const end = new Date(
+    //     new Date(req.body.end).getTime() + 7 * 60 * 60 * 1000
+    //   );
 
-      req.body.start = start;
-      req.body.end = end;
-    }
+    //   req.body.start = start;
+    //   req.body.end = end;
+    // }
 
     await Booking.create(req.body);
     res.status(201).redirect('/manage');
@@ -127,24 +134,6 @@ exports.updateEvent = async (req, res, next) => {
       completion_Time,
       deletedPassengerIndex,
     } = req.body;
-
-    // Convert start and end to JavaScript Date objects
-    console.log(start);
-    console.log(end);
-    if (
-      (start || end) &&
-      currentBooking.status === 1 &&
-      user.role !== 'approver'
-    ) {
-      console.log('function');
-      const startTime = new Date(
-        new Date(req.body.start).getTime() + 7 * 60 * 60 * 1000
-      );
-      const endTime = new Date(
-        new Date(req.body.end).getTime() + 7 * 60 * 60 * 1000
-      );
-      await Booking.findByIdAndUpdate(id, {start: startTime, end: endTime});
-    }
 
     // ตรวจสอบดัชนีของ passenger ที่จะลบ
     if (
@@ -189,7 +178,7 @@ exports.updateEvent = async (req, res, next) => {
         } else if (currentBooking.status === 3 && user.role !== 'approver') {
           vehicleInfo.start_time = '';
           vehicleInfo.end_time = '';
-          last_distance += parseFloat(total_kilometer);
+          last_distance = parseFloat(kilometer_end);
           console.log('New last_distance:', last_distance);
           vehicleInfo.last_distance = last_distance;
           await vehicleInfo.save();
@@ -213,6 +202,8 @@ exports.updateEvent = async (req, res, next) => {
       placeend,
       passengerCount,
       passengers,
+      start,
+      end,
       driver,
       adminName,
       carArrange_Time,
@@ -236,11 +227,18 @@ exports.updateEvent = async (req, res, next) => {
 exports.Event = async (req, res, next) => {
   try {
     const currentUser = req.session.user;
+
+    // Fetch bookings with status between 2 and 3 (inclusive)
     let events = await Booking.find({status: {$gte: 2, $lt: 4}}).lean();
 
-    if (!(currentUser.role === 'approver' || currentUser.role === 'admin')) {
-      events = events.map(event => ({...event, title: 'ถูกจองแล้ว'}));
-    }
+    // Convert and format dates to Thai time zone
+    events = events.map(event => ({
+      ...event,
+      title:
+        currentUser.role === 'approver' || currentUser.role === 'admin'
+          ? event.title
+          : 'ถูกจองแล้ว',
+    }));
 
     res.json(events);
   } catch (error) {

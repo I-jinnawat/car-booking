@@ -9,16 +9,15 @@ const Vehicle = require('../Models/vehicles');
 exports.read = async (req, res) => {
   try {
     const currentDate = new Date(); // Get the current date and time
-    const currentDay = currentDate.toISOString().split('T')[0]; // Extract the day part from the ISO string representation
+    const currentDay = currentDate.toISOString().split('T')[0]; // Extract the date part in YYYY-MM-DD format
 
-    const bookingCount = await getCountOfBookings(currentDay); // Use adjusted current date here
+    const bookingCount = await getCountOfBookings(currentDay); // Pass the current date to get booking count
     const vehicleCount = await getCountOfVehicles();
     const vehicleInProgress = await getCountOfVehiclesInProgress(currentDay);
 
-    console.log('Vehicle Count:', vehicleCount);
-
     const vehicles = await Vehicle.find().lean();
 
+    // Uncomment and use the following line to render the dashboard view
     res.render('dashboard', {
       userLoggedIn: !!req.session.user,
       user: req.session.user || null,
@@ -27,8 +26,17 @@ exports.read = async (req, res) => {
       vehicleInProgress: vehicleInProgress,
       vehicles,
     });
+
+    // For debugging, you can use res.json to return the current day and counts
+    // res.json({
+    //   currentDay,
+    //   bookingCount,
+    //   vehicleCount,
+    //   vehicleInProgress,
+    //   vehicles,
+    // });
   } catch (error) {
-    console.log(error);
+    console.error('Error fetching dashboard data:', error);
     res.status(500).render('error', {message: 'Internal Server Error'});
   }
 };

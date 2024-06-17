@@ -14,7 +14,7 @@ const {
 
 router.get('/booking', auth, list);
 router.get('/booking-edit/:id', auth, bookingEdit);
-router.get('/events', auth, Event);
+router.get('/events', Event);
 router.post('/events', auth, createEvent);
 router.post('/events/:id', auth, updateEvent);
 router.post('/booking-delete/:id', auth, deleteBooking);

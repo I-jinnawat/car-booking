@@ -3,13 +3,13 @@ const Booking = require('../Models/booking');
 exports.list = async (req, res) => {
   const page = Math.max(parseInt(req.query.page) || 1, 1); // Ensure page is a positive integer
   const singlePageLimit = 5; // The original limit for a single page
-  const limit = 5;
+  const limit = 8;
   const skip = (page - 1) * limit;
 
   const user = req.session.user;
 
   // Determine the query filter based on user role
-  const filter = {status: {$lte: 4}};
+  const filter = {status: {$lte: 5}};
   if (user.role === 'user') {
     filter.user_id = user.id;
   }
@@ -24,6 +24,7 @@ exports.list = async (req, res) => {
       {case: {$eq: ['$status', 3]}, then: 1},
       {case: {$eq: ['$status', 1]}, then: 2},
       {case: {$eq: ['$status', 4]}, then: 3},
+      {case: {$eq: ['$status', 5]}, then: 4},
     ];
 
     const userSortOrder = [
@@ -31,6 +32,7 @@ exports.list = async (req, res) => {
       {case: {$eq: ['$status', 2]}, then: 1},
       {case: {$eq: ['$status', 3]}, then: 2},
       {case: {$eq: ['$status', 4]}, then: 3},
+      {case: {$eq: ['$status', 5]}, then: 5},
     ];
 
     const sortOrder = user.role === 'admin' ? adminSortOrder : userSortOrder;

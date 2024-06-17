@@ -5,32 +5,35 @@ const bcrypt = require('bcryptjs');
 
 const member_API = process.env.Member_API;
 
+// Helper function to fetch users and count
+const fetchUsers = async (page, limit) => {
+  const usersResponse = await axios.get(member_API, {
+    params: {page, limit},
+  });
+
+  const usersResponseCount = await axios.get(member_API);
+  const usersCount = usersResponseCount.data.length;
+
+  return {
+    users: usersResponse.data,
+    totalPages: Math.ceil(usersCount / limit),
+  };
+};
+
 exports.read = async (req, res) => {
-  const page = parseInt(req.query.page) || 1; // Parse page number from query parameters (default to page 1)
-  const limit = 5; // Number of users per page
-  const error_msg = '';
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = 5;
 
   try {
-    // Fetch users for the current page
-    const usersResponse = await axios.get(member_API, {
-      params: {
-        page: page,
-        limit: limit,
-      },
-    });
-
-    const usersResponseCount = await axios.get(member_API);
-    const usersCount = usersResponseCount.data.length;
-    const users = usersResponse.data;
-    const totalPages = Math.ceil(usersCount / limit);
+    const {users, totalPages} = await fetchUsers(page, limit);
 
     const responseData = {
       userLoggedIn: !!req.session.user,
       user: req.session.user || null,
-      users: users,
+      users,
       currentPage: page,
-      totalPages: totalPages,
-      error_msg: error_msg,
+      totalPages,
+      error_msg: '',
     };
 
     res.render('member', responseData);
@@ -42,18 +45,11 @@ exports.read = async (req, res) => {
 
 exports.list = async (req, res) => {
   try {
-    const page = Math.max(parseInt(req.query.page) || 1, 1); // Ensure page is a positive integer
-    const limit = parseInt(req.query.limit) || 10; // Limit of items per page, default is 10
-
+    const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+    const limit = parseInt(req.query.limit, 10) || 10;
     const skip = (page - 1) * limit;
-    let users = [];
 
-    if (page && limit) {
-      users = await User.find().skip(skip).limit(limit).exec();
-    } else {
-      users = await User.find().exec();
-    }
-
+    const users = await User.find().skip(skip).limit(limit).exec();
     res.json(users);
   } catch (error) {
     console.error(error);
@@ -63,8 +59,8 @@ exports.list = async (req, res) => {
 
 exports.update = async (req, res) => {
   const {id} = req.params;
-  const page = parseInt(req.query.page) || 1; // Parse page number from query parameters (default to page 1)
-  const limit = 5; // Number of users per page
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = 5;
 
   try {
     const {
@@ -78,25 +74,17 @@ exports.update = async (req, res) => {
       birth_year,
     } = req.body;
 
-    let hash_password;
-    if (password) {
-      hash_password = bcrypt.hashSync(password, 10);
-    }
-
     const updateData = {
-      role,
+      numberID,
+      password: password ? bcrypt.hashSync(password, 10) : undefined,
       firstname,
       lastname,
       organization,
+      role,
       mobile_number,
       birth_year,
-      numberID,
       username: numberID,
     };
-
-    if (password) {
-      updateData.password = hash_password;
-    }
 
     const updatedUser = await User.findByIdAndUpdate(id, updateData, {
       new: true,
@@ -104,73 +92,35 @@ exports.update = async (req, res) => {
 
     console.log('Update successful');
 
-    // Fetch users for the current page after update
-    const usersResponse = await axios.get(member_API, {
-      params: {
-        page: page,
-        limit: limit,
-      },
-    });
-
-    const usersResponseCount = await axios.get(member_API);
-    const usersCount = usersResponseCount.data.length;
-    const users = usersResponse.data;
-    const totalPages = Math.ceil(usersCount / limit);
+    const {users, totalPages} = await fetchUsers(page, limit);
 
     res.render('member', {
       userLoggedIn: !!req.session.user,
       user: req.session.user || null,
-      users: users,
+      users,
       currentPage: page,
-      totalPages: totalPages,
+      totalPages,
       error_msg: null,
     });
-  } catch (err) {
-    console.error(err.message);
-    const {
-      numberID,
-      password,
-      firstname,
-      lastname,
-      organization,
-      role,
-      mobile_number,
-      birth_year,
-    } = req.body;
-    const usersResponse = await axios.get(member_API, {
-      params: {
-        page: page,
-        limit: limit,
-      },
-    });
-    const usersResponseCount = await axios.get(member_API);
-    const usersCount = usersResponseCount.data.length;
-    const users = usersResponse.data;
-    const totalPages = Math.ceil(usersCount / limit);
-    if (err.code === 11000 && err.keyPattern && err.keyPattern.username) {
-      // Handle duplicate username error
+  } catch (error) {
+    console.error(error.message);
+
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.username) {
       req.flash('error_msg', 'รหัสพนักงานมีอยู่แล้ว');
-      const error_msg = req.flash('error_msg');
-      return res.status(400).render('member', {
-        user: req.session.user || null,
-        userLoggedIn: !!req.session.user,
-        users: users,
-        currentPage: page,
-        totalPages: totalPages,
-        firstname: firstname,
-        lastname: lastname,
-        numberID: numberID,
-        username: numberID,
-        organization: organization,
-        role: role,
-        birth_year: birth_year,
-        mobile_number: mobile_number,
-        error_msg: error_msg,
-      });
-    } else {
-      // Handle other errors
-      res.status(500).send('An error occurred while updating the user');
     }
+
+    const {users, totalPages} = await fetchUsers(page, limit);
+    const error_msg = req.flash('error_msg');
+
+    res.status(400).render('member', {
+      userLoggedIn: !!req.session.user,
+      user: req.session.user || null,
+      users,
+      currentPage: page,
+      totalPages,
+      ...req.body,
+      error_msg,
+    });
   }
 };
 
@@ -179,8 +129,6 @@ exports.remove = async (req, res) => {
 
   try {
     await User.findByIdAndDelete(id);
-
-    // Optionally, redirect to a different page or send a response
     res.sendStatus(204);
   } catch (error) {
     console.error('Error deleting User:', error);

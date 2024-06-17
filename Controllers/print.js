@@ -71,14 +71,10 @@ exports.list = async (req, res) => {
     const org_driver = getOrganizationName(driverInfo?.organization);
 
     const formatDate = date => formatDateThai(moment(date).tz('Asia/Bangkok'));
-    const start = new Date(
-      new Date(booking.start).getTime() - 7 * 60 * 60 * 1000
-    );
-    const end = new Date(new Date(booking.end).getTime() - 7 * 60 * 60 * 1000);
 
     const bookingDate = formatDate(booking.createdAt);
-    const startDate = formatDate(start);
-    const endDate = formatDate(end);
+    const startDate = formatDate(booking.start);
+    const endDate = formatDate(booking.end);
     const approvalTime = booking.approve_Time
       ? formatDate(booking.approve_Time)
       : '-';
