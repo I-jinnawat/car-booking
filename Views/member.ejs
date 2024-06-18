@@ -34,7 +34,11 @@
             color: red;
             font-size: 0.9em;
         }
-    </style>
+    .toggle-btn {
+        margin-left: 91%;
+        margin-top: -9%;
+    }
+</style>
 </head>
 
 <body>
@@ -175,12 +179,13 @@
                                                         <div class="row mb-3">
                                                             <div class="col-sm-3">
                                                                 <label class="form-label"
-                                                                    for="password">รหัสผ่าน</label>
+                                                                for="password">รหัสผ่าน</label>
                                                             </div>
                                                             <div class="col-sm-9 text-secondary">
                                                                 <input type="password" id="password"
                                                                     class="form-control" name="password" required>
                                                                 <div id="passwordError" class="error-message"></div>
+                                                                <div class="toggle-btn" onclick="togglePassword()"><i class="fa-regular fa-eye-slash"></i></div>
                                                             </div>
                                                         </div>
 
@@ -459,6 +464,21 @@
                     main.style.marginLeft = "0";
                     toggleIcon.classList.remove("fi-rr-outdent");
                     toggleIcon.classList.add("fi-rr-indent");
+                }
+            }
+        </script>
+        <script>
+            function togglePassword() {
+                var passwordInput = document.getElementById("password");
+                var toggleButton = document.querySelector(".toggle-btn");
+                var icon = toggleButton.querySelector("i");
+    
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    icon.className = "fa-regular fa-eye";
+                } else {
+                    passwordInput.type = "password";
+                    icon.className = "fa-regular fa-eye-slash";
                 }
             }
         </script>
