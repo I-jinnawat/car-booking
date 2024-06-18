@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>จองรถ</title>
+    <title>จองรถภายในจังหวัด</title>
     <link rel="icon" href="image/Mae-Fah-Luang-University-2.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="/Css/manage.css">
@@ -88,7 +88,7 @@
                                                 <% }) %>
                                 </div>
                                 <div class="col-md-6 ms-auto">รหัสการจอง
-                                    <input class=" border-1 rounded-1 ms-2 pe-2" type="text"
+                                    <input class=" border-1 rounded-1" type="text"
                                         placeholder="รหัสการจองระบบสร้างขึ้นเอง" disabled>
                                 </div>
                             </div>
@@ -120,6 +120,9 @@
                                     <div class="col-md">
                                         <div class="form-group mt-4 ">
                                             <label for="comment">ขอใช้รถเพื่อปฎิบัติภารกิจ:</label>
+                                            <span class="form-text"
+                                                style="font-size: 1rem; color:red; display: inline;">***(กรณีรับ-ส่งสนามบิน
+                                                กรุณาระบุไฟล์ทบิน)***</span>
                                             <textarea class="form-control" rows="5" id="comment" name="title"
                                                 required></textarea>
                                         </div>

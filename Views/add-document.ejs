@@ -75,15 +75,18 @@
                                             <option value="link">ลิงก์</option>
                                         </select>
                                     </div>
-                                    <div class="col-md" id="fileInput">
-                                        <label class="form-label">ไฟล์</label>
-                                        <input type="file" name="attachment" class="form-control"
-                                            accept=".pdf,.doc,.docx">
+                                    <div class="col-md">
+                                        <div id="fileInput">
+                                            <label class="form-label">ไฟล์</label>
+                                            <input type="file" name="attachmentFile" class="form-control"
+                                                accept=".pdf,.doc,.docx" required>
+                                        </div>
+                                        <div id="linkInput" style="display: none;">
+                                            <label class="form-label">ลิงก์</label>
+                                            <input type="url" name="attachmentLink" class="form-control">
+                                        </div>
                                     </div>
-                                    <div class="col-md" id="linkInput" style="display: none;">
-                                        <label class="form-label">ลิงก์</label>
-                                        <input type="url" name="attachment" class="form-control">
-                                    </div>
+
                                 </div>
                                 <div class="row">
                                     <div class="col-md">
@@ -126,8 +129,8 @@
                 });
 
                 const result = await swalWithBootstrapButtons.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    title: 'กรุณาตรวจสอบข้อมูล',
+                    text: 'หากถูกต้อง กรุณากดยืนยันเพื่อเพิ่มเอกสาร!',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'ยืนยัน',
@@ -167,17 +170,22 @@
 
             function toggleAttachmentField() {
                 const attachmentType = document.getElementById('attachmentType').value;
-                const fileInput = document.getElementById('fileInput');
-                const linkInput = document.getElementById('linkInput');
+                const fileInput = document.querySelector('#fileInput input');
+                const linkInput = document.querySelector('#linkInput input');
 
                 if (attachmentType === 'file') {
-                    fileInput.style.display = 'block';
-                    linkInput.style.display = 'none';
+                    document.getElementById('fileInput').style.display = 'block';
+                    fileInput.required = true;
+                    document.getElementById('linkInput').style.display = 'none';
+                    linkInput.required = false;
                 } else if (attachmentType === 'link') {
-                    fileInput.style.display = 'none';
-                    linkInput.style.display = 'block';
+                    document.getElementById('fileInput').style.display = 'none';
+                    fileInput.required = false;
+                    document.getElementById('linkInput').style.display = 'block';
+                    linkInput.required = true;
                 }
             }
+
         </script>
 
         <script src="../JS/navbar.js"></script>

@@ -51,6 +51,9 @@
                 <div class="col-md">
                     <div class="form-group mt-4">
                         <label for="comment">ขอใช้รถเพื่อปฎิบัติภารกิจ:</label>
+                        <span class="form-text"
+                            style="font-size: 1rem; color:red; display: inline;">***(กรณีรับ-ส่งสนามบิน
+                            กรุณาระบุไฟล์ทบิน)***</span>
                         <textarea class="form-control" rows="5" id="comment" name="title" required <%=booking.user_id
                             !==user.id || booking.status>1 ? 'disabled' : '' %>><%= booking.title %></textarea>
                     </div>

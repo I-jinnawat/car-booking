@@ -91,7 +91,7 @@
                                                                     <input type="text" class="form-control"
                                                                         name="register" id="register" required>
                                                                     <div class="error" id="registerError">
-                                                                        </div>
+                                                                    </div>
 
                                                                 </div>
                                                             </div>
@@ -182,7 +182,7 @@
                                                                         <input type="text" class="form-control"
                                                                             name="register"
                                                                             value="<%= vehicle.register %>" required>
-                                                                            <div class="error" id="registerError"></div>
+                                                                        <div class="error" id="registerError"></div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row mb-3">
@@ -363,8 +363,8 @@
                     buttonsStyling: false
                 });
                 const result = await swalWithBootstrapButtons.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    title: 'โปรดตรวจสอบข้อมูล',
+                    text: 'หากถูกต้อง กรุณากดยืนยัน!',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'ยืนยัน',
@@ -408,8 +408,8 @@
                     buttonsStyling: false
                 });
                 const result = await swalWithBootstrapButtons.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    title: 'โปรดตรวจสอบข้อมูล',
+                    text: 'หากถูกต้อง กรุณากดยืนยัน!',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'ยืนยัน',

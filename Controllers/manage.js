@@ -2,7 +2,6 @@ const Booking = require('../Models/booking');
 
 exports.list = async (req, res) => {
   const page = Math.max(parseInt(req.query.page) || 1, 1); // Ensure page is a positive integer
-  const singlePageLimit = 5; // The original limit for a single page
   const limit = 8;
   const skip = (page - 1) * limit;
 
