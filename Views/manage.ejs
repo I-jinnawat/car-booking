@@ -98,20 +98,17 @@
                                 </span>
                             </div>
                             <hr>
-                            <div class="row mt-2">
-                                <div class="col d-flex justify-content-between" id="search">
-                                    <div>
-
-                                    </div>
-                                    <div class="search">
-                                        <input class="p-1" type="text" id="searchInput" placeholder="&#xf002; ค้นหา"
-                                            style="width: 200px; border-radius: 8px ; border:1px solid black;"
-                                            oninput="handleSearch()" value="<%= searchQuery %>">
-
-                                    </div>
-                                </div>
+                            <div class="float-md-end">
+                                <div class="search">
+                                    <input class="p-1" type="text" id="searchInput"
+                                        placeholder="&#xf002; หัวข้อ ผู้ร้องขอ"
+                                        style="width: 200px; border-radius: 8px ; border:1px solid black;"
+                                        value="<%= searchQuery %>">
+                                    <i class="fas fa-times" onclick="handleClear()"></i>
+                                    <button onclick="handleSearch()" type="button" class="btn bg-dark-subtle  p-1"
+                                        style="width: 100px;">ค้นหา</button>
+                                </div><br>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -169,12 +166,14 @@
         <script>
             // Function to handle search input
             function handleSearch() {
-                const searchValue = document.getElementById('searchInput').value.toLowerCase();
+                const searchValue = document.getElementById('searchInput').value.trim().toLowerCase();
                 window.location.href = `/manage?page=1&search=${encodeURIComponent(searchValue)}`;
             }
+            function handleClear() {
+                const clearValue = document.getElementById('searchInput').value = '';
+                handleSearch()
+            }
 
-            // Add event listener to search input field
-            document.getElementById('searchInput').addEventListener('input', handleSearch);
             // Get the select element
             const selectElement = document.querySelector('.form-select');
 

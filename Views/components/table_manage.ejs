@@ -19,7 +19,7 @@
 
         <!-- ถ้าเป็นคนขับรถหรือพนักงานทั่วไปจะเห็นแค่การจองของตัวเอง -->
         <% if ((booking.user_id===user.id ) ||user.role==='admin' ||user.role==='approver' ) { %>
-            <tbody>
+            <tbody id="table-body">
                 <% if(booking.status!==6) { %>
 
                     <tr>
@@ -68,7 +68,7 @@
                                                                                 class="fa-regular fa-pen-to-square"></i></a>
                                                                     </div>
                                                                     <% }else { %>
-                                                                        <button type="button" class="btn"
+                                                                        <button type="button" class="btn "
                                                                             style="width: 100px; background-color:#f28500 ;">Waiting</button>
                                                                         <% } %>
                                                                             <% } %>
@@ -188,6 +188,7 @@
         console.log(bookingId, status)
     }
 </script>
+
 <script>
     document.getElementById('unapproveBtn').addEventListener('click', function () {
         var inputField = document.getElementById('myInput');

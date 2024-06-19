@@ -77,17 +77,28 @@ exports.list = async (req, res) => {
   }
 };
 exports.search = async (req, res) => {
-  const searchQuery = req.query.query ? req.query.query.toLowerCase() : '';
+  const searchQuery = req.query.query
+    ? req.query.query.trim().toLowerCase()
+    : '';
+
   const page = Math.max(parseInt(req.query.page) || 1, 1);
   const limit = 8;
   const skip = (page - 1) * limit;
 
-  const filter = {
-    status: {$lte: 5},
-    title: {$regex: searchQuery, $options: 'i'},
-  };
-
   try {
+    let filter = {
+      status: {$lte: 5}, // Assuming status is a numeric field
+    };
+
+    if (searchQuery) {
+      // Adjust field names based on your schema
+      filter.$or = [
+        {title: {$regex: new RegExp(searchQuery, 'i')}},
+        {description: {$regex: new RegExp(searchQuery, 'i')}},
+        // Add more fields as needed
+      ];
+    }
+
     const totalBookings = await Booking.countDocuments(filter);
     const totalPages = Math.ceil(totalBookings / limit);
 
