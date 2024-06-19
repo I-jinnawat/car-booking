@@ -127,11 +127,12 @@
             function updateUI(data) {
                 const container = document.getElementById('document-list');
                 container.innerHTML = '';
-
                 data.forEach(function (doc) {
                     const categoryLabel = document.getElementById('category');
                     categoryLabel.textContent = doc.category;
-                    // console.log('Image Path:', doc.image);
+                    console.log(doc.title)
+                    console.log('Image Path:', doc.image);
+
 
                     let attachment
                     if (doc.file == null) {
@@ -288,11 +289,10 @@
                 radioButtons.forEach(function (radio) {
                     radio.addEventListener('click', async function () {
                         const selectedCategory = this.value;
-                        const api = `http://localhost:3000/document/search/${selectedCategory}`;
+                        const api = `https://api-carbooking-tt6wg4psgq-uc.a.run.app/document/search/${selectedCategory}`;
                         try {
                             const res = await axios.get(api);
                             documentData = res.data;
-
                             updateUI(documentData);
                         } catch (error) {
                             console.error('Error fetching data:', error);

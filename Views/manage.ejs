@@ -43,18 +43,10 @@
         }
 
         @media (max-width: 768px) {
-            .breadcrumb-nav {
+
+            .breadcrumb-nav,
+            .user-display {
                 display: none !important;
-            }
-
-            @media (max-width: 768px) {
-
-                .breadcrumb-nav,
-                .user-display {
-                    display: none !important;
-                }
-
-
             }
         }
     </style>
@@ -86,38 +78,40 @@
                 <div class="col-12">
                     <div class="card" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25)">
                         <div class="card-body">
-                            <div id="status-control">
-                                <div id="status-control">
-                                    <label for="">เมนู :</label>
-                                    <a href="/booking" class="btn border-0 bookingbtn"
-                                        style="background-color:#FFECB3; width: 100px;"><i
-                                            class="fa-regular fa-pen-to-square"></i>
-                                        จองรถ</a>
-                                    <span class="ms-3">
-                                        <label for="">สถานะ</label>
-                                        <div class="btn-group">
-                                            <select class="form-select">
-                                                <option selected>ทั้งหมด</option>
-                                                <option value="1">กำลังดำเนินการ...</option>
-                                                <option value="3">เสร็จสิ้น</option>
-                                                <option value="4">ยกเลิก</option>
-                                            </select>
-                                        </div>
-                                    </span>
-                                </div>
-                                <hr>
-                                <div class="row mt-2">
-                                    <div class="col d-flex justify-content-between" id="search">
-                                        <div>
 
-                                        </div>
-                                        <div class="search">
-                                            <input class="p-1" type="text" id="searchInput" placeholder="&#xf002; ค้นหา"
-                                                style="width: 200px; border-radius: 8px ; border:1px solid black;">
-                                        </div>
+                            <div id="status-control">
+                                <label for="">เมนู :</label>
+                                <a href="/booking" class="btn border-0 bookingbtn"
+                                    style="background-color:#FFECB3; width: 100px;"><i
+                                        class="fa-regular fa-pen-to-square"></i>
+                                    จองรถ</a>
+                                <span class="ms-3">
+                                    <label for="">สถานะ</label>
+                                    <div class="btn-group">
+                                        <select class="form-select">
+                                            <option selected>ทั้งหมด</option>
+                                            <option value="1">กำลังดำเนินการ...</option>
+                                            <option value="3">เสร็จสิ้น</option>
+                                            <option value="4">ยกเลิก</option>
+                                        </select>
+                                    </div>
+                                </span>
+                            </div>
+                            <hr>
+                            <div class="row mt-2">
+                                <div class="col d-flex justify-content-between" id="search">
+                                    <div>
+
+                                    </div>
+                                    <div class="search">
+                                        <input class="p-1" type="text" id="searchInput" placeholder="&#xf002; ค้นหา"
+                                            style="width: 200px; border-radius: 8px ; border:1px solid black;"
+                                            oninput="handleSearch()" value="<%= searchQuery %>">
+
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -132,18 +126,20 @@
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
-                                    <a class="page-link" href="/manage?page=<%= currentPage - 1 %>" tabindex="-1"
-                                        aria-disabled="true">Previous</a>
+                                    <a class="page-link"
+                                        href="/manage?page=<%= currentPage - 1 %>&search=<%= searchQuery %>"
+                                        tabindex="-1" aria-disabled="true">Previous</a>
                                 </li>
                                 <% for (let i=1; i <=totalPages; i++) { %>
                                     <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                                        <a class="page-link" href="/manage?page=<%= i %>">
+                                        <a class="page-link" href="/manage?page=<%= i %>&search=<%= searchQuery %>">
                                             <%= i %>
                                         </a>
                                     </li>
                                     <% } %>
                                         <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
-                                            <a class="page-link" href="/manage?page=<%= currentPage + 1 %>">Next</a>
+                                            <a class="page-link"
+                                                href="/manage?page=<%= currentPage + 1 %>&search=<%= searchQuery %>">Next</a>
                                         </li>
                             </ul>
                         </nav>
@@ -169,72 +165,16 @@
                 });
             });
         </script>
-        <script>
-            function handleSearch() {
-                // Get search input value
-                var searchValue = document.getElementById('searchInput').value.toLowerCase();
-
-                // Get all rows in the table body
-                var rows = document.querySelectorAll("tbody tr ");
-
-                // Iterate through each row
-                rows.forEach(function (row) {
-                    var cells = row.querySelectorAll("td ");
-                    var found = false;
-
-                    // Iterate through each cell in the row
-                    cells.forEach(function (cell, index) {
-                        // Check if the cell content contains the search value or matches the role
-                        if (cell.textContent.toLowerCase().includes(searchValue) ||
-                            (index === 1 && cell.textContent.toLowerCase().includes(searchValue))) {
-                            found = true;
-                        }
-                    });
-
-                    // Show or hide the row based on the search result
-                    if (found) {
-                        row.style.display = "";
-                    } else {
-                        row.style.display = "none";
-                    }
-                });
-            }
-
-            // Add event listener to search input field
-            document.getElementById('searchInput').addEventListener('input', handleSearch);
-        </script>
 
         <script>
             // Function to handle search input
             function handleSearch() {
-                // Get search input value
-                var searchValue = document.getElementById('searchInput').value.toLowerCase();
-
-                // Get all rows in the table body
-                var rows = document.querySelectorAll('tbody tr');
-
-                // Iterate through each row
-                rows.forEach(function (row) {
-                    var cells = row.querySelectorAll('td');
-                    var found = false;
-
-                    // Iterate through each cell in the row
-                    cells.forEach(function (cell) {
-                        // Check if the cell content contains the search value
-                        if (cell.textContent.toLowerCase().includes(searchValue)) {
-                            found = true;
-                        }
-                    });
-
-                    // Show or hide the row based on the search result
-                    if (found) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
-                });
+                const searchValue = document.getElementById('searchInput').value.toLowerCase();
+                window.location.href = `/manage?page=1&search=${encodeURIComponent(searchValue)}`;
             }
 
+            // Add event listener to search input field
+            document.getElementById('searchInput').addEventListener('input', handleSearch);
             // Get the select element
             const selectElement = document.querySelector('.form-select');
 

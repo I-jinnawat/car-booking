@@ -22,7 +22,7 @@ const fetchUsers = async (page, limit) => {
 
 exports.read = async (req, res) => {
   const page = parseInt(req.query.page, 10) || 1;
-  const limit = 5;
+  const limit = 8;
 
   try {
     const {users, totalPages} = await fetchUsers(page, limit);

@@ -23,8 +23,6 @@
         .accept {
             display: none !important;
         }
-
-
     }
 
     .colored-toast.swal2-icon-success {
@@ -121,8 +119,9 @@
                                         <div class="form-group mt-4 ">
                                             <label for="comment">ขอใช้รถเพื่อปฎิบัติภารกิจ:</label>
                                             <span class="form-text"
-                                                style="font-size: 1rem; color:red; display: inline;">***(กรณีรับ-ส่งสนามบิน
-                                                กรุณาระบุไฟล์ทบิน)***</span>
+                                                style="font-size: 1rem; color:red; display: inline;">
+                                                ***(กรณีรับ-ส่งสนามบิน กรุณาระบุไฟล์ทบิน)***
+                                            </span>
                                             <textarea class="form-control" rows="5" id="comment" name="title"
                                                 required></textarea>
                                         </div>
@@ -161,13 +160,12 @@
                                         <span class="form-text" style="font-size: 1rem; color:red; display: inline;">
                                             ***(โปรดระบุชื่อ-นามสกุลของผู้รับบริการให้ครบถ้วน)***
                                         </span>
-                                        <ol class="passenger-list mt-3">
+                                        <ol class="passenger-list mt-3" id="passenger-list">
                                             <li>
                                                 <input class="form-control passenger-input" type="text"
-                                                    name="passengers" required>
+                                                    name="passengers[]" required>
                                             </li>
                                         </ol>
-                                        <button class="btn btn-success add-passenger-btn mt-1">เพิ่ม</button>
                                     </div>
                                 </div>
                             </form>
@@ -210,6 +208,7 @@
                     }
                 });
             });
+
             function displayAlert() {
                 // Check if the form is valid
                 if (!document.querySelector("#booking-body form").reportValidity()) {
@@ -250,6 +249,7 @@
                     }
                 });
             }
+
             // Add an event listener to the form's submit event
             document.querySelector("#booking-body form").addEventListener("submit", function (event) {
                 // Prevent the form from submitting normally
@@ -274,6 +274,35 @@
                 });
             });
 
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var passengerCountInput = document.getElementById("passenger");
+                var passengerList = document.getElementById("passenger-list");
+
+                passengerCountInput.addEventListener("input", function () {
+                    var count = parseInt(passengerCountInput.value, 10);
+
+                    // Clear existing passenger inputs
+                    passengerList.innerHTML = "";
+                    if (count === 0) {
+                        passengerCountInput.setCustomValidity("โปรดกรอกจำนวนผู้โดยสารให้ถูกต้อง");
+                    } else {
+                        passengerCountInput.setCustomValidity("");
+                    }
+                    // Add the required number of passenger inputs
+                    for (var i = 0; i < count; i++) {
+                        var listItem = document.createElement("li");
+                        var input = document.createElement("input");
+                        input.classList.add("form-control", "passenger-input", "mt-3");
+                        input.type = "text";
+                        input.name = "passengers[]";
+                        input.required = true;
+                        listItem.appendChild(input);
+                        passengerList.appendChild(listItem);
+                    }
+                });
+            });
         </script>
         <!-- Display date time -->
         <script>
@@ -314,39 +343,6 @@
                 }
             });
         </script>
-        <!-- Add input -->
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const addPassengerBtn = document.querySelector('.add-passenger-btn');
-                const passengerList = document.querySelector('.passenger-list');
-
-                addPassengerBtn.addEventListener('click', function () {
-                    const listItem = document.createElement('li');
-
-
-                    const input = document.createElement('input');
-                    input.classList.add('form-control', 'passenger-input', 'mt-3');
-                    input.type = 'text';
-                    input.name = 'passengers';
-                    input.required = true;
-
-                    const removeBtn = document.createElement('button');
-                    removeBtn.classList.add('btn', 'btn-danger', 'remove-passenger-btn', 'mt-2', 'ml-2');
-                    removeBtn.textContent = 'ลบ';
-                    removeBtn.style.width = '50px';
-
-                    removeBtn.addEventListener('click', function () {
-                        listItem.remove();
-                    });
-
-                    listItem.appendChild(input);
-                    listItem.appendChild(removeBtn);
-                    passengerList.appendChild(listItem);
-                });
-            });
-
-        </script>
-
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

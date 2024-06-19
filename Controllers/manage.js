@@ -4,37 +4,44 @@ exports.list = async (req, res) => {
   const page = Math.max(parseInt(req.query.page) || 1, 1); // Ensure page is a positive integer
   const limit = 8;
   const skip = (page - 1) * limit;
+  const searchQuery = req.query.search ? req.query.search.toLowerCase() : ''; // Get the search query
 
   const user = req.session.user;
 
-  // Determine the query filter based on user role
-  const filter = {status: {$lte: 5}};
+  // Determine the query filter based on user role and search query
+  const filter = {
+    status: {$lte: 5},
+    $or: [
+      {title: {$regex: searchQuery, $options: 'i'}}, // Adjust field names based on your schema
+      //   {field2: {$regex: searchQuery, $options: 'i'}},
+    ],
+  };
   if (user.role === 'user') {
     filter.user_id = user.id;
   }
+
   try {
     // Get the total count of bookings based on the filter
     const totalBookings = await Booking.countDocuments(filter);
     const totalPages = Math.ceil(totalBookings / limit); // Correct total pages calculation
 
     // Determine the sort order based on user role
-    const adminSortOrder = [
-      {case: {$eq: ['$status', 2]}, then: 0},
-      {case: {$eq: ['$status', 3]}, then: 1},
-      {case: {$eq: ['$status', 1]}, then: 2},
-      {case: {$eq: ['$status', 4]}, then: 3},
-      {case: {$eq: ['$status', 5]}, then: 4},
-    ];
-
-    const userSortOrder = [
-      {case: {$eq: ['$status', 1]}, then: 0},
-      {case: {$eq: ['$status', 2]}, then: 1},
-      {case: {$eq: ['$status', 3]}, then: 2},
-      {case: {$eq: ['$status', 4]}, then: 3},
-      {case: {$eq: ['$status', 5]}, then: 5},
-    ];
-
-    const sortOrder = user.role === 'admin' ? adminSortOrder : userSortOrder;
+    const sortOrder =
+      user.role === 'admin'
+        ? [
+            {case: {$eq: ['$status', 2]}, then: 0},
+            {case: {$eq: ['$status', 3]}, then: 1},
+            {case: {$eq: ['$status', 1]}, then: 2},
+            {case: {$eq: ['$status', 4]}, then: 3},
+            {case: {$eq: ['$status', 5]}, then: 4},
+          ]
+        : [
+            {case: {$eq: ['$status', 1]}, then: 0},
+            {case: {$eq: ['$status', 2]}, then: 1},
+            {case: {$eq: ['$status', 3]}, then: 2},
+            {case: {$eq: ['$status', 4]}, then: 3},
+            {case: {$eq: ['$status', 5]}, then: 4},
+          ];
 
     // Get the bookings based on the filter and pagination
     const bookings = await Booking.aggregate([
@@ -53,9 +60,43 @@ exports.list = async (req, res) => {
       {$skip: skip},
       {$limit: limit},
     ]);
+
     res.render('manage', {
       userLoggedIn: !!user,
       user: user || null,
+      bookings,
+      totalPages,
+      currentPage: page,
+      searchQuery, // Pass the search query to the template
+    });
+  } catch (error) {
+    console.error('Error fetching bookings:', error);
+    res
+      .status(500)
+      .json({error: 'Failed to load bookings. Please try again later.'});
+  }
+};
+exports.search = async (req, res) => {
+  const searchQuery = req.query.query ? req.query.query.toLowerCase() : '';
+  const page = Math.max(parseInt(req.query.page) || 1, 1);
+  const limit = 8;
+  const skip = (page - 1) * limit;
+
+  const filter = {
+    status: {$lte: 5},
+    title: {$regex: searchQuery, $options: 'i'},
+  };
+
+  try {
+    const totalBookings = await Booking.countDocuments(filter);
+    const totalPages = Math.ceil(totalBookings / limit);
+
+    const bookings = await Booking.find(filter)
+      .sort({createdAt: -1})
+      .skip(skip)
+      .limit(limit);
+
+    res.json({
       bookings,
       totalPages,
       currentPage: page,
