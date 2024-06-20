@@ -7,13 +7,12 @@ exports.create = async (req, res) => {
   const usersResponse = await axios.get(`${member_API}`, {});
   const users = usersResponse.data;
   const page = parseInt(req.query.page) || 1; // Parse page number from query parameters (default to page 1)
-  const limit = 5; // Number of users per page
+  const limit = 8; // Number of users per page
 
   const {
     firstname,
     lastname,
     numberID,
-    username,
     password,
     organization,
     role,
@@ -28,7 +27,7 @@ exports.create = async (req, res) => {
       firstname,
       lastname,
       numberID,
-      username,
+      username: numberID,
       password: hashedPassword,
       organization,
       role,
@@ -55,11 +54,11 @@ exports.create = async (req, res) => {
         limit: limit,
       },
     });
-    const usersResponseCount = await axios.get(member_API);
-    const usersCount = usersResponseCount.data.length;
-    const users = usersResponse.data;
-    const totalPages = Math.ceil(usersCount / limit);
     if (err.code === 11000 && err.keyPattern && err.keyPattern.username) {
+      const usersResponseCount = await axios.get(member_API);
+      const usersCount = usersResponseCount.data.length;
+      const users = usersResponse.data;
+      const totalPages = Math.ceil(usersCount / limit);
       // Handle duplicate username error
       req.flash('error_msg', 'รหัสพนักงานมีอยู่แล้ว');
       const error_msg = req.flash('error_msg');

@@ -54,9 +54,9 @@
 
 <body>
     <%- include('components/navbar.ejs') -%>
-        <div class="container-fluid mt-3 " id="main">
+        <div class="container-fluid mt-3" id="main">
             <div class="row">
-                <div class="col-12 ">
+                <div class="col-12">
                     <div class="container-fluid p-0 m-0"
                         style="display: flex; justify-content: space-between;align-items: center;">
                         <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0"
@@ -78,23 +78,28 @@
                 <div class="col-12">
                     <div class="card" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25)">
                         <div class="card-body">
-
                             <div id="status-control">
                                 <label for="">เมนู :</label>
                                 <a href="/booking" class="btn border-0 bookingbtn"
-                                    style="background-color:#FFECB3; width: 100px;"><i
-                                        class="fa-regular fa-pen-to-square"></i>
-                                    จองรถ</a>
+                                    style="background-color:#FFECB3; width: 100px;">
+                                    <i class="fa-regular fa-pen-to-square"></i> จองรถ
+                                </a>
                                 <span class="ms-3">
                                     <label for="">สถานะ</label>
                                     <div class="btn-group">
-                                        <select class="form-select">
-                                            <option selected>ทั้งหมด</option>
-                                            <option value="1">กำลังดำเนินการ...</option>
-                                            <option value="3">เสร็จสิ้น</option>
-                                            <option value="4">ยกเลิก</option>
+                                        <select class="form-select" id="statusSelect">
+                                            <option value="" selected></option>
+                                            <option <%=selectedStatus==='all' ? 'selected' : '' %> value="all">ทั้งหมด
+                                            </option>
+                                            <option <%=selectedStatus==='inProgress' ? 'selected' : '' %>
+                                                value="inProgress">กำลังดำเนินการ...</option>
+                                            <option <%=selectedStatus==='comPlition' ? 'selected' : '' %>
+                                                value="comPlition">เสร็จสิ้น</option>
+                                            <option <%=selectedStatus==='cancel' ? 'selected' : '' %>
+                                                value="cancel">ยกเลิก</option>
                                         </select>
                                     </div>
+
                                 </span>
                             </div>
                             <hr>
@@ -102,10 +107,10 @@
                                 <div class="search">
                                     <input class="p-1" type="text" id="searchInput"
                                         placeholder="&#xf002; หัวข้อ ผู้ร้องขอ"
-                                        style="width: 200px; border-radius: 8px ; border:1px solid black;"
+                                        style="width: 200px; border-radius: 8px; border:1px solid black;"
                                         value="<%= searchQuery %>">
                                     <i class="fas fa-times" style="margin-left: -19px;" onclick="handleClear()"></i>
-                                    <button onclick="handleSearch()" type="button" class="btn bg-dark-subtle  p-1"
+                                    <button onclick="handleSearch()" type="button" class="btn bg-dark-subtle p-1"
                                         style="width: 95px;">ค้นหา</button>
                                 </div><br>
                             </div>
@@ -124,19 +129,20 @@
                             <ul class="pagination justify-content-center">
                                 <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
                                     <a class="page-link"
-                                        href="/manage?page=<%= currentPage - 1 %>&search=<%= searchQuery %>"
+                                        href="/manage?page=<%= currentPage - 1 %>&search=<%= searchQuery %>&status=<%= selectedStatus %>"
                                         tabindex="-1" aria-disabled="true">Previous</a>
                                 </li>
                                 <% for (let i=1; i <=totalPages; i++) { %>
                                     <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                                        <a class="page-link" href="/manage?page=<%= i %>&search=<%= searchQuery %>">
+                                        <a class="page-link"
+                                            href="/manage?page=<%= i %>&search=<%= searchQuery %>&status=<%= selectedStatus %>">
                                             <%= i %>
                                         </a>
                                     </li>
                                     <% } %>
                                         <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
                                             <a class="page-link"
-                                                href="/manage?page=<%= currentPage + 1 %>&search=<%= searchQuery %>">Next</a>
+                                                href="/manage?page=<%= currentPage + 1 %>&search=<%= searchQuery %>&status=<%= selectedStatus %>">Next</a>
                                         </li>
                             </ul>
                         </nav>
@@ -145,81 +151,22 @@
             </div>
         </div>
         <script>
-            // Add event listener to each form
-            document.querySelectorAll("#modal-body form").forEach(form => {
-                form.addEventListener("submit", function (event) {
-                    event.preventDefault();
-
-                    const bookingId = form.querySelector('input[name="bookingId"]').value;
-                    // Check which button was clicked
-                    if (event.submitter && event.submitter.textContent.trim() === 'อนุมัติ') {
-                        displayAlertApprove();
-
-                    } else {
-                        displayAlertUnapprove();
-
-                    }
-                });
-            });
-        </script>
-
-        <script>
             // Function to handle search input
             function handleSearch() {
                 const searchValue = document.getElementById('searchInput').value.trim().toLowerCase();
-                window.location.href = `/manage?page=1&search=${encodeURIComponent(searchValue)}`;
-            }
-            function handleClear() {
-                const clearValue = document.getElementById('searchInput').value = '';
-                handleSearch()
+                const selectedStatus = document.getElementById('statusSelect').value;
+                console.log(selectedStatus)
+                window.location.href = `/manage?page=1&search=${encodeURIComponent(searchValue)}&status=${encodeURIComponent(selectedStatus)}`;
             }
 
-            // Get the select element
-            const selectElement = document.querySelector('.form-select');
+            function handleClear() {
+                document.getElementById('searchInput').value = '';
+                handleSearch();
+            }
 
             // Add event listener to handle select change
-            selectElement.addEventListener('change', function () {
-                // Get the selected value
-                const selectedValue = this.value;
-
-                // Get all table rows
-                const rows = document.querySelectorAll('tbody tr');
-
-                // Loop through each row and update visibility based on selected option
-                rows.forEach(row => {
-                    const statusCell = row.querySelector('td:nth-child(2)');
-                    const statusText = statusCell.textContent.trim();
-
-                    // Show row if "All" is selected or if the row status matches the selected option
-                    if (selectedValue === '4') {
-                        if (statusText === 'ถูกยกเลิก') {
-                            row.style.display = '';
-                        } else {
-                            row.style.display = 'none';
-                        }
-                    } else if (selectedValue === '3') {
-                        if (statusText === '4.เสร็จสิ้น') {
-                            row.style.display = '';
-                        } else {
-                            row.style.display = 'none';
-                        }
-                    } else if (selectedValue === '1') {
-                        if (statusText === '1.รอหัวหน้าอนุมัติ') {
-                            row.style.display = '';
-                        } else if (statusText === '2.รอคนจัดรถ') {
-                            row.style.display = '';
-                        } else if (statusText === '3.รถพร้อมใช้งาน') {
-                            row.style.display = '';
-                        } else {
-                            row.style.display = 'none';
-                        }
-
-                    }
-                    else {
-                        row.style.display = '';
-                    }
-
-                });
+            document.getElementById('statusSelect').addEventListener('change', function () {
+                handleSearch();
             });
         </script>
 
@@ -234,8 +181,6 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
             crossorigin="anonymous"></script>
-
-
 </body>
 
 </html>

@@ -11,33 +11,31 @@ exports.list = async (req, res) => {
 
   // Determine the query filter based on user role, search query, and status filter
   const filter = {
-    status: {$lte: 5},
     $or: [
-      {
-        title: {$regex: searchQuery, $options: 'i'},
-      },
-      {
-        userinfo: {$regex: searchQuery, $options: 'i'},
-      },
-      {
-        adminName: {$regex: searchQuery, $options: 'i'},
-      },
-      {
-        vehicle: {$regex: searchQuery, $options: 'i'},
-      },
-      {
-        driver: {$regex: searchQuery, $options: 'i'},
-      },
+      {title: {$regex: searchQuery, $options: 'i'}},
+      {userinfo: {$regex: searchQuery, $options: 'i'}},
+      {adminName: {$regex: searchQuery, $options: 'i'}},
+      {vehicle: {$regex: searchQuery, $options: 'i'}},
+      {driver: {$regex: searchQuery, $options: 'i'}},
     ],
   };
 
-  if (user.role === 'user') {
-    filter.user_id = user.id;
+  if (selectedStatus !== 'all') {
+    if (selectedStatus === 'inProgress') {
+      filter.status = {$lte: 3}; // Considering 'inProgress' to be status <= 3
+    }
+    if (selectedStatus === 'comPlition') {
+      filter.status = 4;
+    }
+    if (selectedStatus === 'cancel') {
+      filter.status = 5;
+    }
+  } else if (selectedStatus === 'all') {
+    filter.status = {$lte: 5};
   }
 
-  // Add status filter if not 'all'
-  if (selectedStatus !== 'all') {
-    filter.status = parseInt(selectedStatus);
+  if (user.role === 'user') {
+    filter.user_id = user.id;
   }
 
   try {

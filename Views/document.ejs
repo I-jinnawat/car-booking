@@ -290,6 +290,7 @@
                     radio.addEventListener('click', async function () {
                         const selectedCategory = this.value;
                         const api = `https://api-carbooking-tt6wg4psgq-uc.a.run.app/document/search/${selectedCategory}`;
+                        console.log(api)
                         try {
                             const res = await axios.get(api);
                             documentData = res.data;
