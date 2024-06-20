@@ -122,6 +122,17 @@
                                                 name="birth_year" id="birthDate" type="date" class="form-control">
                                         </div>
                                     </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-3">
+                                            <label class="form-label"
+                                                for="password">เบอร์โทร</label>
+                                        </div>
+                                        <div class="col-sm-9 text-secondary">
+                                            <input type="number" id="mobilenumber"
+                                                class="form-control" name="mobile_number" required>
+                                            <div id="mobileError" class="error-message"></div>
+                                        </div>
+                                    </div>
                                     <div class="mb-3 row">
                                         <label class="col-sm-3 col-form-label">รหัสผ่าน</label>
                                         <div class="col-sm-9">
@@ -180,4 +191,31 @@
         var NumberIDInput = document.getElementById("NumberIDInput_" + userId);
         NumberIDInput.disabled = !checkbox.checked;
     }
+</script>
+<script>
+    document.getElementById('form').addEventListener('submit', async function (event) {
+                event.preventDefault();
+
+                // Get form values
+                
+                var mobileNumber = document.getElementById('mobilenumber').value;
+                
+                // Initialize error messages
+               
+                var mobileError = '';
+                
+               
+
+                // Validate mobile number
+                if (!/^\d{10}$/.test(mobileNumber)) {
+                    mobileError = 'โปรดใส่เบอร์โทรให้ครบ 10 ตัว';
+                }
+
+            
+
+                // Display error messages
+                
+                document.getElementById('mobileError').textContent = mobileError;
+               
+    })
 </script>
