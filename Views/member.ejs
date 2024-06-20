@@ -15,6 +15,39 @@
         integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
+        .input-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .form-control {
+            padding-right: 30px;
+            /* Add space for the icon */
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            /* Allows clicks to pass through */
+        }
+
+        .clear-icon {
+            cursor: pointer;
+            position: absolute;
+            right: 30px;
+            /* Adjust the position based on the search icon */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .btn {
+            margin-left: 10px;
+            /* Optional: Adds space between the input and the button */
+        }
+
         .colored-toast.swal2-icon-success {
             background-color: #a5dc86 !important;
         }
@@ -34,11 +67,12 @@
             color: red;
             font-size: 0.9em;
         }
-    .toggle-btn {
-        margin-left: 91%;
-        margin-top: -9%;
-    }
-</style>
+
+        .toggle-btn {
+            margin-left: 91%;
+            margin-top: -9%;
+        }
+    </style>
 </head>
 
 <body>
@@ -173,20 +207,26 @@
                                                             <div class="col-sm-9 text-secondary">
                                                                 <input type="number" id="mobilenumber"
                                                                     class="form-control" name="mobile_number" required>
-                                                                <div id="mobileError" class="error-message"></div>
+
+                                                                <div id="mobileError" class="error-message mt-1"></div>
                                                             </div>
                                                         </div>
                                                         <div class="row mb-3">
                                                             <div class="col-sm-3">
                                                                 <label class="form-label"
-                                                                for="password">รหัสผ่าน</label>
+                                                                    for="password">รหัสผ่าน</label>
                                                             </div>
                                                             <div class="col-sm-9 text-secondary">
                                                                 <input type="password" id="password"
                                                                     class="form-control" name="password" required>
-                                                                <div id="passwordError" class="error-message"></div>
-                                                                <div class="toggle-btn" onclick="togglePassword()"><i class="fa-regular fa-eye-slash"></i></div>
+                                                                <div class="toggle-btn" onclick="togglePassword()">
+                                                                    <i id="toggleIcon" class="fa-regular fa-eye-slash"
+                                                                        onclick="togglePassword()"></i>
+                                                                </div>
+                                                                <div id="passwordError" class="error-message mt-2">
+                                                                </div>
                                                             </div>
+
                                                         </div>
 
 
@@ -212,8 +252,15 @@
                                     </script>
                                     <% } %>
                                         <div class="col-md-3 search">
-                                            <input type="text" class="form-control" id="searchInput"
-                                                placeholder="&#xf002; ค้นหา">
+                                            <div class="row">
+                                                <div class="input-container">
+                                                    <input class="form-control" type="text" id="searchInput"
+                                                        placeholder="&#xf002;" name="search">
+                                                    <i class="fas fa-times clear-icon" onclick="handleClear()"></i>
+                                                </div>
+                                                <button onclick="handleSearch()" type="button"
+                                                    class="btn bg-dark-subtle mt-1" style="width: 95px;">ค้นหา</button>
+                                            </div>
                                         </div>
                             </div>
                         </div>
@@ -222,266 +269,23 @@
             </div>
             <%- include('components/table_member') %>
         </div>
-        <script>
-            // Prevent Default Form Submission
-            document.querySelector("#modal-body form").addEventListener("submit", function (event) {
-                event.preventDefault();
-                if (event.submitter && event.submitter.id === 'updatedBtn') {
-                    displayAlertUpdated(this)
-                }
-            });
-            document.querySelectorAll("#modal-body form").forEach(form => {
-                form.addEventListener("submit", async function (event) {
-                    event.preventDefault();
-                    if (event.submitter && event.submitter.id === 'updatedBtn') {
-                        await displayAlertUpdated(this);
-                    }
-                });
-            });
 
-            document.getElementById('form').addEventListener('submit', async function (event) {
-                event.preventDefault();
-
-                // Get form values
-                var password = document.getElementById('password').value;
-                var mobileNumber = document.getElementById('mobilenumber').value;
-                var numberID = document.getElementById('numberID').value;
-
-                // Initialize error messages
-                var passwordError = '';
-                var mobileError = '';
-                var numberError = '';
-
-                // Validate password
-                if (!/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,7}$/.test(password)) {
-                    passwordError = 'ต้องมีตัวอักษรขนาดใหญ่และตัวเลข 6-8 ตัว';
-                }
-
-                // Validate mobile number
-                if (!/^\d{10}$/.test(mobileNumber)) {
-                    mobileError = 'โปรดใส่เบอร์โทรให้ครบ 10 ตัว';
-                }
-
-                if (!/^\d{8}$/.test(numberID)) {
-                    numberError = 'โปรดใส่รหัสให้ครบ 8 ตัว';
-                }
-
-                // Display error messages
-                document.getElementById('passwordError').textContent = passwordError;
-                document.getElementById('mobileError').textContent = mobileError;
-                document.getElementById('numberError').textContent = numberError;
-
-                // If no errors, proceed with SweetAlert confirmation
-                if (passwordError === '' && mobileError === '' && numberError === '') {
-                    const result = await Swal.fire({
-                        title: 'คุณแน่ใจหรือไม่?',
-                        text: 'คุณต้องการยืนยันที่จะส่ง!',
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'ยืนยัน',
-                        cancelButtonText: 'ยกเลิก',
-                        reverseButtons: true
-                    });
-
-                    if (result.isConfirmed) {
-                        await Swal.fire({
-                            icon: 'success',
-                            title: 'เพิ่มสมาชิกสำเร็จ',
-                            showConfirmButton: false,
-                            timer: 1000
-                        });
-
-                        // Submit the form
-                        this.submit();
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        Swal.fire({
-                            title: 'ยกเลิก',
-                            text: 'คุณได้ทำการยกเลิก',
-                            icon: 'error'
-                        });
-                    }
-                }
-            });
-
-            async function displayAlertUpdated(form) {
-                const Toast = Swal.mixin({
-                    toast: true,
-                    position: 'top-end',
-                    iconColor: 'white',
-                    customClass: {
-                        popup: 'colored-toast',
-                    },
-                    showConfirmButton: false,
-                    timer: 1000,
-                    timerProgressBar: true,
-                });
-                const swalWithBootstrapButtons = Swal.mixin({
-                    customClass: {
-                        confirmButton: 'btn btn-success',
-                        cancelButton: 'btn btn-danger',
-                    },
-                    buttonsStyling: false,
-                });
-                const result = await swalWithBootstrapButtons.fire({
-                    title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'ยืนยัน',
-                    cancelButtonText: 'ยกเลิก',
-                    reverseButtons: true,
-                });
-
-                if (result.isConfirmed) {
-                    await Toast.fire({
-                        icon: 'success',
-                        title: 'แก้ไขข้อมูลสำเร็จ',
-                    });
-
-                    await form.submit();
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    swalWithBootstrapButtons.fire({
-                        title: 'ยกเลิก',
-                        text: 'คุณได้ทำการยกเลิก',
-                        icon: 'error',
-                    });
-                }
-            }
-            function displayAlert(userID) {
-                Swal.fire({
-                    title: "คุณต้องการลบใช่หรือไม่?",
-                    showDenyButton: true,
-                    confirmButtonText: "ยืนยัน",
-                    denyButtonText: `ยกเลิก`,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        deletedMember(userID);
-                    } else if (result.isDenied) {
-                        Swal.fire("การลบไม่เปลี่ยนแปลง", "", "info");
-                    }
-                });
-                return false;
-            }
-
-            function deletedMember(userID) {
-                fetch(`/setting/member/delete/${userID}`, {
-                    method: "DELETE",
-                })
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error("Failed to delete vehicle");
-                        }
-                        window.location.reload();
-                    })
-                    .catch((error) => {
-                        console.error("Error deleting vehicle:", error);
-                    });
-            }
-
-            async function displayError() {
-                Swal.fire("รหัสพนักงานมีอยู่แล้ว!");
-            }
-
-            // Handle Password Visibility
-            document.querySelectorAll("[id^='enablePassword_']").forEach(checkbox => {
-                checkbox.addEventListener("change", function () {
-                    togglePasswordVisibility(this);
-                });
-            });
-
-            document.getElementById("enablePassword").addEventListener("change", function () {
-                togglePasswordVisibility(this);
-            });
-
-            function togglePasswordVisibility(checkbox) {
-                var userId = checkbox.id.split("_")[1];
-                var passwordInput = document.getElementById("passwordInput" + (userId ? "_" + userId : ""));
-                passwordInput.disabled = !checkbox.checked;
-                var toggleIcon = document.getElementById("passwordVisibilityToggle" + (userId ? "_" + userId : ""));
-                toggleIcon.classList.toggle("bi-eye-slash");
-                toggleIcon.classList.toggle("bi-eye");
-                passwordInput.type = checkbox.checked ? "text" : "password";
-            }
-
-            99
-
-
-        </script>
-        <script>
-            // Store all table data in an array
-            var tableData = [];
-            document.querySelectorAll("tbody tr").forEach(row => {
-                var rowData = [];
-                Array.from(row.querySelectorAll("td")).forEach(cell => {
-                    rowData.push(cell.textContent.trim());
-                });
-                tableData.push(rowData);
-            });
-
-            // Function to show all pages or all data
-            function showAllPages() {
-                document.querySelectorAll("tbody tr").forEach((row, index) => {
-                    row.style.display = "";
-                });
-            }
-
-            // Handle Search Input
-            function handleSearch() {
-                var searchValue = document.getElementById('searchInput').value.trim().toLowerCase();
-
-                if (searchValue === "showall") {
-                    // Show all pages or all data
-                    showAllPages();
-                } else {
-                    // Filter rows based on search term
-                    document.querySelectorAll("tbody tr").forEach((row, index) => {
-                        var found = tableData[index].some(cell => cell.toLowerCase().includes(searchValue));
-                        row.style.display = found ? "" : "none";
-                    });
-                }
-            }
-
-            // Add event listener for search input
-            document.getElementById('searchInput').addEventListener('input', handleSearch);
-        </script>
-
-
-        <script>
-            let isSidebarOpen = false;
-            function toggleNav() {
-                const sidenav = document.getElementById("mySidenav");
-                const main = document.getElementById("main");
-                const toggleIcon = document.getElementById("toggleIcon");
-
-                isSidebarOpen = !isSidebarOpen;
-                if (isSidebarOpen) {
-                    sidenav.style.width = "250px";
-                    main.style.marginLeft = "250px";
-                    toggleIcon.classList.remove("fi-rr-indent");
-                    toggleIcon.classList.add("fi-rr-outdent");
-                } else {
-                    sidenav.style.width = "0";
-                    main.style.marginLeft = "0";
-                    toggleIcon.classList.remove("fi-rr-outdent");
-                    toggleIcon.classList.add("fi-rr-indent");
-                }
-            }
-        </script>
         <script>
             function togglePassword() {
-                var passwordInput = document.getElementById("password");
-                var toggleButton = document.querySelector(".toggle-btn");
-                var icon = toggleButton.querySelector("i");
-    
-                if (passwordInput.type === "password") {
-                    passwordInput.type = "text";
-                    icon.className = "fa-regular fa-eye";
+                const passwordInput = document.getElementById('password');
+                const toggleIcon = document.getElementById('toggleIcon');
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    toggleIcon.classList.remove('fa-eye-slash');
+                    toggleIcon.classList.add('fa-eye');
                 } else {
-                    passwordInput.type = "password";
-                    icon.className = "fa-regular fa-eye-slash";
+                    passwordInput.type = 'password';
+                    toggleIcon.classList.remove('fa-eye');
+                    toggleIcon.classList.add('fa-eye-slash');
                 }
             }
         </script>
+        <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

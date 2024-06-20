@@ -6,12 +6,23 @@ const bcrypt = require('bcryptjs');
 const member_API = process.env.Member_API;
 
 // Helper function to fetch users and count
-const fetchUsers = async (page, limit) => {
+const fetchUsers = async (page, limit, searchTerm = '') => {
+  let query = {};
+  if (searchTerm) {
+    query = {
+      $or: [
+        {firstname: {$regex: searchTerm, $options: 'i'}}, // Case-insensitive search on firstname
+        {lastname: {$regex: searchTerm, $options: 'i'}}, // Case-insensitive search on lastname
+        {organization: {$regex: searchTerm, $options: 'i'}}, // Case-insensitive search on organization
+      ],
+    };
+  }
+
   const usersResponse = await axios.get(member_API, {
-    params: {page, limit},
+    params: {page, limit, query},
   });
 
-  const usersResponseCount = await axios.get(member_API);
+  const usersResponseCount = await axios.get(member_API, {params: {query}});
   const usersCount = usersResponseCount.data.length;
 
   return {
@@ -20,7 +31,7 @@ const fetchUsers = async (page, limit) => {
   };
 };
 
-exports.read = async (req, res) => {
+exports.list = async (req, res) => {
   const page = parseInt(req.query.page, 10) || 1;
   const limit = 8;
 
@@ -43,13 +54,25 @@ exports.read = async (req, res) => {
   }
 };
 
-exports.list = async (req, res) => {
+exports.API_member = async (req, res) => {
   try {
     const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
-    const limit = parseInt(req.query.limit, 10) || 10;
+    const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
+    const searchTerm = req.query.search || ''; // Get search term from query parameter
 
-    const users = await User.find().skip(skip).limit(limit).exec();
+    let query = {};
+    if (searchTerm) {
+      query = {
+        $or: [
+          {firstname: {$regex: searchTerm, $options: 'i'}}, // Case-insensitive search on firstname
+          {lastname: {$regex: searchTerm, $options: 'i'}}, // Case-insensitive search on lastname
+          {organization: {$regex: searchTerm, $options: 'i'}}, // Case-insensitive search on organization
+        ],
+      };
+    }
+
+    const users = await User.find(query).skip(skip).limit(limit).exec();
     res.json(users);
   } catch (error) {
     console.error(error);
@@ -60,7 +83,7 @@ exports.list = async (req, res) => {
 exports.update = async (req, res) => {
   const {id} = req.params;
   const page = parseInt(req.query.page, 10) || 1;
-  const limit = 5;
+  const limit = 8;
 
   try {
     const {
