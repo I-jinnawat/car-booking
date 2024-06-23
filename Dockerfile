@@ -3,6 +3,7 @@ FROM node:16
 # Set the timezone
 ENV TZ=Asia/Bangkok
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+RUN mkdir -p /opt/Testhosting_3-app/uploads && chmod -R 755 /opt/Testhosting_3-app/uploads
 
 # Set working directory
 WORKDIR /opt/Testhosting_3-app
