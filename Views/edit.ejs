@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แก้ไขข้อมูลส่วนตัว</title>
+    <link rel="icon" href="../Public/image/Mae-Fah-Luang-University-2.png" type="image/x-icon">
+    <link rel="stylesheet" href="/Css/edit.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel='stylesheet'
+        href='https://cdn-uicons.flaticon.com/2.1.0/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+</head>
+<style>
+    @media (max-width: 768px) {
+        .breadcrumb-nav {
+            display: none !important;
+        }
+    }
+</style>
+
+<body>
+    <%- include('components/navbar.ejs') -%>
+        <div class="container-fluid mt-3" id="main">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-12">
+                    <div class="container-fluid p-0 m-0" style="display: flex; align-items: center;">
+                        <button type="button" onclick="toggleNav()" class="toggler mb-2 p-0 m-0"
+                            style="font-size: 20px">
+                            <i class="fi fi-rr-indent" id="toggleIcon" style="color: white"></i>
+                        </button>
+                        <nav class="breadcrumb-nav" style="--bs-breadcrumb-divider: '>'; margin-left: 3%;"
+                            aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
+                                <li class="breadcrumb-item"><a href="/profile/<%= user.id %>">ข้อมูลส่วนตัว</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">แก้ไขข้อมูลส่วนตัว</li>
+                            </ol>
+                        </nav>
+                        <div class="col d-flex justify-content-end me-3" id="userDisplay"></div>
+                    </div>
+
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <form id="updateForm" method="POST" action="/user/update/<%= user.id %>">
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-label">รหัสพนักงาน</label>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" class="form-control" value="<%= user.numberID %>" readonly
+                                            disabled>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-label">ชื่อ</label>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" class="form-control" name="newfirstname"
+                                            value="<%= user.firstname %>">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-label">นามสกุล</label>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" class="form-control" name="newlastname"
+                                            value="<%= user.lastname %>">
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-label">หน่วยงาน</label>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" class="form-control" name="organization"
+                                            value="<%= user.organization %>" readonly disabled>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-label">ประเภท</label>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="text" class="form-control"
+                                            value="<%= user.role === 'approver' ? 'ผู้อนุมัติ' : (user.role === 'admin' ? 'คนจัดรถ' : 'พนักงาน') %>"
+                                            readonly disabled>
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-label" for="birthDate">วัน/เดือน/ปี
+                                            เกิด</label>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <input value="<%= new Date(user.birth_year).toISOString().split('T')[0] %>"
+                                            name="birth_year" id="birthDate" type="date" class="form-control">
+
+                                    </div>
+                                </div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-3">
+                                        <label class="form-label">เบอร์โทร</label>
+                                    </div>
+                                    <div class="col-sm-9 text-secondary">
+                                        <input type="tel" class="form-control" id="mobile_number"
+                                            name="newmobile_number" value="<%= user.mobile_number %>">
+                                        <div id="mobileNumberError" class="error-message" style="color: red;"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="text-center mt-3">
+                                        <button type="submit" class="btn btn-primary" id="UpdateBtn">ยืนยัน</button>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            document.getElementById('mobile_number').addEventListener('input', validateMobileNumber);
+
+            function validateMobileNumber() {
+                const mobileNumber = document.getElementById('mobile_number').value;
+                const errorDiv = document.getElementById('mobileNumberError');
+
+                // Define the mobile number requirements
+                const requiredLength = 10;
+
+                // Initialize error message
+                let errorMessage = '';
+
+                // Check mobile number length
+                if (mobileNumber.length !== requiredLength) {
+                    errorMessage = `เบอร์โทรต้องมี ${requiredLength} ตัวเลข`;
+                } else {
+                    errorMessage = ''; // Clear the error message if the condition is met
+                }
+
+                // Display the error message
+                errorDiv.textContent = errorMessage;
+            }
+
+        </script>
+        <script>
+            let isSidebarOpen = false;
+            function toggleNav() {
+                const sidenav = document.getElementById("mySidenav");
+                const main = document.getElementById("main");
+                const toggleIcon = document.getElementById("toggleIcon");
+
+                isSidebarOpen = !isSidebarOpen;
+                if (isSidebarOpen) {
+                    sidenav.style.width = "250px";
+                    main.style.marginLeft = "250px";
+                    toggleIcon.classList.remove("fi-rr-indent");
+                    toggleIcon.classList.add("fi-rr-outdent");
+                } else {
+                    sidenav.style.width = "0";
+                    main.style.marginLeft = "0";
+                    toggleIcon.classList.remove("fi-rr-outdent");
+                    toggleIcon.classList.add("fi-rr-indent");
+                }
+            }
+
+        </script>
+        <script>
+            document.getElementById('updateForm').addEventListener('submit', function (event) {
+                // Prevent default form submission and show confirmation dialog
+                event.preventDefault();
+
+                if (event.submitter && event.submitter.id === 'UpdateBtn') {
+                    displayAlertUpdate();
+                }
+            });
+
+            async function displayAlertUpdate() {
+                const swalWithBootstrapButtons = Swal.mixin({
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                        cancelButton: 'btn btn-danger'
+                    },
+                    buttonsStyling: false
+                });
+
+                const result = await swalWithBootstrapButtons.fire({
+                    title: 'คุณแน่ใจหรือไม่?',
+                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'ยืนยัน',
+                    cancelButtonText: 'ยกเลิก',
+                    reverseButtons: true
+                });
+
+                if (result.isConfirmed) {
+                    validateMobileNumber(); // Ensure the mobile number is validated
+                    if (!document.getElementById('mobileNumberError').textContent) {
+                        document.getElementById('updateForm').submit();
+                    }
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swalWithBootstrapButtons.fire({
+                        title: 'ยกเลิก',
+                        text: 'คุณได้ทำการยกเลิก',
+                        icon: 'error'
+                    });
+                }
+            }
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

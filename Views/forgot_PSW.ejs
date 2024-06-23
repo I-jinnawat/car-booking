@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ลืมรหัสผ่าน</title>
+    <link rel="icon" href="../image/Mae-Fah-Luang-University-2.png" type="image/x-icon">
+    <link rel="stylesheet" href="/Css/login.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="top">
+        <div class="brand">
+            <img src="../image/Mae-Fah-Luang-University-2.png">
+            <div class="brand-info">
+                <h4>ระบบจองรถยนต์ออนไลน์</h4>
+                <p>ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง</p>
+            </div>
+        </div>
+        <a id="home" href="/">หน้าหลัก</a>
+    </div>
+
+    <div class="login-box">
+        <form id="forgotPSW" action="/forgot_PSW/change_PSW" method="GET" onsubmit="return validateForm(event)">
+            <h2>ลืมรหัสผ่าน</h2>
+            <div class="form-group row mb-3 mt-3">
+                <label for="username">รหัสพนักงาน</label>
+                <input type="text" class="form-control" id="username" name="username" value="<%= username %>"
+                    maxlength="10" required>
+            </div>
+            <div class="form-group row mb-3">
+                <label>ปีเกิดของท่าน</label>
+                <input type="number" class="form-control" id="birth_year" name="birth_year" min="1900"
+                    placeholder="เช่น 20XX" required>
+                <a class="m-0 mt-2" style="font-size:14px" href="/login">เข้าสู่ระบบ</a>
+            </div>
+            <p id="showText" class="text-danger">
+                <% if ((error && error.length>0)) { %>
+                    <%= error %>
+                        <% } %>
+            </p>
+            <div class="row mt-3">
+                <button type="submit" class="btn btn-primary">เปลี่ยนรหัสผ่าน</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="bottom">
+        <div class="manual">
+            <% manuals.slice(1,2).forEach((manual, index)=> { %>
+                <% let attachment %>
+                    <% if(manual.file===null) { attachment=manual.link } else if(manual.link===null)
+                        {attachment=`/${manual.file}` } %>
+                        <a class="manual-button" style="text-decoration: none; color: black;" href="<%= attachment %>"
+                            target="_blank">
+                            <i class="fi fi-sr-document"></i>
+                            <%= manual.title %>
+                        </a>
+                        <% }) %>
+                            <p>มีข้อสงสัยในการใช้ระบบ ฯ ติดต่อ ฝ่ายระบบสารสนเทศ 4174</p>
+        </div>
+    </div>
+    <script>
+        document.getElementById('forgotPSW').addEventListener('submit', function (event) {
+            const usernameInput = document.getElementById('username');
+            usernameInput.value = usernameInput.value.trim();
+        });
+
+        function validateForm(event) {
+            let numberID = document.getElementById("username").value;
+            let birthYear = document.getElementById("birth_year").value;
+            let showText = document.getElementById('showText');
+            let numberPattern = /^\d{8}$/;
+            let yearPattern = /^(19|20)\d{2}$/;
+
+            if (!numberPattern.test(numberID)) {
+                showText.innerText = "รหัสพนักงาน: กรอกตัวเลขให้ครบ 10 หลัก";
+                event.preventDefault();
+                return false;
+            }
+
+            if (!yearPattern.test(birthYear)) {
+                showText.innerText = "ปีเกิด: กรุณากรอกปีเกิดที่ถูกต้อง (เช่น 1990)";
+                event.preventDefault();
+                return false;
+            }
+
+            return true;
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
