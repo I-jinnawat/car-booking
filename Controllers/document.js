@@ -57,7 +57,7 @@ exports.create = async (req, res) => {
     let attachment = null;
     if (attachmentType === 'file') {
       // Get the file path of the uploaded file
-      attachment = req.files['attachmentFile']
+      attachment = req.files['attachment']
         ? req.files['attachment'][0].path
         : null;
     } else if (attachmentType === 'link') {
