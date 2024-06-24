@@ -185,7 +185,6 @@
                 });
             }
 
-
         </script>
         <script>
             function searchDocuments() {
@@ -289,8 +288,7 @@
                 radioButtons.forEach(function (radio) {
                     radio.addEventListener('click', async function () {
                         const selectedCategory = this.value;
-                        const api = `https://api-carbooking-tt6wg4psgq-uc.a.run.app/document/search/${selectedCategory}`;
-                        console.log(api)
+                        const api = `/document/search/${selectedCategory}`;
                         try {
                             const res = await axios.get(api);
                             documentData = res.data;

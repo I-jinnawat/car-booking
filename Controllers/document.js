@@ -1,12 +1,10 @@
 const Document = require('../Models/document');
 
 exports.list = async (req, res) => {
-  const documents = null;
   try {
     res.render('document', {
       userLoggedIn: !!req.session.user,
       user: req.session.user,
-      documents,
     });
   } catch (error) {
     console.error(error);
