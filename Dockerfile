@@ -3,7 +3,7 @@ FROM node:16
 # Set the timezone
 ENV TZ=Asia/Bangkok
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-
+RUN mkdir -p /opt/Testhosting_3-app/uploads && chmod -R 755 /opt/Testhosting_3-app/uploads
 
 # Set working directory
 WORKDIR /opt/Testhosting_3-app
@@ -14,7 +14,6 @@ COPY package.json package-lock.json /opt/Testhosting_3-app/
 # Install dependencies
 RUN npm install
 
-RUN mkdir -p /opt/Testhosting_3-app/uploads && chmod -R 755 /opt/Testhosting_3-app/uploads
 # Copy the rest of the application code
 COPY . /opt/Testhosting_3-app
 

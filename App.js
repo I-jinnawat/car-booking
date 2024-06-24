@@ -27,7 +27,7 @@ app.use(session({secret: 'secret', resave: true, saveUninitialized: true}));
 
 // Static files
 app.use(express.static(path.join(__dirname, 'Public')));
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', express.static('uploads'));
 // Set the timezone to Asia/Bangkok
 moment.tz.setDefault('Asia/Bangkok');
 
