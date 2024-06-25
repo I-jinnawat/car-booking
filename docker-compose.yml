@@ -1,0 +1,11 @@
+version: '3'
+services:
+  my-app:
+    image: carbooking-image
+    ports:
+      - "3000:3000"
+    volumes:
+      - carbooking-uploads:/opt/Testhosting_3-app/uploads
+
+volumes:
+ carbooking-uploads:
