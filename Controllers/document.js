@@ -1,10 +1,13 @@
 const Document = require('../Models/document');
+const {bucket} = require('../Config/multer');
 
 exports.list = async (req, res) => {
   try {
+    const documents = await Document.find();
     res.render('document', {
       userLoggedIn: !!req.session.user,
       user: req.session.user,
+      documents,
     });
   } catch (error) {
     console.error(error);
@@ -15,17 +18,18 @@ exports.list = async (req, res) => {
 exports.read = async (req, res) => {
   try {
     const category = req.params.category;
-    const documents = await Document.find({category: category}).exec();
+    const documents = await Document.find({category});
     res.json(documents);
   } catch (error) {
     console.error(error);
-    res.status(500).json({error: 'Internal server error'});
+    res.status(500).json({error: 'Internal Server Error'});
   }
 };
+
 exports.display_edit_page = async (req, res) => {
   try {
-    const id = req.params.id; // Extracting ID from req.params
-    const document = await Document.findById(id); // Finding the document by ID
+    const id = req.params.id;
+    const document = await Document.findById(id);
     if (!document) {
       return res.status(404).json({error: 'Document not found'});
     }
@@ -33,10 +37,10 @@ exports.display_edit_page = async (req, res) => {
       document,
       userLoggedIn: true,
       user: req.session.user,
-    }); // Rendering an edit page with document data
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).json({error: 'Internal server error'});
+    res.status(500).json({error: 'Internal Server Error'});
   }
 };
 
@@ -53,36 +57,113 @@ exports.create = async (req, res) => {
     } = req.body;
 
     let attachment = null;
-    if (attachmentType === 'file') {
-      // Get the file path of the uploaded file
-      attachment = req.files['attachment']
-        ? req.files['attachment'][0].path
-        : null;
+    let publicUrl = null;
+    let imagePath = null;
+
+    // ตรวจสอบว่ามีการอัปโหลดไฟล์ attachment (เอกสาร)
+    if (attachmentType === 'file' && req.files && req.files['attachment']) {
+      attachment = req.files['attachment'][0];
+      const originalname = attachment.originalname;
+      const blob = bucket.file(`${Date.now()}-${originalname}`);
+      const blobStream = blob.createWriteStream({
+        resumable: false,
+        gzip: true,
+      });
+
+      blobStream.on('error', err => {
+        console.error(err);
+        return res.status(500).json({error: 'Upload failed'});
+      });
+
+      blobStream.on('finish', async () => {
+        // ตั้งค่า ACL เป็น publicRead
+        await blob.makePublic();
+
+        publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+        console.log('Document URL:', publicUrl);
+
+        // บันทึกข้อมูลเอกสารที่มีไฟล์
+        const document = await Document.create({
+          category,
+          title,
+          file: publicUrl,
+          link: null, // ตั้งค่า link เป็น null
+          adminName,
+          numberID,
+          organization,
+          role,
+          image: imagePath, // เพิ่มฟิลด์ image
+        });
+
+        res.status(201).redirect('/document');
+      });
+
+      blobStream.end(attachment.buffer);
     } else if (attachmentType === 'link') {
-      // Get the URL of the link
-      attachment = req.body.attachmentLink;
-      res.send(attachment);
+      attachment = req.body.attachment;
+
+      // บันทึกข้อมูลเอกสารที่มีลิงก์
+      const document = await Document.create({
+        category,
+        title,
+        link: attachment,
+        file: null, // ตั้งค่า file เป็น null
+        adminName,
+        numberID,
+        organization,
+        role,
+        image: imagePath, // เพิ่มฟิลด์ image
+      });
+
+      res.status(201).redirect('/document');
+    } else {
+      res.status(400).json({error: 'Invalid attachment type'});
     }
 
-    // res.send('test2');
-    const imagePath = req.files['image'] ? req.files['image'][0].path : null;
+    // ตรวจสอบว่ามีการอัปโหลดรูปภาพ
+    if (req.files && req.files['image']) {
+      const image = req.files['image'][0];
+      const imageBlob = bucket.file(`${Date.now()}-${image.originalname}`);
+      const imageBlobStream = imageBlob.createWriteStream({
+        resumable: false,
+        gzip: true,
+      });
 
-    // Create new document entry in the database
-    const document = await Document.create({
-      category,
-      title,
-      file: attachmentType === 'file' ? attachment : null,
-      link: attachmentType === 'link' ? attachment : null,
-      adminName,
-      numberID,
-      organization,
-      role,
-      image: imagePath,
-    });
+      imageBlobStream.on('error', err => {
+        console.error(err);
+        return res.status(500).json({error: 'Upload failed'});
+      });
 
-    res.status(201).redirect('/document');
+      imageBlobStream.on('finish', async () => {
+        // ตั้งค่า ACL เป็น publicRead
+        await imageBlob.makePublic();
+
+        imagePath = `https://storage.googleapis.com/${bucket.name}/${imageBlob.name}`;
+        console.log('Image URL:', imagePath);
+
+        // ถ้าเอกสารไม่มีไฟล์ (attachmentType !== 'file') ให้บันทึกข้อมูลเอกสารด้วยภาพ
+        if (attachmentType !== 'file') {
+          const document = await Document.create({
+            category,
+            title,
+            file: null,
+            link: attachmentType === 'link' ? attachment : null,
+            adminName,
+            numberID,
+            organization,
+            role,
+            image: imagePath,
+          });
+
+          res.status(201).redirect('/document');
+        }
+      });
+
+      imageBlobStream.end(image.buffer);
+    }
   } catch (error) {
-    res.status(500).json({error: error.message});
+    console.error(error);
+    res.status(500).json({error: 'Internal Server Error'});
   }
 };
 
@@ -112,17 +193,17 @@ exports.update = async (req, res) => {
     } = req.body;
 
     let attachment = null;
-    if (attachmentType === 'file') {
-      attachment = req.files['attachment']
-        ? req.files['attachment'][0].path
-        : null;
-      // res.send(attachment);
+    let imagePath = null;
+
+    if (attachmentType === 'file' && req.files && req.files['attachment']) {
+      attachment = req.files['attachment'][0].path;
     } else if (attachmentType === 'link') {
       attachment = req.body.attachment;
-      // res.send(attachment);
     }
 
-    const imagePath = req.files['image'] ? req.files['image'][0].path : null;
+    if (req.files && req.files['image']) {
+      imagePath = req.files['image'][0].path;
+    }
 
     const updateData = {};
     if (category) updateData.category = category;
@@ -153,7 +234,7 @@ exports.update = async (req, res) => {
     res.status(200).redirect('/document');
   } catch (error) {
     console.error(error);
-    res.status(500).json({error: 'Internal server error'});
+    res.status(500).json({error: 'Internal Server Error'});
   }
 };
 
