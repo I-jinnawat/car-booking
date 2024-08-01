@@ -30,6 +30,7 @@ exports.list = async (req, res, next) => {
   }
 };
 
+//Display booking-edit Page
 exports.bookingEdit = async (req, res, next) => {
   const {id} = req.params;
   try {
@@ -52,6 +53,7 @@ exports.bookingEdit = async (req, res, next) => {
     const end = new Date(new Date(booking.end).getTime() + 7 * 60 * 60 * 1000);
 
     console.log(start);
+    console.log('Hi booking Edit');
     res.render('booking-edit', {
       userLoggedIn: Boolean(req.session.user),
       user: req.session.user,

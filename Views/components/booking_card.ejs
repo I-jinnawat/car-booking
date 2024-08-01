@@ -1,30 +1,27 @@
 <div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
     <div class="card-header" id="card-header" style="background-color: #FFECB3;">
-        <form>
-            <div class="row">
-                <div class="col-md-6">
-                    <label>ทำการจอง</label>
-                    <% manuals.slice(0,2).forEach((manual, index)=> { %>
-                        <% let attachment %>
-                            <% if(manual.file===null){ attachment=manual.link}else
-                                if(manual.link===null){attachment=`/${manual.file}`}%>
-                                <a role="button" target="_blank"
-                                    class="<%= index === 0 ? 'sample' : 'manual' %> me-1 ms-2 btn"
-                                    style="color: black; display: inline;" href="<%= attachment%>">
-                                    <%= manual.title %>
-                                </a>
-                                <% }) %>
-                </div>
-                <div class="col-md-6 ms-auto">
-                    <label>รหัสการจอง</label>
-                    <input class=" border-1 rounded-1 ms-2 pe-2" placeholder="<%= booking.bookingID %>" value=""
-                        disabled>
-                </div>
+        <div class="row">
+            <div class="col-md-6">
+                <label>ทำการจอง</label>
+                <% manuals.slice(0,2).forEach((manual, index)=> { %>
+                    <% let attachment %>
+                        <% if(manual.file===null){ attachment=manual.link}else
+                            if(manual.link===null){attachment=`/${manual.file}`}%>
+                            <a role="button" target="_blank"
+                                class="<%= index === 0 ? 'sample' : 'manual' %> me-1 ms-2 btn"
+                                style="color: black; display: inline;" href="<%= attachment%>">
+                                <%= manual.title %>
+                            </a>
+                            <% }) %>
             </div>
-        </form>
+            <div class="col-md-6 ms-auto">
+                <label>รหัสการจอง</label>
+                <input class=" border-1 rounded-1 ms-2 pe-2" placeholder="<%= booking.bookingID %>" value="" disabled>
+            </div>
+        </div>
     </div>
     <div id="booking-body" class="card-body">
-        <form action="/events/<%= booking._id %>" method="POST">
+        <form id="bookingForm" action="/events/<%= booking._id %>" method="POST">
             <div class="row" id="booking-body">
                 <div class="col">
                     <label class="form-label">ชื่อ-สกุล</label>
@@ -63,16 +60,17 @@
                 <div class="row">
                     <div class="col-md">
                         <label for="">วัน/เวลาไปถึงสถานที่รับรถ</label>
-                        <input type="datetime-local" name="start" required class="form-control"
+                        <input type="datetime-local" name="start" id="startTime" required class="form-control"
                             value="<%= start.toISOString().slice(0,16) %>" <%=booking.user_id !==user.id ||
                             booking.status>1 ? 'disabled' : '' %>>
-
+                        <small id="startTimeError" class="text-danger d-none"></small>
                     </div>
                     <div class="col-md">
                         <label for="">วัน/เวลาเสร็จสิ้นภารกิจ</label>
-                        <input type="datetime-local" name="end" required class="form-control"
+                        <input type="datetime-local" name="end" id="endTime" required class="form-control"
                             value="<%= end.toISOString().slice(0,16)%>" <%=booking.user_id !==user.id ||
                             booking.status>1 ? 'disabled' : '' %>>
+                        <small id="endTimeError" class="text-danger d-none"></small>
                     </div>
                 </div>
                 <div class="row mt-4">
@@ -90,10 +88,10 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-md">
-                        <label for="">จำนวนผู้โดยสาร</label>
-                        <input type="number" required id="passenger" name="passengerCount" min="0"
+                        <label for="passengerCount">จำนวนผู้โดยสาร</label>
+                        <input type="number" required id="passengerCount" name="passengerCount" min="0"
                             value="<%= booking.passengerCount %>" class="form-control" <%=booking.user_id !==user.id ||
-                            booking.status>1 ? 'disabled' : '' %>>
+                            booking.status>1 ? 'disabled' : '' %> onchange="checkPassengerCount()">
                     </div>
                 </div>
                 <div class="row mt-4">
@@ -101,27 +99,23 @@
                         <label for="">ประกอบด้วย</label>
                         <span class="form-text"
                             style="font-size: 1rem; color:red; display: inline;">***(โปรดระบุชื่อ-นามสกุลของผู้รับบริการให้ครบถ้วน)***</span>
-                        <ol class="passenger-list mt-3">
+                        <ol class="passenger-list mt-3" id="passengerNames">
                             <% booking.passengers.forEach((passenger, index)=> { %>
                                 <li>
                                     <input <%=booking.user_id !==user.id || booking.status>1 ? 'disabled' : '' %>
                                     class="form-control passenger-input mt-3" type="text" name="passengers" value="<%=
-                                        passenger %>" required>
-                                        <% if (index>= 1 && user.role > 'user') { %>
-                                            <button class="btn btn-danger remove-passenger-btn mt-2"
-                                                style="width: 50px;">ลบ</button>
-                                            <% } %>
+                                        passenger %>" required id="passengerName<%= index %>">
                                 </li>
                                 <% }) %>
                         </ol>
-                        <% if (booking.user_id===user.id && booking.status===1) { %>
-                            <button class="btn btn-success add-passenger-btn mt-1">เพิ่ม</button>
-                            <% } %>
                     </div>
                 </div>
-                <input type="text" class="form-control" id="myInput" style="display: none;" required name="note">
+                <input type="text" class="form-control mt-4" id="myInput" style="display: none;"
+                    placeholder="โปรดระบุหมายเหตุการไม่อนุมัติ" required name="note">
             </div>
-            <% if (!user.role==='approver' ) { %>
+            <input type="hidden" id="initialPassengerCount" name="initialPassengerCount"
+                value="<%= booking.passengerCount %>">
+            <% if (user.role!=='approver' ) { %>
                 <input type="hidden" id="status" name="status">
                 <% } %>
                     <% if (user.role==="approver" ) { %>
@@ -130,7 +124,6 @@
                         <input type="hidden" id="approverName" name="approverName">
                         <input type="hidden" id="cancelerName" name="cancelerName">
                         <% } %>
-
                             <% if (booking.status===1) { %>
                                 <div class="row text-center">
                                     <div class="mt-3">
@@ -175,6 +168,154 @@
     </div>
 
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const startTimeInput = document.getElementById('startTime');
+        const endTimeInput = document.getElementById('endTime');
+        const startTimeError = document.getElementById('startTimeError');
+        const endTimeError = document.getElementById('endTimeError');
+        const saveUpdateButton = document.getElementById('saveupdateBtn');
+
+        function validateTimes() {
+            const startTime = new Date(startTimeInput.value);
+            const endTime = new Date(endTimeInput.value);
+            const now = new Date();
+
+
+            if (startTime < now) {
+                startTimeError.classList.remove('d-none');
+                startTimeError.innerText = 'เวลาเริ่มต้นไม่สามารถอยู่ในอดีตได้';
+                return false;
+            } else {
+                startTimeError.classList.add('d-none');
+            }
+
+            if (endTime <= startTime) {
+                endTimeError.classList.remove('d-none');
+                endTimeError.innerText = 'เวลาสิ้นสุดต้องอยู่หลังเวลาเริ่มต้น';
+                return false;
+            } else {
+                endTimeError.classList.add('d-none');
+            }
+            if (startTime > endTime) {
+                startTimeError.classList.remove('d-none');
+                startTimeError.innerText = 'เวลาเริ่มต้นไม่สามารถอยู่หลังเวลาสิ้นสุดได้';
+                return false;
+            } else {
+                startTimeError.classList.add('d-none');
+            }
+            return true;
+        }
+
+
+        function validateForm() {
+            if (!validateTimes()) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ข้อมูลไม่ถูกต้อง',
+                    text: 'กรุณากรอกวันและเวลาให้ถูกต้อง',
+                });
+                return false;
+            }
+
+            const bookingForm = document.getElementById('bookingForm');
+            const inputs = bookingForm.querySelectorAll('input, textarea');
+            let allFilled = true;
+            inputs.forEach(input => {
+                if (input.name === 'note' || input.name === 'status' || input.name === 'approve_Time' || input.name === 'approverName' || input.name === 'cancelerName') {
+                    return;
+                }
+            });
+            if (!allFilled) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ข้อมูลไม่ครบ',
+                    text: 'กรุณากรอกข้อมูลให้ครบถ้วนก่อนส่งฟอร์ม!',
+                });
+                return false;
+            }
+
+            return true;
+        }
+
+        startTimeInput.addEventListener('change', validateTimes);
+        endTimeInput.addEventListener('change', validateTimes);
+
+        saveUpdateButton.addEventListener('click', function (event) {
+            if (!validateForm()) {
+                event.preventDefault();
+            }
+        });
+        document.getElementById('bookingForm').addEventListener('submit', function (event) {
+            if (!validateForm()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+        });
+    });
+
+</script>
+
+<script>
+    const initialPassengerCountInput = document.getElementById('initialPassengerCount');
+    let initialCount = parseInt(initialPassengerCountInput.value, 10) || 0; // Initialize with 0 if NaN
+    const passengerCountInput = document.getElementById('passengerCount');
+    const passengerNamesOl = document.getElementById('passengerNames');
+
+    const createListItem = (index) => {
+        const listItem = document.createElement('li');
+        listItem.innerHTML = `
+            <input class="form-control passenger-input mt-3" type="text" id="passengerName${index}" name="passengers" required>
+        `;
+        return listItem;
+    };
+
+    const updatePassengerList = (count) => {
+        const currentCount = passengerNamesOl.children.length;
+
+        if (count < initialCount) {
+            Swal.fire({
+                title: 'คุณแน่ใจหรือไม่?',
+                text: "การลดจำนวนผู้โดยสารจะทำให้ข้อมูลบางส่วนสูญหาย!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'ตกลง ลดจำนวนผู้โดยสาร',
+                cancelButtonText: 'ยกเลิก'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    initialCount = count;
+                    for (let i = currentCount - 1; i >= count; i--) {
+                        passengerNamesOl.removeChild(passengerNamesOl.children[i]);
+                    }
+                } else {
+                    passengerCountInput.value = initialCount;
+                }
+            });
+        } else {
+            initialCount = count;
+            if (count > currentCount) {
+                for (let i = currentCount; i < count; i++) {
+                    passengerNamesOl.appendChild(createListItem(i));
+                }
+            }
+        }
+    };
+
+    passengerCountInput.addEventListener('input', function () {
+        const count = parseInt(passengerCountInput.value, 10) || 0; // Initialize with 0 if NaN
+        updatePassengerList(count);
+        localStorage.setItem('passengerCount', count);
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const savedCount = parseInt(localStorage.getItem('passengerCount'), 10) || 0;
+        if (savedCount) {
+            passengerCountInput.value = savedCount;
+            updatePassengerList(savedCount);
+        }
+    });
+</script>
+
 <!-- Display Aleart Approve -->
 <script>
 
@@ -227,7 +368,7 @@
                 title: 'ทำการอนุมัติสำเร็จ',
             });
             const time = new Date();
-            document.getElementById('approve_Time').value = time.toISOString(); // Set the approve_Time here
+            document.getElementById('approve_Time').value = time.toISOString();
             document.getElementById('status').value = 2;
             document.getElementById('approverName').value = '<%= user.firstname %> <%= user.lastname %> ';
             await document.querySelector('#booking-body form').submit();
@@ -286,7 +427,51 @@
 <!-- Display Aleart Update -->
 <script>
     async function displayAlertSaveupdate() {
-        console.log('test')
+        // ดึงข้อมูลฟอร์มที่ต้องการตรวจสอบ
+        const bookingForm = document.getElementById('bookingForm');
+        const mobileInput = document.getElementById("mobileNumber");
+        const mobileNumberError = document.getElementById("mobileNumberError");
+
+        // ฟังก์ชันตรวจสอบความยาวเบอร์โทรศัพท์
+        function validateMobileNumber() {
+            var inputValue = mobileInput.value.trim();
+            if (inputValue.length !== 10) {
+                mobileNumberError.classList.remove("d-none");
+                return false;
+            } else {
+                mobileNumberError.classList.add("d-none");
+                return true;
+            }
+        }
+
+        if (!validateMobileNumber()) {
+            mobileInput.focus();
+            mobileInput.scrollIntoView({ behavior: "smooth", block: "center" });
+            return;
+        }
+
+
+        const inputs = bookingForm.querySelectorAll('input');
+        let allFilled = true;
+        inputs.forEach(input => {
+            if (input.name === 'note' || input.name === 'status' || input.name === 'approve_Time' || input.name === 'approverName' || input.name === 'cancelerName') {
+                return;
+            }
+
+            if (input.value.trim() === '') {
+                allFilled = false;
+            }
+        });
+
+        if (!allFilled) {
+            Swal.fire({
+                icon: 'error',
+                title: 'เกิดข้อผิดพลาด',
+                text: 'กรุณากรอกข้อมูลให้ครบถ้วนก่อนส่งฟอร์ม!',
+            });
+            return;
+        }
+
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -298,6 +483,7 @@
             timer: 1500,
             timerProgressBar: true,
         });
+
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
                 confirmButton: 'btn btn-success',
@@ -305,6 +491,7 @@
             },
             buttonsStyling: false,
         });
+
         const result = await swalWithBootstrapButtons.fire({
             title: 'คุณแน่ใจหรือไม่?',
             text: 'คุณต้องการยืนยันที่จะแก้ไข!',
@@ -320,7 +507,7 @@
                 icon: 'success',
                 title: 'แก้ไขสำเร็จ',
             });
-
+            document.getElementById('status').value = 1;
             await document.querySelector('#booking-body form').submit();
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire({
@@ -376,46 +563,5 @@
             })
         };
     };
-
-</script>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const removeButtons = document.querySelectorAll('.remove-passenger-btn');
-
-        removeButtons.forEach(function (button) {
-            button.addEventListener('click', function () {
-                button.parentNode.remove();
-            });
-        });
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const addPassengerBtn = document.querySelector('.add-passenger-btn');
-        const passengerList = document.querySelector('.passenger-list');
-
-        addPassengerBtn.addEventListener('click', function () {
-            const listItem = document.createElement('li');
-
-
-            const input = document.createElement('input');
-            input.classList.add('form-control', 'passenger-input', 'mt-3');
-            input.type = 'text';
-            input.name = 'passengers';
-            input.required = true;
-
-            const removeBtn = document.createElement('button');
-            removeBtn.classList.add('btn', 'btn-danger', 'remove-passenger-btn', 'mt-2', 'ml-2');
-            removeBtn.textContent = 'ลบ';
-            removeBtn.style.width = '50px';
-
-            removeBtn.addEventListener('click', function () {
-                listItem.remove();
-            });
-
-            listItem.appendChild(input);
-            listItem.appendChild(removeBtn);
-            passengerList.appendChild(listItem);
-        });
-    });
 
 </script>

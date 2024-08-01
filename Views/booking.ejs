@@ -92,7 +92,7 @@
                             </div>
                         </div>
                         <div id="booking-body" class="card-body">
-                            <form action="/events" method="POST">
+                            <form id="bookingForm" action="/events" method="POST">
                                 <div class="row" id="booking-body">
                                     <input type="hidden" name="user_id" value="<%= user.id %>">
                                     <input type="hidden" name="booking_Time" id="booking_Time">
@@ -130,11 +130,15 @@
                                 <div class="row mt-4">
                                     <div class="col-md">
                                         <label for="">วัน/เวลาไปถึงสถานที่รับ</label>
-                                        <input type="datetime-local" name="start" class="form-control" required>
+                                        <input type="datetime-local" name="start" id="startTime" class="form-control"
+                                            required>
+                                        <small id="startTimeError" class="text-danger d-none"></small>
                                     </div>
                                     <div class="col-md">
                                         <label for="">วัน/เวลาเสร็จสิ้นภารกิจ</label>
-                                        <input type="datetime-local" name="end" class="form-control" required>
+                                        <input type="datetime-local" name="end" id="endTime" class="form-control"
+                                            required>
+                                        <small id="endTimeError" class="text-danger d-none"></small>
                                     </div>
                                 </div>
                                 <div class="row mt-4">
@@ -150,8 +154,8 @@
                                 <div class="row mt-4">
                                     <div class="col-md">
                                         <label for="">จำนวนผู้โดยสาร</label>
-                                        <input type="number" required id="passenger" name="passengerCount" min="0"
-                                            class="form-control" placeholder="คน">
+                                        <input type="number" required id="passenger" name="passengerCount" min="1"
+                                            max="50" class="form-control" placeholder="คน">
                                     </div>
                                 </div>
                                 <div class="row mt-4">
@@ -171,9 +175,9 @@
                             </form>
 
                         </div>
-                        <div class="text-center mt-3">
+                        <div class="text-center mb-3">
                             <form onsubmit="displayAlert(); return false;">
-                                <button type="submit" class="btn btn-primary btn-lg" id="txt">ยืนยัน</button>
+                                <button type="submit" class="btn btn-primary btn-lg" id="save">ยืนยัน</button>
                             </form>
                         </div>
                     </div>
@@ -199,21 +203,10 @@
                     }
                 });
 
-                var txt = document.querySelector("#txt");
-                form.displayAlert("submit", function (event) {
-                    if (mobileInput.validity.valid) {
-                        displayAlert();
-                    } else {
-                        event.preventDefault();
-                    }
-                });
+
             });
 
             function displayAlert() {
-                // Check if the form is valid
-                if (!document.querySelector("#booking-body form").reportValidity()) {
-                    return;
-                }
 
                 // If the form is valid, show the alert
                 const swalWithBootstrapButtons = Swal.mixin({
@@ -225,7 +218,7 @@
                 });
 
                 swalWithBootstrapButtons.fire({
-                    title: 'โปรดตัวสอบข้อมูลของท่าน?',
+                    title: 'โปรดตรวจสอบข้อมูลของท่าน?',
                     text: 'หากถูกต้อง กรุณากดยืนยันเพื่อส่งแบบฟอร์ม!!',
                     icon: 'warning',
                     showCancelButton: true,
@@ -243,7 +236,7 @@
                     ) {
                         swalWithBootstrapButtons.fire({
                             title: 'ยกเลิก',
-                            text: 'คุณได้ทำการยกเลิก)',
+                            text: 'คุณได้ทำการยกเลิก',
                             icon: 'error'
                         });
                     }
@@ -303,6 +296,98 @@
                     }
                 });
             });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const startTimeInput = document.getElementById('startTime');
+                const endTimeInput = document.getElementById('endTime');
+                const startTimeError = document.getElementById('startTimeError');
+                const endTimeError = document.getElementById('endTimeError');
+                const saveUpdateButton = document.getElementById('save');
+
+                function validateTimes() {
+                    const startTime = new Date(startTimeInput.value);
+                    const endTime = new Date(endTimeInput.value);
+                    const now = new Date();
+
+
+                    if (startTime < now) {
+                        console.log(now)
+                        startTimeError.classList.remove('d-none');
+                        startTimeError.innerText = 'เวลาเริ่มต้นไม่สามารถอยู่ในอดีตได้';
+                        return false;
+                    } else {
+                        startTimeError.classList.add('d-none');
+                    }
+
+                    if (endTime <= startTime) {
+                        endTimeError.classList.remove('d-none');
+                        endTimeError.innerText = 'เวลาสิ้นสุดต้องอยู่หลังเวลาเริ่มต้น';
+                        return false;
+                    } else {
+                        endTimeError.classList.add('d-none');
+                    }
+                    if (startTime > endTime) {
+                        startTimeError.classList.remove('d-none');
+                        startTimeError.innerText = 'เวลาเริ่มต้นไม่สามารถอยู่หลังเวลาสิ้นสุดได้';
+                        return false;
+                    } else {
+                        startTimeError.classList.add('d-none');
+                    }
+                    return true;
+                }
+
+
+                function validateForm() {
+                    if (!validateTimes()) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'ข้อมูลไม่ถูกต้อง',
+                            text: 'กรุณากรอกวันและเวลาให้ถูกต้อง',
+                        });
+                        return false;
+                    }
+
+                    const bookingForm = document.getElementById('bookingForm');
+                    const inputs = bookingForm.querySelectorAll('input, textarea');
+                    let allFilled = true;
+                    inputs.forEach(input => {
+                        if (input.type !== 'hidden' && !input.disabled && input.value.trim() === '') {
+                            allFilled = false;
+                        }
+                        if (input.name === 'note' || input.name === 'status' || input.name === 'approve_Time' || input.name === 'approverName' || input.name === 'cancelerName') {
+                            return;
+                        }
+                    });
+                    if (!allFilled) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'ข้อมูลไม่ครบ',
+                            text: 'กรุณากรอกข้อมูลให้ครบถ้วนก่อนส่งฟอร์ม!',
+                        });
+                        return false;
+                    }
+
+                    return true;
+                }
+
+                startTimeInput.addEventListener('change', validateTimes);
+                endTimeInput.addEventListener('change', validateTimes);
+
+                // Prevent form submission if validation fails
+                saveUpdateButton.addEventListener('click', function (event) {
+                    if (!validateForm()) {
+                        event.preventDefault();
+                    }
+                });
+                document.getElementById('bookingForm').addEventListener('submit', function (event) {
+                    if (!validateForm()) {
+                        event.preventDefault(); // ป้องกันการส่งฟอร์ม
+                        event.stopPropagation();
+                    }
+                });
+            });
+
         </script>
         <!-- Display date time -->
         <script>

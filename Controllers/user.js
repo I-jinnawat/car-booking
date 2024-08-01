@@ -5,7 +5,7 @@ const member_API = process.env.member_API;
 
 exports.create = async (req, res) => {
   const usersResponse = await axios.get(`${member_API}`, {});
-  const users = usersResponse.data;
+
   const page = parseInt(req.query.page) || 1; // Parse page number from query parameters (default to page 1)
   const limit = 8; // Number of users per page
 
@@ -92,7 +92,6 @@ exports.update = async (req, res) => {
     newmobile_number,
     oldpassword,
     newpassword,
-    newpasswordconfirm,
   } = req.body;
 
   const start = new Date(
@@ -107,7 +106,6 @@ exports.update = async (req, res) => {
       return res.redirect('/');
     }
 
-    // Update user details if provided
     if (
       newfirstname ||
       newlastname ||
@@ -120,37 +118,26 @@ exports.update = async (req, res) => {
       user.birth_year = req.body.birth_year ? start : user.birth_year;
       await user.save();
     }
-
-    // Change password if both old and new passwords are provided
-    if (newpassword && oldpassword) {
-      if (!bcrypt.compareSync(oldpassword, user.password)) {
-        req.flash('error_old', 'รหัสผ่านเดิมไม่ถูกต้อง');
-        return res.redirect('/profile/Change_PSW/' + id);
-      }
-      user.password = bcrypt.hashSync(newpassword, 10);
-      await user.save();
-      req.flash('success', 'เปลี่ยนรหัสผ่านสำเร็จ');
+    if (!bcrypt.compareSync(oldpassword, user.password)) {
+      req.flash('error_old', 'รหัสผ่านเดิมไม่ถูกต้อง');
+      error_old = req.flash('error_old');
+      return res.render('change_PSW', {
+        userLoggedIn: true,
+        oldpassword: oldpassword || '',
+        user: user,
+        error_old,
+      });
     }
 
-    // Ensure the new password and confirmation match
-    if (
-      newpassword &&
-      newpasswordconfirm &&
-      newpassword === newpasswordconfirm
-    ) {
-      user.password = bcrypt.hashSync(newpasswordconfirm, 10);
-      await user.save();
-      req.flash('success', 'Password changed successfully.');
-      return res.redirect('/login');
-    }
+    // Update password
+    user.password = bcrypt.hashSync(newpassword, 10);
+    await user.save();
 
-    // Save user only if there were updates
-
-    req.flash('info', 'No updates were made.');
-    res.redirect('/profile/' + id);
+    req.session.destroy(() => {
+      res.redirect(`/login?username=${encodeURIComponent(user.username)}`);
+    });
   } catch (err) {
-    console.error('Error updating user:', err);
-    req.flash('error', 'An error occurred while updating user information.');
+    console.error(err);
     res.redirect('/profile/' + id);
   }
 };
