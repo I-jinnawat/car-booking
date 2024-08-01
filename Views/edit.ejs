@@ -20,6 +20,10 @@
             display: none !important;
         }
     }
+
+    .colored-toast.swal2-icon-success {
+        background-color: #a5dc86 !important;
+    }
 </style>
 
 <body>
@@ -94,15 +98,17 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <label class="form-label" for="birthDate">วัน/เดือน/ปี
-                                            เกิด</label>
+                                        <label class="form-label" for="birthDate">วัน/เดือน/ปี (ค.ศ.) </label>
                                     </div>
                                     <div class="col-sm-9">
-                                        <input value="<%= new Date(user.birth_year).toISOString().split('T')[0] %>"
+                                        <input min="1990"
+                                            value="<%= new Date(user.birth_year).toISOString().split('T')[0] %>"
                                             name="birth_year" id="birthDate" type="date" class="form-control">
-
+                                        <div id="birthDateError" class="error-message" style="color: red;"></div>
+                                        <!-- Error message container -->
                                     </div>
                                 </div>
+
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
                                         <label class="form-label">เบอร์โทร</label>
@@ -128,7 +134,7 @@
         </div>
         <script>
             document.getElementById('mobile_number').addEventListener('input', validateMobileNumber);
-
+            document.getElementById('birthDate').addEventListener('change', validateBirthYear);
             function validateMobileNumber() {
                 const mobileNumber = document.getElementById('mobile_number').value;
                 const errorDiv = document.getElementById('mobileNumberError');
@@ -150,28 +156,28 @@
                 errorDiv.textContent = errorMessage;
             }
 
-        </script>
-        <script>
-            let isSidebarOpen = false;
-            function toggleNav() {
-                const sidenav = document.getElementById("mySidenav");
-                const main = document.getElementById("main");
-                const toggleIcon = document.getElementById("toggleIcon");
+            function validateBirthYear() {
+                const birthDateInput = document.getElementById('birthDate');
+                const birthDateValue = new Date(birthDateInput.value);
+                const errorDiv = document.getElementById('birthDateError');
 
-                isSidebarOpen = !isSidebarOpen;
-                if (isSidebarOpen) {
-                    sidenav.style.width = "250px";
-                    main.style.marginLeft = "250px";
-                    toggleIcon.classList.remove("fi-rr-indent");
-                    toggleIcon.classList.add("fi-rr-outdent");
+
+                const minYear = 1900;
+                const maxYear = 2500
+
+                let errorMessage = '';
+
+                if (birthDateValue.getFullYear() < minYear || birthDateValue.getFullYear() > maxYear) {
+                    errorMessage = `ปีเกิดต้องอยู่ระหว่าง ${minYear} และ ${maxYear}`;
                 } else {
-                    sidenav.style.width = "0";
-                    main.style.marginLeft = "0";
-                    toggleIcon.classList.remove("fi-rr-outdent");
-                    toggleIcon.classList.add("fi-rr-indent");
+                    errorMessage = '';
                 }
-            }
 
+                errorDiv.textContent = errorMessage;
+
+
+                return !errorMessage;
+            }
         </script>
         <script>
             document.getElementById('updateForm').addEventListener('submit', function (event) {
@@ -192,6 +198,18 @@
                     buttonsStyling: false
                 });
 
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    iconColor: 'white',
+                    customClass: {
+                        popup: 'colored-toast',
+                    },
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                });
+
                 const result = await swalWithBootstrapButtons.fire({
                     title: 'คุณแน่ใจหรือไม่?',
                     text: 'คุณต้องการยืนยันที่จะส่ง!',
@@ -204,8 +222,14 @@
 
                 if (result.isConfirmed) {
                     validateMobileNumber(); // Ensure the mobile number is validated
-                    if (!document.getElementById('mobileNumberError').textContent) {
-                        document.getElementById('updateForm').submit();
+                    if (!document.getElementById('mobileNumberError').textContent && !document.getElementById('birthDateError').textContent) {
+                        await Toast.fire({
+                            icon: 'success',
+                            title: 'แก้ไขสำเร็จ',
+                        });
+                        await document.getElementById('updateForm').submit();
+                    } else {
+                        Swal.fire("โปรดแก้ไขข้อมูลให้ถูกต้อง");
                     }
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     swalWithBootstrapButtons.fire({
@@ -216,7 +240,7 @@
                 }
             }
         </script>
-
+        <script src="/JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

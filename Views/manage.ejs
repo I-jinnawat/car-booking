@@ -82,13 +82,13 @@
                                 <label for="">เมนู :</label>
                                 <a href="/booking" class="btn border-0 bookingbtn"
                                     style="background-color:#FFECB3; width: 100px;">
-                                    <i class="fa-regular fa-pen-to-square"></i> จองรถ
+                                    <i class="fa-regular fa-pen-to-square me-2"></i>จองรถ
                                 </a>
                                 <span class="ms-3">
-                                    <label for="">สถานะ</label>
-                                    <div class="btn-group">
+                                    <label for="status">สถานะ</label>
+                                    <div class="btn-group ms-2" style="cursor: pointer;">
                                         <select class="form-select" id="statusSelect">
-                                            <option value="" selected></option>
+                                            <option selected></option>
                                             <option <%=selectedStatus==='all' ? 'selected' : '' %> value="all">ทั้งหมด
                                             </option>
                                             <option <%=selectedStatus==='inProgress' ? 'selected' : '' %>
@@ -103,18 +103,19 @@
                                 </span>
                             </div>
                             <hr>
-                            <div class="float-md-end">
-                                <div class="search">
-                                    <input class="p-1" type="text" id="searchInput"
-                                        placeholder="&#xf002; หัวข้อ ผู้ร้องขอ"
-                                        style="width: 200px; border-radius: 8px; border:1px solid black;"
-                                        value="<%= searchQuery %>">
-                                    <i class="fas fa-times" style="position: relative; left: -30px;"
-                                        onclick="handleClear()"></i>
-                                    <button onclick="handleSearch()" type="button" class="btn bg-dark-subtle  p-1"
-                                        style="width: 95px;">ค้นหา</button>
-                                </div><br>
-                            </div>
+
+                            <div class="search float-md-end">
+
+                                <input class="form-control" type="text" id="searchInput"
+                                    placeholder="&#xf002; หัวข้อ ผู้ร้องขอ" name="search" value="<%= searchQuery %>">
+                                <i class="fas fa-times clear-icon"
+                                    style="position: relative; left: 90%; bottom:40px; cursor: pointer; font-size: 0.8rem;"
+                                    onclick="handleClear()"></i>
+
+                                <button onclick="handleSearch()" type="button" class="btn bg-dark-subtle mt-2"
+                                    style="width: 95px; position: relative; right: 13px;">ค้นหา</button>
+                            </div><br>
+
                         </div>
                     </div>
                 </div>
