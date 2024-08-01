@@ -1,27 +1,26 @@
-const {Storage} = require('@google-cloud/storage');
 const multer = require('multer');
-const path = require('path');
 
-// Initialize Google Cloud Storage
-const storage = new Storage({
-  projectId: 'testfinale-423113',
-  keyFilename: path.join(__dirname, './testfinale-423113-35d0aba03302.json'),
+// Set up storage configuration
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/'); // Replace 'uploads/' with your desired directory
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
 });
 
-// Set up bucket and multer storage configuration
-const bucket = storage.bucket('carbooking2');
-
-const multerStorage = multer.memoryStorage(); // Use memory storage for multer
-
+// Initialize Multer with the storage configuration
 const upload = multer({
-  storage: multerStorage,
+  storage: storage,
   fileFilter: (req, file, cb) => {
     if (file.fieldname === 'attachment' || file.fieldname === 'image') {
-      cb(null, true); // Accept the file
+      cb(null, true); // No error, accept the file
     } else {
-      cb(new Error('Unexpected field'), false); // Reject the file
+      cb(new Error('Unexpected field'), false); // Error, reject the file
     }
   },
 });
 
-module.exports = {upload, bucket};
+// Export the upload middleware
+module.exports = upload;
