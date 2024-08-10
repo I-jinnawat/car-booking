@@ -151,18 +151,25 @@ exports.updateEvent = async (req, res, next) => {
     } = req.body;
 
     if (currentBooking.is_locked && user.role === 'approver') {
-      req.flash(
-        'errorBooking',
-        'ไม่สามารถอนุมัติได้ เนื่องจากการจองกำลังถูกแก้ไข'
-      );
+      req.flash('errorBooking', 'ไม่สามารถอนุมัติได้ เนื่องจากการจองกำลังถูกแก้ไข');
       return res.redirect(`/booking-edit/${id}`);
-    } else if (currentBooking.status === 2 && user.role !== 'approver') {
-      req.flash(
-        'errorBooking',
-        'ไม่สามารถแก้ไขได้ เนื่องจากการจองถูกอนุมัติแล้ว'
-      );
+    } else if (currentBooking.status === 2 && currentBooking.user_id === user._id) {
+      req.flash('errorBooking', 'ไม่สามารถแก้ไขได้ เนื่องจากการจองถูกอนุมัติแล้ว');
       return res.redirect(`/booking-edit/${id}`);
     }
+
+    // อนุญาตให้ admin แก้ไขข้อมูลคนขับรถและรถได้ถ้าหากสถานะเป็น 3 และยังไม่ถึงเวลาใช้รถ
+    
+      if (currentBooking.status === 3 && new Date() < new Date(currentBooking.start) && user.role === 'admin') {
+        currentBooking.driver = driver;
+        currentBooking.vehicle = vehicle;
+        await currentBooking.save()
+      }else if(currentBooking.status === 3 && new Date() >new Date(currentBooking.start) && user.role === 'admin'){
+         req.flash('errorBooking', 'ไม่สามารถแก้ไขได้ เนื่องจากถึงเวลาใช้รถ');
+      return res.redirect(`/booking-edit/${id}`);
+      }
+   
+
 
     if (
       deletedPassengerIndex !== undefined &&
@@ -203,15 +210,12 @@ exports.updateEvent = async (req, res, next) => {
           vehicleInfo.start_time = currentBooking.start;
           vehicleInfo.end_time = currentBooking.end;
           await vehicleInfo.save();
-        } else if (currentBooking.status === 3 && user.role !== 'approver') {
+        } else if ((currentBooking.status === 3 && user.role !== 'approver')&& new Date() > new Date(currentBooking.start)) {
           vehicleInfo.start_time = '';
           vehicleInfo.end_time = '';
           last_distance = parseFloat(kilometer_end);
-          console.log('New last_distance:', last_distance);
           vehicleInfo.last_distance = last_distance;
           await vehicleInfo.save();
-          console.log(vehicleInfo.start_time);
-          console.log(vehicleInfo.end_time);
         }
       } else {
         console.error('Vehicle information not found');
@@ -246,7 +250,7 @@ exports.updateEvent = async (req, res, next) => {
 
     res.redirect('/manage');
   } catch (error) {
-    console.error(error);
+    console.error('Error' +error);
     next(error);
   }
 };
