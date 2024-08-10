@@ -26,15 +26,6 @@ exports.read = async (req, res) => {
       vehicleInProgress: vehicleInProgress,
       vehicles,
     });
-
-    // For debugging, you can use res.json to return the current day and counts
-    // res.json({
-    //   currentDay,
-    //   bookingCount,
-    //   vehicleCount,
-    //   vehicleInProgress,
-    //   vehicles,
-    // });
   } catch (error) {
     console.error('Error fetching dashboard data:', error);
     res.status(500).render('error', {message: 'Internal Server Error'});

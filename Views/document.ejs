@@ -74,7 +74,6 @@
                                             <label style="width: 150px;" class="btn btn-secondary"
                                                 for="option4">แนวทางการใช้รถ</label>
                                             <% if (userLoggedIn && user.role !=='user' ) { %>
-
                                                 <a href="/document/add" class="btn btn-primary"
                                                     style="border-color: #FFECB3; background-color:#FFECB3; width: 150px; color: black;">
                                                     <i class="fi fi-rr-edit pe-1"></i>เพิ่มเอกสารใหม่
@@ -115,7 +114,8 @@
                                                 <% } %>
                                         </tr>
                                     </thead>
-                                    <tbody id="document-list"></tbody>
+                                    <tbody id="document-list">
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -130,9 +130,6 @@
                 data.forEach(function (doc) {
                     const categoryLabel = document.getElementById('category');
                     categoryLabel.textContent = doc.category;
-                    console.log(doc.title)
-                    console.log('Image Path:', doc.image);
-
 
                     let attachment
                     if (doc.file == null) {
@@ -140,7 +137,7 @@
                     } else if (doc.link === null) {
                         attachment = doc.file
                     }
-                    console.log(attachment)
+                    console.log(doc.image)
 
                     const documentElement = document.createElement('tr');
                     documentElement.innerHTML = `
@@ -306,7 +303,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.3.6/dompurify.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>

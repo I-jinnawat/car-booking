@@ -98,7 +98,7 @@
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-sm-3">
-                                        <label class="form-label" for="birthDate">วัน/เดือน/ปี (ค.ศ.) </label>
+                                        <label class="form-label" for="birthDate">วัน/เดือน/ปี เกิด (ค.ศ.) </label>
                                     </div>
                                     <div class="col-sm-9">
                                         <input min="1990"
@@ -122,6 +122,8 @@
 
                                 <div class="row">
                                     <div class="text-center mt-3">
+                                        <a role="button" class="btn btn-secondary"
+                                            href="/profile/<%= user.id %>">ยกเลิก</a>
                                         <button type="submit" class="btn btn-primary" id="UpdateBtn">ยืนยัน</button>
                                     </div>
                                 </div>
@@ -212,7 +214,7 @@
 
                 const result = await swalWithBootstrapButtons.fire({
                     title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    text: 'คุณต้องการยืนยันที่จะบันทึก!',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'ยืนยัน',

@@ -33,38 +33,50 @@ exports.list = async (req, res, next) => {
 //Display booking-edit Page
 exports.bookingEdit = async (req, res, next) => {
   const {id} = req.params;
+
   try {
-    const [booking, drivers, vehicles] = await Promise.all([
-      Booking.findById(id),
-      User.find({role: 'driver'}),
-      Vehicle.find({available: 'available'}),
-    ]);
-    const vehicle = await Vehicle.findOne({register: booking.vehicle});
+    const booking = await Booking.findById(id);
 
     if (!booking) {
       return res.status(404).redirect('/manage');
     }
 
+    const [drivers, vehicles, vehicle] = await Promise.all([
+      User.find({role: 'driver'}),
+      Vehicle.find({available: 'available'}),
+      Vehicle.findOne({register: booking.vehicle}),
+    ]);
+
+    if (booking.user_id === req.session.userId) {
+      booking.is_locked = true;
+      await booking.save();
+      console.log(`Booking with ID ${booking._id} has locked`);
+      // ตั้ง Timer เพื่อล็อกเวลา เช่น 5 นาที (300000 มิลลิวินาที)
+      setTimeout(async () => {
+        booking.is_locked = false;
+        await booking.save();
+        console.log(
+          `Booking with ID ${booking._id} has been unlocked after 5 minutes.`
+        );
+      }, 60000); // 300000 มิลลิวินาที = 5 นาที
+    }
+
     const bookingStatus = booking.status;
     const errorBooking = req.flash('errorBooking');
-    const start = new Date(
-      new Date(booking.start).getTime() + 7 * 60 * 60 * 1000
-    );
-    const end = new Date(new Date(booking.end).getTime() + 7 * 60 * 60 * 1000);
+    const start = new Date(booking.start.getTime() + 7 * 60 * 60 * 1000);
+    const end = new Date(booking.end.getTime() + 7 * 60 * 60 * 1000);
 
-    console.log(start);
-    console.log('Hi booking Edit');
     res.render('booking-edit', {
       userLoggedIn: Boolean(req.session.user),
       user: req.session.user,
       booking,
-      start: start,
-      end: end,
+      start,
+      end,
       bookingStatus,
       drivers,
       vehicles,
       errorBooking,
-      vehicle: vehicle,
+      vehicle,
     });
   } catch (error) {
     console.error(error);
@@ -76,7 +88,7 @@ exports.createEvent = async (req, res, next) => {
   try {
     const currentYear = new Date().getFullYear();
 
-    let counter = await Counter.findOneAndUpdate(
+    const counter = await Counter.findOneAndUpdate(
       {year: currentYear},
       {$inc: {count: 1}},
       {new: true, upsert: true}
@@ -113,6 +125,7 @@ exports.updateEvent = async (req, res, next) => {
     const currentBooking = await Booking.findById(id);
     const user = await User.findById(req.session.user.id);
     const {
+      is_locked,
       status,
       vehicle,
       mobile_number,
@@ -137,7 +150,20 @@ exports.updateEvent = async (req, res, next) => {
       deletedPassengerIndex,
     } = req.body;
 
-    // ตรวจสอบดัชนีของ passenger ที่จะลบ
+    if (currentBooking.is_locked && user.role === 'approver') {
+      req.flash(
+        'errorBooking',
+        'ไม่สามารถอนุมัติได้ เนื่องจากการจองกำลังถูกแก้ไข'
+      );
+      return res.redirect(`/booking-edit/${id}`);
+    } else if (currentBooking.status === 2 && user.role !== 'approver') {
+      req.flash(
+        'errorBooking',
+        'ไม่สามารถแก้ไขได้ เนื่องจากการจองถูกอนุมัติแล้ว'
+      );
+      return res.redirect(`/booking-edit/${id}`);
+    }
+
     if (
       deletedPassengerIndex !== undefined &&
       deletedPassengerIndex >= 0 &&
@@ -170,8 +196,8 @@ exports.updateEvent = async (req, res, next) => {
 
       if (vehicleInfo) {
         let last_distance = vehicleInfo.last_distance || 0;
-        let start_time = vehicleInfo.start_time || null;
-        let end_time = vehicleInfo.end_time || null;
+        const start_time = vehicleInfo.start_time || null;
+        const end_time = vehicleInfo.end_time || null;
 
         if (currentBooking.status === 2 && user.role !== 'approver') {
           vehicleInfo.start_time = currentBooking.start;
@@ -188,14 +214,13 @@ exports.updateEvent = async (req, res, next) => {
           console.log(vehicleInfo.end_time);
         }
       } else {
-        // Handle the case where vehicleInfo is not found
         console.error('Vehicle information not found');
         return res.status(404).send('Vehicle information not found');
       }
     }
 
-    // อัปเดตข้อมูลการจอง
     await Booking.findByIdAndUpdate(id, {
+      is_locked,
       status,
       vehicle,
       mobile_number,
@@ -230,14 +255,17 @@ exports.Event = async (req, res, next) => {
   try {
     const currentUser = req.session.user;
 
-    // Fetch bookings with status between 2 and 3 (inclusive)
+    if (!currentUser) {
+      return res.status(401).json({message: 'User not authenticated'});
+    }
+
     let events = await Booking.find({status: {$gte: 2, $lt: 4}}).lean();
 
-    // Convert and format dates to Thai time zone
     events = events.map(event => ({
       ...event,
       title:
-        currentUser.role === 'approver' || currentUser.role === 'admin'
+        (currentUser.role === 'approver' || currentUser.role === 'admin') &&
+        currentUser !== null
           ? event.title
           : 'ถูกจองแล้ว',
     }));

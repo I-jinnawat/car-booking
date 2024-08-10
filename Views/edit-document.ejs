@@ -76,35 +76,54 @@
                                         <label class="form-label">แนบไฟล์หรือลิงก์</label>
                                         <select class="form-control" id="attachmentType" name="attachmentType"
                                             onchange="toggleAttachmentField()">
-                                            <option value="file">ไฟล์</option>
-                                            <option value="link">ลิงก์</option>
+                                            <option <%=document.link===null ? "selected" : '' %> value="file">ไฟล์
+                                            </option>
+                                            <option <%=document.file===null ? "selected" : '' %> value="link">ลิงก์
+                                            </option>
                                         </select>
                                     </div>
-                                    <div class="col-md" id="fileInput">
-                                        <label class="form-label">ไฟล์</label>
-                                        <input type="file" name="attachment" class="form-control"
-                                            accept=".pdf,.doc,.docx">
+                                    <div class="col-md" id="fileInput" <% if (document.file===null) { %>
+                                        style="display: none;"
+                                        <% } %>>
+                                            <label class="form-label">ไฟล์</label>
+                                            <input type="file" name="attachment" class="form-control"
+                                                accept=".pdf,.doc,.docx">
+                                            <% if (document.file !==null) { %>
+                                                <small class="text-secondary">
+                                                    ไฟล์ปัจจุบัน: <%=n
+                                                        document.file.split("\\").pop().replace(/^\d+-/, '' ) %>
+                                                </small>
+                                                <% } %>
                                     </div>
-
-                                    <div class="col-md" id="linkInput" style="display: none;">
-                                        <label class="form-label">ลิงก์</label>
-                                        <input type="url" name="attachment" class="form-control">
+                                    <div class="col-md" id="linkInput" <% if (document.link===null) { %>
+                                        style="display: none;"
+                                        <% } %>>
+                                            <label class="form-label">ลิงก์</label>
+                                            <input type="url" name="attachment" class="form-control"
+                                                value="<%= document.link %>">
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md">
-                                        <div class="form-group mt-4">
+                                        <div class="form-group mt-4 mb-4">
                                             <label class="form-label">รูปภาพ:</label>
                                             <input type="file" accept="image/*" name="image" id="image"
                                                 class="form-control" onchange="previewImage(event)"
                                                 style="cursor: pointer;">
-                                            <!-- Image preview -->
-                                            <img id="imagePreview" alt="Image Preview"
-                                                style="max-width: 50%; margin-top: 10px;">
+                                            <small class="text-secondary">
+                                                รูปภาพปัจจุบัน: <%=
+                                                    document.image.split(/[\\/]/).pop().replace(/^\d+-/, '' ) %>
+                                            </small>
+
                                         </div>
+                                        <img id="imagePreview" src="/<%= document.image  %>" alt="Image Preview"
+                                            style="max-width: 100%; margin-top: 10px; height: auto; max-height: 300px;">
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary mb-3" style="height: 40px;">ยืนยัน</button>
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-primary mb-3 mt-3"
+                                        style="height: 40px; text-align: center;">ยืนยัน</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -136,7 +155,7 @@
 
                 const result = await swalWithBootstrapButtons.fire({
                     title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    text: 'คุณต้องการยืนยันที่จะแก้ไข!',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'ยืนยัน',

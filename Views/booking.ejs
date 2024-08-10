@@ -98,13 +98,16 @@
                                     <input type="hidden" name="booking_Time" id="booking_Time">
                                     <div class="col-md">
                                         <label class="form-label">ชื่อ-สกุล</label>
-                                        <input style="cursor:not-allowed;" class="form-control" type="text"
+                                        <input disabled style="cursor:not-allowed;" class="form-control" type="text"
                                             name="userinfo" value="<%= user.firstname %> <%= user.lastname %>" readonly>
+                                        <input type="hidden" name="userinfo"
+                                            value="<%= user.firstname %> <%= user.lastname %>">
                                     </div>
                                     <div class="col-md">
                                         <label class="form-label">หน่วยงาน</label>
                                         <input style="cursor:not-allowed;" class="form-control" name="organization"
-                                            value="<%= user.organization %>" readonly>
+                                            value="<%= user.organization %>" readonly disabled>
+                                        <input type="hidden" name="organization" value="<%= user.organization %>">
                                     </div>
                                     <div class="col-md">
                                         <label class="form-label">หมายเลขโทรศัพท์</label>
@@ -120,7 +123,7 @@
                                             <label for="comment">ขอใช้รถเพื่อปฎิบัติภารกิจ:</label>
                                             <span class="form-text"
                                                 style="font-size: 1rem; color:red; display: inline;">
-                                                ***(กรณีรับ-ส่งสนามบิน กรุณาระบุไฟล์ทบิน)***
+                                                ***(กรณีรับ-ส่งสนามบิน กรุณาระบุเที่ยวบิน)***
                                             </span>
                                             <textarea class="form-control" rows="5" id="comment" name="title"
                                                 required></textarea>
@@ -172,20 +175,31 @@
                                         </ol>
                                     </div>
                                 </div>
+                                <div class="row">
+
+                                    <div class="text-center mb-3">
+                                        <a role="button" class="btn btn-secondary" href="/manage">ยกเลิก</a>
+                                        <button type="submit" class="btn btn-success btn-lg" id="save">ยืนยัน</button>
+                                    </div>
+                                </div>
                             </form>
 
                         </div>
-                        <div class="text-center mb-3">
-                            <form onsubmit="displayAlert(); return false;">
-                                <button type="submit" class="btn btn-primary btn-lg" id="save">ยืนยัน</button>
-                            </form>
-                        </div>
+
                     </div>
                 </div>
             </div>
         </div>
         <!-- Display aleart -->
         <script>
+            document.getElementById('bookingForm').addEventListener('submit', function (event) {
+                // Prevent default form submission and show confirmation dialog
+                event.preventDefault();
+
+                if (event.submitter && event.submitter.id === 'save') {
+                    displayAlert();
+                }
+            });
             document.addEventListener("DOMContentLoaded", function () {
                 var mobileInput = document.querySelector('input[name="mobile_number"]');
 
@@ -312,7 +326,7 @@
 
 
                     if (startTime < now) {
-                        console.log(now)
+                        console.log(startTime)
                         startTimeError.classList.remove('d-none');
                         startTimeError.innerText = 'เวลาเริ่มต้นไม่สามารถอยู่ในอดีตได้';
                         return false;

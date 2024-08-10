@@ -4,9 +4,9 @@ const bcrypt = require('bcryptjs');
 exports.login = async (req, res) => {
   try {
     const {username, password} = req.body;
-
     const user = await User.findOne({username});
-
+    console.log(username);
+    console.log(user);
     if (!user) {
       return res.render('login', {
         error: 'รหัสพนักงานหรือรหัสผ่านไม่ถูกต้อง',
@@ -25,7 +25,7 @@ exports.login = async (req, res) => {
 
     req.session.user = {
       id: user._id,
-      username: user.username || req.query.username,
+      username: user.username,
       role: user.role,
       firstname: user.firstname,
       lastname: user.lastname,
@@ -38,13 +38,14 @@ exports.login = async (req, res) => {
 
     return res.redirect('/');
   } catch (error) {
-    console.error('Login Error:', error); // Log the error for debugging
+    console.error('Login Error:', error);
     return res.status(500).send('Internal server Error');
   }
 };
 
 exports.list = async (req, res) => {
   try {
+    const users = await User.find();
     res.render('login', {username: '' || req.query.username, error: null});
   } catch (error) {
     console.log(error);

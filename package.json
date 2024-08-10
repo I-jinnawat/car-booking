@@ -4,7 +4,7 @@
   "main": "App.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node App.js"
+    "start": "nodemon"
   },
   "author": "",
   "license": "ISC",
@@ -33,6 +33,7 @@
   "devDependencies": {
     "@types/node": "20.11.5",
     "gts": "^5.3.0",
+    "prettier": "3.3.3",
     "typescript": "~5.4.3"
   }
 }

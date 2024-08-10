@@ -23,16 +23,17 @@
     <div id="booking-body" class="card-body">
         <form id="bookingForm" action="/events/<%= booking._id %>" method="POST">
             <div class="row" id="booking-body">
-                <div class="col">
+                <div class="col-md">
                     <label class="form-label">ชื่อ-สกุล</label>
-                    <input style="cursor:not-allowed;" <%=booking.user_id !==user.id || booking.status>1 ? 'disabled'
-                    : '' %> class="form-control" type="text" name="userinfo" value="<%= booking.userinfo %>"
-                        readonly>
+                    <input disabled style="cursor:not-allowed;" class="form-control" type="text" name="userinfo"
+                        value="<%= user.firstname %> <%= user.lastname %>" readonly>
+                    <input type="hidden" name="userinfo" value="<%= user.firstname %> <%= user.lastname %>">
                 </div>
                 <div class="col-md">
                     <label class="form-label">หน่วยงาน</label>
-                    <input style="cursor:not-allowed;" <%=booking.user_id !==user.id || booking.status>1 ? 'disabled'
-                    : '' %> class="form-control" name="organization" value="<%= booking.organization %>" readonly>
+                    <input style="cursor:not-allowed;" class="form-control" name="organization"
+                        value="<%= user.organization %>" readonly disabled>
+                    <input type="hidden" name="organization" value="<%= user.organization %>">
                 </div>
                 <div class="col-md">
                     <label class="form-label">เบอร์โทร</label>
@@ -50,7 +51,7 @@
                         <label for="comment">ขอใช้รถเพื่อปฎิบัติภารกิจ:</label>
                         <span class="form-text"
                             style="font-size: 1rem; color:red; display: inline;">***(กรณีรับ-ส่งสนามบิน
-                            กรุณาระบุไฟล์ทบิน)***</span>
+                            กรุณาระบุเที่ยวบิน)***</span>
                         <textarea class="form-control" rows="5" id="comment" name="title" required <%=booking.user_id
                             !==user.id || booking.status>1 ? 'disabled' : '' %>><%= booking.title %></textarea>
                     </div>
@@ -127,12 +128,17 @@
                             <% if (booking.status===1) { %>
                                 <div class="row text-center">
                                     <div class="mt-3">
+                                        <a role="button" href=" /manage" class=" btn btn btn-secondary">กลับ</a>
                                         <% if (booking.user_id===user.id && user.role !=='approver' ) { %>
                                             <a role="button" href=" /print/<%=booking._id %>"
-                                                class=" btn btn btn-secondary">พิมพ์เอกสาร</a>
-                                            <button type="submit" id="saveupdateBtn" class="btn btn-primary btn-lg"
+                                                class=" btn btn btn-info "><i class="fa-solid fa-print text-dark"></i>
+                                                พิมพ์เอกสาร</a>
+                                            <input type="hidden" name="is_locked" value="false">
+                                            <button type="submit" id="saveupdateBtn" class="btn btn-success btn-lg"
                                                 onclick="displayAlertSaveupdate()">ยืนยันการแก้ใข</button>
                                             <% } else if (user.role==='approver' && booking.user_id===user.id) { %>
+                                                <a role="button" href=" /print/<%=booking._id %>"
+                                                    class=" btn btn btn-secondary">พิมพ์เอกสาร</a>
                                                 <button type="submit" id="saveupdateBtn" class="btn btn-primary btn-lg"
                                                     onclick="displayAlertSaveupdate()">ยืนยันการแก้ใข</button>
                                                 <button type="submit" class="btn btn-primary btn-lg" id="unapproveBtn"
@@ -141,13 +147,19 @@
                                                     style="background-color: rgb(44, 169, 44);"
                                                     onclick="displayAlertApprove()">อนุมัติ</button>
                                                 <% } else if (user.role==='approver' ) { %>
-                                                    <button type="submit" class="btn btn-primary btn-lg"
-                                                        id="unapproveBtn"
-                                                        style="background-color: red;">ไม่อนุมัติ</button>
-                                                    <button type="submit" class="btn btn-primary btn-lg" id="approveBtn"
-                                                        style="background-color: rgb(44, 169, 44);"
-                                                        onclick="displayAlertApprove()">อนุมัติ</button>
-                                                    <% } %>
+                                                    <% if (!booking.is_locked) { %>
+                                                        <button type="submit" class="btn btn-primary btn-lg"
+                                                            id="unapproveBtn"
+                                                            style="background-color: red;">ไม่อนุมัติ</button>
+                                                        <button type="submit" class="btn btn-primary btn-lg"
+                                                            id="approveBtn" style="background-color: rgb(44, 169, 44);"
+                                                            onclick="displayAlertApprove()">อนุมัติ</button>
+                                                        <% }else{ %>
+                                                            <p style="font-size: 20px;"
+                                                                class="text-center mt-3 text-danger">
+                                                                ผู้จองกำลังแก้ไขการจอง</p>
+                                                            <% } %>
+                                                                <% } %>
                                     </div>
                                 </div>
                                 <% } else { %>
@@ -157,10 +169,11 @@
                                     </p>
                                     <% } %>
 
+
                                         <% if (errorBooking && errorBooking.length> 0) { %>
                                             <script>
                                                 document.addEventListener('DOMContentLoaded', () => {
-                                                    displayAlertExistbookin();
+                                                    displayAlertExistbookin(`<%=errorBooking %>`);
                                                 });
                                             </script>
                                             <% } %>
@@ -181,8 +194,10 @@
             const endTime = new Date(endTimeInput.value);
             const now = new Date();
 
+            // console.log(startTime.toISOString().slice(0, 16))
 
             if (startTime < now) {
+                console.log('startTime')
                 startTimeError.classList.remove('d-none');
                 startTimeError.innerText = 'เวลาเริ่มต้นไม่สามารถอยู่ในอดีตได้';
                 return false;
@@ -258,7 +273,8 @@
 
 <script>
     const initialPassengerCountInput = document.getElementById('initialPassengerCount');
-    let initialCount = parseInt(initialPassengerCountInput.value, 10) || 0; // Initialize with 0 if NaN
+    let initialCount = parseInt(initialPassengerCountInput.value); // Initialize with 0 if NaN
+    console.log(initialCount)
     const passengerCountInput = document.getElementById('passengerCount');
     const passengerNamesOl = document.getElementById('passengerNames');
 
@@ -302,18 +318,18 @@
     };
 
     passengerCountInput.addEventListener('input', function () {
-        const count = parseInt(passengerCountInput.value, 10) || 0; // Initialize with 0 if NaN
+        const count = parseInt(passengerCountInput.value);
         updatePassengerList(count);
         localStorage.setItem('passengerCount', count);
     });
 
-    document.addEventListener("DOMContentLoaded", function () {
-        const savedCount = parseInt(localStorage.getItem('passengerCount'), 10) || 0;
-        if (savedCount) {
-            passengerCountInput.value = savedCount;
-            updatePassengerList(savedCount);
-        }
-    });
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     const savedCount = parseInt(localStorage.getItem('passengerCount'));
+    //     if (savedCount) {
+    //         passengerCountInput.value = savedCount;
+    //         updatePassengerList(savedCount);
+    //     }
+    // });
 </script>
 
 <!-- Display Aleart Approve -->
@@ -521,47 +537,24 @@
 </script>
 <!-- displayAlertExistbookin -->
 <script>
-    async function displayAlertExistbookin() {
-        const Toast = Swal.mixin({
-            toast: true,
-            position: 'top-end',
-            iconColor: 'white',
-            customClass: {
-                popup: 'colored-toast',
+    async function displayAlertExistbookin(errorBooking) {
+        Swal.fire({
+            title: errorBooking,
+            showClass: {
+                popup: `
+      animate__animated
+      animate__fadeInUp
+      animate__faster
+    `
             },
-            showConfirmButton: false,
-            timer: 1000,
-            timerProgressBar: true,
+            hideClass: {
+                popup: `
+      animate__animated
+      animate__fadeOutDown
+      animate__faster
+    `
+            }
         });
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: "btn btn-success",
-                cancelButton: "btn btn-danger"
-            },
-            buttonsStyling: false
-        });
-        const result = await swalWithBootstrapButtons.fire({
-            title: "มีการจองที่มีเวลานี้และถูกอนุมัติแล้ว",
-            text: "คุณยืนยันที่จะอนุมัติหรือไม่",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonText: "อนุมัติ",
-            cancelButtonText: "กลับ",
-            reverseButtons: true
-        });
-        if (result.isConfirmed) {
-            fetch('/confirm', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    status: 2,
-                    approverName: '<%= user.firstname %> <%= user.lastname %>'
-                })
-
-            })
-        };
     };
 
 </script>

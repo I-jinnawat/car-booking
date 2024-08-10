@@ -109,7 +109,7 @@
                                                                     <label class="form-label">ที่นั่ง</label>
                                                                 </div>
                                                                 <div class="col-sm-9 text-secondary">
-                                                                    <input type="number" min="0" max="30"
+                                                                    <input type="number" min="1" max="30"
                                                                         class="form-control" name="seat" required>
                                                                 </div>
                                                             </div>
@@ -200,7 +200,7 @@
                                                                         <label class="form-label">ที่นั่ง</label>
                                                                     </div>
                                                                     <div class="col-sm-9 text-secondary">
-                                                                        <input type="number" max="30" ; min="0"
+                                                                        <input type="number" max="30" ; min="1"
                                                                             class="form-control" name="seat"
                                                                             value="<%= vehicle.seat %>" required>
                                                                     </div>
@@ -338,7 +338,7 @@
                 form.addEventListener("submit", function (event) {
                     event.preventDefault();
                     if (event.submitter && event.submitter.id === 'UpdateBtn') {
-                        displayAlertUpdated(this); // Pass the form element as an argument
+                        displayAlertUpdated(this);
                     }
                 });
             });
@@ -434,26 +434,21 @@
             }
 
             function handleSearch() {
-                // Get search input value
                 var searchValue = document.getElementById('searchInput').value.toLowerCase();
 
-                // Get all rows in the table body
                 var rows = document.querySelectorAll("tbody tr");
 
-                // Iterate through each row
                 rows.forEach(function (row) {
                     var cells = row.querySelectorAll("td");
                     var found = false;
 
-                    // Iterate through each cell in the row
                     cells.forEach(function (cell) {
-                        // Check if the cell content contains the search value
-                        if (cell.textContent.toLowerCase().includes(searchValue)) {
+                        var textContent = cell.textContent || cell.innerText;
+                        if (textContent.toLowerCase().includes(searchValue)) {
                             found = true;
                         }
                     });
 
-                    // Show or hide the row based on the search result
                     if (found) {
                         row.style.display = "";
                     } else {
@@ -462,8 +457,8 @@
                 });
             }
 
-            // Add event listener to search input field
             document.getElementById('searchInput').addEventListener('input', handleSearch);
+
 
             document.getElementById('vehicleForm').addEventListener('submit', function (event) {
                 var registerInput = document.getElementById('register');
@@ -472,15 +467,13 @@
                 var regex = /^[a-zA-Z0-9]{5,6}$/;
 
                 if (!regex.test(registerValue)) {
-                    registerError.textContent = 'Registration number must be 5-6 alphanumeric characters.'; // Custom error message
+                    registerError.textContent = 'Registration number must be 5-6 alphanumeric characters.';
                     registerError.style.display = 'block';
-                    event.preventDefault(); // Prevent form submission
+                    event.preventDefault();
                 } else {
-                    registerError.style.display = 'block'; // Hide error message if valid
+                    registerError.style.display = 'block';
                 }
             });
-
-
         </script>
 
         <script src="../JS/navbar.js"></script>

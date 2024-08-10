@@ -94,8 +94,10 @@
                                             style="max-width: 50%; margin-top: 10px;">
                                     </div>
                                 </div>
-
-                                <button type="submit" class="btn btn-primary mt-4" style="height: 40px;">ยืนยัน</button>
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-primary mb-3 mt-3"
+                                        style="height: 40px; text-align: center;">ยืนยัน</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -127,7 +129,7 @@
 
                 const result = await swalWithBootstrapButtons.fire({
                     title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    text: 'คุณต้องการยืนยันที่จะสร้าง',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'ยืนยัน',
@@ -182,7 +184,6 @@
             }
         </script>
 
-        <script src="../JS/navbar.js"></script>
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>

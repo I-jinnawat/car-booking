@@ -1,4 +1,3 @@
-const {time} = require('console');
 const moment = require('moment-timezone');
 const mongoose = require('mongoose');
 
@@ -28,6 +27,6 @@ AuthSchema.pre('save', function (next) {
 
   next();
 });
-const Auth = mongoose.model('Auth', AuthSchema);
+const Auth = mongoose.model('auth', AuthSchema);
 
 module.exports = Auth;

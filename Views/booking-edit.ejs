@@ -77,9 +77,7 @@
                         </nav>
                         <%- include('components/userinfo.ejs') -%>
                     </div>
-
                     <%- include('components/progress-bar.ejs') -%>
-
                         <% if (booking.status>=1) {%>
                             <%- include('components/booking_card.ejs') -%>
                                 <% } %>
@@ -117,7 +115,7 @@
                                             <label class="form-label mt-2">ยานพาหนะ</label>
                                             <select <%=booking.status>2|| user.role !== 'admin' ? 'disabled' : '' %>
                                                 name="vehicle"
-                                                class="form-select" >
+                                                class="form-select" required>
                                                 <option>
                                                     <%= booking.vehicle %>
                                                 </option>
@@ -376,7 +374,7 @@
                 });
                 const result = await swalWithBootstrapButtons.fire({
                     title: 'คุณแน่ใจหรือไม่?',
-                    text: 'คุณต้องการยืนยันที่จะส่ง!',
+                    text: 'คุณต้องการยืนยันที่จะบันทึก!',
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'ยืนยัน',

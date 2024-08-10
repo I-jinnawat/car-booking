@@ -110,18 +110,21 @@
                                                 <select class="form-control" id="attachmentType_<%= manual._id %>"
                                                     name="attachmentType"
                                                     onchange="toggleAttachmentField('<%= manual._id %>')">
-                                                    <option value="file">ไฟล์</option>
-                                                    <option value="link">ลิงก์</option>
+                                                    <option <%=manual.file !==null ? 'selected' : '' %>
+                                                        value="file">ไฟล์</option>
+                                                    <option <%=manual.link !==null ? 'selected' : '' %>
+                                                        value="link">ลิงก์</option>
                                                 </select>
                                             </div>
                                             <div class="col-md" id="fileInput_<%= manual._id %>">
                                                 <label class="form-label">ไฟล์</label>
                                                 <input type="file" name="attachment" class="form-control"
-                                                    accept=".pdf,.doc,.docx">
+                                                    accept=".pdf,.doc,.docx" value="<%= manual.file %>">
                                             </div>
                                             <div class="col-md" id="linkInput_<%= manual._id %>" style="display: none;">
                                                 <label class="form-label">ลิงก์</label>
-                                                <input type="url" name="attachment" class="form-control">
+                                                <input type="url" name="attachment" class="form-control"
+                                                    value="<%= manual.link %>">
                                             </div>
                                             <div class="row gy-2 text-end">
                                                 <div class="col-md">
@@ -139,7 +142,6 @@
             </div>
         </div>
         <script>
-            // Function to toggle between file and link inputs
             function toggleAttachmentField(modalId) {
                 const attachmentType = document.getElementById(`attachmentType_${modalId}`).value;
                 const fileInput = document.getElementById(`fileInput_${modalId}`);

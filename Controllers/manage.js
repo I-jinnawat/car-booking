@@ -9,7 +9,6 @@ exports.list = async (req, res) => {
 
   const user = req.session.user;
 
-  // Determine the query filter based on user role, search query, and status filter
   const filter = {
     $or: [
       {title: {$regex: searchQuery, $options: 'i'}},
