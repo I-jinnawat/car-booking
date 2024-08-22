@@ -115,7 +115,7 @@
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <div class="modal-body" id="modal-body">
-                                                    <form id="form" action="/user" method="POST">
+                                                    <form id="addMemberForm" action="/user" method="POST">
                                                         <div class="row mb-3">
                                                             <div class="col-sm-3">
                                                                 <label class="form-label" for="role">ประเภท</label>
@@ -268,7 +268,6 @@
             </div>
             <%- include('components/table_member') %>
         </div>
-
         <script>
 
             function togglePassword() {
@@ -286,7 +285,11 @@
             }
         </script>
         <script>
-            document.getElementById('form').addEventListener('submit', async function (event) {
+            document.getElementById('AddVehicle').addEventListener('hidden.bs.modal', function () {
+                // Reset the form
+                document.getElementById('addMemberForm').reset();
+            });
+            document.getElementById('addMemberForm').addEventListener('submit', async function (event) {
                 event.preventDefault();
 
                 // Get form values
@@ -353,13 +356,13 @@
 
                     if (result.isConfirmed) {
                         // Submit the form
-                        await this.submit();
                         await Swal.fire({
                             icon: 'success',
                             title: 'เพิ่มสมาชิกสำเร็จ',
                             showConfirmButton: false,
                             timer: 1000
                         });
+                        this.submit();
 
 
                     } else if (result.dismiss === Swal.DismissReason.cancel) {

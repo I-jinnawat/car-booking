@@ -1,5 +1,4 @@
-const Booking = require('../Models/booking');
-const User = require('../Models/Auth');
+const Booking = require('../Models/booking');const User = require('../Models/Auth');
 const Vehicle = require('../Models/vehicles');
 const Counter = require('../Models/Counter');
 
@@ -236,12 +235,11 @@ exports.updateEvent = async (req, res, next) => {
           vehicleInfo.end_time = currentBooking.end;
           await vehicleInfo.save();
         } else if (
-          currentBooking.status === 3 &&
-          user.role !== 'approver' &&
-          new Date() > new Date(currentBooking.start)
+          (currentBooking.status === 3 && user.role !== 'approver') ||
+          new Date() > new Date(vehicleInfo.end_time)
         ) {
-          vehicleInfo.start_time = '';
-          vehicleInfo.end_time = '';
+          vehicleInfo.start_time = null;
+          vehicleInfo.end_time = null;
           last_distance = parseFloat(kilometer_end);
           vehicleInfo.last_distance = last_distance;
           await vehicleInfo.save();

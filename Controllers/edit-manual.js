@@ -1,5 +1,4 @@
-const Manual = require('../Models/manual');
-const upload = require('../Config/multer');
+const Manual = require('../Models/manual');const upload = require('../Config/multer');
 
 exports.list = async (req, res) => {
   try {

@@ -95,13 +95,13 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title">แก้ไข</h5>
+                                        <h5 class="modal-title">แก้ไขเอกสารภายในระบบ</h5>
                                     </div>
                                     <div class="modal-body" id="UpdateModal-body_<%= manual._id %>">
                                         <form action="/setting/edit-manual/<%= manual._id %>"
                                             enctype="multipart/form-data" method="POST">
                                             <div class="mb-3">
-                                                <label for="recipient-name" class="form-label">ชื่อ:</label>
+                                                <label for="recipient-name" class="form-label">ชื่อ</label>
                                                 <input name="title" type="text" class="form-control"
                                                     value="<%= manual.title %>">
                                             </div>
@@ -120,6 +120,12 @@
                                                 <label class="form-label">ไฟล์</label>
                                                 <input type="file" name="attachment" class="form-control"
                                                     accept=".pdf,.doc,.docx" value="<%= manual.file %>">
+
+                                                <small class="text-secondary">
+                                                    ไฟล์ปัจจุบัน: <%= manual.file !==null ?
+                                                        manual.file.split("\\").pop().replace(/^\d+-/, '' ) : "" %>
+                                                </small>
+
                                             </div>
                                             <div class="col-md" id="linkInput_<%= manual._id %>" style="display: none;">
                                                 <label class="form-label">ลิงก์</label>
