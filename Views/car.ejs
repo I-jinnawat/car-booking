@@ -213,8 +213,8 @@
                                                                         <% if (vehicle.available !=="in_Progress" ) { %>
                                                                             <div class="form-check">
                                                                                 <input <% if
-                                                                                    (vehicle.available==="available" ) {
-                                                                                    %>
+                                                                                    (vehicle.available==="available" )
+                                                                                    {%>
                                                                                 checked <% } %>
                                                                                     value="available"
                                                                                     class="form-check-input"
@@ -275,7 +275,7 @@
                                         <%= vehicle.seat %>
                                     </td>
                                     <td>
-                                        <%= vehicle.available==='available' ? "พร้อมใช้งาน" :
+                                        <%- vehicle.available==='available' ? "พร้อมใช้งาน" :
                                             vehicle.available==='not_Available' ? "ไม่พร้อมใช้งาน" :
                                             vehicle.available==='in_Progress' ? "กำลังดำเนินการ" : '' %>
                                     </td>
@@ -433,18 +433,25 @@
                 }
             }
 
-            function handleSearch() {
-                var searchValue = document.getElementById('searchInput').value.toLowerCase();
 
-                var rows = document.querySelectorAll("tbody tr");
+        </script>
+        <script>
+            function handleSearch() {
+                let searchValue = document.getElementById('searchInput').value.toLowerCase().trim();
+                let rows = document.querySelectorAll("tbody tr");
 
                 rows.forEach(function (row) {
-                    var cells = row.querySelectorAll("td");
-                    var found = false;
+                    let cells = row.querySelectorAll("td");
+                    let found = false;
 
-                    cells.forEach(function (cell) {
-                        var textContent = cell.textContent || cell.innerText;
-                        if (textContent.toLowerCase().includes(searchValue)) {
+                    cells.forEach((cell) => {
+                        // ตรวจสอบว่า td นี้มีปุ่มหรือเนื้อหาที่ต้องการยกเว้นหรือไม่
+                        if (cell.querySelector('.btn-group') || cell.querySelector('button')) {
+                            return;
+                        }
+
+                        let textContent = cell.textContent.trim().toLowerCase();
+                        if (textContent.includes(searchValue)) {
                             found = true;
                         }
                     });
@@ -461,10 +468,10 @@
 
 
             document.getElementById('vehicleForm').addEventListener('submit', function (event) {
-                var registerInput = document.getElementById('register');
-                var registerValue = registerInput.value;
-                var registerError = document.getElementById('registerError');
-                var regex = /^[a-zA-Z0-9]{5,6}$/;
+                let registerInput = document.getElementById('register');
+                let registerValue = registerInput.value;
+                let registerError = document.getElementById('registerError');
+                let regex = /^[a-zA-Z0-9]{5,6}$/;
 
                 if (!regex.test(registerValue)) {
                     registerError.textContent = 'Registration number must be 5-6 alphanumeric characters.';
@@ -473,9 +480,7 @@
                 } else {
                     registerError.style.display = 'block';
                 }
-            });
-        </script>
-
+            });</script>
         <script src="../JS/navbar.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

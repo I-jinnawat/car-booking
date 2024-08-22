@@ -77,7 +77,7 @@
                                     </div>
                                     <div class="col-md" id="fileInput">
                                         <label class="form-label">ไฟล์</label>
-                                        <input type="file" name="attachment" class="form-control"
+                                        <input type="file" name="attachment" id="fileInput" class=" form-control"
                                             accept=".pdf,.doc,.docx">
                                     </div>
                                     <div class="col-md" id="linkInput" style="display: none;">
@@ -104,7 +104,12 @@
                 </div>
             </div>
         </div>
-
+        <script>
+            document.getElementById("fileInput").addEventListener("change", function () {
+                const fileName = this.files.length > 0 ? this.files[0].name : "ไม่ได้เลือกไฟล์ใดๆ";
+                this.nextElementSibling.textContent = fileName;
+            });
+        </script>
         <script>
             async function displayAlert() {
                 const Toast = Swal.mixin({

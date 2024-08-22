@@ -271,6 +271,7 @@
         </div>
 
         <script>
+
             function togglePassword() {
                 const passwordInput = document.getElementById('password');
                 const toggleIcon = document.getElementById('toggleIcon');
@@ -284,6 +285,94 @@
                     toggleIcon.classList.add('fa-eye-slash');
                 }
             }
+        </script>
+        <script>
+            document.getElementById('form').addEventListener('submit', async function (event) {
+                event.preventDefault();
+
+                // Get form values
+                var password = document.getElementById('password').value;
+                var mobileNumber = document.getElementById('mobilenumber').value;
+                var numberID = document.getElementById('numberID').value;
+
+                // Initialize error messages
+                var passwordError = '';
+                var mobileError = '';
+                var numberError = '';
+
+                // Validate password
+                if (!/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,8}$/.test(password)) {
+                    passwordError = 'ต้องมีตัวอักษรขนาดใหญ่และตัวเลข 6-8 ตัว';
+                }
+
+
+                // Validate mobile number
+                if (!/^\d{10}$/.test(mobileNumber)) {
+                    mobileError = 'โปรดใส่เบอร์โทรให้ครบ 10 ตัว';
+                }
+
+                if (!/^\d{8}$/.test(numberID)) {
+                    numberError = 'โปรดใส่รหัสให้ครบ 8 ตัว';
+                }
+
+                // Display error messages
+                document.getElementById('passwordError').textContent = passwordError;
+                document.getElementById('mobileError').textContent = mobileError;
+                document.getElementById('numberError').textContent = numberError;
+
+                // If no errors, proceed with SweetAlert confirmation
+                if (passwordError === '' && mobileError === '' && numberError === '') {
+                    const swalWithBootstrapButtons = Swal.mixin({
+                        customClass: {
+                            confirmButton: 'btn btn-success',
+                            cancelButton: 'btn btn-danger'
+                        },
+                        buttonsStyling: false
+                    });
+
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        iconColor: 'white',
+                        customClass: {
+                            popup: 'colored-toast',
+                        },
+                        showConfirmButton: false,
+                        timer: 1500,
+                        timerProgressBar: true,
+                    });
+
+                    const result = await swalWithBootstrapButtons.fire({
+                        title: 'คุณแน่ใจหรือไม่?',
+                        text: 'คุณต้องการยืนยันที่จะบันทึก!',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'ยืนยัน',
+                        cancelButtonText: 'ยกเลิก',
+                        reverseButtons: true
+                    });
+
+                    if (result.isConfirmed) {
+                        // Submit the form
+                        await this.submit();
+                        await Swal.fire({
+                            icon: 'success',
+                            title: 'เพิ่มสมาชิกสำเร็จ',
+                            showConfirmButton: false,
+                            timer: 1000
+                        });
+
+
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire({
+                            title: 'ยกเลิก',
+                            text: 'คุณได้ทำการยกเลิก',
+                            icon: 'error'
+                        });
+                    }
+                }
+            });
+
         </script>
         <script src="../JS/navbar.js"></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

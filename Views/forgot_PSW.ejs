@@ -34,8 +34,11 @@
                 <label>ปีเกิดของท่าน</label>
                 <input type="number" class="form-control" id="birth_year" name="birth_year" min="1900"
                     placeholder="เช่น 20XX" required>
-                <a class="m-0 mt-2" style="font-size:14px; text-decoration: none; position: relative; left: 70%;"
-                    href="/login">เข้าสู่ระบบ</a>
+                <span>
+
+                    <a class="m-0 mt-2" style="font-size:14px; text-decoration: none; position: relative; left: 70%;"
+                        href="/login">เข้าสู่ระบบ</a>
+                </span>
             </div>
             <p id="showText" class="text-danger">
                 <% if ((error && error.length>0)) { %>
@@ -60,7 +63,8 @@
                             <%= manual.title %>
                         </a>
                         <% }) %>
-                            <p>มีข้อสงสัยในการใช้ระบบ ฯ ติดต่อ ฝ่ายระบบสารสนเทศ 4174</p>
+                            <p>หากมีข้อสงสัยในการใช้งานระบบ ติดต่อสำนักงานเลขานุการศูนย์การแพทย์ฯ หมายเลขโทรศัพท์ 4023
+                            </p>
         </div>
     </div>
     <script>

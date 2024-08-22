@@ -77,7 +77,9 @@ exports.create = async (req, res) => {
       image: imagePath,
     });
 
-    res.status(201).redirect('/document');
+    res
+      .status(201)
+      .redirect(`/document?category=${encodeURIComponent(category)}`);
   } catch (error) {
     res.status(500).json({error: error.message});
   }

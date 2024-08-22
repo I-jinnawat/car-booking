@@ -86,14 +86,15 @@
                                         style="display: none;"
                                         <% } %>>
                                             <label class="form-label">ไฟล์</label>
-                                            <input type="file" name="attachment" class="form-control"
+                                            <input type="file" name="attachment" id="file" class="form-control"
                                                 accept=".pdf,.doc,.docx">
                                             <% if (document.file !==null) { %>
                                                 <small class="text-secondary">
-                                                    ไฟล์ปัจจุบัน: <%=n
+                                                    ไฟล์ปัจจุบัน: <%=
                                                         document.file.split("\\").pop().replace(/^\d+-/, '' ) %>
                                                 </small>
                                                 <% } %>
+
                                     </div>
                                     <div class="col-md" id="linkInput" <% if (document.link===null) { %>
                                         style="display: none;"
@@ -130,8 +131,8 @@
                 </div>
             </div>
         </div>
-
         <script>
+
             async function displayAlert() {
                 const Toast = Swal.mixin({
                     toast: true,

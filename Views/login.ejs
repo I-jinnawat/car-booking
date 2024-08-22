@@ -12,8 +12,10 @@
 </head>
 <style>
     .toggle-btn {
-        margin-left: 85%;
-        margin-top: -9.5%;
+        position: relative;
+        margin-left: 92%;
+        bottom: 110%;
+        cursor: pointer;
     }
 
     @media (max-width: 768px) {
@@ -45,9 +47,11 @@
             <div class="form-group row mb-3">
                 <label for="password">รหัสผ่าน</label>
                 <input type="password" class="form-control" id="password" name="password" required>
-                <div class="toggle-btn" onclick="togglePassword()"><i class="fa-regular fa-eye-slash"></i></div>
-                <a class=" mt-2" style="font-size:14px; text-decoration: none; position: relative; left: 70%;"
-                    href="/forgot_PSW">ลืมรหัสผ่าน</a>
+                <div><i class="fa-regular fa-eye-slash toggle-btn" onclick="togglePassword()"></i></div>
+                <span>
+                    <a class=" mt-2" style="font-size:14px; text-decoration: none; position: relative; left: 70%;"
+                        href="/forgot_PSW">ลืมรหัสผ่าน</a>
+                </span>
             </div>
             <div class="row mt-3">
                 <button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button>

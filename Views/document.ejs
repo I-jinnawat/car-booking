@@ -255,7 +255,7 @@
                     denyButtonText: `ยกเลิก`,
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        deleteDocument(documentId); // Corrected function name
+                        deleteDocument(documentId);
                     } else if (result.isDenied) {
                         Swal.fire("การลบไม่เปลี่ยนแปลง", "", "info");
                     }
@@ -283,18 +283,31 @@
                 let documentData = [];
 
                 radioButtons.forEach(function (radio) {
-                    radio.addEventListener('click', async function () {
+                    radio.addEventListener('click', function () {
                         const selectedCategory = this.value;
-                        const api = `/document/search/${selectedCategory}`;
-                        try {
-                            const res = await axios.get(api);
-                            documentData = res.data;
-                            updateUI(documentData);
-                        } catch (error) {
-                            console.error('Error fetching data:', error);
-                        }
+                        const newUrl = `${window.location.pathname}?category=${encodeURIComponent(selectedCategory)}`;
+                        window.history.pushState({ path: newUrl }, '', newUrl);
+                        fetchDocuments(selectedCategory);
                     });
                 });
+
+                // Check if there's a category in the URL when the page loads
+                const urlParams = new URLSearchParams(window.location.search);
+                const category = urlParams.get('category');
+                if (category) {
+                    fetchDocuments(category);
+                }
+
+                async function fetchDocuments(category) {
+                    const api = `/document/search/${category}`;
+                    try {
+                        const res = await axios.get(api);
+                        documentData = res.data;
+                        updateUI(documentData);
+                    } catch (error) {
+                        console.error('Error fetching data:', error);
+                    }
+                }
             });
 
         </script>
