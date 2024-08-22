@@ -92,6 +92,7 @@ exports.update = async (req, res) => {
     newmobile_number,
     oldpassword,
     newpassword,
+    newpasswordconfirm,
   } = req.body;
 
   const start = new Date(
@@ -106,6 +107,7 @@ exports.update = async (req, res) => {
       return res.redirect('/');
     }
 
+    // Update user information
     if (
       newfirstname ||
       newlastname ||
@@ -118,20 +120,36 @@ exports.update = async (req, res) => {
       user.birth_year = req.body.birth_year ? start : user.birth_year;
       await user.save();
     }
-    if (!bcrypt.compareSync(oldpassword, user.password)) {
-      req.flash('error_old', 'รหัสผ่านเดิมไม่ถูกต้อง');
-      error_old = req.flash('error_old');
-      return res.render('change_PSW', {
-        userLoggedIn: true,
-        oldpassword: oldpassword || '',
-        user: user,
-        error_old,
-      });
+
+    // Case 1: Logged in and changing password (old password required)
+    if (newpassword && newpasswordconfirm && oldpassword) {
+      if (!bcrypt.compareSync(oldpassword, user.password)) {
+        req.flash('error_old', 'รหัสผ่านเดิมไม่ถูกต้อง');
+        return res.render('change_PSW', {
+          userLoggedIn: true,
+          oldpassword: oldpassword || '',
+          user: user,
+          error_old: req.flash('error_old'),
+        });
+      }
+      user.password = bcrypt.hashSync(newpassword, 10);
+      await user.save();
     }
 
-    // Update password
-    user.password = bcrypt.hashSync(newpassword, 10);
-    await user.save();
+    // Case 2: Forgot password (only new password required)
+    if (newpassword && newpasswordconfirm && !oldpassword) {
+      if (newpassword !== newpasswordconfirm) {
+        req.flash('error_new', 'รหัสผ่านใหม่และการยืนยันรหัสผ่านไม่ตรงกัน');
+        return res.render('reset_PSW', {
+          userLoggedIn: false,
+          newpassword: newpassword || '',
+          newpasswordconfirm: newpasswordconfirm || '',
+          error_new: req.flash('error_new'),
+        });
+      }
+      user.password = bcrypt.hashSync(newpassword, 10);
+      await user.save();
+    }
 
     req.session.destroy(() => {
       res.redirect(`/login?username=${encodeURIComponent(user.username)}`);

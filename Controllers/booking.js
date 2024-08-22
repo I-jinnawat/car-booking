@@ -124,6 +124,7 @@ exports.updateEvent = async (req, res, next) => {
     const {id} = req.params;
     const currentBooking = await Booking.findById(id);
     const user = await User.findById(req.session.user.id);
+
     const {
       is_locked,
       status,
@@ -150,16 +151,17 @@ exports.updateEvent = async (req, res, next) => {
       deletedPassengerIndex,
     } = req.body;
 
+    // Check if booking is locked and user is an approver
     if (currentBooking.is_locked && user.role === 'approver') {
       req.flash(
         'errorBooking',
         'ไม่สามารถอนุมัติได้ เนื่องจากการจองกำลังถูกแก้ไข'
       );
       return res.redirect(`/booking-edit/${id}`);
-    } else if (
-      currentBooking.status === 2 &&
-      currentBooking.user_id === user._id
-    ) {
+    }
+
+    // Check if booking is approved and user is trying to modify it
+    if (currentBooking.status === 2 && currentBooking.user_id === user._id) {
       req.flash(
         'errorBooking',
         'ไม่สามารถแก้ไขได้ เนื่องจากการจองถูกอนุมัติแล้ว'
@@ -167,12 +169,12 @@ exports.updateEvent = async (req, res, next) => {
       return res.redirect(`/booking-edit/${id}`);
     }
 
-    // อนุญาตให้ admin แก้ไขข้อมูลคนขับรถและรถได้ถ้าหากสถานะเป็น 3 และยังไม่ถึงเวลาใช้รถ
-
+    // Allow admin to update vehicle and driver if status is 3 and before start time
     if (
       currentBooking.status === 3 &&
       new Date() < new Date(currentBooking.start) &&
-      user.role === 'admin'
+      user.role === 'admin' &&
+      !(kilometer_start || kilometer_end)
     ) {
       currentBooking.driver = driver;
       currentBooking.vehicle = vehicle;
@@ -180,12 +182,22 @@ exports.updateEvent = async (req, res, next) => {
     } else if (
       currentBooking.status === 3 &&
       new Date() > new Date(currentBooking.start) &&
-      user.role === 'admin'
+      user.role === 'admin' &&
+      !(kilometer_start || kilometer_end)
     ) {
       req.flash('errorBooking', 'ไม่สามารถแก้ไขได้ เนื่องจากถึงเวลาใช้รถ');
       return res.redirect(`/booking-edit/${id}`);
     }
 
+    // Update kilometer information if booking status is 3
+    if (kilometer_start && kilometer_end) {
+      currentBooking.kilometer_start = kilometer_start;
+      currentBooking.kilometer_end = kilometer_end;
+      console.log(currentBooking.vehicle);
+      await currentBooking.save();
+    }
+
+    // Remove passenger if specified
     if (
       deletedPassengerIndex !== undefined &&
       deletedPassengerIndex >= 0 &&
@@ -194,13 +206,13 @@ exports.updateEvent = async (req, res, next) => {
       passengers.splice(deletedPassengerIndex, 1);
     }
 
-    // ค้นหา Booking ที่ทับซ้อนกัน
+    // Find overlapping bookings
     const existingBooking = await Booking.findOne({
       status: 2,
       start: currentBooking.start,
     });
 
-    // ตรวจสอบการอนุมัติ
+    // Handle approval confirmation
     if (
       existingBooking &&
       currentBooking.status === 1 &&
@@ -209,17 +221,15 @@ exports.updateEvent = async (req, res, next) => {
       return res.render('confirm-approval', {bookingId: id});
     }
 
-    // ค้นหาข้อมูล Vehicle
+    // Handle vehicle information update
     let vehicleInfo;
     if (currentBooking.status !== 1 && currentBooking.status <= 4) {
       vehicleInfo = await Vehicle.findOne({
         register: vehicle || currentBooking.vehicle,
       });
-
+      console.log(vehicleInfo);
       if (vehicleInfo) {
         let last_distance = vehicleInfo.last_distance || 0;
-        const start_time = vehicleInfo.start_time || null;
-        const end_time = vehicleInfo.end_time || null;
 
         if (currentBooking.status === 2 && user.role !== 'approver') {
           vehicleInfo.start_time = currentBooking.start;
@@ -242,6 +252,7 @@ exports.updateEvent = async (req, res, next) => {
       }
     }
 
+    // Update booking with new information
     await Booking.findByIdAndUpdate(id, {
       is_locked,
       status,
