@@ -296,13 +296,20 @@
         const searchTerm = document.getElementById('searchInput').value = ''
         handleSearch()
     }
+    document.getElementById('searchInput').addEventListener('input', handleSearch);
+
     function handleSearch() {
         const searchTerm = document.getElementById('searchInput').value.trim();
-        console.log(searchTerm)
-        const url = `/member?page=1&search=${searchTerm}`;
+        console.log(searchTerm); // Debugging line, remove in production
+        const url = `/member?page=1&search=${encodeURIComponent(searchTerm)}`;
 
         fetch(url)
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => {
                 updateTable(data);
             })
@@ -311,6 +318,7 @@
                 updateTable({ users: [], totalPages: 0 });
             });
     }
+
 
     function updateTable(usersData) {
         const tableBody = document.getElementById('userTableBody');
@@ -401,51 +409,13 @@
     document.getElementById('form').addEventListener('submit', async function (event) {
         event.preventDefault();
 
-        // Get form values
 
         var mobileNumber = document.getElementById('mobilenumber').value;
 
-        // Initialize error messages
-
         var mobileError = '';
-
-
-
-        // Validate mobile number
         if (!/^\d{10}$/.test(mobileNumber)) {
             mobileError = 'โปรดใส่เบอร์โทรให้ครบ 10 ตัว';
         }
-
-
-
-        // Display error messages
-
-        document.getElementById('mobileError').textContent = mobileError;
-
-    })
-</script>
-<script>
-    document.getElementById('form').addEventListener('submit', async function (event) {
-        event.preventDefault();
-
-        // Get form values
-
-        var mobileNumber = document.getElementById('mobilenumber').value;
-
-        // Initialize error messages
-
-        var mobileError = '';
-
-
-
-        // Validate mobile number
-        if (!/^\d{10}$/.test(mobileNumber)) {
-            mobileError = 'โปรดใส่เบอร์โทรให้ครบ 10 ตัว';
-        }
-
-
-
-        // Display error messages
 
         document.getElementById('mobileError').textContent = mobileError;
 

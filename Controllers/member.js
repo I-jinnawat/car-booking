@@ -9,11 +9,24 @@ const member_API = process.env.Member_API;
 const fetchUsers = async (page, limit, searchTerm = '') => {
   let query = {};
   if (searchTerm) {
+    const isNumeric = !isNaN(searchTerm);
+    let roleQuery = searchTerm;
+    if (searchTerm === 'พนักงาน') {
+      roleQuery = 'user';
+    } else if (searchTerm === 'ผู้จัดรถ') {
+      roleQuery = 'admin';
+    } else if (searchTerm === 'ผู้อนุมัติ') {
+      roleQuery = 'approver';
+    } else if (searchTerm === 'พนักงานขับรถ') {
+      roleQuery = 'driver';
+    }
     query = {
       $or: [
-        {firstname: {$regex: searchTerm, $options: 'i'}}, // Case-insensitive search on firstname
-        {lastname: {$regex: searchTerm, $options: 'i'}}, // Case-insensitive search on lastname
-        {organization: {$regex: searchTerm, $options: 'i'}}, // Case-insensitive search on organization
+        {firstname: {$regex: searchTerm, $options: 'i'}},
+        ...(isNumeric ? [{numberID: searchTerm}] : []),
+        {lastname: {$regex: searchTerm, $options: 'i'}},
+        {organization: {$regex: searchTerm, $options: 'i'}},
+        {role: {$regex: roleQuery, $options: 'i'}},
       ],
     };
   }
@@ -62,12 +75,28 @@ exports.API_member = async (req, res) => {
     const searchTerm = req.query.search || ''; // Get search term from query parameter
 
     let query = {};
+
     if (searchTerm) {
+      const isNumeric = !isNaN(searchTerm);
+      let roleQuery = searchTerm;
+      if (searchTerm === 'พนักงาน') {
+        roleQuery = 'user';
+      } else if (searchTerm === 'ผู้จัดรถ') {
+        roleQuery = 'admin';
+      } else if (searchTerm === 'ผู้อนุมัติ') {
+        roleQuery = 'approver';
+      } else if (searchTerm === 'พนักงานขับรถ') {
+        roleQuery = 'driver';
+      }
       query = {
         $or: [
-          {firstname: {$regex: searchTerm, $options: 'i'}}, // Case-insensitive search on firstname
-          {lastname: {$regex: searchTerm, $options: 'i'}}, // Case-insensitive search on lastname
-          {organization: {$regex: searchTerm, $options: 'i'}}, // Case-insensitive search on organization
+          {firstname: {$regex: searchTerm, $options: 'i'}},
+          ...(isNumeric ? [{numberID: searchTerm}] : []),
+          {lastname: {$regex: searchTerm, $options: 'i'}},
+          {organization: {$regex: searchTerm, $options: 'i'}},
+          {
+            role: {$regex: roleQuery, $options: 'i'},
+          },
         ],
       };
     }
