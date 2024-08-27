@@ -8,9 +8,11 @@ const member_API = process.env.Member_API;
 // Helper function to fetch users and count
 const fetchUsers = async (page, limit, searchTerm = '') => {
   let query = {};
+
   if (searchTerm) {
     const isNumeric = !isNaN(searchTerm);
     let roleQuery = searchTerm;
+
     if (searchTerm === 'พนักงาน') {
       roleQuery = 'user';
     } else if (searchTerm === 'ผู้จัดรถ') {
@@ -20,11 +22,12 @@ const fetchUsers = async (page, limit, searchTerm = '') => {
     } else if (searchTerm === 'พนักงานขับรถ') {
       roleQuery = 'driver';
     }
+
     query = {
       $or: [
         {firstname: {$regex: searchTerm, $options: 'i'}},
-        ...(isNumeric ? [{numberID: searchTerm}] : []),
         {lastname: {$regex: searchTerm, $options: 'i'}},
+        {numberID: {$regex: searchTerm, $options: 'i'}},
         {organization: {$regex: searchTerm, $options: 'i'}},
         {role: {$regex: roleQuery, $options: 'i'}},
       ],
@@ -79,6 +82,7 @@ exports.API_member = async (req, res) => {
     if (searchTerm) {
       const isNumeric = !isNaN(searchTerm);
       let roleQuery = searchTerm;
+
       if (searchTerm === 'พนักงาน') {
         roleQuery = 'user';
       } else if (searchTerm === 'ผู้จัดรถ') {
@@ -88,17 +92,21 @@ exports.API_member = async (req, res) => {
       } else if (searchTerm === 'พนักงานขับรถ') {
         roleQuery = 'driver';
       }
+
       query = {
         $or: [
           {firstname: {$regex: searchTerm, $options: 'i'}},
-          ...(isNumeric ? [{numberID: searchTerm}] : []),
           {lastname: {$regex: searchTerm, $options: 'i'}},
+          {numberID: {$regex: searchTerm, $options: 'i'}},
           {organization: {$regex: searchTerm, $options: 'i'}},
-          {
-            role: {$regex: roleQuery, $options: 'i'},
-          },
+          {role: {$regex: roleQuery, $options: 'i'}},
         ],
       };
+
+      if (isNumeric) {
+        // ค้นหาเฉพาะตรงสำหรับ numberID ที่เป็นตัวเลข
+        query.$or.push({numberID: parseInt(searchTerm, 10)});
+      }
     }
 
     const users = await User.find(query).skip(skip).limit(limit).exec();

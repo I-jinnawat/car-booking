@@ -1,5 +1,4 @@
-const moment = require('moment-timezone');
-const mongoose = require('mongoose');
+const moment = require('moment-timezone');const mongoose = require('mongoose');
 
 const AuthSchema = new mongoose.Schema(
   {
@@ -7,7 +6,7 @@ const AuthSchema = new mongoose.Schema(
     password: {type: String},
     firstname: {type: String, required: true},
     lastname: {type: String, required: true},
-    numberID: {type: Number, required: true, unique: true},
+    numberID: {type: String, required: true, unique: true},
     organization: {type: String, required: true},
     role: {type: String, required: true},
     mobile_number: {

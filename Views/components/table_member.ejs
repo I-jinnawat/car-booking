@@ -298,9 +298,10 @@
     }
     document.getElementById('searchInput').addEventListener('input', handleSearch);
 
+
     function handleSearch() {
         const searchTerm = document.getElementById('searchInput').value.trim();
-        console.log(searchTerm); // Debugging line, remove in production
+
         const url = `/member?page=1&search=${encodeURIComponent(searchTerm)}`;
 
         fetch(url)
@@ -328,7 +329,7 @@
 
         if (usersData) {
             usersData.forEach(USER => {
-                console.log("ID" + USER._id)
+
                 tableHtml += `
                 <tr>
                     <td>
