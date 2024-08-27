@@ -1,4 +1,5 @@
-const Booking = require('../Models/booking');const User = require('../Models/Auth');
+const Booking = require('../Models/booking');
+const User = require('../Models/Auth');
 const Vehicle = require('../Models/vehicles');
 const Counter = require('../Models/Counter');
 
@@ -127,7 +128,7 @@ exports.updateEvent = async (req, res, next) => {
     const {
       is_locked,
       status,
-      vehicle,
+      vehicle_id,
       mobile_number,
       title,
       placestart,
@@ -136,7 +137,7 @@ exports.updateEvent = async (req, res, next) => {
       passengers,
       start,
       end,
-      driver,
+      driver_id,
       adminName,
       carArrange_Time,
       approverName,
@@ -149,8 +150,10 @@ exports.updateEvent = async (req, res, next) => {
       completion_Time,
       deletedPassengerIndex,
     } = req.body;
-
-    // Check if booking is locked and user is an approver
+    let driverName = null;
+    let driver = null;
+    let vehicle_register = null;
+    let vehicle = null;
     if (currentBooking.is_locked && user.role === 'approver') {
       req.flash(
         'errorBooking',
@@ -159,6 +162,11 @@ exports.updateEvent = async (req, res, next) => {
       return res.redirect(`/booking-edit/${id}`);
     }
 
+    if (vehicle_id) {
+      vehicle = await Vehicle.findById(vehicle_id);
+      console.log(vehicle);
+      vehicle_register = vehicle.register;
+    }
     // Check if booking is approved and user is trying to modify it
     if (currentBooking.status === 2 && currentBooking.user_id === user._id) {
       req.flash(
@@ -167,15 +175,19 @@ exports.updateEvent = async (req, res, next) => {
       );
       return res.redirect(`/booking-edit/${id}`);
     }
+    if (currentBooking.status <= 3 && currentBooking.status !== 1) {
+      driver = await User.findById(driver_id);
+      driverName = driver.firstname + ' ' + driver.lastname;
+    }
 
-    // Allow admin to update vehicle and driver if status is 3 and before start time
     if (
       currentBooking.status === 3 &&
       new Date() < new Date(currentBooking.start) &&
       user.role === 'admin' &&
       !(kilometer_start || kilometer_end)
     ) {
-      currentBooking.driver = driver;
+      currentBooking.driver_id = driver._id;
+      currentBooking.driver = driverName;
       currentBooking.vehicle = vehicle;
       await currentBooking.save();
     } else if (
@@ -220,12 +232,10 @@ exports.updateEvent = async (req, res, next) => {
       return res.render('confirm-approval', {bookingId: id});
     }
 
-    // Handle vehicle information update
     let vehicleInfo;
     if (currentBooking.status !== 1 && currentBooking.status <= 4) {
-      vehicleInfo = await Vehicle.findOne({
-        register: vehicle || currentBooking.vehicle,
-      });
+      console.log(vehicle_id);
+      vehicleInfo = await Vehicle.findById(vehicle_id);
       console.log(vehicleInfo);
       if (vehicleInfo) {
         let last_distance = vehicleInfo.last_distance || 0;
@@ -235,7 +245,9 @@ exports.updateEvent = async (req, res, next) => {
           vehicleInfo.end_time = currentBooking.end;
           await vehicleInfo.save();
         } else if (
-          (currentBooking.status === 3 && user.role !== 'approver') ||
+          (currentBooking.status === 3 &&
+            user.role !== 'approver' &&
+            kilometer_end) ||
           new Date() > new Date(vehicleInfo.end_time)
         ) {
           vehicleInfo.start_time = null;
@@ -254,7 +266,8 @@ exports.updateEvent = async (req, res, next) => {
     await Booking.findByIdAndUpdate(id, {
       is_locked,
       status,
-      vehicle,
+      vehicle: vehicle_register,
+      vehicle_id,
       mobile_number,
       title,
       placestart,
@@ -263,7 +276,8 @@ exports.updateEvent = async (req, res, next) => {
       passengers,
       start,
       end,
-      driver,
+      driver_id,
+      driver: driverName,
       adminName,
       carArrange_Time,
       approverName,
@@ -282,7 +296,6 @@ exports.updateEvent = async (req, res, next) => {
     next(error);
   }
 };
-
 exports.Event = async (req, res, next) => {
   try {
     const currentUser = req.session.user;

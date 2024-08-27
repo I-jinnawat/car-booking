@@ -99,13 +99,13 @@
                                             <label class="form-label mt-2">พนักงานขับรถ</label>
                                             <select <%=(new Date(booking.start)>new Date() && user.role==='admin' &&
                                                 booking.status !==4 ) ? '' : 'disabled' %>
-                                                name="driver"
+                                                name="driver_id"
                                                 class="form-select" required>
-                                                <option>
+                                                <option value="<%= booking.driver_id %>">
                                                     <%= booking.driver %>
                                                 </option>
                                                 <% drivers.forEach(driver=> { %>
-                                                    <option>
+                                                    <option value="<%= driver._id %>">
                                                         <%= driver.firstname %>
                                                             <%= driver.lastname %>
                                                     </option>
@@ -117,13 +117,13 @@
                                             <label class="form-label mt-2">ยานพาหนะ</label>
                                             <select <%=(new Date(booking.start)>new Date() && user.role==='admin' ) &&
                                                 booking.status!==4 ? '' : 'disabled' %>
-                                                name="vehicle"
+                                                name="vehicle_id"
                                                 class="form-select" required>
                                                 <option>
                                                     <%= booking.vehicle %>
                                                 </option>
                                                 <% vehicles.forEach(vehicle=> { %>
-                                                    <option>
+                                                    <option value="<%= vehicle._id %>">
                                                         <%= vehicle.register%>
                                                     </option>
                                                     <% }); %>
@@ -159,64 +159,65 @@
                                 </form>
                             </div>
                         </div>
-                        <% if(booking.status>=3 ) {%>
-                            <div class="card mt-3 mb-3" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
-                                <div id="record-body" class="card-body">
-                                    <form action="/events/<%= booking._id %>" method="POST">
-                                        <h5 class="form-label">ผู้บันทึกเลขไมล์</h5>
-                                        <hr>
-                                        <input id="statusRecord" type="hidden" name="status">
-                                        <input type="hidden" id="completion_Time" name="completion_Time">
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="form-label mt-4">เลขไมล์ก่อนเดินทาง</label>
-                                                <input type="number" min="0" step="0.01" class="form-control"
-                                                    name="kilometer_start" id="km_start" placeholder="km" required
-                                                    <%=booking.status> 3 || user.role !== 'admin'?
-                                                'disabled' : '' %> value="<%= booking.status===3 ? vehicle.last_distance
-                                                    : booking.kilometer_start %>">
-                                            </div>
-                                            <div class="col-md">
-                                                <label class="form-label mt-4">เลขไมล์หลังเดินทาง</label>
-                                                <input type="number" min="0" step="0.01" max="3000" class="form-control"
-                                                    name="kilometer_end" id="km_end" placeholder="km" required
-                                                    <%=booking.status> 3 || user.role !==
-                                                'admin' ? 'disabled' : '' %>
-                                                value="<%= booking.kilometer_end %>">
-                                            </div>
+                        <% const vehicle=vehicles.find(v=> v.id === booking.vehicle_id)%>
+                            <% if(booking.status>=3 ) {%>
+                                <div class="card mt-3 mb-3" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                                    <div id="record-body" class="card-body">
+                                        <form action="/events/<%= booking._id %>" method="POST">
+                                            <h5 class="form-label">ผู้บันทึกเลขไมล์</h5>
+                                            <hr>
+                                            <input id="statusRecord" type="hidden" name="status">
+                                            <input type="hidden" id="completion_Time" name="completion_Time">
+                                            <div class="row">
+                                                <div class="col-md">
+                                                    <label class="form-label mt-4">เลขไมล์ก่อนเดินทาง</label>
+                                                    <input type="number" min="0" step="0.01" class="form-control"
+                                                        name="kilometer_start" id="km_start" placeholder="km" required
+                                                        <%=booking.status> 3 || user.role !== 'admin'?
+                                                    'disabled' : '' %> value="<%= booking.status===3 ?
+                                                        vehicle.last_distance||0 : booking.kilometer_start %>">
+                                                </div>
+                                                <div class="col-md">
+                                                    <label class="form-label mt-4">เลขไมล์หลังเดินทาง</label>
+                                                    <input type="number" min="0" step="0.01" max="3000"
+                                                        class="form-control" name="kilometer_end" id="km_end"
+                                                        placeholder="km" required <%=booking.status> 3 || user.role !==
+                                                    'admin' ? 'disabled' : '' %>
+                                                    value="<%= booking.kilometer_end %>">
+                                                </div>
 
-                                            <div class="col-md">
-                                                <label class="form-label mt-4">ระยะทางทั้งหมด</label>
-                                                <input type="number" class="form-control" name="total_kilometer"
-                                                    id="total_km" value="<%= booking.total_kilometer %>" readonly
-                                                    required <%=booking.status> 3 || user.role !== 'admin'?
-                                                'disabled' :
-                                                ''
-                                                %>>
+                                                <div class="col-md">
+                                                    <label class="form-label mt-4">ระยะทางทั้งหมด</label>
+                                                    <input type="number" class="form-control" name="total_kilometer"
+                                                        id="total_km" value="<%= booking.total_kilometer %>" readonly
+                                                        required <%=booking.status> 3 || user.role !== 'admin'?
+                                                    'disabled' :
+                                                    ''
+                                                    %>>
+                                                </div>
+                                                <p id="displayText" style="color: red;"></p>
                                             </div>
-                                            <p id="displayText" style="color: red;"></p>
-                                        </div>
-                                        <% if (booking.status===4) { %>
-                                            <div class="text-center mt-3">
-                                                <a href="/print/<%= booking.id %>" class="btn "
-                                                    style="background-color: rgb(44, 169, 44);color:white">พิมพ์เอกสาร</a>
-                                            </div>
-                                            <% } else if (booking.status !==4 && user.role !=='admin' ) { %>
-                                                <p style="font-size: 20px;" class="text-center mt-3 text-danger">
-                                                    รอการบันทึกเลขไมล์</p>
-                                                <% } else { %>
-                                                    <div class="text-center mt-3">
-                                                        <button type="submit" class="btn btn-primary btn-lg"
-                                                            id="save_recordBtn"
-                                                            style="background-color: rgb(44, 169, 44);">บันทึก</button>
-                                                    </div>
-                                                    <% } %>
+                                            <% if (booking.status===4) { %>
+                                                <div class="text-center mt-3">
+                                                    <a href="/print/<%= booking.id %>" class="btn "
+                                                        style="background-color: rgb(44, 169, 44);color:white">พิมพ์เอกสาร</a>
+                                                </div>
+                                                <% } else if (booking.status !==4 && user.role !=='admin' ) { %>
+                                                    <p style="font-size: 20px;" class="text-center mt-3 text-danger">
+                                                        รอการบันทึกเลขไมล์</p>
+                                                    <% } else { %>
+                                                        <div class="text-center mt-3">
+                                                            <button type="submit" class="btn btn-primary btn-lg"
+                                                                id="save_recordBtn"
+                                                                style="background-color: rgb(44, 169, 44);">บันทึก</button>
+                                                        </div>
+                                                        <% } %>
 
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
-                            </div>
-                            <% } %>
                                 <% } %>
+                                    <% } %>
                 </div>
             </div>
         </div>
