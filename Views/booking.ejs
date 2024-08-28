@@ -75,15 +75,17 @@
                                 <div class="col-md-6">
                                     <label>ทำการจอง</label>
                                     <% manuals.slice(0,2).forEach((manual, index)=> { %>
-                                        <% let attachment %>
-                                            <% if(manual.file===null){ attachment=manual.link}else
-                                                if(manual.link===null){attachment=`/${manual.file}`}%>
-                                                <a role="button" target="_blank"
-                                                    class="<%= index === 0 ? 'sample' : 'manual' %> me-1 ms-2 btn"
-                                                    style="color: black; display: inline;" href="<%= attachment%>">
-                                                    <%= manual.title %>
-                                                </a>
-                                                <% }) %>
+                                        <% if (manual.file !==null || manual.link !==null) { %>
+                                            <% let attachment %>
+                                                <% if (manual.file===null) { attachment=manual.link; } else if
+                                                    (manual.link===null) { attachment=`/${manual.file}`; } %>
+                                                    <a role="button" target="_blank"
+                                                        class="<%= index === 0 ? 'sample' : 'manual' %> me-1 ms-2 btn"
+                                                        style="color: black; display: inline;" href="<%= attachment %>">
+                                                        <%= manual.title %>
+                                                    </a>
+                                                    <% } %>
+                                                        <% }) %>
                                 </div>
                                 <div class="col-md-6 ms-auto">รหัสการจอง
                                     <input class=" border-1 rounded-1" type="text"

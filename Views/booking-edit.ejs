@@ -159,6 +159,79 @@
                                 </form>
                             </div>
                         </div>
+                        <div class="card mt-3 mb-3 " style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+                            <div id="manage-vehicle_driver-body" class="card-body">
+                                <form action="/events/<%= booking._id %>" method="POST">
+                                    <h5 class="form-label ">ผู้จัดรถ</h5>
+                                    <hr>
+                                    <input id="status2" type="hidden" name="status">
+                                    <input id="adminName" type="hidden" name="adminName">
+                                    <input type="hidden" id="carArrange_Time" name="carArrange_Time">
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="form-label mt-2">พนักงานขับรถ</label>
+                                            <select <%=(new Date(booking.start)>new Date() && user.role==='admin' &&
+                                                booking.status !==4 ) ? '' : 'disabled' %>
+                                                name="driver_id"
+                                                class="form-select" required>
+                                                <option value="<%= booking.driver_id %>">
+                                                    <%= booking.driver %>
+                                                </option>
+                                                <% drivers.forEach(driver=> { %>
+                                                    <option value="<%= driver._id %>">
+                                                        <%= driver.firstname %>
+                                                            <%= driver.lastname %>
+                                                    </option>
+                                                    <% }); %>
+                                            </select>
+
+                                        </div>
+                                        <div class="col-md">
+                                            <label class="form-label mt-2">ยานพาหนะ</label>
+                                            <select <%=(new Date(booking.start)>new Date() && user.role==='admin' ) &&
+                                                booking.status!==4 ? '' : 'disabled' %>
+                                                name="vehicle_id"
+                                                class="form-select" required>
+                                                <option>
+                                                    <%= booking.vehicle %>
+                                                </option>
+                                                <% vehicles.forEach(vehicle=> { %>
+                                                    <option value="<%= vehicle._id %>">
+                                                        <%= vehicle.register%>
+                                                    </option>
+                                                    <% }); %>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <% if (booking.status===2 && user.role==='admin' && new Date(booking.start)>new
+                                        Date() ) { %>
+                                        <div class="text-center mt-3">
+                                            <button type="submit" class="btn btn-primary btn-lg" id="save_manageBtn"
+                                                style="background-color: rgb(44, 169, 44);">บันทึก</button>
+                                        </div>
+                                        <% } else if (booking.status===2 && user.role !=='admin' ) { %>
+                                            <p style="font-size: 20px;" class="text-center mt-3 text-danger">
+                                                รอการจัดรถ,ไม่พร้อมใช้งาน
+                                            </p>
+                                            <% } else if (new Date(booking.start)<new Date()|| booking.status===4 ) { %>
+                                                <p style="font-size: 20px;" class="text-center mt-3 text-danger">
+                                                    จัดรถสำเร็จ,พร้อมใช้งาน</p>
+                                                <% }else if(new Date(booking.start)>new Date() && user.role==='admin' &&
+                                                    booking.status !==4){
+                                                    %>
+                                                    <div class="text-center mt-3">
+                                                        <button type="submit" class="btn btn-primary btn-lg"
+                                                            id="save_manageBtn"
+                                                            style="background-color: rgb(44, 169, 44);">แก้ไขการบันทึก</button>
+                                                        <p class="text-danger">หากยังไม่ถึงเวลาใช้รถ
+                                                            สามารถแก้ไขข้อมูลได้</p>
+                                                    </div>
+                                                    <% } %>
+
+
+                                </form>
+                            </div>
+                        </div>
                         <% const vehicle=vehicles.find(v=> v.id === booking.vehicle_id)%>
                             <% if(booking.status>=3 ) {%>
                                 <div class="card mt-3 mb-3" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
