@@ -1,4 +1,5 @@
-const Booking = require('../Models/booking');exports.list = async (req, res) => {
+const Booking = require('../Models/booking');
+exports.list = async (req, res) => {
   const page = Math.max(parseInt(req.query.page) || 1, 1);
   const limit = 8;
   const skip = (page - 1) * limit;
@@ -64,6 +65,9 @@ const Booking = require('../Models/booking');exports.list = async (req, res) => 
       {'driver.id': user.id},
       {driver_id: user.id}, // เพิ่มเงื่อนไขเพื่อให้ driver เห็นการจองของตัวเอง
     ];
+  } else if (user.role === 'approver') {
+    // ให้ approver เห็นการจองเฉพาะใน organization ของตนเอง
+    filter['organization'] = user.organization;
   }
 
   try {
@@ -81,14 +85,14 @@ const Booking = require('../Models/booking');exports.list = async (req, res) => 
                 {driver: {$regex: searchQuery, $options: 'i'}},
               ],
             },
-            {status: {$lte: 6}}, // สถานะที่สนใจ
+            {status: {$lte: 6}}, // Filter by status
             ...(user.role === 'user'
               ? [{user_id: user.id}]
               : user.role === 'driver'
-                ? [
-                    {$or: [{user_id: user.id}, {driver_id: user.id}]}, // ให้ driver เห็นการจองที่ user_id หรือ driver_id ตรงกับ user.id
-                  ]
-                : []),
+                ? [{$or: [{user_id: user.id}, {driver_id: user.id}]}]
+                : user.role === 'approver'
+                  ? [{organization: user.organization}] // Filter by organization if approver
+                  : []),
           ],
         },
       },
