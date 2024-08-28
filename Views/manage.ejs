@@ -99,22 +99,105 @@
                                                 value="cancel">ยกเลิก</option>
                                         </select>
                                     </div>
-
+                                </span>
+                                <span class="ms-3">
+                                    <label for="organization">หน่วนงาน</label>
+                                    <div class="btn-group ms-2" style="cursor: pointer;">
+                                        <select class="form-select" id="organizationSelect">
+                                            <option selected></option>
+                                            <option <%=selectedOrg==='all' ? 'selected' : '' %>
+                                                value="all">ทั้งหมด
+                                            </option>
+                                            <option
+                                                <%=selectedOrg==='สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง'
+                                                ? 'selected' : '' %>
+                                                value="สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง">สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
+                                            </option>
+                                            <option <%=selectedOrg==='โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง'
+                                                ? 'selected' : '' %>
+                                                value="โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง">โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
+                                            </option>
+                                            <option <%=selectedOrg==='โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวงเชียงราย'
+                                                ? 'selected' : '' %>
+                                                value="โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวงเชียงราย">โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง
+                                                เชียงราย</option>
+                                            <option
+                                                <%=selectedOrg==='ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือและอนุภูมิภาคลุ่มแม่น้ำโขง'
+                                                ? 'selected' : '' %>
+                                                value="ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือและอนุภูมิภาคลุ่มแม่น้ำโขง">ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือ
+                                                และอนุภูมิภาคลุ่มแม่น้ำโขง</option>
+                                        </select>
+                                    </div>
                                 </span>
                             </div>
+
                             <hr>
+                            <div class="row align-items-end">
+                                <div class="col-md-8">
+                                    <div class="btn-group">
+                                        <% const booking_status1=bookings.find(b=> b.user_id ===
+                                            user.id && b.status ===1);
+                                            const canShowStatus1 = statusCountMap[1]!==0 && booking_status1 || user.role
+                                            ===
+                                            'approver';
 
-                            <div class="search float-md-end">
 
-                                <input class="form-control" type="text" id="searchInput"
-                                    placeholder="&#xf002; หัวข้อ ผู้ร้องขอ" name="search" value="<%= searchQuery %>">
-                                <i class="fas fa-times clear-icon"
-                                    style="position: relative; left: 90%; bottom:40px; cursor: pointer; font-size: 0.8rem;"
-                                    onclick="handleClear()"></i>
+                                            const booking_status2 = bookings.find(b => b.user_id === user.id);
+                                            const canShowStatus2 = statusCountMap[2]&& booking_status2;
 
-                                <button onclick="handleSearch()" type="button" class="btn bg-dark-subtle mt-2"
-                                    style="width: 95px; position: relative; right: 13px;">ค้นหา</button>
-                            </div><br>
+
+                                            const booking_status3 = bookings.find(b => b.user_id === user.id && b.status
+                                            === 3 || b.driver_id === user.id);
+                                            const canShowStatus3 = statusCountMap[3] && booking_status3 ;
+                                            %>
+
+                                            <% if (canShowStatus1&& statusCountMap[1]) { %>
+                                                <a href="/manage?page=1&search=&status=1" class="btn btn-secondary"
+                                                    onclick="setActive(this)">
+                                                    <%= user.role==='approver' ? "รอการอนุมัติ" :"รอหัวหน้าอนุมัติ" %>
+                                                        <span class="badge text-bg-danger">
+                                                            <%= statusCountMap[1] || 0 %>
+                                                        </span>
+                                                </a>
+                                                <% } %>
+
+                                                    <% if (canShowStatus2||(user.role==='admin' &&statusCountMap[2])) {
+                                                        %>
+                                                        <a href="/manage?page=1&search=&status=2"
+                                                            class="btn btn-secondary" onclick="setActive(this)">
+                                                            <%= user.role==='admin'
+                                                                ?"รอการจัดรถ":'อนุมัติสำเร็จ,รอการจัดรถ' %>
+                                                                <span class="badge text-bg-danger">
+                                                                    <%= statusCountMap[2] || 0 %>
+                                                                </span>
+                                                        </a>
+                                                        <% } %>
+
+                                                            <% if (canShowStatus3||(user.role==='admin'
+                                                                &&statusCountMap[3])) { %>
+                                                                <a href="/manage?page=1&search=&status=3"
+                                                                    class="btn btn-secondary" onclick="setActive(this)">
+                                                                    <%= user.role !=='admin'
+                                                                        ?'รถพร้อมใช้งาน':'รอการบันทึกเลขไมล์'%>
+                                                                        <span class="badge text-bg-danger">
+                                                                            <%= statusCountMap[3] || 0 %>
+                                                                        </span>
+                                                                </a>
+                                                                <% } %>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mt-2 search">
+                                    <input class="form-control" type="text" id="searchInput"
+                                        placeholder="&#xf002; หัวข้อ ผู้ร้องขอ" name="search"
+                                        value="<%= searchQuery %>">
+                                    <i class="fas fa-times clear-icon"
+                                        style="position: relative; left: 90%; bottom:40px; cursor: pointer; font-size: 0.8rem;"
+                                        onclick="handleClear()"></i>
+
+                                    <button onclick="handleSearch()" type="button" class="btn bg-dark-subtle mt-2"
+                                        style="width: 95px; position: relative; right: 13px;">ค้นหา</button>
+                                </div><br>
+                            </div>
 
                         </div>
                     </div>
@@ -126,7 +209,6 @@
                         <div class="table-responsive">
                             <%- include('components/table_manage.ejs') -%>
                         </div>
-                        <!-- Pagination -->
                         <nav aria-label="Page navigation">
                             <ul class="pagination justify-content-center">
                                 <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
@@ -153,23 +235,25 @@
             </div>
         </div>
         <script>
-            // Function to handle search input
+
             function handleSearch() {
                 const searchValue = document.getElementById('searchInput').value.trim().toLowerCase();
                 const selectedStatus = document.getElementById('statusSelect').value;
-                console.log(selectedStatus)
-                window.location.href = `/manage?page=1&search=${encodeURIComponent(searchValue)}&status=${encodeURIComponent(selectedStatus)}`;
+                const selectedOrganization = document.getElementById('organizationSelect').value;
+
+                window.location.href = `/manage?page=1&search=${encodeURIComponent(searchValue)}&status=${encodeURIComponent(selectedStatus)}&organization=${encodeURIComponent(selectedOrganization)}`;
             }
+
+            document.getElementById('statusSelect').addEventListener('change', handleSearch);
+            document.getElementById('organizationSelect').addEventListener('change', handleSearch);
+
 
             function handleClear() {
                 document.getElementById('searchInput').value = '';
                 handleSearch();
             }
 
-            // Add event listener to handle select change
-            document.getElementById('statusSelect').addEventListener('change', function () {
-                handleSearch();
-            });
+
         </script>
 
         <script src="../JS/navbar.js"></script>

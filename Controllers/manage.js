@@ -1,48 +1,108 @@
-const Booking = require('../Models/booking');
-
-exports.list = async (req, res) => {
+const Booking = require('../Models/booking');exports.list = async (req, res) => {
   const page = Math.max(parseInt(req.query.page) || 1, 1);
   const limit = 8;
   const skip = (page - 1) * limit;
   const searchQuery = req.query.search ? req.query.search.toLowerCase() : '';
   const selectedStatus = req.query.status || 'all';
+  const selectedOrg = req.query.organization || 'all';
 
   const user = req.session.user;
 
+  // ฟิลเตอร์สำหรับการค้นหาและสถานะ
   const filter = {
-    $or: [
-      {title: {$regex: searchQuery, $options: 'i'}},
-      {userinfo: {$regex: searchQuery, $options: 'i'}},
-      {adminName: {$regex: searchQuery, $options: 'i'}},
-      {vehicle: {$regex: searchQuery, $options: 'i'}},
-      {driver: {$regex: searchQuery, $options: 'i'}},
+    $and: [
+      {
+        $or: [
+          {title: {$regex: searchQuery, $options: 'i'}},
+          {userinfo: {$regex: searchQuery, $options: 'i'}},
+          {adminName: {$regex: searchQuery, $options: 'i'}},
+          {vehicle: {$regex: searchQuery, $options: 'i'}},
+          {driver: {$regex: searchQuery, $options: 'i'}},
+        ],
+      },
+      selectedStatus !== 'all'
+        ? {
+            status:
+              selectedStatus === 'comPlition'
+                ? 4
+                : selectedStatus === 'inProgress'
+                  ? {$lte: 3}
+                  : selectedStatus === 'cancel'
+                    ? 5
+                    : parseInt(selectedStatus),
+          }
+        : {status: {$lte: 5}},
+      selectedOrg !== 'all'
+        ? {
+            $expr: {
+              $eq: [
+                {
+                  $trim: {
+                    input: {
+                      $replaceAll: {
+                        input: '$organization',
+                        find: ' ',
+                        replacement: '',
+                      },
+                    },
+                  },
+                },
+                {$replaceAll: {input: selectedOrg, find: ' ', replacement: ''}},
+              ],
+            },
+          }
+        : {},
     ],
   };
 
-  if (selectedStatus !== 'all') {
-    if (selectedStatus === 'inProgress') {
-      filter.status = {$lte: 3}; // Considering 'inProgress' to be status <= 3
-    }
-    if (selectedStatus === 'comPlition') {
-      filter.status = 4;
-    }
-    if (selectedStatus === 'cancel') {
-      filter.status = 5;
-    }
-  } else if (selectedStatus === 'all') {
-    filter.status = {$lte: 5};
-  }
-
   if (user.role === 'user') {
-    filter.user_id = user.id;
+    filter['$or'] = [{user_id: user.id}, {'driver.id': user.id}];
+  } else if (user.role === 'driver') {
+    // ให้ driver เห็นการจองของตนเองทั้งหมด ไม่ว่าจะอยู่ในสถานะใด
+    filter['$or'] = [
+      {user_id: user.id},
+      {'driver.id': user.id},
+      {driver_id: user.id}, // เพิ่มเงื่อนไขเพื่อให้ driver เห็นการจองของตัวเอง
+    ];
   }
 
   try {
-    // Get the total count of bookings based on the filter
+    // การนับจำนวนตามสถานะต่างๆ
+    const statusCounts = await Booking.aggregate([
+      {
+        $match: {
+          $and: [
+            {
+              $or: [
+                {title: {$regex: searchQuery, $options: 'i'}},
+                {userinfo: {$regex: searchQuery, $options: 'i'}},
+                {adminName: {$regex: searchQuery, $options: 'i'}},
+                {vehicle: {$regex: searchQuery, $options: 'i'}},
+                {driver: {$regex: searchQuery, $options: 'i'}},
+              ],
+            },
+            {status: {$lte: 6}}, // สถานะที่สนใจ
+            ...(user.role === 'user'
+              ? [{user_id: user.id}]
+              : user.role === 'driver'
+                ? [
+                    {$or: [{user_id: user.id}, {driver_id: user.id}]}, // ให้ driver เห็นการจองที่ user_id หรือ driver_id ตรงกับ user.id
+                  ]
+                : []),
+          ],
+        },
+      },
+      {$group: {_id: '$status', count: {$sum: 1}}},
+    ]);
+
+    const statusCountMap = statusCounts.reduce((acc, item) => {
+      acc[item._id] = item.count;
+      return acc;
+    }, {});
+
+    // การดึงข้อมูลการจองตามฟิลเตอร์และการแบ่งหน้า
     const totalBookings = await Booking.countDocuments(filter);
     const totalPages = Math.ceil(totalBookings / limit);
-
-    // Determine the sort order based on user role
     const sortOrder =
       user.role === 'admin'
         ? [
@@ -59,8 +119,6 @@ exports.list = async (req, res) => {
             {case: {$eq: ['$status', 4]}, then: 3},
             {case: {$eq: ['$status', 5]}, then: 4},
           ];
-
-    // Get the bookings based on the filter and pagination
     const bookings = await Booking.aggregate([
       {$match: filter},
       {
@@ -78,6 +136,7 @@ exports.list = async (req, res) => {
       {$limit: limit},
     ]);
 
+    // ส่งข้อมูลไปยังเทมเพลต
     res.render('manage', {
       userLoggedIn: !!user,
       user: user || null,
@@ -85,7 +144,9 @@ exports.list = async (req, res) => {
       totalPages,
       currentPage: page,
       searchQuery,
-      selectedStatus, // Pass the selected status to the template
+      selectedStatus,
+      selectedOrg,
+      statusCountMap, // ส่งจำนวนการจองตามสถานะไปยังเทมเพลต
     });
   } catch (error) {
     console.error('Error fetching bookings:', error);
