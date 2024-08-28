@@ -26,13 +26,13 @@
                 <div class="col-md">
                     <label class="form-label">ชื่อ-สกุล</label>
                     <input disabled style="cursor:not-allowed;" class="form-control" type="text" name="userinfo"
-                        value="<%= user.firstname %> <%= user.lastname %>" readonly>
+                        value="<%= booking.userinfo%>" readonly>
                     <input type="hidden" name="userinfo" value="<%= user.firstname %> <%= user.lastname %>">
                 </div>
                 <div class="col-md">
                     <label class="form-label">หน่วยงาน</label>
                     <input style="cursor:not-allowed;" class="form-control" name="organization"
-                        value="<%= user.organization %>" readonly disabled>
+                        value="<%= booking.organization %>" readonly disabled>
                     <input type="hidden" name="organization" value="<%= user.organization %>">
                 </div>
                 <div class="col-md">
