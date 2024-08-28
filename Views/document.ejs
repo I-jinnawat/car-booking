@@ -73,7 +73,7 @@
                                                 id="option4" autocomplete="off" value="แนวทางการใช้รถ">
                                             <label style="width: 150px;" class="btn btn-secondary"
                                                 for="option4">แนวทางการใช้รถ</label>
-                                            <% if (userLoggedIn && user.role !=='user' ) { %>
+                                            <% if (userLoggedIn && user.role==='admin' ) { %>
                                                 <a href="/document/add" class="btn btn-primary"
                                                     style="border-color: #FFECB3; background-color:#FFECB3; width: 150px; color: black;">
                                                     <i class="fi fi-rr-edit pe-1"></i>เพิ่มเอกสารใหม่
@@ -109,7 +109,7 @@
                                         <tr>
                                             <th scope="col">รายการ</th>
                                             <th scope="col">วันที่สร้าง</th>
-                                            <% if (userLoggedIn && user.role !=='user' ) { %>
+                                            <% if (userLoggedIn && user.role==='admin' ) { %>
                                                 <th scope="col">จัดการ</th>
                                                 <% } %>
                                         </tr>
@@ -166,7 +166,7 @@
                         <td>
                             ${new Date(doc.createdAt).toLocaleString('th-TH')}
                         </td>
-                        <% if (userLoggedIn && user.role !=='user' ) { %>
+                        <% if (userLoggedIn && user.role ==='admin' ) { %>
 <td>
     <div class="btn-group btn-group" role="group" style="width: 100px;">
                                                 <a class="btn btn-warning" role="button" href="/document/edit/${doc._id}"
