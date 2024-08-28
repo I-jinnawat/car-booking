@@ -1,5 +1,4 @@
-const Booking = require('../Models/booking');
-const User = require('../Models/Auth');
+const Booking = require('../Models/booking');const User = require('../Models/Auth');
 const Vehicle = require('../Models/vehicles');
 const Counter = require('../Models/Counter');
 
@@ -47,7 +46,10 @@ exports.bookingEdit = async (req, res, next) => {
       Vehicle.findOne({register: booking.vehicle}),
     ]);
 
-    if (booking.user_id === req.session.userId) {
+    if (
+      booking.user_id === req.session.userId &&
+      req.session.user.role !== 'approver'
+    ) {
       booking.is_locked = true;
       await booking.save();
       console.log(`Booking with ID ${booking._id} has locked`);
