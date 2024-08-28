@@ -120,26 +120,30 @@
                                                 <label class="form-label">ไฟล์</label>
                                                 <input type="file" name="attachment" class="form-control"
                                                     accept=".pdf,.doc,.docx" value="<%= manual.file %>">
-
-                                                <small class="text-secondary">
-                                                    ไฟล์ปัจจุบัน: <%= manual.file !==null ?
+                                                <small class="text-secondary">ไฟล์ปัจจุบัน: <%= manual.file !==null ?
                                                         manual.file.split("\\").pop().replace(/^\d+-/, '' ) : "" %>
                                                 </small>
-
                                             </div>
                                             <div class="col-md" id="linkInput_<%= manual._id %>" style="display: none;">
                                                 <label class="form-label">ลิงก์</label>
                                                 <input type="url" name="attachment" class="form-control"
                                                     value="<%= manual.link %>">
                                             </div>
-                                            <div class="row gy-2 text-end">
+                                            <div class="row mt-4 text-end">
                                                 <div class="col-md">
-                                                    <button type="submit" class="btn btn-primary"
-                                                        id="UpdateBtn">ยืนยัน</button>
+                                                    <% if (manual.link|| manual.file) { %>
+                                                        <button type="button" class="btn btn-danger"
+                                                            onclick="deleteAttachment(`<%= manual._id %>`, `<%= manual.link? 'link':'file'%>`)">
+                                                            <%= manual.link ?'ลบลิงก์':'ลบไฟล์' %>
+                                                        </button>
+                                                        <% } %>
+                                                            <button type="submit" class="btn btn-primary"
+                                                                id="UpdateBtn">ยืนยัน</button>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -148,6 +152,36 @@
             </div>
         </div>
         <script>
+            function deleteAttachment(manualId, attachmentType) {
+                Swal.fire({
+                    title: 'คุณแน่ใจหรือไม่?',
+                    text: `คุณต้องการลบ ${attachmentType === 'file' ? 'ไฟล์' : 'ลิงก์'} นี้หรือไม่?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'ยืนยัน',
+                    cancelButtonText: 'ยกเลิก',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        fetch(`/setting/delete-attachment/${manualId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ attachmentType }),
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    Swal.fire('ลบสำเร็จ!', `${attachmentType === 'file' ? 'ไฟล์' : 'ลิงก์'}ถูกลบเรียบร้อย`, 'success')
+                                        .then(() => location.reload());  // Reload the page to reflect changes
+                                } else {
+                                    Swal.fire('ผิดพลาด!', 'ไม่สามารถลบไฟล์หรือลิงก์ได้', 'error');
+                                }
+                            });
+                    }
+                });
+            }
+
             function toggleAttachmentField(modalId) {
                 const attachmentType = document.getElementById(`attachmentType_${modalId}`).value;
                 const fileInput = document.getElementById(`fileInput_${modalId}`);

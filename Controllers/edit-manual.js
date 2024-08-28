@@ -1,5 +1,5 @@
-const Manual = require('../Models/manual');const upload = require('../Config/multer');
-
+const Manual = require('../Models/manual');
+const upload = require('../Config/multer');
 exports.list = async (req, res) => {
   try {
     const manuals = await Manual.find({}).lean();
@@ -62,5 +62,34 @@ exports.create = async (req, res) => {
   } catch (error) {
     console.error('Error creating manual:', error);
     res.status(500).json({error: error.message});
+  }
+};
+
+exports.remove = async (req, res) => {
+  const {id} = req.params;
+  const {attachmentType} = req.body;
+  try {
+    const manual = await Manual.findById(id);
+    console.log(manual);
+    if (!manual) {
+      return res
+        .status(404)
+        .json({success: false, message: 'ไม่พบคู่มือการใช้งาน'});
+    } else {
+      console.log(manual);
+    }
+
+    if (attachmentType === 'file') {
+      manual.file = null;
+    } else if (attachmentType === 'link') {
+      manual.link = null;
+    }
+
+    await manual.save();
+    res.json({success: true});
+  } catch (error) {
+    res
+      .status(500)
+      .json({success: false, message: 'เกิดข้อผิดพลาดในการลบไฟล์หรือลิงก์'});
   }
 };
