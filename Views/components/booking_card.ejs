@@ -196,7 +196,6 @@
             const endTime = new Date(endTimeInput.value);
             const now = new Date();
 
-            // console.log(startTime.toISOString().slice(0, 16))
 
             if (startTime < now) {
                 console.log('startTime')
@@ -324,24 +323,14 @@
         updatePassengerList(count);
         localStorage.setItem('passengerCount', count);
     });
-
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     const savedCount = parseInt(localStorage.getItem('passengerCount'));
-    //     if (savedCount) {
-    //         passengerCountInput.value = savedCount;
-    //         updatePassengerList(savedCount);
-    //     }
-    // });
 </script>
-
-<!-- Display Aleart Approve -->
 <script>
 
     document.addEventListener("DOMContentLoaded", function () {
-        var mobileNumberInput = document.getElementById("mobileNumber");
+        let mobileNumberInput = document.getElementById("mobileNumber");
         mobileNumberInput.addEventListener("input", function () {
-            var mobileNumber = mobileNumberInput.value.trim();
-            var numericMobileNumber = mobileNumber.replace(/\D/g, "");
+            let mobileNumber = mobileNumberInput.value.trim();
+            let numericMobileNumber = mobileNumber.replace(/\D/g, "");
             mobileNumberInput.value = numericMobileNumber;
             if (numericMobileNumber.length === 10) {
                 document.getElementById("mobileNumberError").classList.add("d-none");

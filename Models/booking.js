@@ -1,5 +1,4 @@
-const moment = require('moment-timezone');
-const mongoose = require('mongoose');
+const moment = require('moment-timezone');const mongoose = require('mongoose');
 
 const eventSchema = new mongoose.Schema(
   {
@@ -32,6 +31,9 @@ const eventSchema = new mongoose.Schema(
     cancelerName: {type: String},
     note: {type: String},
     approve_Time: {type: Date, require: true},
+    adminApprove: {type: Boolean, default: null},
+    adminApproveName: {type: String},
+    adminApprove_Time: {type: Date},
     adminName: {type: String},
     driver: {type: String},
     driver_id: {type: String},

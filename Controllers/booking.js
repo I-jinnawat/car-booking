@@ -1,4 +1,5 @@
-const Booking = require('../Models/booking');const User = require('../Models/Auth');
+const Booking = require('../Models/booking');
+const User = require('../Models/Auth');
 const Vehicle = require('../Models/vehicles');
 const Counter = require('../Models/Counter');
 
@@ -99,20 +100,6 @@ exports.createEvent = async (req, res, next) => {
     const bookingID = `${currentYear}-${counter.count}`;
     req.body.bookingID = bookingID;
 
-    // Convert start and end times to UTC
-    // if (req.body.start && req.body.end) {
-    //   // Convert start and end to JavaScript Date objects
-    //   const start = new Date(
-    //     new Date(req.body.start).getTime() + 7 * 60 * 60 * 1000
-    //   );
-    //   const end = new Date(
-    //     new Date(req.body.end).getTime() + 7 * 60 * 60 * 1000
-    //   );
-
-    //   req.body.start = start;
-    //   req.body.end = end;
-    // }
-
     await Booking.create(req.body);
     res.status(201).redirect('/manage');
   } catch (error) {
@@ -140,6 +127,9 @@ exports.updateEvent = async (req, res, next) => {
       start,
       end,
       driver_id,
+      adminApprove,
+      adminApproveName,
+      adminApprove_Time,
       adminName,
       carArrange_Time,
       approverName,
@@ -166,7 +156,7 @@ exports.updateEvent = async (req, res, next) => {
 
     if (vehicle_id) {
       vehicle = await Vehicle.findById(vehicle_id);
-      console.log(vehicle);
+
       vehicle_register = vehicle.register;
     }
     // Check if booking is approved and user is trying to modify it
@@ -177,8 +167,13 @@ exports.updateEvent = async (req, res, next) => {
       );
       return res.redirect(`/booking-edit/${id}`);
     }
-    if (currentBooking.status <= 3 && currentBooking.status !== 1) {
-      driver = await User.findById(driver_id);
+    if (
+      currentBooking.status <= 4 &&
+      currentBooking.status !== 1 &&
+      currentBooking.adminApprove
+    ) {
+      driver = await User.findById(driver_id || currentBooking.driver_id);
+      console.log(driver);
       driverName = driver.firstname + ' ' + driver.lastname;
     }
 
@@ -206,7 +201,6 @@ exports.updateEvent = async (req, res, next) => {
     if (kilometer_start && kilometer_end) {
       currentBooking.kilometer_start = kilometer_start;
       currentBooking.kilometer_end = kilometer_end;
-      console.log(currentBooking.vehicle);
       await currentBooking.save();
     }
 
@@ -235,10 +229,14 @@ exports.updateEvent = async (req, res, next) => {
     }
 
     let vehicleInfo;
-    if (currentBooking.status !== 1 && currentBooking.status <= 4) {
-      console.log(vehicle_id);
-      vehicleInfo = await Vehicle.findById(vehicle_id);
-      console.log(vehicleInfo);
+    if (
+      currentBooking.status !== 1 &&
+      currentBooking.status <= 4 &&
+      currentBooking.adminApprove
+    ) {
+      vehicleInfo = await Vehicle.findById(
+        vehicle_id || currentBooking.vehicle_id
+      );
       if (vehicleInfo) {
         let last_distance = vehicleInfo.last_distance || 0;
 
@@ -247,10 +245,9 @@ exports.updateEvent = async (req, res, next) => {
           vehicleInfo.end_time = currentBooking.end;
           await vehicleInfo.save();
         } else if (
-          (currentBooking.status === 3 &&
-            user.role !== 'approver' &&
-            kilometer_end) ||
-          new Date() > new Date(vehicleInfo.end_time)
+          currentBooking.status === 3 &&
+          user.role !== 'approver' &&
+          kilometer_end
         ) {
           vehicleInfo.start_time = null;
           vehicleInfo.end_time = null;
@@ -280,6 +277,9 @@ exports.updateEvent = async (req, res, next) => {
       end,
       driver_id,
       driver: driverName,
+      adminApprove,
+      adminApproveName,
+      adminApprove_Time,
       adminName,
       carArrange_Time,
       approverName,
