@@ -1,14 +1,12 @@
-const bcrypt = require('bcryptjs');
-const Auth = require('../Models/Auth');
+const bcrypt = require('bcryptjs');const Auth = require('../Models/Auth');
 const axios = require('axios');
 const member_API = process.env.member_API;
 
 exports.create = async (req, res) => {
-  const usersResponse = await axios.get(`${member_API}`, {});
+  const usersResponse = await axios.get(member_API, {});
 
-  const page = parseInt(req.query.page) || 1; // Parse page number from query parameters (default to page 1)
-  const limit = 8; // Number of users per page
-
+  const page = parseInt(req.query.page) || 1;
+  const limit = 8;
   const {
     firstname,
     lastname,

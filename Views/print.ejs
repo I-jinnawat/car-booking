@@ -236,6 +236,8 @@
                     <hr>
                     <p><strong>รถที่ใช้:</strong></p>
                     <hr>
+                    <p><strong>รายละเอียดการเบิกจ่ายค่าตอบแทนล่วงเวลา:</strong></p>
+                    <hr>
                     <p><strong>ขอใช้รถเพื่อปฏิบัติภารกิจ:</strong></p>
 
                 </div>
@@ -257,6 +259,10 @@
                         <%= booking.vehicle ? booking.vehicle : '-' %>
                     </p>
                     <hr>
+                    <p>
+                        <%= booking.compensation_payment ? booking.compensation_payment : '-' %>
+                    </p>
+                    <hr>
                     <p><strong>หัวข้อ:</strong>
                         <%= booking.title %>
                     </p>
@@ -268,6 +274,7 @@
                             </li>
                             <% }); %>
                     </ol>
+
                 </div>
             </div>
         </div>

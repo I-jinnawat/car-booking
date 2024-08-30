@@ -24,6 +24,7 @@ const eventSchema = new mongoose.Schema(
     end: {type: Date, required: true},
     placestart: {type: String, required: true},
     placeend: {type: String, required: true},
+    compensation_payment: {type: String, required: true},
     passengerCount: {type: Number, required: true},
     passengers: [{}],
     booking_Time: {type: Date},

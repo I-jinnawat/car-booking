@@ -1,4 +1,4 @@
-<div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
+<div class="card mt-3 mb-3 " id="booking" style="box-shadow: 0px 8px 22px 0px rgba(0, 0, 0, 0.25);">
     <div class="card-header" id="card-header" style="background-color: #FFECB3;">
         <div class="row">
             <div class="col-md-6">
@@ -91,6 +91,14 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-md">
+                        <label for="compensation_payment">รายละเอียดการเบิกจ่ายค่าตอบแทนล่วงเวลา</label>
+                        <input type="text" name="compensation_payment" value="<%= booking.compensation_payment%>"
+                            class="form-control" required <%=booking.user_id !==user.id || booking.status>1 ? 'disabled'
+                        : '' %>>
+                    </div>
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md">
                         <label for="passengerCount">จำนวนผู้โดยสาร</label>
                         <input type="number" required id="passengerCount" name="passengerCount" min="0"
                             value="<%= booking.passengerCount %>" class="form-control" <%=booking.user_id !==user.id ||
@@ -113,7 +121,7 @@
                         </ol>
                     </div>
                 </div>
-                <input type="text" class="form-control mt-4" id="myInput" style="display: none;"
+                <input type="text" class="form-control mt-4 mb-4" id="myInput" style="display: none;"
                     placeholder="โปรดระบุหมายเหตุการไม่อนุมัติ" required name="note">
             </div>
             <input type="hidden" id="initialPassengerCount" name="initialPassengerCount"
@@ -130,17 +138,19 @@
                             <% if (booking.status===1) { %>
                                 <div class="row text-center">
                                     <div class="mt-3">
-                                        <a role="button" href=" /manage" class=" btn btn btn-secondary">กลับ</a>
+                                        <a role="button" href=" /manage" class=" btn btn btn-primary">กลับ</a>
                                         <% if (booking.user_id===user.id && user.role !=='approver' ) { %>
                                             <a role="button" href=" /print/<%=booking._id %>"
-                                                class=" btn btn btn-info "><i class="fa-solid fa-print text-dark"></i>
+                                                class=" btn btn btn-secondary "><i
+                                                    class="fa-solid fa-print text-white"></i>
                                                 พิมพ์เอกสาร</a>
                                             <input type="hidden" name="is_locked" value="false">
                                             <button type="submit" id="saveupdateBtn" class="btn btn-success btn-lg"
                                                 onclick="displayAlertSaveupdate()">ยืนยันการแก้ใข</button>
                                             <% } else if (user.role==='approver' && booking.user_id===user.id) { %>
                                                 <a role="button" href=" /print/<%=booking._id %>"
-                                                    class=" btn btn btn-secondary">พิมพ์เอกสาร</a>
+                                                    class=" btn btn btn-secondary"><i
+                                                        class="fa-solid fa-print text-white"></i>พิมพ์เอกสาร</a>
                                                 <button type="submit" id="saveupdateBtn" class="btn btn-primary btn-lg"
                                                     onclick="displayAlertSaveupdate()">ยืนยันการแก้ใข</button>
                                                 <button type="submit" class="btn btn-primary btn-lg" id="unapproveBtn"
@@ -164,21 +174,61 @@
                                                                 <% } %>
                                     </div>
                                 </div>
-                                <% } else { %>
-                                    <p style="font-size: 20px;" class="text-center mt-3 text-danger">
-                                        หัวหน้างานอนุมัติสำเร็จ,
-                                        รอคนจัดรถ
-                                    </p>
-                                    <% } %>
+                                <% } else if((booking.status===5 || booking.status===2 )&& user.role==='approver'
+                                    &&!booking.is_locked){ %>
+                                    <div class="text-center ">
+
+                                        <% if(booking.status===5){%>
+                                            <div class="text-center">
+                                                <a role="button" href=" /manage"
+                                                    class=" btn btn btn-primary align-self-start">กลับ</a>
+
+                                                <a role="button" href=" /print/<%=booking._id %>"
+                                                    class=" btn btn btn-secondary">พิมพ์เอกสาร</a>
+                                                <button type="submit" class="btn btn-primary btn-lg" id="approveBtn"
+                                                    style="background-color: rgb(44, 169, 44);"
+                                                    onclick="displayAlertApprove()">อนุมัติ</button>
+                                            </div>
+                                            <%} else {%>
+                                                <div class="text-center ">
+                                                    <a role="button" href=" /manage"
+                                                        class=" btn btn btn-primary align-self-start">กลับ</a>
+
+                                                    <a role="button" href=" /print/<%=booking._id %>"
+                                                        class=" btn btn btn-secondary">พิมพ์เอกสาร</a>
+                                                    <button type="submit" class="btn btn-primary btn-lg"
+                                                        id="unapproveBtn"
+                                                        style="background-color: red;">ไม่อนุมัติ</button>
+
+                                                </div>
+                                                <%}%>
 
 
-                                        <% if (errorBooking && errorBooking.length> 0) { %>
-                                            <script>
-                                                document.addEventListener('DOMContentLoaded', () => {
-                                                    displayAlertExistbookin(`<%=errorBooking %>`);
-                                                });
-                                            </script>
-                                            <% } %>
+                                    </div>
+                                    <% }else if(booking.status>=2 &&booking.status <5){ %>
+                                            <p style="font-size: 22px;" class="text-center mt-3 text-success">
+                                                หัวหน้างานอนุมัติสำเร็จ,รอคนจัดรถ
+                                            </p>
+                                            <%}else if(booking.status===5 && user.role !=='approver' ){%>
+                                                <p style="font-size: 22px;" class="text-center mt-3 text-danger">
+                                                    หัวหน้างานไม่อนุมัติ, การจองถูกยกเลิก
+                                                </p>
+                                                <%}else if(booking.is_locked){%>
+                                                    <div class="text-center">
+                                                        <a role="button" href=" /manage"
+                                                            class="btn btn btn-primary">กลับ</a>
+                                                        <p style="font-size: 22px;" class=" mt-3 text-danger">
+                                                            กำลังถูกแก้ไขการจอง
+                                                        </p>
+                                                    </div>
+                                                    <%}%>
+                                                        <% if (errorBooking && errorBooking.length> 0) { %>
+                                                            <script>
+                                                                document.addEventListener('DOMContentLoaded', () => {
+                                                                    displayAlertExistbookin(`<%=errorBooking %>`);
+                                                                });
+                                                            </script>
+                                                            <% } %>
         </form>
     </div>
 
@@ -377,6 +427,7 @@
             const time = new Date();
             document.getElementById('approve_Time').value = time.toISOString();
             document.getElementById('status').value = 2;
+            document.getElementById('myInput').value = "";
             document.getElementById('approverName').value = '<%= user.firstname %> <%= user.lastname %> ';
             await document.querySelector('#booking-body form').submit();
         } else if (result.dismiss === Swal.DismissReason.cancel) {

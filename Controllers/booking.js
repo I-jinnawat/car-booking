@@ -122,6 +122,7 @@ exports.updateEvent = async (req, res, next) => {
       title,
       placestart,
       placeend,
+      compensation_payment,
       passengerCount,
       passengers,
       start,
@@ -167,19 +168,13 @@ exports.updateEvent = async (req, res, next) => {
       );
       return res.redirect(`/booking-edit/${id}`);
     }
-    if (
-      currentBooking.status <= 4 &&
-      currentBooking.status !== 1 &&
-      currentBooking.adminApprove
-    ) {
+    if (currentBooking.status <= 4 && currentBooking.status >= 2) {
       driver = await User.findById(driver_id || currentBooking.driver_id);
-      console.log(driver);
       driverName = driver.firstname + ' ' + driver.lastname;
     }
 
     if (
       currentBooking.status === 3 &&
-      new Date() < new Date(currentBooking.start) &&
       user.role === 'admin' &&
       !(kilometer_start || kilometer_end)
     ) {
@@ -187,20 +182,12 @@ exports.updateEvent = async (req, res, next) => {
       currentBooking.driver = driverName;
       currentBooking.vehicle = vehicle;
       await currentBooking.save();
-    } else if (
-      currentBooking.status === 3 &&
-      new Date() > new Date(currentBooking.start) &&
-      user.role === 'admin' &&
-      !(kilometer_start || kilometer_end)
-    ) {
-      req.flash('errorBooking', 'ไม่สามารถแก้ไขได้ เนื่องจากถึงเวลาใช้รถ');
-      return res.redirect(`/booking-edit/${id}`);
     }
-
     // Update kilometer information if booking status is 3
     if (kilometer_start && kilometer_end) {
       currentBooking.kilometer_start = kilometer_start;
       currentBooking.kilometer_end = kilometer_end;
+      currentBooking.vehicle = vehicle;
       await currentBooking.save();
     }
 
@@ -230,8 +217,8 @@ exports.updateEvent = async (req, res, next) => {
 
     let vehicleInfo;
     if (
-      currentBooking.status !== 1 &&
       currentBooking.status <= 4 &&
+      currentBooking.status >= 3 &&
       currentBooking.adminApprove
     ) {
       vehicleInfo = await Vehicle.findById(
@@ -271,6 +258,7 @@ exports.updateEvent = async (req, res, next) => {
       title,
       placestart,
       placeend,
+      compensation_payment,
       passengerCount,
       passengers,
       start,

@@ -85,7 +85,7 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <% if (booking.status>=2 ) { %>
+                    <% if (booking.status>=2&& booking.status !==5) { %>
                         <!-- ผู้จัดรถอนุมัติ -->
                         <div class="card mt-3 mb-3 " style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                             <div id="admin-approve-body" class="card-body">
@@ -118,27 +118,47 @@
                                     </div>
                                     <hr>
                                     <div class="row text-center">
-                                        <% if (booking.adminApprove===null) { %>
+                                        <% if (user.role==='admin' &&booking.status!==4) { %>
                                             <div>
-                                                <button type="submit" class="btn btn-primary btn-lg"
-                                                    id="adminUnapproveBtn"
-                                                    style="background-color: red;">ไม่อนุมัติ</button>
-                                                <button type="submit" class="btn btn-primary btn-lg"
-                                                    id="adminApproveBtn" style="background-color: rgb(44, 169, 44)"
-                                                    onclick="displayAlertApproveAdmin()">อนุมัติ</button>
-                                                <input type="text" class="form-control mt-4" id="adminInput"
-                                                    style="display: none;" placeholder="โปรดระบุหมายเหตุการไม่อนุมัติ"
-                                                    required name="note">
-                                            </div>
-                                            <% }else if(booking.adminApprove){ %>
-                                                <p style="font-size: 20px;" class="text-center mt-3 text-danger">
-                                                    ผู้จัดรถอนุมัติการจองสำเร็จ, รอการจัดรถ</p>
-                                                <% }else{%>
-                                                    <p style="font-size: 20px;" class="text-center mt-3 text-danger">
-                                                        ผู้จัดรถไม่อนุมัติการจอง, การจองถูกยกเลิก</p>
+                                                <% if (booking.status !==3) { %>
+                                                    <a role="button" href="/manage" class="btn btn-primary">กลับ</a>
                                                     <% } %>
-
+                                                        <% if (booking.adminApprove===null) { %>
+                                                            <button type="submit" class="btn btn-primary btn-lg"
+                                                                id="adminUnapproveBtn"
+                                                                style="background-color: red;">ไม่อนุมัติ</button>
+                                                            <button type="submit" class="btn btn-primary btn-lg"
+                                                                id="adminApproveBtn"
+                                                                style="background-color: rgb(44, 169, 44);"
+                                                                onclick="displayAlertApproveAdmin()">อนุมัติ</button>
+                                                            <input type="text" class="form-control mt-4" id="adminInput"
+                                                                style="display: none;"
+                                                                placeholder="โปรดระบุหมายเหตุการไม่อนุมัติ" required
+                                                                name="note">
+                                                            <% } else if (booking.adminApprove) { %>
+                                                                <button type="submit" class="btn btn-primary btn-lg"
+                                                                    id="adminUnapproveBtn"
+                                                                    style="background-color: red;">ไม่อนุมัติ</button>
+                                                                <% } else { %>
+                                                                    <button type="submit" class="btn btn-primary btn-lg"
+                                                                        id="adminApproveBtn"
+                                                                        style="background-color: rgb(44, 169, 44);"
+                                                                        onclick="displayAlertApproveAdmin()">อนุมัติ</button>
+                                                                    <% } %>
+                                            </div>
+                                            <% } else { %>
+                                                <% if (booking.adminApprove) { %>
+                                                    <p style="font-size: 22px;" class="text-center mt-3 text-success">
+                                                        ผู้จัดรถอนุมัติการจองสำเร็จ,
+                                                        รอการจัดรถ</p>
+                                                    <% } else { %>
+                                                        <p style="font-size: 20px;"
+                                                            class="text-center mt-3 text-danger">รอผู้จัดรถอนุมัติการจอง
+                                                        </p>
+                                                        <% } %>
+                                                            <% } %>
                                     </div>
+
                                 </form>
                             </div>
                         </div>
@@ -155,8 +175,7 @@
                                         <div class="row">
                                             <div class="col-md">
                                                 <label class="form-label mt-2">พนักงานขับรถ</label>
-                                                <select <%=(new Date(booking.start)>new Date() && user.role==='admin' &&
-                                                    booking.status !==4 ) ? '' : 'disabled' %>
+                                                <select <%=( booking.status !==4 ) ? '' : 'disabled' %>
                                                     name="driver_id"
                                                     class="form-select" required>
                                                     <option value="<%= booking.driver_id %>">
@@ -173,9 +192,7 @@
                                             </div>
                                             <div class="col-md">
                                                 <label class="form-label mt-2">ยานพาหนะ</label>
-                                                <select <%=(new Date(booking.start)>new Date() && user.role==='admin')
-                                                    &&
-                                                    booking.status!==4 ? '' : 'disabled' %>
+                                                <select <%=booking.status!==4 ? '' : 'disabled' %>
                                                     name="vehicle_id"
                                                     class="form-select" required>
                                                     <option value="<%= booking.vehicle_id %>">
@@ -189,9 +206,10 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <% if (booking.status===2 && user.role==='admin' && new Date(booking.start)>new
-                                            Date() ) { %>
+                                        <hr>
+                                        <% if (booking.status===2 && user.role==='admin' ) { %>
                                             <div class="text-center mt-3">
+                                                <a role="button" href="/manage" class="btn btn-primary">กลับ</a>
                                                 <button type="submit" class="btn btn-primary btn-lg" id="save_manageBtn"
                                                     style="background-color: rgb(44, 169, 44);">บันทึก</button>
                                             </div>
@@ -199,20 +217,15 @@
                                                 <p style="font-size: 20px;" class="text-center mt-3 text-danger">
                                                     รอการจัดรถ,ไม่พร้อมใช้งาน
                                                 </p>
-                                                <% } else if (new Date(booking.start)<new Date()|| booking.status===4 )
-                                                    { %>
+                                                <% } else if (booking.status===3 && user.role !=='admin' ){ %>
                                                     <p style="font-size: 20px;" class="text-center mt-3 text-danger">
                                                         จัดรถสำเร็จ,พร้อมใช้งาน</p>
-                                                    <% }else if(new Date(booking.start)>new Date() &&
-                                                        user.role==='admin' &&
-                                                        booking.status !==4){
-                                                        %>
+                                                    <% }else if( user.role==='admin' && booking.status !==4){ %>
                                                         <div class="text-center mt-3">
                                                             <button type="submit" class="btn btn-primary btn-lg"
                                                                 id="save_manageBtn"
                                                                 style="background-color: rgb(44, 169, 44);">แก้ไขการบันทึก</button>
-                                                            <p class="text-danger">หากยังไม่ถึงเวลาใช้รถ
-                                                                สามารถแก้ไขข้อมูลได้</p>
+
                                                         </div>
                                                         <% } %>
 
@@ -272,6 +285,8 @@
                                                             รอการบันทึกเลขไมล์</p>
                                                         <% } else { %>
                                                             <div class="text-center mt-3">
+                                                                <a role="button" href="/manage"
+                                                                    class="btn btn-primary">กลับ</a>
                                                                 <button type="submit" class="btn btn-primary btn-lg"
                                                                     id="save_recordBtn"
                                                                     style="background-color: rgb(44, 169, 44);">บันทึก</button>
