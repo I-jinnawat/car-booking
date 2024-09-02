@@ -2,7 +2,6 @@ const Booking = require('../Models/booking');
 const User = require('../Models/Auth');
 const Vehicle = require('../Models/vehicles');
 const Counter = require('../Models/Counter');
-
 async function initializeCounter(year) {
   let counter = await Counter.findOne({year});
   if (!counter) {
@@ -49,7 +48,9 @@ exports.bookingEdit = async (req, res, next) => {
 
     if (
       booking.user_id === req.session.userId &&
-      req.session.user.role !== 'approver'
+      req.session.user.role !== 'approver' &&
+      booking.user_id === req.session.userId &&
+      booking.status === 1
     ) {
       booking.is_locked = true;
       await booking.save();
@@ -168,7 +169,10 @@ exports.updateEvent = async (req, res, next) => {
       );
       return res.redirect(`/booking-edit/${id}`);
     }
-    if (currentBooking.status <= 4 && currentBooking.status >= 2) {
+    if (
+      (currentBooking.status <= 4 && currentBooking.status >= 2 && driver_id) ||
+      currentBooking.driver_id
+    ) {
       driver = await User.findById(driver_id || currentBooking.driver_id);
       driverName = driver.firstname + ' ' + driver.lastname;
     }

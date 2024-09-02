@@ -46,7 +46,7 @@
                                         <% } %>
 
                                             <% if (user.role==='admin' && booking.user_id!==user.id ) { %>
-                                                <div class="btn-group btn-group" role="group" style="width: 100px; ">
+                                                <div class="btn-group btn-group" role="group" style="width: 80px; ">
                                                     <button type="button" class="btn btn-danger"
                                                         onclick="displayDelete('<%= booking._id %>', '<%= booking.status%>' )"><i
                                                             class="fa-solid fa-trash-can"></i></button>
@@ -77,8 +77,16 @@
                                                                             class="fa-solid fa-print"></i></a>
                                                                 </div>
                                                                 <% }else { %>
-                                                                    <button type="button" class="btn "
-                                                                        style="width: 80px; background-color:#f28500 ;">Waiting</button>
+                                                                    <div class="btn-group btn-group" role="group"
+                                                                        style="width: 80px; ">
+                                                                        <a class="btn btn-warning"
+                                                                            href="/booking-edit/<%= booking._id %>"
+                                                                            role="button"><i
+                                                                                class="fa-regular fa-pen-to-square"></i></a>
+                                                                        <a href="/print/<%= booking._id %>"
+                                                                            class="btn btn-secondary" role="button"><i
+                                                                                class="fa-solid fa-print"></i></a>
+                                                                    </div>
                                                                     <% } %>
                                                                         <% } %>
                                                                             <% }else{ %>
@@ -103,7 +111,7 @@
                                                                                     <% }else{ %>
                                                                                         <button type="button"
                                                                                             class="btn btn-success"
-                                                                                            style="width: 80px;">เสร็จสิ้น</button>
+                                                                                            style="width: 100px;">เสร็จสิ้น</button>
                                                                                         <% } %>
                                                                                             <% } %>
                                                                                                 <% }else{ %>

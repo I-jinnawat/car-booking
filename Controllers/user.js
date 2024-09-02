@@ -1,12 +1,13 @@
 const bcrypt = require('bcryptjs');const Auth = require('../Models/Auth');
 const axios = require('axios');
 const member_API = process.env.member_API;
+if (!member_API) {
+  throw new Error('MEMBER_API is not defined');
+}
 
+// ตรวจสอบค่า URL
+console.log('API URL:', member_API);
 exports.create = async (req, res) => {
-  const usersResponse = await axios.get(member_API, {});
-
-  const page = parseInt(req.query.page) || 1;
-  const limit = 8;
   const {
     firstname,
     lastname,
@@ -46,17 +47,8 @@ exports.create = async (req, res) => {
       mobile_number,
       birth_year,
     } = req.body;
-    const usersResponse = await axios.get(member_API, {
-      params: {
-        page: page,
-        limit: limit,
-      },
-    });
+
     if (err.code === 11000 && err.keyPattern && err.keyPattern.username) {
-      const usersResponseCount = await axios.get(member_API);
-      const usersCount = usersResponseCount.data.length;
-      const users = usersResponse.data;
-      const totalPages = Math.ceil(usersCount / limit);
       // Handle duplicate username error
       req.flash('error_msg', 'รหัสพนักงานมีอยู่แล้ว');
       const error_msg = req.flash('error_msg');

@@ -10,7 +10,6 @@ const fetchUsers = async (page, limit, searchTerm = '') => {
   let query = {};
 
   if (searchTerm) {
-    const isNumeric = !isNaN(searchTerm);
     let roleQuery = searchTerm;
 
     if (searchTerm === 'พนักงาน') {
@@ -34,16 +33,30 @@ const fetchUsers = async (page, limit, searchTerm = '') => {
     };
   }
 
-  const usersResponse = await axios.get(member_API, {
-    params: {page, limit, query},
+  const sortOrder = {
+    approver: 1,
+    admin: 2,
+    user: 3,
+    driver: 4,
+  };
+
+  // Fetch all users matching the query
+  const users = await User.find(query).exec();
+
+  // Sort users according to the sortOrder mapping
+  const sortedUsers = users.sort((a, b) => {
+    return sortOrder[a.role] - sortOrder[b.role];
   });
 
-  const usersResponseCount = await axios.get(member_API, {params: {query}});
-  const usersCount = usersResponseCount.data.length;
+  // Calculate total count before pagination
+  const totalUsersCount = sortedUsers.length;
+
+  // Apply pagination
+  const paginatedUsers = sortedUsers.slice((page - 1) * limit, page * limit);
 
   return {
-    users: usersResponse.data,
-    totalPages: Math.ceil(usersCount / limit),
+    users: paginatedUsers,
+    totalPages: Math.ceil(totalUsersCount / limit),
   };
 };
 
@@ -74,13 +87,11 @@ exports.API_member = async (req, res) => {
   try {
     const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
     const limit = parseInt(req.query.limit) || 10;
-    const skip = (page - 1) * limit;
     const searchTerm = req.query.search || ''; // Get search term from query parameter
 
     let query = {};
 
     if (searchTerm) {
-      const isNumeric = !isNaN(searchTerm);
       let roleQuery = searchTerm;
 
       if (searchTerm === 'พนักงาน') {
@@ -102,15 +113,27 @@ exports.API_member = async (req, res) => {
           {role: {$regex: roleQuery, $options: 'i'}},
         ],
       };
-
-      if (isNumeric) {
-        // ค้นหาเฉพาะตรงสำหรับ numberID ที่เป็นตัวเลข
-        query.$or.push({numberID: parseInt(searchTerm, 10)});
-      }
     }
 
-    const users = await User.find(query).skip(skip).limit(limit).exec();
-    res.json(users);
+    const sortOrder = {
+      approver: 1,
+      admin: 2,
+      user: 3,
+      driver: 4,
+    };
+
+    // Fetch all users matching the query
+    const users = await User.find(query).exec();
+
+    // Sort users according to the sortOrder mapping
+    const sortedUsers = users.sort((a, b) => {
+      return sortOrder[a.role] - sortOrder[b.role];
+    });
+
+    // Apply pagination
+    const paginatedUsers = sortedUsers.slice((page - 1) * limit, page * limit);
+
+    res.json(paginatedUsers);
   } catch (error) {
     console.error(error);
     res.status(500).json({error: 'Internal Server Error'});
