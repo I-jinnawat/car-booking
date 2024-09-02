@@ -120,6 +120,9 @@
                                     <div class="row text-center">
                                         <% if (user.role==='admin' &&booking.status!==4) { %>
                                             <div>
+                                                <input type="text" class="form-control mt-4 mb-4" id="adminInput"
+                                                    style="display: none;" placeholder="โปรดระบุหมายเหตุการไม่อนุมัติ"
+                                                    required name="note">
                                                 <% if (booking.status !==3) { %>
                                                     <a role="button" href="/manage" class="btn btn-primary">กลับ</a>
                                                     <% } %>

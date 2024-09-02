@@ -134,6 +134,9 @@
                         <input type="hidden" id="status" name="status">
                         <input type="hidden" id="approverName" name="approverName">
                         <input type="hidden" id="cancelerName" name="cancelerName">
+                        <input type="hidden" id="adminApprove" name="adminApprove">
+                        <input type="hidden" id="adminApproveName" name="adminApproveName">
+                        <input type="hidden" id="adminApprove_Time" name="adminApprove_Time">
                         <% } %>
                             <% if (booking.status===1) { %>
                                 <div class="row text-center">
@@ -427,6 +430,7 @@
             const time = new Date();
             document.getElementById('approve_Time').value = time.toISOString();
             document.getElementById('status').value = 2;
+            document.getElementById('adminApprove').value = false;
             document.getElementById('myInput').value = "";
             document.getElementById('approverName').value = '<%= user.firstname %> <%= user.lastname %> ';
             await document.querySelector('#booking-body form').submit();
@@ -471,6 +475,9 @@
 
         if (result.isConfirmed) {
             document.getElementById('status').value = 5;
+            document.getElementById('adminApprove').value = false;
+            document.getElementById('adminApproveName').value = null;
+            document.getElementById('adminApprove_Time').value = null;
             document.getElementById('cancelerName').value = '<%= user.firstname %> <%= user.lastname %>'
             await document.querySelector('#booking-body form').submit();
         } else if (result.dismiss === Swal.DismissReason.cancel) {

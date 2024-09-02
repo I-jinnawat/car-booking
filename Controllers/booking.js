@@ -176,7 +176,14 @@ exports.updateEvent = async (req, res, next) => {
       driver = await User.findById(driver_id || currentBooking.driver_id);
       driverName = driver.firstname + ' ' + driver.lastname;
     }
-
+    if (cancelerName && note) {
+      currentBooking.driver = null;
+      currentBooking.adminName = null;
+      currentBooking.carArrange_Time = null;
+      currentBooking.driver_id = null;
+      currentBooking.vehicle_id = null;
+      await currentBooking.save();
+    }
     if (
       currentBooking.status === 3 &&
       user.role === 'admin' &&
