@@ -310,14 +310,23 @@ exports.Event = async (req, res, next) => {
     }
 
     let events = await Booking.find({status: {$gte: 2, $lt: 4}}).lean();
-
     events = events.map(event => ({
-      ...event,
+      _id: event._id,
       title:
-        (currentUser.role === 'approver' || currentUser.role === 'admin') &&
-        currentUser !== null
+        currentUser.role === 'approver' || currentUser.role === 'admin'
           ? event.title
           : 'ถูกจองแล้ว',
+      bookingID:
+        currentUser.role === 'approver' || currentUser.role === 'admin'
+          ? event.bookingID
+          : 'ถูกจองแล้ว',
+      start: event.start,
+      end: event.end,
+      allDay: event.allDay,
+      userinfo: event.userinfo,
+      status: event.status,
+      organization: event.organization,
+      // Include any other fields needed for the modal or event display
     }));
 
     res.json(events);
