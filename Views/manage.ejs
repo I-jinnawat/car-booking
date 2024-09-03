@@ -152,8 +152,8 @@
                                             %>
 
                                             <% if (canShowStatus1&& statusCountMap[1]) { %>
-                                                <a href="/manage?page=1&search=&status=1" class="btn btn-secondary"
-                                                    onclick="setActive(this)">
+                                                <a href="/manage?page=1&search=&status=1" class="btn bg-success-subtle"
+                                                    style="--bs-btn-border-color:none; ">
                                                     <%= user.role==='approver' ? "รอการอนุมัติ" :"รอหัวหน้าอนุมัติ" %>
                                                         <span class="badge text-bg-danger">
                                                             <%= statusCountMap[1] || 0 %>
@@ -164,9 +164,10 @@
                                                     <% if (canShowStatus2||(user.role==='admin' &&statusCountMap[2])) {
                                                         %>
                                                         <a href="/manage?page=1&search=&status=2"
-                                                            class="btn btn-secondary" onclick="setActive(this)">
-                                                            <%= user.role==='admin'
-                                                                ?"รอการจัดรถ":'อนุมัติสำเร็จ,รอการจัดรถ' %>
+                                                            class="btn bg-success-subtle"
+                                                            style="--bs-btn-border-color:none; ">
+                                                            <%= user.role==='admin' ? "รอการจัดรถ"
+                                                                : 'อนุมัติสำเร็จ,รอการจัดรถ' %>
                                                                 <span class="badge text-bg-danger">
                                                                     <%= statusCountMap[2] || 0 %>
                                                                 </span>
@@ -176,7 +177,8 @@
                                                             <% if (canShowStatus3||(user.role==='admin'
                                                                 &&statusCountMap[3])) { %>
                                                                 <a href="/manage?page=1&search=&status=3"
-                                                                    class="btn btn-secondary" onclick="setActive(this)">
+                                                                    class="btn bg-success-subtle"
+                                                                    style="--bs-btn-border-color:none; ">
                                                                     <%= user.role !=='admin'
                                                                         ?'รถพร้อมใช้งาน':'รอการบันทึกเลขไมล์'%>
                                                                         <span class="badge text-bg-danger">

@@ -134,10 +134,6 @@
                                                                 id="adminApproveBtn"
                                                                 style="background-color: rgb(44, 169, 44);"
                                                                 onclick="displayAlertApproveAdmin()">อนุมัติ</button>
-                                                            <input type="text" class="form-control mt-4" id="adminInput"
-                                                                style="display: none;"
-                                                                placeholder="โปรดระบุหมายเหตุการไม่อนุมัติ" required
-                                                                name="note">
                                                             <% } else if (booking.adminApprove) { %>
                                                                 <button type="submit" class="btn btn-primary btn-lg"
                                                                     id="adminUnapproveBtn"
@@ -201,14 +197,20 @@
                                                     name="vehicle_id"
                                                     class="form-select" required>
                                                     <% const vehicle=vehicles.find(v=>v.id===booking.vehicle_id)%>
-                                                        <option value="<%=booking.vehicle_id? vehicle._id:''%>">
-                                                            <%= booking.vehicle_id?vehicle.register:''%>
-                                                        </option>
-                                                        <% vehicles.forEach(vehicle=> { %>
-                                                            <option value="<%= vehicle._id %>">
-                                                                <%= vehicle.register%>
+                                                        <% if (vehicle) { %>
+                                                            <option value="<%=booking.vehicle_id? vehicle._id:''%>">
+                                                                <%= booking.vehicle_id?vehicle.register:''%>
                                                             </option>
-                                                            <% }); %>
+                                                            <% }else{ %>
+                                                                <option value="" disabled selected>
+                                                                    ไม่พบข้อมูล, โปรดเลือกยานพาหนะใหม่
+                                                                </option>
+                                                                <% } %>
+                                                                    <% vehicles.forEach(vehicle=> { %>
+                                                                        <option value="<%= vehicle._id %>">
+                                                                            <%= vehicle.register%>
+                                                                        </option>
+                                                                        <% }); %>
                                                 </select>
                                             </div>
                                         </div>
@@ -254,7 +256,7 @@
                                                     <input type="number" min="0" step="0.01" class="form-control"
                                                         name="kilometer_start" id="km_start" placeholder="km" required
                                                         <%=user.role !=='admin' ? 'disabled' : '' %> value="<%=
-                                                        booking.status===3 ? vehicle.last_distance||0 :
+                                                        booking.status===3 && vehicle? vehicle.last_distance||0 :
                                                         booking.kilometer_start %>">
                                                 </div>
                                                 <div class="col-md">
@@ -434,6 +436,11 @@
                 }
             }
 
+
+
+
+        </script>
+        <script>
             document.getElementById('adminUnapproveBtn').addEventListener('click', function () {
                 let inputField = document.getElementById('adminInput');
                 if (inputField.style.display === "none") {
@@ -442,10 +449,6 @@
                     inputField.style.display = "none";
                 }
             });
-
-
-        </script>
-        <script>
             async function displayAlertUnapproveAdmin() {
                 const swalWithBootstrapButtons = Swal.mixin({
                     customClass: {
@@ -467,7 +470,7 @@
                 if (result.isConfirmed) {
                     console.log("Test")
                     document.getElementById('adminApprove').value = false;
-                    console.log(document.getElementById('adminApprove').value)
+
                     document.getElementById('statusCancle').value = 5;
                     document.getElementById('cancelerName').value = '<%= user.firstname %> <%= user.lastname %>'
                     await document.querySelector('#admin-approve-body form').submit();
