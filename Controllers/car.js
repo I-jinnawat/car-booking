@@ -1,4 +1,5 @@
 const Vehicle = require('../Models/vehicles');
+const Booking = require('../Models/booking');
 exports.list = async (req, res) => {
   const vehicles = await Vehicle.find().lean();
   const error_msg = req.flash('error_msg');
@@ -42,7 +43,9 @@ exports.update = async (req, res) => {
   const {id} = req.params;
   try {
     const {register, type, seat, available} = req.body;
-
+    if (register) {
+      await Booking.updateMany({vehicle_id: id}, {$set: {vehicle: register}});
+    }
     const event = await Vehicle.findByIdAndUpdate(id, {
       register,
       type,

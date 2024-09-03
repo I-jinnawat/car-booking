@@ -178,18 +178,24 @@
                                                     name="driver_id"
                                                     class="form-select" required>
                                                     <% const driver=drivers.find(d=>d.id===booking.driver_id)%>
-                                                        <option value="<%=booking.driver_id? driver._id:''%>">
-                                                            <%=booking.driver_id? driver.firstname:''%>
-                                                                <%=booking.driver_id? driver.lastname:''%>
-                                                        </option>
-                                                        <% drivers.forEach(driver=> { %>
-                                                            <option value="<%= driver._id %>">
-                                                                <%= driver.firstname %>
-                                                                    <%= driver.lastname %>
+                                                        <% if (driver) { %>
+                                                            <option value="<%=booking.driver_id? driver._id:''%>"
+                                                                disabled selected>
+                                                                <%= booking.driver_id?driver.firstname +
+                                                                    driver.lastname:''%>
                                                             </option>
-                                                            <% }); %>
+                                                            <% }else{ %>
+                                                                <option value="" disabled selected>
+                                                                    ไม่พบข้อมูล, โปรดเลือกพนักงานขับรถ
+                                                                </option>
+                                                                <% } %>
+                                                                    <% drivers.forEach(driver=> { %>
+                                                                        <option value="<%= driver._id %>">
+                                                                            <%= driver.firstname %>
+                                                                                <%= driver.lastname %>
+                                                                        </option>
+                                                                        <% }); %>
                                                 </select>
-
                                             </div>
                                             <div class="col-md">
                                                 <label class="form-label mt-2">ยานพาหนะ</label>
@@ -198,19 +204,26 @@
                                                     class="form-select" required>
                                                     <% const vehicle=vehicles.find(v=>v.id===booking.vehicle_id)%>
                                                         <% if (vehicle) { %>
-                                                            <option value="<%=booking.vehicle_id? vehicle._id:''%>">
-                                                                <%= booking.vehicle_id?vehicle.register:''%>
+                                                            <option value="<%=booking.vehicle_id? vehicle._id:''%>"
+                                                                disabled selected>
+                                                                <%= vehicle.register%>
                                                             </option>
                                                             <% }else{ %>
-                                                                <option value="" disabled selected>
-                                                                    ไม่พบข้อมูล, โปรดเลือกยานพาหนะใหม่
-                                                                </option>
-                                                                <% } %>
-                                                                    <% vehicles.forEach(vehicle=> { %>
-                                                                        <option value="<%= vehicle._id %>">
-                                                                            <%= vehicle.register%>
+                                                                <% if (booking.vehicle) { %>
+                                                                    <option value="" disabled selected>
+                                                                        <%= booking.vehicle %>
+                                                                    </option>
+                                                                    <% }else{ %>
+                                                                        <option value="" disabled selected>
+                                                                            ไม่พบข้อมูล, โปรดเลือกยานพาหนะ
                                                                         </option>
-                                                                        <% }); %>
+                                                                        <% } %>
+                                                                            <% } %>
+                                                                                <% vehicles.forEach(vehicle=> { %>
+                                                                                    <option value="<%= vehicle._id %>">
+                                                                                        <%= vehicle.register%>
+                                                                                    </option>
+                                                                                    <% }); %>
                                                 </select>
                                             </div>
                                         </div>
@@ -235,7 +248,11 @@
                                                                 style="background-color: rgb(44, 169, 44);">แก้ไขการบันทึก</button>
 
                                                         </div>
-                                                        <% } %>
+                                                        <% }else{ %>
+                                                            <p style="font-size: 20px;"
+                                                                class="text-center mt-3 text-success">
+                                                                จัดรถสำเร็จ,พร้อมใช้งาน</p>
+                                                            <% } %>
 
 
                                     </form>
@@ -278,8 +295,17 @@
                                             </div>
                                             <% if (booking.status===4) { %>
                                                 <div class="text-center mt-3">
-                                                    <a href="/print/<%= booking.id %>" class="btn "
-                                                        style="background-color: rgb(44, 169, 44);color:white">พิมพ์เอกสาร</a>
+                                                    <a role="button" href=" /manage"
+                                                        class=" btn btn btn-primary align-self-start">กลับ</a>
+                                                    <a role="button" href=" /print/<%=booking._id %>"
+                                                        class=" btn btn btn-secondary "><i
+                                                            class="fa-solid fa-print text-white"></i>
+                                                        พิมพ์เอกสาร</a>
+                                                    <% if(user.role==='admin' ) {%>
+                                                        <button type="submit" class="btn btn-primary btn-lg"
+                                                            id="save_recordBtn"
+                                                            style="background-color: rgb(44, 169, 44);">แก้ไขการบันทึก</button>
+                                                        <% } %>
                                                 </div>
                                                 <% } else if (booking.status !==4 && user.role !=='admin' ) { %>
                                                     <p style="font-size: 20px;" class="text-center mt-3 text-danger">

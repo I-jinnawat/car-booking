@@ -1,4 +1,4 @@
-const Book = require('../Models/booking');
+const Book = require('../Models/booking');const Vehicle = require('../Models/vehicles');
 const User = require('../Models/Auth');
 const moment = require('moment-timezone');
 
@@ -27,6 +27,8 @@ exports.list = async (req, res) => {
   try {
     const id = req.params.id;
     const booking = await Book.findById(id);
+    const vehicle = await Vehicle.findById(booking.vehicle_id);
+    console.log(vehicle);
     if (!booking) {
       return res.status(404).json({error: 'Booking not found'});
     }
@@ -90,6 +92,7 @@ exports.list = async (req, res) => {
       approverInfo,
       adminInfo,
       driverInfo,
+      vehicle,
       mobile_number_user: booking.mobile_number,
       mobile_number_approver,
       mobile_number_admin,

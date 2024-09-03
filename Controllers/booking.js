@@ -156,8 +156,8 @@ exports.updateEvent = async (req, res, next) => {
       return res.redirect(`/booking-edit/${id}`);
     }
 
-    if (vehicle_id) {
-      vehicle = await Vehicle.findById(vehicle_id);
+    if (vehicle_id || currentBooking.vehicle_id) {
+      vehicle = await Vehicle.findById(vehicle_id || currentBooking.vehicle_id);
 
       vehicle_register = vehicle.register;
     }
@@ -179,9 +179,13 @@ exports.updateEvent = async (req, res, next) => {
     if (cancelerName && note) {
       currentBooking.driver = null;
       currentBooking.adminName = null;
+      currentBooking.adminApprove = null;
       currentBooking.carArrange_Time = null;
       currentBooking.driver_id = null;
       currentBooking.vehicle_id = null;
+      await currentBooking.save();
+    } else if (approverName) {
+      currentBooking.adminApprove = null;
       await currentBooking.save();
     }
     if (

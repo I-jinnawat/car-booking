@@ -134,9 +134,7 @@
                         <input type="hidden" id="status" name="status">
                         <input type="hidden" id="approverName" name="approverName">
                         <input type="hidden" id="cancelerName" name="cancelerName">
-                        <input type="hidden" id="adminApprove" name="adminApprove">
-                        <input type="hidden" id="adminApproveName" name="adminApproveName">
-                        <input type="hidden" id="adminApprove_Time" name="adminApprove_Time">
+
                         <% } %>
                             <% if (booking.status===1) { %>
                                 <div class="row text-center">
@@ -185,7 +183,6 @@
                                             <div class="text-center">
                                                 <a role="button" href=" /manage"
                                                     class=" btn btn btn-primary align-self-start">กลับ</a>
-
                                                 <a role="button" href=" /print/<%=booking._id %>"
                                                     class=" btn btn btn-secondary">พิมพ์เอกสาร</a>
                                                 <button type="submit" class="btn btn-primary btn-lg" id="approveBtn"
@@ -212,7 +209,8 @@
                                             <p style="font-size: 22px;" class="text-center mt-3 text-success">
                                                 หัวหน้างานอนุมัติสำเร็จ,รอคนจัดรถ
                                             </p>
-                                            <%}else if(booking.status===5 && user.role !=='approver' ){%>
+                                            <%}else if(booking.status===5 && user.role !=='approver'
+                                                &&booking.adminApprove===null||false){%>
                                                 <p style="font-size: 22px;" class="text-center mt-3 text-danger">
                                                     หัวหน้างานไม่อนุมัติ, การจองถูกยกเลิก
                                                 </p>
@@ -224,14 +222,20 @@
                                                             กำลังถูกแก้ไขการจอง
                                                         </p>
                                                     </div>
-                                                    <%}%>
-                                                        <% if (errorBooking && errorBooking.length> 0) { %>
-                                                            <script>
-                                                                document.addEventListener('DOMContentLoaded', () => {
-                                                                    displayAlertExistbookin(`<%=errorBooking %>`);
-                                                                });
-                                                            </script>
-                                                            <% } %>
+                                                    <%}else if(booking.status===5 && user.role !=='approver'
+                                                        &&booking.adminApprove===false){%>
+                                                        <p style="font-size: 22px;"
+                                                            class="text-center mt-3 text-danger">
+                                                            ผู้จัดรถไม่อนุมัติ, การจองถูกยกเลิก
+                                                        </p>
+                                                        <%}%>
+                                                            <%if (errorBooking && errorBooking.length> 0) { %>
+                                                                <script>
+                                                                    document.addEventListener('DOMContentLoaded', () => {
+                                                                        displayAlertExistbookin(`<%=errorBooking %>`);
+                                                                    });
+                                                                </script>
+                                                                <% } %>
         </form>
     </div>
 
@@ -430,7 +434,6 @@
             const time = new Date();
             document.getElementById('approve_Time').value = time.toISOString();
             document.getElementById('status').value = 2;
-            document.getElementById('adminApprove').value = false;
             document.getElementById('myInput').value = "";
             document.getElementById('approverName').value = '<%= user.firstname %> <%= user.lastname %> ';
             await document.querySelector('#booking-body form').submit();
@@ -475,9 +478,6 @@
 
         if (result.isConfirmed) {
             document.getElementById('status').value = 5;
-            document.getElementById('adminApprove').value = false;
-            document.getElementById('adminApproveName').value = null;
-            document.getElementById('adminApprove_Time').value = null;
             document.getElementById('cancelerName').value = '<%= user.firstname %> <%= user.lastname %>'
             await document.querySelector('#booking-body form').submit();
         } else if (result.dismiss === Swal.DismissReason.cancel) {

@@ -255,25 +255,31 @@
                         <%= booking.placestart %> - <%= booking.placeend %>
                     </p>
                     <hr>
-                    <p>
-                        <%= booking.vehicle ? booking.vehicle : '-' %>
-                    </p>
-                    <hr>
-                    <p>
-                        <%= booking.compensation_payment ? booking.compensation_payment : '-' %>
-                    </p>
-                    <hr>
-                    <p><strong>หัวข้อ:</strong>
-                        <%= booking.title %>
-                    </p>
-                    <p><strong>รายละเอียด:</strong> ประกอบด้วย</p>
-                    <ol>
-                        <% booking.passengers.forEach(passenger=> { %>
-                            <li>
-                                <%= passenger %>
-                            </li>
-                            <% }); %>
-                    </ol>
+                    <% if (vehicle) { %>
+                        <p value="<%=booking.vehicle_id? vehicle._id:''%>">
+                            <%= vehicle.register%>
+                        </p>
+                        <% }else{%>
+                            <p>
+                                <%= booking.vehicle?booking.vehicle:'-' %>
+                            </p>
+                            <% } %>
+                                <hr>
+                                <p>
+                                    <%= booking.compensation_payment ? booking.compensation_payment : '-' %>
+                                </p>
+                                <hr>
+                                <p><strong>หัวข้อ:</strong>
+                                    <%= booking.title %>
+                                </p>
+                                <p><strong>รายละเอียด:</strong> ประกอบด้วย</p>
+                                <ol>
+                                    <% booking.passengers.forEach(passenger=> { %>
+                                        <li>
+                                            <%= passenger %>
+                                        </li>
+                                        <% }); %>
+                                </ol>
 
                 </div>
             </div>
