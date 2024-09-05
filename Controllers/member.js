@@ -61,11 +61,18 @@ const fetchUsers = async (page, limit, searchTerm = '') => {
 };
 
 exports.list = async (req, res) => {
-  const page = parseInt(req.query.page, 10) || 1;
-  const limit = 8;
+  const page = parseInt(req.query.page, 10) || 1; // Current page
+  const limit = 8; // Users per page
+  const skip = (page - 1) * limit; // Skip users based on the current page
 
   try {
-    const {users, totalPages} = await fetchUsers(page, limit);
+    // Fetch total count of users to calculate total pages
+    const totalUsers = await User.countDocuments();
+
+    // Fetch users for the current page with skip and limit
+    const users = await User.find().skip(skip).limit(limit).exec();
+
+    const totalPages = Math.ceil(totalUsers / limit); // Calculate total pages
 
     const responseData = {
       userLoggedIn: !!req.session.user,

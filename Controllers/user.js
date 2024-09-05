@@ -1,12 +1,5 @@
-const bcrypt = require('bcryptjs');const Auth = require('../Models/Auth');
-const axios = require('axios');
-const member_API = process.env.member_API;
-if (!member_API) {
-  throw new Error('MEMBER_API is not defined');
-}
-
-// ตรวจสอบค่า URL
-console.log('API URL:', member_API);
+const bcrypt = require('bcryptjs');
+const Auth = require('../Models/Auth');
 exports.create = async (req, res) => {
   const {
     firstname,
