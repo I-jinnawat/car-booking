@@ -27,7 +27,7 @@
     <% bookings.forEach(booking=> { %>
         <!-- ถ้าเป็นคนขับรถหรือพนักงานทั่วไปจะเห็นแค่การจองของตัวเอง -->
         <% if ( (booking.user_id||booking.driver_id===user.id)||(user.role==='approver'
-            &&booking.organization===user.organization) && booking.status !==6 ) { %>
+            &&booking.organization===user.organization)&&booking.status!==6) { %>
             <tbody id="table-body">
                 <tr>
                     <td class="text-center">

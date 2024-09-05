@@ -1,5 +1,5 @@
 <div class="card mt-3" style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
-    <table id="userTable" class="table table-striped table-hover table-bordered">
+    <table id="userTable" class="table  table-striped table-hover table-bordered">
         <thead>
             <tr>
                 <th scope="col">จัดการ</th>
@@ -10,34 +10,8 @@
             </tr>
         </thead>
         <tbody id="userTableBody">
+
             <% users.forEach(USER=> { %>
-                <tr>
-                    <td>
-                        <div class="btn-group" role="group" style="width: 75px;">
-                            <button class="btn btn-warning" data-bs-toggle="modal"
-                                data-bs-target="#UpdateInfo_<%= USER._id %>">
-                                <i class="fa-regular fa-pen-to-square"></i>
-                            </button>
-                            <button class="btn btn-danger" onclick="displayAlert('<%= USER._id %>')">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                    </td>
-                    <td>
-                        <%= USER.role==='approver' ? 'ผู้อนุมัติ' : USER.role==='admin' ? 'ผู้จัดรถ' :
-                            USER.role==='driver' ? 'พนักงานขับรถ' : 'พนักงาน' %>
-                    </td>
-                    <td>
-                        <%= USER.numberID %>
-                    </td>
-                    <td>
-                        <%= USER.firstname %>
-                            <%= USER.lastname %>
-                    </td>
-                    <td>
-                        <%= USER.organization %>
-                    </td>
-                </tr>
                 <div class="modal fade" id="UpdateInfo_<%= USER._id %>" aria-hidden="true" tabindex="-1">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
@@ -56,7 +30,8 @@
                                                     >ผู้อนุมัติ</option>
                                                 <option value="admin" <%=USER.role==='admin' ? 'selected' : '' %>
                                                     >ผู้จัดรถ</option>
-                                                <option value="user" <%=USER.role==='user' ? 'selected' : '' %>>พนักงาน
+                                                <option value="user" <%=USER.role==='user' ? 'selected' : '' %>
+                                                    >พนักงาน
                                                 </option>
                                                 <option value="driver" <%=USER.role==='driver' ? 'selected' : '' %>
                                                     >พนักงานขับรถ</option>
@@ -158,27 +133,58 @@
                         </div>
                     </div>
                 </div>
+                <tr>
+                    <td>
+                        <div class="btn-group" role="group" style="width: 75px;">
+                            <button class="btn btn-warning" data-bs-toggle="modal"
+                                data-bs-target="#UpdateInfo_<%= USER._id %>">
+                                <i class="fa-regular fa-pen-to-square"></i>
+                            </button>
+                            <button class="btn btn-danger" onclick="displayAlert('<%= USER._id %>')">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td>
+                        <%= USER.role==='approver' ? 'ผู้อนุมัติ' : USER.role==='admin' ? 'ผู้จัดรถ' :
+                            USER.role==='driver' ? 'พนักงานขับรถ' : 'พนักงาน' %>
+                    </td>
+                    <td>
+                        <%= USER.numberID %>
+                    </td>
+                    <td>
+                        <%= USER.firstname %>
+                            <%= USER.lastname %>
+                    </td>
+                    <td>
+                        <%= USER.organization %>
+                    </td>
+                </tr>
                 <% }); %>
         </tbody>
     </table>
-    <nav aria-label="Page navigation">
-        <ul id="pagination" class="pagination justify-content-center">
-            <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
-                <a class="page-link" href="/setting/member?page=<%= currentPage - 1 %>" tabindex="-1"
-                    aria-disabled="true">Previous</a>
-            </li>
-            <% for (let i=1; i <=totalPages; i++) { %>
-                <li class="page-item <%= i === currentPage ? 'active' : '' %>">
-                    <a class="page-link" href="/setting/member?page=<%= i %>">
-                        <%= i %>
-                    </a>
-                </li>
-                <% } %>
-                    <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
-                        <a class="page-link" href="/setting/member?page=<%= currentPage + 1 %>">Next</a>
+    <h6 class="text-end me-3">จำนวนสมาชิกทั้งหมด: <%= totalUsers %>
+            </hุ>
+
+            <nav>
+                <ul id="pagination" class="pagination justify-content-center">
+                    <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+                        <a class="page-link" href="/setting/member?page=<%= currentPage - 1 %>" tabindex="-1"
+                            aria-disabled="true">Previous</a>
                     </li>
-        </ul>
-    </nav>
+                    <% for (let i=1; i <=totalPages; i++) { %>
+                        <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+                            <a class="page-link" href="/setting/member?page=<%= i %>">
+                                <%= i %>
+                            </a>
+                        </li>
+                        <% } %>
+                            <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+                                <a class="page-link" href="/setting/member?page=<%= currentPage + 1 %>">Next</a>
+                            </li>
+                </ul>
+            </nav>
+
 </div>
 <script>
     // Prevent Default Form Submission
@@ -227,7 +233,7 @@
                 title: 'แก้ไขข้อมูลสำเร็จ',
             });
 
-            await form.submit();
+            form.submit();
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire({
                 title: 'ยกเลิก',
@@ -294,31 +300,14 @@
 </script>
 <script>
     function handleClear() {
-        const searchTerm = document.getElementById('searchInput').value = ''
+        const searchQuery = document.getElementById('searchInput').value = ''
         handleSearch()
     }
-    document.getElementById('searchInput').addEventListener('input', handleSearch);
-
-
     function handleSearch() {
-        const searchTerm = document.getElementById('searchInput').value.trim();
+        const searchQuery = document.getElementById('searchInput').value.trim();
 
-        const url = `/member?page=1&search=${encodeURIComponent(searchTerm)}`;
+        window.location.href = `/setting/member?page=1&search=${encodeURIComponent(searchQuery)}`;
 
-        fetch(url)
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                updateTable(data);
-            })
-            .catch(error => {
-                console.error('Error searching users:', error);
-                updateTable({ users: [], totalPages: 0 });
-            });
     }
 
 

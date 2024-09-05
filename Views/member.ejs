@@ -252,15 +252,17 @@
                                         });
                                     </script>
                                     <% } %>
-                                        <div class="col-md-3 search">
-                                            <div class="row">
-                                                <div class="input-container">
-                                                    <input class="form-control" type="text" id="searchInput"
-                                                        placeholder="&#xf002;" name="search">
-                                                    <i class="fas fa-times clear-icon" onclick="handleClear()"></i>
-                                                </div>
+                                        <div class="col-md-3 search mt-2 ">
 
+                                            <div class="input-container">
+                                                <input class="form-control" type="text" id="searchInput"
+                                                    placeholder="&#xf002;" name="search" value="<%= searchQuery %>">
+                                                <i class="fas fa-times clear-icon" onclick="handleClear()"></i>
                                             </div>
+                                            <button onclick="handleSearch()" type="button"
+                                                class="btn bg-dark-subtle mt-2"
+                                                style="width: 95px; position: relative; right: 13px;">ค้นหา</button>
+
                                         </div>
                             </div>
                         </div>

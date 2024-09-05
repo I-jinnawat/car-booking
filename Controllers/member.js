@@ -6,33 +6,80 @@ const bcrypt = require('bcryptjs');
 const member_API = process.env.Member_API;
 
 // Helper function to fetch users and count
-const fetchUsers = async (page, limit, searchTerm = '') => {
-  let query = {};
+// const fetchUsers = async (page, limit, searchTerm = '') => {
+//   let query = {};
 
-  if (searchTerm) {
-    let roleQuery = searchTerm;
+//   if (searchTerm) {
+//     let roleQuery = searchTerm;
 
-    if (searchTerm === 'พนักงาน') {
+//     if (searchTerm === 'พนักงาน') {
+//       roleQuery = 'user';
+//     } else if (searchTerm === 'ผู้จัดรถ') {
+//       roleQuery = 'admin';
+//     } else if (searchTerm === 'ผู้อนุมัติ') {
+//       roleQuery = 'approver';
+//     } else if (searchTerm === 'พนักงานขับรถ') {
+//       roleQuery = 'driver';
+//     }
+
+//     query = {
+//       $or: [
+//         {firstname: {$regex: searchTerm, $options: 'i'}},
+//         {lastname: {$regex: searchTerm, $options: 'i'}},
+//         {numberID: {$regex: searchTerm, $options: 'i'}},
+//         {organization: {$regex: searchTerm, $options: 'i'}},
+//         {role: {$regex: roleQuery, $options: 'i'}},
+//       ],
+//     };
+//   }
+
+//   const sortOrder = {
+//     approver: 1,
+//     admin: 2,
+//     user: 3,
+//     driver: 4,
+//   };
+
+//   // Fetch all users matching the query
+//   const users = await User.find(query).exec();
+
+//   // Sort users according to the sortOrder mapping
+//   const sortedUsers = users.sort((a, b) => {
+//     return sortOrder[a.role] - sortOrder[b.role];
+//   });
+
+//   // Calculate total count before pagination
+//   const totalUsersCount = sortedUsers.length;
+
+//   // Apply pagination
+//   const paginatedUsers = sortedUsers.slice((page - 1) * limit, page * limit);
+
+//   return {
+//     users: paginatedUsers,
+//     totalPages: Math.ceil(totalUsersCount / limit),
+//   };
+// };
+
+exports.list = async (req, res) => {
+  const page = parseInt(req.query.page, 10) || 1; // Current page
+  const limit = 8; // Users per page
+  const skip = (page - 1) * limit; // Skip users based on the current page
+  const searchQuery = req.query.search ? req.query.search.toLowerCase() : '';
+
+  let roleQuery = searchQuery;
+  if (searchQuery) {
+    if (searchQuery === 'พนักงาน') {
       roleQuery = 'user';
-    } else if (searchTerm === 'ผู้จัดรถ') {
+    } else if (searchQuery === 'ผู้จัดรถ') {
       roleQuery = 'admin';
-    } else if (searchTerm === 'ผู้อนุมัติ') {
+    } else if (searchQuery === 'ผู้อนุมัติ') {
       roleQuery = 'approver';
-    } else if (searchTerm === 'พนักงานขับรถ') {
+    } else if (searchQuery === 'พนักงานขับรถ') {
       roleQuery = 'driver';
     }
-
-    query = {
-      $or: [
-        {firstname: {$regex: searchTerm, $options: 'i'}},
-        {lastname: {$regex: searchTerm, $options: 'i'}},
-        {numberID: {$regex: searchTerm, $options: 'i'}},
-        {organization: {$regex: searchTerm, $options: 'i'}},
-        {role: {$regex: roleQuery, $options: 'i'}},
-      ],
-    };
   }
 
+  // Map roles to numbers to define sorting order
   const sortOrder = {
     approver: 1,
     admin: 2,
@@ -40,37 +87,44 @@ const fetchUsers = async (page, limit, searchTerm = '') => {
     driver: 4,
   };
 
-  // Fetch all users matching the query
-  const users = await User.find(query).exec();
-
-  // Sort users according to the sortOrder mapping
-  const sortedUsers = users.sort((a, b) => {
-    return sortOrder[a.role] - sortOrder[b.role];
-  });
-
-  // Calculate total count before pagination
-  const totalUsersCount = sortedUsers.length;
-
-  // Apply pagination
-  const paginatedUsers = sortedUsers.slice((page - 1) * limit, page * limit);
-
-  return {
-    users: paginatedUsers,
-    totalPages: Math.ceil(totalUsersCount / limit),
-  };
-};
-
-exports.list = async (req, res) => {
-  const page = parseInt(req.query.page, 10) || 1; // Current page
-  const limit = 8; // Users per page
-  const skip = (page - 1) * limit; // Skip users based on the current page
-
   try {
-    // Fetch total count of users to calculate total pages
-    const totalUsers = await User.countDocuments();
+    // Aggregate query for searching and sorting in MongoDB
+    const query = searchQuery
+      ? {
+          $or: [
+            {firstname: {$regex: searchQuery, $options: 'i'}},
+            {lastname: {$regex: searchQuery, $options: 'i'}},
+            {numberID: {$regex: searchQuery, $options: 'i'}},
+            {organization: {$regex: searchQuery, $options: 'i'}},
+            {role: {$regex: roleQuery, $options: 'i'}},
+          ],
+        }
+      : {};
 
-    // Fetch users for the current page with skip and limit
-    const users = await User.find().skip(skip).limit(limit).exec();
+    const totalUsers = await User.countDocuments(query);
+
+    // Use aggregate to sort and paginate
+    let users = await User.aggregate([
+      {$match: query},
+      {
+        $addFields: {
+          sortRole: {
+            $switch: {
+              branches: [
+                {case: {$eq: ['$role', 'approver']}, then: 1},
+                {case: {$eq: ['$role', 'admin']}, then: 2},
+                {case: {$eq: ['$role', 'user']}, then: 3},
+                {case: {$eq: ['$role', 'driver']}, then: 4},
+              ],
+              default: 5, // Handle unexpected roles
+            },
+          },
+        },
+      },
+      {$sort: {sortRole: 1}}, // Sort by the mapped role order
+      {$skip: skip},
+      {$limit: limit},
+    ]);
 
     const totalPages = Math.ceil(totalUsers / limit); // Calculate total pages
 
@@ -80,6 +134,8 @@ exports.list = async (req, res) => {
       users,
       currentPage: page,
       totalPages,
+      totalUsers,
+      searchQuery,
       error_msg: '',
     };
 
@@ -90,62 +146,62 @@ exports.list = async (req, res) => {
   }
 };
 
-exports.API_member = async (req, res) => {
-  try {
-    const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
-    const limit = parseInt(req.query.limit) || 10;
-    const searchTerm = req.query.search || ''; // Get search term from query parameter
+// exports.API_member = async (req, res) => {
+//   try {
+//     const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+//     const limit = parseInt(req.query.limit) || 10;
+//     const searchTerm = req.query.search || ''; // Get search term from query parameter
 
-    let query = {};
+//     let query = {};
 
-    if (searchTerm) {
-      let roleQuery = searchTerm;
+//     if (searchTerm) {
+//       let roleQuery = searchTerm;
 
-      if (searchTerm === 'พนักงาน') {
-        roleQuery = 'user';
-      } else if (searchTerm === 'ผู้จัดรถ') {
-        roleQuery = 'admin';
-      } else if (searchTerm === 'ผู้อนุมัติ') {
-        roleQuery = 'approver';
-      } else if (searchTerm === 'พนักงานขับรถ') {
-        roleQuery = 'driver';
-      }
+//       if (searchTerm === 'พนักงาน') {
+//         roleQuery = 'user';
+//       } else if (searchTerm === 'ผู้จัดรถ') {
+//         roleQuery = 'admin';
+//       } else if (searchTerm === 'ผู้อนุมัติ') {
+//         roleQuery = 'approver';
+//       } else if (searchTerm === 'พนักงานขับรถ') {
+//         roleQuery = 'driver';
+//       }
 
-      query = {
-        $or: [
-          {firstname: {$regex: searchTerm, $options: 'i'}},
-          {lastname: {$regex: searchTerm, $options: 'i'}},
-          {numberID: {$regex: searchTerm, $options: 'i'}},
-          {organization: {$regex: searchTerm, $options: 'i'}},
-          {role: {$regex: roleQuery, $options: 'i'}},
-        ],
-      };
-    }
+//       query = {
+//         $or: [
+//           {firstname: {$regex: searchTerm, $options: 'i'}},
+//           {lastname: {$regex: searchTerm, $options: 'i'}},
+//           {numberID: {$regex: searchTerm, $options: 'i'}},
+//           {organization: {$regex: searchTerm, $options: 'i'}},
+//           {role: {$regex: roleQuery, $options: 'i'}},
+//         ],
+//       };
+//     }
 
-    const sortOrder = {
-      approver: 1,
-      admin: 2,
-      user: 3,
-      driver: 4,
-    };
+//     const sortOrder = {
+//       approver: 1,
+//       admin: 2,
+//       user: 3,
+//       driver: 4,
+//     };
 
-    // Fetch all users matching the query
-    const users = await User.find(query).exec();
+//     // Fetch all users matching the query
+//     const users = await User.find(query).exec();
 
-    // Sort users according to the sortOrder mapping
-    const sortedUsers = users.sort((a, b) => {
-      return sortOrder[a.role] - sortOrder[b.role];
-    });
+//     // Sort users according to the sortOrder mapping
+//     const sortedUsers = users.sort((a, b) => {
+//       return sortOrder[a.role] - sortOrder[b.role];
+//     });
 
-    // Apply pagination
-    const paginatedUsers = sortedUsers.slice((page - 1) * limit, page * limit);
+//     // Apply pagination
+//     const paginatedUsers = sortedUsers.slice((page - 1) * limit, page * limit);
 
-    res.json(paginatedUsers);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({error: 'Internal Server Error'});
-  }
-};
+//     res.json(paginatedUsers);
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({error: 'Internal Server Error'});
+//   }
+// };
 
 exports.update = async (req, res) => {
   const {id} = req.params;
