@@ -1,12 +1,9 @@
-const User = require('../Models/Auth');
-const bcrypt = require('bcryptjs');
+const User = require('../Models/Auth');const bcrypt = require('bcryptjs');
 
 exports.login = async (req, res) => {
   try {
     const {username, password} = req.body;
     const user = await User.findOne({username});
-    console.log(username);
-    console.log(user);
     if (!user) {
       return res.render('login', {
         error: 'รหัสพนักงานหรือรหัสผ่านไม่ถูกต้อง',
@@ -35,8 +32,11 @@ exports.login = async (req, res) => {
     };
 
     req.session.userId = user._id;
-
-    return res.redirect('/');
+    if (user.role !== 'user') {
+      return res.redirect('/dashboard');
+    } else {
+      return res.redirect('/manage');
+    }
   } catch (error) {
     console.error('Login Error:', error);
     return res.status(500).send('Internal server Error');

@@ -1,4 +1,5 @@
-const Book = require('../Models/booking');const Vehicle = require('../Models/vehicles');
+const Book = require('../Models/booking');
+const Vehicle = require('../Models/vehicles');
 const User = require('../Models/Auth');
 const moment = require('moment-timezone');
 
@@ -85,6 +86,7 @@ exports.list = async (req, res) => {
       : '-';
 
     res.render('print', {
+      user: req.session.user,
       booking,
       bookingDate,
       startDate,

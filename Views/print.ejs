@@ -120,10 +120,12 @@
     </nav>
     <nav class="breadcrumb-nav" style="--bs-breadcrumb-divider: '>'; margin-left: 3%;" aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
-            <li class="breadcrumb-item"><a href="/manage">จัดการการจอง</a></li>
-            <li class="breadcrumb-item"><a href="/booking-edit/<%= booking.id %>">แก้ไขการจอง</a></li>
-            <li class="breadcrumb-item active" aria-current="page">แบบฟอร์ม</li>
+            <li class="breadcrumb-item"><a href="<%= user.role !=='user'?'/dashboard':'/manage' %>">หน้าหลัก</a></li>
+            <% if (user.role !=='user' ) { %>
+                <li class="breadcrumb-item"><a href="/manage">จัดการการจอง</a></li>
+                <% } %>
+                    <li class="breadcrumb-item"><a href="/booking-edit/<%= booking.id %>">แก้ไขการจอง</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">แบบฟอร์ม</li>
         </ol>
     </nav>
     <div class="container" id="content">

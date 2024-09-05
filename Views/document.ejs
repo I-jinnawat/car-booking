@@ -41,7 +41,8 @@
                         </button>
                         <nav class="breadcrumb-nav" style="--bs-breadcrumb-divider: '>'; margin-left: 3%;">
                             <ol class="breadcrumb text-center">
-                                <li class="breadcrumb-item"><a href="/">หน้าหลัก</a></li>
+                                <li class="breadcrumb-item"><a
+                                        href="<%= user.role !== 'user'?'/dashboard':'/manage' %>">หน้าหลัก</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">เอกสาร</li>
                             </ol>
                         </nav>
