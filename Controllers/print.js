@@ -63,11 +63,13 @@ exports.list = async (req, res) => {
         case 'โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง เชียงราย':
           return 'โรงพยาบาลศูนย์การแพทย์ฯ';
         default:
-          return '';
+          return '-';
       }
     };
 
-    const org_user = getOrganizationName(userInfo?.organization);
+    const org_user = getOrganizationName(
+      userInfo?.organization || booking.organization
+    );
     const org_Approver = getOrganizationName(approverInfo?.organization);
     const org_Admin = getOrganizationName(adminInfo?.organization);
     const org_driver = getOrganizationName(driverInfo?.organization);
