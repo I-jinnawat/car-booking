@@ -1,5 +1,4 @@
-const Book = require('../Models/booking');
-const Vehicle = require('../Models/vehicles');
+const Book = require('../Models/booking');const Vehicle = require('../Models/vehicles');
 const User = require('../Models/Auth');
 const moment = require('moment-timezone');
 
@@ -64,7 +63,7 @@ exports.list = async (req, res) => {
         case 'โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง เชียงราย':
           return 'โรงพยาบาลศูนย์การแพทย์ฯ';
         default:
-          return '-';
+          return '';
       }
     };
 

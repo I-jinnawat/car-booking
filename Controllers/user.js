@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const Auth = require('../Models/Auth');
+const Booking = require('../Models/booking');
 exports.create = async (req, res) => {
   const {
     firstname,
@@ -90,17 +91,37 @@ exports.update = async (req, res) => {
       return res.redirect('/');
     }
 
-    // Update user information
+    const booking = await Booking.find({user_id: id});
+
     if (
       newfirstname ||
       newlastname ||
       newmobile_number ||
-      req.body.birth_year
+      (req.body.birth_year && booking.length > 0)
     ) {
+      // Update user object with new values or retain existing ones
       user.firstname = newfirstname || user.firstname;
       user.lastname = newlastname || user.lastname;
       user.mobile_number = newmobile_number || user.mobile_number;
-      user.birth_year = req.body.birth_year ? start : user.birth_year;
+
+      // Only update birth_year if provided
+      if (req.body.birth_year) {
+        user.birth_year = req.body.birth_year;
+      }
+
+      // Update Booking records associated with the user
+      await Booking.updateMany(
+        {user_id: id},
+        {
+          $set: {
+            userinfo: `${newfirstname || user.firstname} ${newlastname || user.lastname}`,
+            organization: user.organization, // Assuming organization is already defined somewhere
+            mobile_number: newmobile_number || user.mobile_number,
+          },
+        }
+      );
+
+      // Save the updated user
       await user.save();
     }
 
@@ -134,9 +155,13 @@ exports.update = async (req, res) => {
       await user.save();
     }
 
-    req.session.destroy(() => {
-      res.redirect(`/login?username=${encodeURIComponent(user.username)}`);
-    });
+    if (newpassword && newpasswordconfirm && oldpassword) {
+      req.session.destroy(() => {
+        res.redirect(`/?username=${encodeURIComponent(user.username)}`);
+      });
+    } else {
+      res.redirect('/profile/' + id);
+    }
   } catch (err) {
     console.error(err);
     res.redirect('/profile/' + id);

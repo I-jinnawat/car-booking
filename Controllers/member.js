@@ -1,6 +1,5 @@
-const {ReturnDocument} = require('mongodb');
-const User = require('../Models/Auth');
-const axios = require('axios');
+const {ReturnDocument} = require('mongodb');const User = require('../Models/Auth');
+const Booking = require('../Models/booking');
 const bcrypt = require('bcryptjs');
 
 const member_API = process.env.Member_API;
@@ -207,8 +206,68 @@ exports.update = async (req, res) => {
   const {id} = req.params;
   const page = parseInt(req.query.page, 10) || 1;
   const limit = 8;
+  const skip = (page - 1) * limit; // Skip users based on the current page
+  const searchQuery = req.query.search ? req.query.search.toLowerCase() : '';
+
+  let roleQuery = searchQuery;
+  if (searchQuery) {
+    if (searchQuery === 'พนักงาน') {
+      roleQuery = 'user';
+    } else if (searchQuery === 'ผู้จัดรถ') {
+      roleQuery = 'admin';
+    } else if (searchQuery === 'ผู้อนุมัติ') {
+      roleQuery = 'approver';
+    } else if (searchQuery === 'พนักงานขับรถ') {
+      roleQuery = 'driver';
+    }
+  }
+
+  const sortOrder = {
+    approver: 1,
+    admin: 2,
+    user: 3,
+    driver: 4,
+  };
 
   try {
+    const query = searchQuery
+      ? {
+          $or: [
+            {firstname: {$regex: searchQuery, $options: 'i'}},
+            {lastname: {$regex: searchQuery, $options: 'i'}},
+            {numberID: {$regex: searchQuery, $options: 'i'}},
+            {organization: {$regex: searchQuery, $options: 'i'}},
+            {role: {$regex: roleQuery, $options: 'i'}},
+          ],
+        }
+      : {};
+
+    const totalUsers = await User.countDocuments(query); // Define totalUsers here
+
+    let users = await User.aggregate([
+      {$match: query},
+      {
+        $addFields: {
+          sortRole: {
+            $switch: {
+              branches: [
+                {case: {$eq: ['$role', 'approver']}, then: 1},
+                {case: {$eq: ['$role', 'admin']}, then: 2},
+                {case: {$eq: ['$role', 'user']}, then: 3},
+                {case: {$eq: ['$role', 'driver']}, then: 4},
+              ],
+              default: 5,
+            },
+          },
+        },
+      },
+      {$sort: {sortRole: 1}},
+      {$skip: skip},
+      {$limit: limit},
+    ]);
+
+    const totalPages = Math.ceil(totalUsers / limit);
+
     const {
       numberID,
       password,
@@ -219,6 +278,22 @@ exports.update = async (req, res) => {
       mobile_number,
       birth_year,
     } = req.body;
+    const booking = await Booking.find({user_id: id});
+    if (
+      (firstname || lastname || organization || mobile_number) &&
+      booking.length > 0
+    ) {
+      await Booking.updateMany(
+        {user_id: id},
+        {
+          $set: {
+            userinfo: `${firstname} ${lastname}`,
+            organization,
+            mobile_number,
+          },
+        }
+      );
+    }
 
     const updateData = {
       numberID,
@@ -236,34 +311,45 @@ exports.update = async (req, res) => {
       new: true,
     });
 
-    console.log('Update successful');
-
-    const {users, totalPages} = await fetchUsers(page, limit);
-
-    res.render('member', {
-      userLoggedIn: !!req.session.user,
-      user: req.session.user || null,
-      users,
-      currentPage: page,
-      totalPages,
-      error_msg: null,
-    });
+    // res.render('member', {
+    //   userLoggedIn: !!req.session.user,
+    //   user: req.session.user || null,
+    //   users,
+    //   currentPage: page,
+    //   searchQuery,
+    //   totalUsers,
+    //   totalPages,
+    //   error_msg: null,
+    // });
+    res.redirect('/setting/member');
   } catch (error) {
     console.error(error.message);
-
     if (error.code === 11000 && error.keyPattern && error.keyPattern.username) {
       req.flash('error_msg', 'รหัสพนักงานมีอยู่แล้ว');
     }
 
-    const {users, totalPages} = await fetchUsers(page, limit);
     const error_msg = req.flash('error_msg');
+    const query = searchQuery
+      ? {
+          $or: [
+            {firstname: {$regex: searchQuery, $options: 'i'}},
+            {lastname: {$regex: searchQuery, $options: 'i'}},
+            {numberID: {$regex: searchQuery, $options: 'i'}},
+            {organization: {$regex: searchQuery, $options: 'i'}},
+            {role: {$regex: roleQuery, $options: 'i'}},
+          ],
+        }
+      : {};
+    const totalUsers = await User.countDocuments(query); // Define totalUsers here
 
     res.status(400).render('member', {
       userLoggedIn: !!req.session.user,
       user: req.session.user || null,
-      users,
+      users: await User.find(), // Ensure `users` is fetched again if needed
       currentPage: page,
-      totalPages,
+      searchQuery,
+      totalUsers: totalUsers || 0, // Ensure `totalUsers` is defined
+      totalPages: Math.ceil((await User.countDocuments()) / limit),
       ...req.body,
       error_msg,
     });

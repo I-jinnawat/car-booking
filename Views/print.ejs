@@ -156,10 +156,11 @@
                         <%= booking.userinfo %>
                     </p>
                     <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
-                    <p>หน่วยงาน:<%= org_user? org_user: '-' %>
+                    <p>หน่วยงาน: <%= org_user ? org_user : (booking.organization ?booking.organization: '-' ) %>
                     </p>
+
                 </div>
-                <div class="middle-column">
+                <div class=" middle-column">
                     <p><strong>เบอร์โทร:</strong></p>
                     <p>
                         <%= mobile_number_user %>
