@@ -1,5 +1,4 @@
 const User = require('../Models/Auth');const bcrypt = require('bcryptjs');
-
 exports.login = async (req, res) => {
   try {
     const {username, password} = req.body;
@@ -32,11 +31,7 @@ exports.login = async (req, res) => {
     };
 
     req.session.userId = user._id;
-    if (user.role !== 'user') {
-      return res.redirect('/dashboard');
-    } else {
-      return res.redirect('/manage');
-    }
+    res.redirect('/dashboard');
   } catch (error) {
     console.error('Login Error:', error);
     return res.status(500).send('Internal server Error');

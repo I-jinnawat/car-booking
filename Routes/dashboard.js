@@ -1,5 +1,6 @@
 const express = require('express');const router = express.Router();
 const {read} = require('../Controllers/dashboard');
-router.get('/dashboard', read);
+const Auth = require('../middleware/auth');
+router.get('/dashboard', Auth, read);
 
 module.exports = router;

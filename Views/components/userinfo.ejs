@@ -1,20 +1,21 @@
 <div class="user-display col d-flex justify-content-end me-3" id="userDisplay">
   <% if (userLoggedIn) { %>
     <p class="m-0 me-2">
-      <%= user.role==='approver' ? 'ผู้อนุมัติ' : (user.role==='admin' ? 'ผู้จัดรถ' : 'พนักงาน' ) %>
+      <%= user.role==='approver' ? 'ผู้อนุมัติ' : user.role==='admin' ? 'ผู้จัดรถ' : user.role==='driver'
+        ? 'พนักงานขับรถ' : 'พนักงาน' %>
     </p>
-    <a href="/profile/<%= user.id %>" class="user-link" style=" color: black; display: inline;">
+    <a href="/profile/<%= user.id %>" class="user-link" aria-label="User Profile"
+      style="color: black; display: inline;">
       <%= user.numberID %>
     </a>
     <% } else { %>
-      <a href="/login" style="text-decoration: none; color: rgb(0, 0, 0); display: inline;">เข้าสู่ระบบ</a>
+      <a href="/" style="text-decoration: none; color: rgb(0, 0, 0); display: inline;">เข้าสู่ระบบ</a>
       <% } %>
 </div>
 
 <style>
   .user-link {
     text-decoration: none;
-
   }
 
   .user-link:hover {
