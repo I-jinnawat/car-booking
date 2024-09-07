@@ -1,4 +1,5 @@
-const {getCountOfBookings} = require('../Services/bookingService');const {
+const {getCountOfBookings} = require('../Services/bookingService');
+const {
   getCountOfVehicles,
   getCountOfVehiclesInProgress,
 } = require('../Services/vehicleService');
@@ -18,7 +19,8 @@ exports.read = async (req, res) => {
 
     if (
       req.session.user.role === 'user' ||
-      req.session.user.role === 'driver'
+      req.session.user.role === 'driver' ||
+      req.session.user.role === 'approver'
     ) {
       res.redirect('/manage');
     } else {
