@@ -105,36 +105,39 @@
                                         </select>
                                     </div>
                                 </span>
-                                <span class="ms-3">
-                                    <label for="organization">หน่วนงาน</label>
-                                    <div class="btn-group ms-2" style="cursor: pointer;">
-                                        <select class="form-select" id="organizationSelect">
-                                            <option selected></option>
-                                            <option value="all" <%=selectedOrg==='all' ? 'selected' : '' %>>ทั้งหมด
-                                            </option>
-                                            <option
-                                                <%=selectedOrg==='สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง'
-                                                ? 'selected' : '' %>
-                                                value="สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง">สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
-                                            </option>
-                                            <option <%=selectedOrg==='โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง'
-                                                ? 'selected' : '' %>
-                                                value="โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง">โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
-                                            </option>
-                                            <option <%=selectedOrg==='โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวงเชียงราย'
-                                                ? 'selected' : '' %>
-                                                value="โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวงเชียงราย">โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง
-                                                เชียงราย</option>
-                                            <option
-                                                <%=selectedOrg==='ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือและอนุภูมิภาคลุ่มแม่น้ำโขง'
-                                                ? 'selected' : '' %>
-                                                value="ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือและอนุภูมิภาคลุ่มแม่น้ำโขง">ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือ
-                                                และอนุภูมิภาคลุ่มแม่น้ำโขง</option>
-                                        </select>
-                                    </div>
-                                </span>
-                            </div>
+                                <% if (user.role==='admin' ) { %>
 
+                                    <span class="ms-3">
+                                        <label for="organization">หน่วนงาน</label>
+                                        <div class="btn-group ms-2" style="cursor: pointer;">
+                                            <select class="form-select" id="organizationSelect">
+                                                <option selected></option>
+                                                <option value="all" <%=selectedOrg==='all' ? 'selected' : '' %>
+                                                    >ทั้งหมด
+                                                </option>
+                                                <option
+                                                    <%=selectedOrg==='สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง'
+                                                    ? 'selected' : '' %>
+                                                    value="สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง">สำนักงานเลขานุการศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
+                                                </option>
+                                                <option <%=selectedOrg==='โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง'
+                                                    ? 'selected' : '' %>
+                                                    value="โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง">โรงพยาบาลศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง
+                                                </option>
+                                                <option <%=selectedOrg==='โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวงเชียงราย'
+                                                    ? 'selected' : '' %>
+                                                    value="โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวงเชียงราย">โรงพยาบาลมหาวิทยาลัยแม่ฟ้าหลวง
+                                                    เชียงราย</option>
+                                                <option
+                                                    <%=selectedOrg==='ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือและอนุภูมิภาคลุ่มแม่น้ำโขง'
+                                                    ? 'selected' : '' %>
+                                                    value="ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือและอนุภูมิภาคลุ่มแม่น้ำโขง">ศูนย์บริการสุขภาพแบบครบวงจรแห่งภาคเหนือ
+                                                    และอนุภูมิภาคลุ่มแม่น้ำโขง</option>
+                                            </select>
+                                        </div>
+                                    </span>
+                                    <% } %>
+                            </div>
                             <hr>
                             <div class="row align-items-end">
                                 <div class="col-md-8">
