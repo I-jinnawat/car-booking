@@ -35,6 +35,7 @@ const eventSchema = new mongoose.Schema(
     adminApprove: {type: Boolean, default: null},
     adminApproveName: {type: String},
     adminApprove_Time: {type: Date},
+    UnApprove_Time: {type: Date},
     adminName: {type: String},
     driver: {type: String},
     driver_id: {type: String},

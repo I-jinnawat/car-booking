@@ -1,5 +1,4 @@
-const Booking = require('../Models/booking');
-const User = require('../Models/Auth');
+const Booking = require('../Models/booking');const User = require('../Models/Auth');
 const Vehicle = require('../Models/vehicles');
 const Counter = require('../Models/Counter');
 async function initializeCounter(year) {
@@ -148,6 +147,7 @@ exports.updateEvent = async (req, res, next) => {
     let driver = null;
     let vehicle_register = null;
     let vehicle = null;
+
     if (currentBooking.is_locked && user.role === 'approver') {
       req.flash(
         'errorBooking',
@@ -183,6 +183,7 @@ exports.updateEvent = async (req, res, next) => {
       currentBooking.carArrange_Time = null;
       currentBooking.driver_id = null;
       currentBooking.vehicle_id = null;
+      currentBooking.UnApprove_Time = new Date().toISOString();
       await currentBooking.save();
     } else if (approverName) {
       currentBooking.adminApprove = null;

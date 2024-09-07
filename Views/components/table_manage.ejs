@@ -53,9 +53,9 @@
                     </td>
                     <td>
                         <p style="width: 120px;">
-                            <%= booking.status===1 ? '1.รอหัวหน้าอนุมัติ' : booking.status===2 ? '2.รอคนจัดรถ' :
-                                booking.status===3 ? '3.รถพร้อมใช้งาน' : booking.status===4 ? '4.เสร็จสิ้น' :
-                                booking.status===5 ? 'ถูกยกเลิก' : '' %>
+                            <%= booking.status===1 ? '1.รอหัวหน้าอนุมัติ' : booking.status===2 && booking.adminApprove
+                                ? '2.รอคนจัดรถ' : booking.status===3 ? '3.รถพร้อมใช้งาน' : booking.status===4
+                                ? '4.เสร็จสิ้น' : booking.status===5 || !booking.adminApprove? 'ถูกยกเลิก' : '' %>
                         </p>
                     </td>
                     <td>

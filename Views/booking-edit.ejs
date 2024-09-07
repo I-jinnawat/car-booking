@@ -104,7 +104,7 @@
                         <div class="card mt-3 mb-3 " style="box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.25);">
                             <div id="admin-approve-body" class="card-body">
                                 <form action="/events/<%= booking._id %>" method="POST">
-                                    <input id="statusCancle" type="hidden" name="status">
+                                    <input id="statusCancel" type="hidden" name="status">
                                     <input id="cancelerName" type="hidden" name="cancelerName">
                                     <input id="adminApproveName" type="hidden" name="adminApproveName">
                                     <input type="hidden" id="adminApprove_Time" name="adminApprove_Time">
@@ -120,15 +120,26 @@
                                                 <div class="col-md-6 text-start">
                                                     <label class="form-label mt-2">ผู้จัดรถ</label>
                                                     <input type="text" class="form-control" disabled
-                                                        value="<%= booking.adminApprove?booking.adminApproveName:" -"%>"
-                                                    >
+                                                        value="<%= booking.adminApprove?booking.adminApproveName:booking.cancelerName%>">
                                                 </div>
                                                 <div class="col-md-6 text-start">
-                                                    <label class="form-label mt-2">เวลาอนุมัติ</label>
+                                                    <label class="form-label mt-2">
+                                                        <%=booking.adminApprove?'เวลาอนุมัติ':'เวลาไม่อนุมัติ' %>
+                                                    </label>
                                                     <input type="text" class="form-control" disabled
-                                                        value="<%=booking.adminApprove? new Date(booking.adminApprove_Time).toLocaleString('th-TH'):'-' %>">
+                                                        value="<%=booking.adminApprove? new Date(booking.adminApprove_Time).toLocaleString('th-TH'):new Date(booking.UnApprove_Time).toLocaleString('th-TH') %>">
                                                 </div>
-                                                <% } %>
+
+                                                <% if(!booking.adminApprove){ %>
+                                                    <div class="text-start">
+                                                        <label class="form-label  mt-2">
+                                                            หมายเหตุ
+                                                        </label>
+                                                        <input type="text" class="form-control" disabled
+                                                            value="<%= booking.note%>">
+                                                    </div>
+                                                    <% } %>
+                                                        <% } %>
                                     </div>
                                     <hr>
                                     <div class="row text-center">
@@ -162,14 +173,19 @@
                                             <% } else { %>
                                                 <% if (booking.adminApprove) { %>
                                                     <p style="font-size: 22px;" class="text-center mt-3 text-success">
-                                                        ผู้จัดรถอนุมัติการจองสำเร็จ,
-                                                        รอการจัดรถ</p>
-                                                    <% } else { %>
+                                                        ผู้จัดรถอนุมัติการจองสำเร็จ,รอการจัดรถ</p>
+                                                    <% } else if(booking.adminApprove===null){ %>
                                                         <p style="font-size: 20px;"
-                                                            class="text-center mt-3 text-danger">รอผู้จัดรถอนุมัติการจอง
+                                                            class="text-center mt-3 text-danger">
+                                                            รอผู้จัดรถอนุมัติการจอง
                                                         </p>
-                                                        <% } %>
+                                                        <% }else{ %>
+                                                            <p style="font-size: 20px;"
+                                                                class="text-center mt-3 text-danger">
+                                                                ผู้จัดรถไม่อนุมัติการจอง
+                                                            </p>
                                                             <% } %>
+                                                                <% } %>
                                     </div>
 
                                 </form>
@@ -463,7 +479,7 @@
                     });
                     const time = new Date();
                     document.getElementById('adminApprove_Time').value = time.toISOString();
-                    document.getElementById('statusCancle').value = 2;
+                    document.getElementById('statusCancel').value = 2;
                     document.getElementById('adminApprove').value = true;
                     document.getElementById('adminApproveName').value = '<%= user.firstname %> <%= user.lastname %>';
                     await document.querySelector('#admin-approve-body form').submit();
@@ -510,8 +526,7 @@
                 if (result.isConfirmed) {
                     console.log("Test")
                     document.getElementById('adminApprove').value = false;
-
-                    document.getElementById('statusCancle').value = 5;
+                    document.getElementById('statusCancel').value = 2;
                     document.getElementById('cancelerName').value = '<%= user.firstname %> <%= user.lastname %>'
                     await document.querySelector('#admin-approve-body form').submit();
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
