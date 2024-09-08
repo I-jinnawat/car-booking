@@ -1,4 +1,5 @@
-const Booking = require('../Models/booking');const User = require('../Models/Auth');
+const Booking = require('../Models/booking');
+const User = require('../Models/Auth');
 const Vehicle = require('../Models/vehicles');
 const Counter = require('../Models/Counter');
 async function initializeCounter(year) {

@@ -241,15 +241,19 @@
                                                             <% }else{ %>
                                                                 <% if (booking.vehicle) { %>
                                                                     <option value="" disabled selected>
-                                                                        <%= booking.vehicle %>
+                                                                        <% if(booking.status>=4){%>
+                                                                            <%= booking.vehicle %>
+                                                                                <% }else{ %>
+                                                                                    รถไม่พร้อมใช้งาน กรุณาจัดรถใหม่
+                                                                                    <% } %>
                                                                     </option>
-                                                                    <% }else{ %>
+                                                                    <% }else{%>
                                                                         <option value="" disabled selected>
                                                                             ไม่พบข้อมูล, โปรดเลือกยานพาหนะ
                                                                         </option>
                                                                         <% } %>
                                                                             <% } %>
-                                                                                <% vehicles.forEach(vehicle=> { %>
+                                                                                <% vehicles.forEach(vehicle=>{%>
                                                                                     <option value="<%= vehicle._id %>">
                                                                                         <%= vehicle.register%>
                                                                                     </option>
@@ -264,25 +268,35 @@
                                                 <button type="submit" class="btn btn-primary btn-lg" id="save_manageBtn"
                                                     style="background-color: rgb(44, 169, 44);">บันทึก</button>
                                             </div>
-                                            <% } else if (booking.status===2 && user.role !=='admin' ) { %>
+                                            <% } else if(booking.status===2&&user.role!=='admin' ){%>
                                                 <p style="font-size: 20px;" class="text-center mt-3 text-danger">
                                                     รอการจัดรถ,ไม่พร้อมใช้งาน
                                                 </p>
-                                                <% } else if (booking.status===3 && user.role !=='admin' ){ %>
-                                                    <p style="font-size: 20px;" class="text-center mt-3 text-success">
-                                                        จัดรถสำเร็จ,พร้อมใช้งาน</p>
-                                                    <% }else if( user.role==='admin' && booking.status !==4){ %>
-                                                        <div class="text-center mt-3">
-                                                            <button type="submit" class="btn btn-primary btn-lg"
-                                                                id="save_manageBtn"
-                                                                style="background-color: rgb(44, 169, 44);">แก้ไขการบันทึก</button>
-
-                                                        </div>
+                                                <% } else if (booking.status===3 && user.role !=='admin' ){%>
+                                                    <% if (driver&&vehicle) { %>
+                                                        <p style="font-size: 20px;"
+                                                            class="text-center mt-3 text-success">
+                                                            จัดรถสำเร็จ,พร้อมใช้งาน
+                                                        </p>
                                                         <% }else{ %>
                                                             <p style="font-size: 20px;"
-                                                                class="text-center mt-3 text-success">
-                                                                จัดรถสำเร็จ,พร้อมใช้งาน</p>
+                                                                class="text-center mt-3 text-danger">
+                                                                รอการจัดรถ,ไม่พร้อมใช้งาน
+                                                            </p>
                                                             <% } %>
+                                                                <% }else if( user.role==='admin' && booking.status !==4
+                                                                    ){ %>
+                                                                    <div class="text-center mt-3">
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary btn-lg"
+                                                                            id="save_manageBtn"
+                                                                            style="background-color: rgb(44, 169, 44);">แก้ไขการบันทึก</button>
+                                                                    </div>
+                                                                    <% }else{ %>
+                                                                        <p style="font-size: 20px;"
+                                                                            class="text-center mt-3 text-success">
+                                                                            จัดรถสำเร็จ,พร้อมใช้งาน</p>
+                                                                        <% } %>
 
 
                                     </form>
@@ -308,10 +322,9 @@
                                                 </div>
                                                 <div class="col-md">
                                                     <label class="form-label mt-4">เลขไมล์หลังเดินทาง</label>
-                                                    <input type="number" min="0" step="0.01" max="3000"
-                                                        class="form-control" name="kilometer_end" id="km_end"
-                                                        placeholder="km" required <%=user.role !=='admin' ? 'disabled'
-                                                        : '' %>
+                                                    <input type="number" min="0" step="0.01" class="form-control"
+                                                        name="kilometer_end" id="km_end" placeholder="km" required
+                                                        <%=user.role !=='admin' ? 'disabled' : '' %>
                                                     value="<%= booking.kilometer_end %>">
                                                 </div>
 
