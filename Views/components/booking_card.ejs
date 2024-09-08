@@ -435,7 +435,7 @@
             document.getElementById('approve_Time').value = time.toISOString();
             document.getElementById('status').value = 2;
             document.getElementById('myInput').value = "";
-            document.getElementById('approverName').value = '<%= user.firstname %> <%= user.lastname %> ';
+            document.getElementById('approverName').value = '<%= user.firstname %> <%= user.lastname %>';
             await document.querySelector('#booking-body form').submit();
         } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire({
