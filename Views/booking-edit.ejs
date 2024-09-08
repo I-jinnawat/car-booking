@@ -244,8 +244,11 @@
                                                                         <% if(booking.status>=4){%>
                                                                             <%= booking.vehicle %>
                                                                                 <% }else{ %>
-                                                                                    รถไม่พร้อมใช้งาน กรุณาจัดรถใหม่
-                                                                                    <% } %>
+                                                                                    รถไม่พร้อมใช้งาน <%=
+                                                                                        user.role!=='admin'
+                                                                                        ?'รอการจัดรถ':'กรุณาจัดรถใหม่'
+                                                                                        %>
+                                                                                        <% } %>
                                                                     </option>
                                                                     <% }else{%>
                                                                         <option value="" disabled selected>

@@ -1,4 +1,5 @@
-const {ReturnDocument} = require('mongodb');const User = require('../Models/Auth');
+const {ReturnDocument} = require('mongodb');
+const User = require('../Models/Auth');
 const Booking = require('../Models/booking');
 const bcrypt = require('bcryptjs');
 
@@ -77,14 +78,6 @@ exports.list = async (req, res) => {
       roleQuery = 'driver';
     }
   }
-
-  // Map roles to numbers to define sorting order
-  const sortOrder = {
-    approver: 1,
-    admin: 2,
-    user: 3,
-    driver: 4,
-  };
 
   try {
     // Aggregate query for searching and sorting in MongoDB

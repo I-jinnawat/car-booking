@@ -31,6 +31,10 @@ exports.create = async (req, res) => {
     res.redirect('/setting/member');
   } catch (err) {
     console.error(err.message);
+    const page = parseInt(req.query.page, 10) || 1; // Current page
+    const limit = 8; // Users per page
+    const skip = (page - 1) * limit; // Skip users based on the current page
+    const searchQuery = req.query.search ? req.query.search.toLowerCase() : '';
     const {
       numberID,
       password,
@@ -42,16 +46,66 @@ exports.create = async (req, res) => {
       birth_year,
     } = req.body;
 
+    let roleQuery = searchQuery;
+    if (searchQuery) {
+      if (searchQuery === 'พนักงาน') {
+        roleQuery = 'user';
+      } else if (searchQuery === 'ผู้จัดรถ') {
+        roleQuery = 'admin';
+      } else if (searchQuery === 'ผู้อนุมัติ') {
+        roleQuery = 'approver';
+      } else if (searchQuery === 'พนักงานขับรถ') {
+        roleQuery = 'driver';
+      }
+    }
+
+    const query = searchQuery
+      ? {
+          $or: [
+            {firstname: {$regex: searchQuery, $options: 'i'}},
+            {lastname: {$regex: searchQuery, $options: 'i'}},
+            {numberID: {$regex: searchQuery, $options: 'i'}},
+            {organization: {$regex: searchQuery, $options: 'i'}},
+            {role: {$regex: roleQuery, $options: 'i'}},
+          ],
+        }
+      : {};
+
+    const totalUsers = await Auth.countDocuments(query);
+
     if (err.code === 11000 && err.keyPattern && err.keyPattern.username) {
-      // Handle duplicate username error
+      let users = await Auth.aggregate([
+        {$match: query},
+        {
+          $addFields: {
+            sortRole: {
+              $switch: {
+                branches: [
+                  {case: {$eq: ['$role', 'approver']}, then: 1},
+                  {case: {$eq: ['$role', 'admin']}, then: 2},
+                  {case: {$eq: ['$role', 'user']}, then: 3},
+                  {case: {$eq: ['$role', 'driver']}, then: 4},
+                ],
+                default: 5, // Handle unexpected roles
+              },
+            },
+          },
+        },
+        {$sort: {sortRole: 1}}, // Sort by the mapped role order
+        {$skip: skip},
+        {$limit: limit},
+      ]);
       req.flash('error_msg', 'รหัสพนักงานมีอยู่แล้ว');
       const error_msg = req.flash('error_msg');
+      const totalPages = Math.ceil(totalUsers / limit);
       return res.status(400).render('member', {
         user: req.session.user || null,
-        userLoggedIn: !!req.session.user,
-        users: users,
+        users,
         currentPage: page,
-        totalPages: totalPages,
+        totalPages,
+        totalUsers,
+        searchQuery,
+        userLoggedIn: !!req.session.user,
         firstname: firstname,
         lastname: lastname,
         numberID: numberID,
