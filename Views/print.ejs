@@ -156,7 +156,7 @@
                         <%= booking.userinfo %>
                     </p>
                     <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
-                    <p>หน่วยงาน: <%= org_user %>
+                    <p>หน่วยงาน:<%= org_user %>
                     </p>
 
                 </div>
@@ -169,7 +169,7 @@
             </div>
             <div class="middle-right">
                 <div class="middle-column">
-                    <p><strong>ผู้อนุมัติ:</strong></p>
+                    <p><strong>ผู้อนุมัติของส่วนงาน:</strong></p>
                     <p>
                         <%= booking.approverName ? booking.approverName : '-' %>
                     </p>
@@ -191,7 +191,7 @@
         <div class="section middle">
             <div class="middle-left">
                 <div class="middle-column">
-                    <p><strong>ผู้จัดรถ:</strong></p>
+                    <p><strong>ผู้จัดรถ/ผู้อนุมัติรถ:</strong></p>
                     <p>
                         <%= booking.adminName ? booking.adminName : '-' %>
                     </p>
@@ -292,13 +292,13 @@
             <div class="mileage-column">
                 <p><strong>เลขไมล์ก่อนเดินทาง</strong></p>
                 <p>
-                    <%= booking.kilometer_start ? booking.kilometer_start : '-' %> กิโลเมตร
+                    <%= booking.kilometer_start ? booking.kilometer_start : '-' %>
                 </p>
             </div>
             <div class="mileage-column">
                 <p><strong>เลขไมล์หลังเดินทาง</strong></p>
                 <p>
-                    <%= booking.kilometer_end ? booking.kilometer_end: '-' %> กิโลเมตร
+                    <%= booking.kilometer_end ? booking.kilometer_end: '-' %>
                 </p>
             </div>
             <div class="mileage-column">

@@ -1,8 +1,9 @@
-const Document = require('../Models/document');
-
-exports.list = async (req, res) => {
+const Document = require('../Models/document');exports.list = async (req, res) => {
   try {
+    const documents = await Document.find({});
+
     res.render('document', {
+      documents,
       userLoggedIn: !!req.session.user,
       user: req.session.user,
     });
@@ -14,9 +15,13 @@ exports.list = async (req, res) => {
 
 exports.read = async (req, res) => {
   try {
-    const category = req.params.category;
-    const documents = await Document.find({category: category}).exec();
-    res.json(documents);
+    const {category} = req.params;
+
+    const documents = await Document.find({category});
+
+    res.json({
+      documents,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({error: 'Internal server error'});

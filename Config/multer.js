@@ -1,7 +1,6 @@
-const multer = require('multer'); // Set up storage configuration
-const storage = multer.diskStorage({
+const multer = require('multer');const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/'); // Replace 'uploads/' with your desired directory
+    cb(null, 'uploads/');
   },
   filename: (req, file, cb) => {
     const utf8Filename = Buffer.from(file.originalname, 'latin1').toString(

@@ -54,6 +54,7 @@
 
 <body>
     <%- include('components/navbar.ejs') -%>
+
         <div class="container-fluid mt-3" id="main">
             <div class="row">
                 <div class="col-12">
@@ -93,7 +94,8 @@
                                     <div class="btn-group ms-2" style="cursor: pointer;">
                                         <select class="form-select" id="statusSelect">
                                             <option selected></option>
-                                            <option value="all" <%=selectedStatus==='all' ? 'selected' : '' %> >ทั้งหมด
+                                            <option value="all" <%=selectedStatus==='all' ? 'selected' : '' %>
+                                                >ทั้งหมด
                                             </option>
                                             <option <%=selectedStatus==='inProgress' ||selectedStatus<=3 ? 'selected'
                                                 : '' %>
@@ -144,7 +146,8 @@
                                     <div class="btn-group">
                                         <% const booking_status1=bookings.find(b=> b.user_id ===
                                             user.id && b.status ===1);
-                                            const canShowStatus1 = statusCountMap[1]!==0 && booking_status1 || user.role
+                                            const canShowStatus1 = statusCountMap[1]!==0 && booking_status1 ||
+                                            user.role
                                             ===
                                             'approver';
 
@@ -153,7 +156,8 @@
                                             const canShowStatus2 = statusCountMap[2]&& booking_status2;
 
 
-                                            const booking_status3 = bookings.find(b => b.user_id === user.id && b.status
+                                            const booking_status3 = bookings.find(b => b.user_id === user.id &&
+                                            b.status
                                             === 3 || b.driver_id === user.id);
                                             const canShowStatus3 = statusCountMap[3] && booking_status3 ;
                                             %>
@@ -242,7 +246,12 @@
                     </div>
                 </div>
             </div>
+
+            <%- include('components/footer.ejs') -%>
         </div>
+
+
+
         <script>
             function handleSearch() {
                 const searchValue = document.getElementById('searchInput').value.trim().toLowerCase();

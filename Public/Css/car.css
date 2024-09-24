@@ -1,31 +1,31 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-rounded/css/uicons-solid-rounded.css");
-@import url("https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-straight/css/uicons-bold-straight.css");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://cdn-uicons.flaticon.com/2.1.0/uicons-solid-rounded/css/uicons-solid-rounded.css');
+@import url('https://cdn-uicons.flaticon.com/2.1.0/uicons-bold-straight/css/uicons-bold-straight.css');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 * {
-  font-family: "Kanit", sans-serif;
+  font-family: 'Kanit', sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 ::after,
 ::before {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 li {
-    list-style: none;
+  list-style: none;
 }
 
 h1 {
-    font-weight: 600;
-    font-size: 1.5rem;
+  font-weight: 600;
+  font-size: 1.5rem;
 }
 .wrapper {
   display: flex;
@@ -83,7 +83,7 @@ body {
 
 #main {
   transition: margin-left 0.5s;
-  margin-left: 20px;
+  margin-left: 0;
 }
 
 #nav {
@@ -120,9 +120,8 @@ body {
   margin: 0 auto;
 }
 .search input::placeholder {
-  font-family: "fontAwesome";
+  font-family: 'fontAwesome';
 }
-
 
 @media (max-width: 768px) {
   #status-control {
@@ -161,30 +160,29 @@ body {
     text-transform: capitalize;
   }
   td:nth-of-type(1)::before {
-    content: "ทะเบียน : ";
+    content: 'ทะเบียน : ';
     text-align: center;
   }
   td:nth-of-type(2)::before {
-    content: "ผู้ดูแลระบบ :";
+    content: 'ผู้ดูแลระบบ :';
     text-align: center;
   }
   td:nth-of-type(3)::before {
-    content: "ประเภท :";
+    content: 'ประเภท :';
     text-align: center;
   }
   td:nth-of-type(4)::before {
-    content: "สี :";
+    content: 'สี :';
     text-align: center;
   }
   td:nth-of-type(5)::before {
-    content: "ที่นั่ง :";
+    content: 'ที่นั่ง :';
     text-align: center;
   }
   td:nth-of-type(6)::before {
-    content: "พร้อมใช้งาน :";
+    content: 'พร้อมใช้งาน :';
     text-align: center;
   }
-  
 }
 button10 {
   background-color: transparent;
@@ -195,4 +193,3 @@ button10 {
   cursor: pointer;
   height: 20px;
 }
-

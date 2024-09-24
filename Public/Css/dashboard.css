@@ -59,7 +59,7 @@ body {
 
 #main {
   transition: margin-left 0.5s;
-  margin-left: 20px;
+  margin-left: 0;
 }
 
 #nav {

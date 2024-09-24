@@ -43,6 +43,11 @@
         .card .manual:hover {
             background-color: none !important;
         }
+
+        footer {
+            position: fixed;
+            width: 100%;
+        }
     </style>
 </head>
 
@@ -150,6 +155,7 @@
                         <% }) %>
                 </div>
             </div>
+            <%- include('components/footer') -%>
         </div>
         <script>
             function deleteAttachment(manualId, attachmentType) {
