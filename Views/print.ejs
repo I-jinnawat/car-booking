@@ -19,48 +19,7 @@
 
         .container {
             margin-top: 50px;
-        }
-
-        .section {
-            margin-bottom: 20px;
-        }
-
-        .header,
-        .middle {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .header-left,
-        .header-right,
-        .middle-left,
-        .middle-right {
-            width: 50%;
-        }
-
-        .header-left {
-            text-align: center;
-        }
-
-        .header-left img {
-            display: block;
-            margin: 0 auto;
-        }
-
-        .middle-left,
-        .middle-right,
-        .footer-left,
-        .footer-right {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .middle-column {
-            width: 50%;
-        }
-
-        .footer-column {
-            width: 100%;
+            /* padding: 50px; */
         }
 
         p,
@@ -68,50 +27,33 @@
             font-size: 20px;
         }
 
-        li {
-            padding-bottom: 12px;
-        }
-
-        .mileage-section {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .mileage-column {
-            text-align: center;
-            width: 33%;
-        }
-
         nav ol li {
             font-size: 16px;
-        }
-
-        @media print {
-
-            .print-button,
-            .navbar {
-                display: none;
-            }
-
-            #org_img {
-                width: 150px;
-                display: block;
-            }
-
-        }
-
-        .container {
-            padding: 50px;
         }
 
         #org_img {
             width: 150px;
         }
+
+        @media print {
+            body {
+                font-size: 12px;
+            }
+
+            .container {
+                margin-top: 0;
+                padding: 10px;
+            }
+
+            .print-button,
+            .navbar {
+                display: none;
+            }
+        }
     </style>
 </head>
 
 <body>
-
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-md">
             <a class="navbar-brand ms-auto" id="generate-pdf" style="cursor: pointer;"><i class="fa-solid fa-print"></i>
@@ -131,151 +73,296 @@
     <div class="container" id="content">
         <!-- ส่วนบน -->
         <div class="section header">
-            <div class="header-left">
-                <img src="../image/Mae-Fah-Luang-University-2.png" id="org_img" alt="Organization Logo">
-            </div>
-            <div class="header-right">
-                <p>แบบฟอร์มการขอใช้รถยนต์</p>
-                <p>ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง โทร 053-914-023</p>
-                <p>Email: medical-center@mfu.ac.th</p>
-                <p><strong>รหัสการจอง:</strong>
-                    <%= booking.bookingID %>
-                </p>
-                <p><strong>วันที่จองรถ:</strong>
-                    <%= bookingDate %>
-                </p>
+            <div class="row">
+                <div class="col-md-6 text-center">
+                    <img src="../image/Mae-Fah-Luang-University-2.png" id="org_img" alt="Organization Logo">
+                </div>
+                <div class="col-md-6">
+                    <p>แบบฟอร์มการขอใช้รถยนต์</p>
+                    <p>ศูนย์การแพทย์มหาวิทยาลัยแม่ฟ้าหลวง โทร 053-914-023</p>
+                    <p>Email: medical-center@mfu.ac.th</p>
+                    <p><strong>รหัสการจอง:</strong>
+                        <%= booking.bookingID %>
+                    </p>
+                    <p><strong>วันที่จองรถ:</strong>
+                        <%= bookingDate %>
+                    </p>
+                </div>
+                <hr>
             </div>
         </div>
-        <hr>
         <!-- ส่วนกลาง -->
         <div class="section middle">
-            <div class="middle-left">
-                <div class="middle-column">
-                    <p><strong>ผู้ร้องขอ:</strong></p>
-                    <p>
-                        <%= booking.userinfo %>
-                    </p>
-                    <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
-                    <p>หน่วยงาน:<%= org_user %>
-                    </p>
+
+            <div class="row">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <p><strong>ผู้ร้องขอ:</strong>
+
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p style="white-space: nowrap;">
+                                            <%= booking.userinfo %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <p><strong>เบอร์โทร:</strong>
+
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            <%= mobile_number_user %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
+                            <div class="col-auto">
+                                <p>หน่วยงาน:</p>
+                            </div>
+                            <div class="col-auto">
+                                <p>
+                                    <%= org_user %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <p><strong>ผู้อนุมัติของส่วนงาน:</strong>
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p style="white-space: nowrap;">
+                                            <%= booking.approverName ? booking.approverName : '-' %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <p><strong>เบอร์โทร:</strong>
+
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p>
+                                            <%= mobile_number_approver %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
+                            <div class="col-auto">
+                                <p>เวลาอนุมัติ:</p>
+                                <p>หน่วยงาน:</p>
+                            </div>
+                            <div class="col-auto">
+                                <p>
+                                    <%= approvalTime ? approvalTime : '-' %>
+                                </p>
+                                <p>
+                                    <%= org_user %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
 
                 </div>
-                <div class=" middle-column">
-                    <p><strong>เบอร์โทร:</strong></p>
-                    <p>
-                        <%= mobile_number_user %>
-                    </p>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <p><strong>ผู้จัดรถ/ผู้อนุมัติรถ:</strong>
+
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p style="white-space: nowrap;">
+                                            <%= booking.adminName ? booking.adminName : '-' %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <p><strong>เบอร์โทร:</strong>
+
+                                        </p>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>
+                                            <%= mobile_number_admin %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
+                            <div class="col-auto">
+                                <p>
+                                    เวลาจัดรถ:
+                                </p>
+                                <p>หน่วยงาน:</p>
+                            </div>
+                            <div class="col-auto">
+                                <p>
+                                    <%= carArrangeTime? carArrangeTime: '-' %>
+                                </p>
+                                <p>
+                                    <%= org_Admin? org_Admin: '-' %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <p><strong>พนักงานขับรถ:</strong>
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p style="white-space: nowrap;">
+                                            <%= booking.driver? booking.driver : '-' %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-auto">
+                                        <p><strong>เบอร์โทร:</strong>
+
+                                        </p>
+                                    </div>
+                                    <div class="col-auto">
+                                        <p>
+                                            <%= mobile_number_driver %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
+                            <div class="col-auto">
+                                <p>หน่วยงาน:</p>
+                            </div>
+                            <div class="col-auto">
+                                <p>
+                                    <%= org_driver? org_driver: '-' %>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-            <div class="middle-right">
-                <div class="middle-column">
-                    <p><strong>ผู้อนุมัติของส่วนงาน:</strong></p>
-                    <p>
-                        <%= booking.approverName ? booking.approverName : '-' %>
-                    </p>
-                    <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
-                    <p>เวลาอนุมัติ:<%= approvalTime ? approvalTime : '-' %>
-                            <p>หน่วยงาน:<%= org_Approver %>
-                            </p>
-                    </p>
-                </div>
-                <div class="middle-column">
-                    <p><strong>เบอร์โทร:</strong></p>
-                    <p>
-                        <%= mobile_number_approver %>
-                    </p>
-                </div>
-            </div>
+            <hr>
         </div>
-        <hr>
-        <div class="section middle">
-            <div class="middle-left">
-                <div class="middle-column">
-                    <p><strong>ผู้จัดรถ/ผู้อนุมัติรถ:</strong></p>
-                    <p>
-                        <%= booking.adminName ? booking.adminName : '-' %>
-                    </p>
-                    <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
-                    <p>เวลาจัดรถ: <%= carArrangeTime? carArrangeTime: '-' %>
-                    </p>
-                    <p>หน่วยงาน:<%= org_Admin? org_Admin: '-' %>
-                </div>
-                <div class="middle-column">
-                    <p><strong>เบอร์โทร:</strong></p>
-                    <p>
-                        <%= mobile_number_admin %>
-                    </p>
-
-                </div>
-            </div>
-            <div class="middle-right">
-                <div class="middle-column">
-                    <p><strong>พนักงานขับรถ:</strong></p>
-                    <p>
-                        <%= booking.driver? booking.driver : '-' %>
-                    </p>
-                    <p><strong>ข้อมูลเพิ่มเติม:</strong></p>
-                    <p>หน่วยงาน:<%= org_driver? org_driver: '-' %>
-                </div>
-                <div class="middle-column">
-                    <p><strong>เบอร์โทร:</strong></p>
-                    <p>
-                        <%= mobile_number_driver %>
-                    </p>
-
-                </div>
-            </div>
-        </div>
-        <hr>
         <!-- ส่วนล่าง -->
         <div class="section footer">
-            <div class="footer-left">
-                <div class="footer-column">
-                    <p><strong>จำนวนผู้เดินทาง:</strong></p>
-                    <hr>
-                    <p><strong>เวลารับ-เวลากลับ:</strong></p>
-                    <hr>
-                    <p><strong>สถานที่รับ-สถานที่กลับ:</strong></p>
-                    <hr>
-                    <p><strong>รถที่ใช้:</strong></p>
-                    <hr>
-                    <p><strong>รายละเอียดการเบิกจ่ายค่าตอบแทนล่วงเวลา:</strong></p>
-                    <hr>
-                    <p><strong>ขอใช้รถเพื่อปฏิบัติภารกิจ:</strong></p>
+            <div class="row">
+                <div class="row ">
+                    <div class="col-md-6">
+                        <p><strong>จำนวนผู้เดินทาง:</strong></p>
 
-                </div>
-                <div class="footer-column">
-                    <p>
-                        <%= booking.passengerCount %> คน
-                    </p>
-                    <hr>
-                    <p>
-                        <%= startDate %> - <%= endDate %>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
 
-                    </p>
-                    <hr>
-                    <p>
-                        <%= booking.placestart %> - <%= booking.placeend %>
-                    </p>
-                    <hr>
-                    <% if (vehicle) { %>
-                        <p value="<%=booking.vehicle_id? vehicle._id:''%>">
-                            <%= vehicle.register%>
+                            <%= booking.passengerCount %> คน
                         </p>
-                        <% }else{%>
-                            <p>
-                                <%= booking.vehicle?booking.vehicle:'-' %>
+                    </div>
+                </div>
+                <hr>
+                <div class="row ">
+                    <div class="col-md-6">
+                        <p><strong>เวลารับ-เวลากลับ:</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            <%= startDate %> - <%= endDate %>
+                        </p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row ">
+                    <div class="col-md-6">
+                        <p><strong>สถานที่รับ-สถานที่กลับ:</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            <%= booking.placestart %> - <%= booking.placeend %>
+                        </p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row ">
+                    <div class="col-md-6">
+                        <p><strong>ยานพานะที่ใช้:</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            <% if (vehicle) { %>
+                                <%= vehicle.register%>
+                                    <% }else{%>
+                                        <%= booking.vehicle?booking.vehicle:'-' %>
+                                            <% } %>
+                        </p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row ">
+                    <div class="col-md-6">
+                        <p><strong>รายละเอียดการเบิกจ่ายค่าตอบแทนล่วงเวลา:</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            <%= booking.compensation_payment ? booking.compensation_payment : '-' %>
+                        </p>
+                    </div>
+                </div>
+                <hr>
+                <div class="row ">
+                    <div class="col-md-6">
+                        <p><strong>ขอใช้รถเพื่อปฏิบัติภารกิจ:</strong></p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <p><strong>หัวข้อ:</strong>
+                                <%= booking.title %>
                             </p>
-                            <% } %>
-                                <hr>
-                                <p>
-                                    <%= booking.compensation_payment ? booking.compensation_payment : '-' %>
-                                </p>
-                                <hr>
-                                <p><strong>หัวข้อ:</strong>
-                                    <%= booking.title %>
-                                </p>
-                                <p><strong>รายละเอียด:</strong> ประกอบด้วย</p>
+                        </div>
+                        <div class="row">
+                            <p><strong>รายละเอียด:</strong> ประกอบด้วย</p>
+                            <div>
+
                                 <ol>
                                     <% booking.passengers.forEach(passenger=> { %>
                                         <li>
@@ -283,29 +370,45 @@
                                         </li>
                                         <% }); %>
                                 </ol>
-
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        <hr>
         <div class="mileage-section">
-            <div class="mileage-column">
-                <p><strong>เลขไมล์ก่อนเดินทาง</strong></p>
-                <p>
-                    <%= booking.kilometer_start ? booking.kilometer_start : '-' %>
-                </p>
-            </div>
-            <div class="mileage-column">
-                <p><strong>เลขไมล์หลังเดินทาง</strong></p>
-                <p>
-                    <%= booking.kilometer_end ? booking.kilometer_end: '-' %>
-                </p>
-            </div>
-            <div class="mileage-column">
-                <p><strong>ระยะทางทั้งหมด</strong></p>
-                <p>
-                    <%= booking.total_kilometer? booking.total_kilometer: '-' %> กิโลเมตร
-                </p>
+            <hr>
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="row">
+                        <p><strong>เลขไมล์ก่อนเดินทาง</strong></p>
+                    </div>
+                    <div class="row">
+                        <p>
+                            <%= booking.kilometer_start ? booking.kilometer_start : '-' %>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <p><strong>เลขไมล์หลังเดินทาง</strong></p>
+                    </div>
+                    <div class="row">
+                        <p>
+                            <%= booking.kilometer_end ? booking.kilometer_end: '-' %>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <p><strong>ระยะทางทั้งหมด</strong></p>
+                    </div>
+                    <div class="row">
+                        <p>
+                            <%= booking.total_kilometer? booking.total_kilometer: '-' %> กิโลเมตร
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -314,47 +417,43 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
-        document.getElementById('generate-pdf').addEventListener('click', function () {
+        document.getElementById('generate-pdf').addEventListener('click', async function () {
             var { jsPDF } = window.jspdf;
-
-            // Adjust font size before rendering canvas
             var content = document.getElementById('content');
-            var originalFontSize = window.getComputedStyle(content).fontSize;
+            var pdf = new jsPDF('p', 'mm', 'a4');
+            var pageHeight = pdf.internal.pageSize.height;
+            var marginTop = 10;
+            var currentHeight = marginTop;
 
-            html2canvas(content).then(canvas => {
-                var imgData = canvas.toDataURL('image/png');
-                var pdf = new jsPDF('p', 'mm', 'a4');
-                var imgWidth = 210;
-                var pageHeight = 295;
-                var imgHeight = canvas.height * imgWidth / canvas.width;
-                var heightLeft = imgHeight;
+            async function addSectionToPDF(contentElement) {
+                return html2canvas(contentElement).then(canvas => {
+                    var imgData = canvas.toDataURL('image/png');
+                    var imgWidth = 190;
+                    var imgHeight = canvas.height * imgWidth / canvas.width;
 
-                // Add margin-top
-                var marginTop = 0;
-                var position = marginTop;
+                    if (currentHeight + imgHeight > pageHeight) {
+                        pdf.addPage();
+                        currentHeight = marginTop;
+                    }
+                    pdf.addImage(imgData, 'PNG', 10, currentHeight, imgWidth, imgHeight);
+                    currentHeight += imgHeight + 5;
+                });
+            }
 
-                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                heightLeft -= (pageHeight - marginTop);
+            var headerSection = content.querySelector('.header');
+            var middleSection = content.querySelector('.middle');
+            var footerSection = content.querySelector('.footer');
+            var mileageSection = content.querySelector('.mileage-section');
 
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight + marginTop;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                }
+            await addSectionToPDF(headerSection);
+            await addSectionToPDF(middleSection);
+            await addSectionToPDF(footerSection);
+            await addSectionToPDF(mileageSection);
 
-                // Restore original font size
-                content.style.fontSize = originalFontSize;
-
-                // Create URL for PDF
-                var pdfOutput = pdf.output('blob');
-                var pdfUrl = URL.createObjectURL(pdfOutput);
-
-                // Open PDF in new tab
-                window.open(pdfUrl);
-            });
+            var pdfBlob = pdf.output('blob');
+            var pdfUrl = URL.createObjectURL(pdfBlob);
+            window.open(pdfUrl);
         });
-
     </script>
 </body>
 
