@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 </head>
 <style>
-    .toggle-btn {
+    i {
         position: relative;
         margin-left: 92%;
         bottom: 110%;
@@ -19,7 +19,7 @@
     }
 
     @media (max-width: 768px) {
-        .toggle-btn {
+        i {
             margin-top: -8.5% !important;
         }
     }
@@ -59,14 +59,16 @@
                 <label for="password">รหัสผ่าน</label>
                 <input type="password" class="form-control" id="password" name="password" required
                     autocomplete="current-password">
-                <div><i class="fa-regular fa-eye-slash toggle-btn" onclick="togglePassword()"></i></div>
+                <div>
+                    <i class="fa-regular fa-eye-slash " onclick="togglePassword()"></i>
+                </div>
                 <span>
                     <a class=" mt-2" style="font-size:14px; text-decoration: none; position: relative; left: 70%;"
                         href="/forgot_PSW">ลืมรหัสผ่าน</a>
                 </span>
             </div>
             <div class="row mt-3">
-                <button type="submit" class="btn btn-primary">เข้าสู่ระบบ</button>
+                <button type="submit" class="btn btn-outline-primary">เข้าสู่ระบบ</button>
                 <% if (error) { %>
                     <p class="col-12 text-danger" id="showText">
                         <%= error %>
@@ -104,6 +106,20 @@
         </p>
     </footer>
     <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById("password");
+            const toggleButton = document.querySelector("i"); // Select the icon directly
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                toggleButton.classList.remove("fa-eye-slash"); // Remove eye-slash class
+                toggleButton.classList.add("fa-eye"); // Add eye class
+            } else {
+                passwordInput.type = "password";
+                toggleButton.classList.remove("fa-eye"); // Remove eye class
+                toggleButton.classList.add("fa-eye-slash"); // Add eye-slash class
+            }
+        }
         document.getElementById('loginForm').addEventListener('submit', function (event) {
             const usernameInput = document.getElementById('username');
             usernameInput.value = usernameInput.value.trim();
@@ -119,25 +135,9 @@
                 event.preventDefault();
                 return false;
             }
-
-
             return true;
         }
-    </script>
-    <script>
-        function togglePassword() {
-            var passwordInput = document.getElementById("password");
-            var toggleButton = document.querySelector(".toggle-btn");
-            var icon = toggleButton.querySelector("i");
 
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                icon.className = "fa-regular fa-eye";
-            } else {
-                passwordInput.type = "password";
-                icon.className = "fa-regular fa-eye-slash";
-            }
-        }
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
